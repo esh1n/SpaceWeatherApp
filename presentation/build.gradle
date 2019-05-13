@@ -1,0 +1,97 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
+apply plugin: 'kotlin-android-extensions'
+
+android {
+    compileSdkVersion 28
+    defaultConfig {
+        applicationId "com.lab.esh1n.github"
+        minSdkVersion 21
+        targetSdkVersion 28
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        vectorDrawables.useSupportLibrary = true
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    dataBinding {
+        enabled = true
+    }
+
+    compileOptions {
+        targetCompatibility 1.8
+        sourceCompatibility 1.8
+    }
+}
+
+gradle.projectsEvaluated {
+    tasks.withType(JavaCompile) {
+        options.compilerArgs << "-Xmaxerrs" << "500"
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation project(':data')
+    implementation project(':domain')
+
+    implementation "androidx.appcompat:appcompat:${rootProject.ext.androidxCompat}"
+    implementation "com.google.android.material:material:${rootProject.ext.androidxComponent}"
+    implementation "androidx.cardview:cardview:1.0.0"
+    implementation "androidx.recyclerview:recyclerview:${rootProject.ext.androidxComponent}"
+
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:${rootProject.ext.lifecycleComponent}"
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:${rootProject.ext.lifecycleComponent}"
+    implementation "androidx.lifecycle:lifecycle-extensions:${rootProject.ext.lifecycleComponent}"
+
+    implementation "androidx.constraintlayout:constraintlayout:${rootProject.ext.contraintLayout}"
+    implementation "androidx.constraintlayout:constraintlayout-solver:${rootProject.ext.contraintLayout}"
+
+    implementation "com.github.bumptech.glide:glide:${rootProject.ext.glide}"
+    kapt "com.github.bumptech.glide:compiler:${rootProject.ext.glide}"
+
+    implementation "androidx.room:room-runtime:${rootProject.ext.room}"
+    kapt "androidx.room:room-compiler:${rootProject.ext.room}"
+
+    implementation "androidx.room:room-rxjava2:${rootProject.ext.room}"
+
+    implementation "io.reactivex.rxjava2:rxjava:${rootProject.ext.rxJava}"
+    implementation "io.reactivex.rxjava2:rxandroid:${rootProject.ext.rxAndroid}"
+
+    kapt "com.google.dagger:dagger-android-processor:${rootProject.ext.dagger}"
+    kapt "com.google.dagger:dagger-compiler:${rootProject.ext.dagger}"
+
+    implementation "com.google.dagger:dagger:${rootProject.ext.dagger}"
+    implementation "com.google.dagger:dagger-android:${rootProject.ext.dagger}"
+    implementation "com.google.dagger:dagger-android-support:${rootProject.ext.dagger}"
+
+    // Kotlin + coroutines
+    implementation "android.arch.work:work-runtime-ktx:$workManager"
+    // optional - RxJava2 support
+    implementation "android.arch.work:work-rxjava2:$workManager"
+
+    implementation "com.squareup.retrofit2:retrofit:${rootProject.ext.retrofit}"
+    implementation "com.squareup.retrofit2:adapter-rxjava2:${rootProject.ext.retrofit}"
+    implementation "com.squareup.retrofit2:converter-gson:${rootProject.ext.retrofit}"
+    implementation "com.google.code.gson:gson:${rootProject.ext.gson}"
+    implementation "com.squareup.okhttp3:okhttp:${rootProject.ext.okhttp}"
+    implementation "com.squareup.okhttp3:logging-interceptor:${rootProject.ext.okhttp}"
+
+    testImplementation "junit:junit:${rootProject.ext.junit}"
+
+    androidTestImplementation 'androidx.test:runner:1.2.0-beta01'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0-beta01'
+
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+
+}
+repositories {
+    mavenCentral()
+}

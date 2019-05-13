@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="event"
+            type="com.lab.esh1n.weather.weather.WeatherModel"/>
+    </data>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_medium"
+        android:layout_marginEnd="@dimen/margin_medium"
+        android:layout_marginBottom="@dimen/margin_medium"
+        android:orientation="vertical"
+        app:cardCornerRadius="@dimen/card_corner_radius"
+        app:cardElevation="@dimen/card_elevation"
+        app:contentPadding="@dimen/margin_small">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+
+                android:id="@+id/ivAvatar"
+                android:layout_width="@dimen/image_size_actor_avatar"
+                android:layout_height="@dimen/image_size_actor_avatar"
+                android:layout_marginStart="@dimen/margin_small"
+                android:layout_marginTop="@dimen/margin_small"
+                android:layout_marginBottom="@dimen/margin_small"
+                android:contentDescription="@string/description_actor_avatar"
+                android:scaleType="center"
+                android:src="@color/colorAccent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.01999998"/>
+
+            <TextView
+                android:id="@+id/tvActorName"
+                style="@style/EventTextView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_small"
+                android:layout_marginEnd="@dimen/margin_small"
+                android:drawableStart="@drawable/ic_user"
+                android:drawablePadding="@dimen/padding_small"
+                android:gravity="center_vertical"
+                android:text="@{event.actorName}"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="@dimen/font_size_big"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@+id/ivAvatar"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/ivAvatar"
+                app:layout_constraintTop_toTopOf="@+id/ivAvatar"
+                tools:text="vkotov"/>
+
+            <TextView
+                android:id="@+id/tvType"
+                style="@style/EventTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="@dimen/margin_small"
+                android:gravity="center_vertical"
+                android:textColor="@color/font_color_black"
+                android:textSize="@dimen/font_size_medium"
+                app:eventType="@{event.type}"
+                app:layout_constraintBottom_toBottomOf="@+id/tvRepository"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ivAvatar"
+                tools:text="pushed to"/>
+
+            <TextView
+                android:id="@+id/tvRepository"
+                style="@style/EventTextView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_small"
+                android:layout_marginTop="8dp"
+                android:drawableStart="@drawable/ic_repo"
+                android:drawablePadding="@dimen/padding_small"
+                android:gravity="center_vertical"
+                android:text="@{event.repositoryName}"
+                android:textColor="@color/orange"
+                android:textSize="@dimen/font_size_big"
+                app:layout_constraintEnd_toEndOf="@+id/tvActorName"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toEndOf="@+id/tvType"
+                app:layout_constraintTop_toBottomOf="@+id/ivAvatar"
+                tools:text="Android Repo"/>
+
+
+            <TextView
+                android:id="@+id/tvCreatedDate"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/padding_small"
+                android:layout_marginBottom="@dimen/margin_small"
+                android:drawableStart="@drawable/ic_time"
+                android:drawablePadding="@dimen/padding_small"
+                android:gravity="center_vertical"
+                android:text="@{event.createdDate}"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="@dimen/font_size_small"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/tvRepository"
+                app:layout_constraintStart_toStartOf="@+id/tvType"
+                app:layout_constraintTop_toBottomOf="@+id/tvRepository"
+                tools:text="24 of november"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
+</layout>

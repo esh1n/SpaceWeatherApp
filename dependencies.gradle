@@ -1,0 +1,26 @@
+ext {
+
+    androidxCompat = "1.1.0-alpha05"
+    androidxComponent = "1.1.0-alpha06"
+
+    contraintLayout="2.0.0-beta1"
+
+    room = "2.1.0-beta01"
+    lifecycleComponent = '2.2.0-alpha01'
+
+    glide = '4.9.0'
+
+    junit = '4.13-beta-3'
+
+    retrofit = "2.5.0"
+    gson = "2.8.5"
+    okhttp = '4.0.0-alpha01'
+
+    dagger = '2.22.1'
+
+    rxJava = '2.2.8'
+    rxAndroid = '2.1.1'
+
+    workManager = "1.0.1"
+
+}

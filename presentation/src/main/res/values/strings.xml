@@ -1,0 +1,25 @@
+<resources>
+    <string name="app_name">GithubComponents</string>
+
+    <string name="error_unexpected">Something went wrong.</string>
+    <string name="error_rate_limit">Please try again later, error occurred due to low api rate limit</string>
+
+    <string name="search_repository_no_results_message">Sorry, no results for your query</string>
+    <string name="title_search">Github Events App</string>
+    <string name="description_actor_avatar">Actor avatar image</string>
+    <string name="text_no_events">No events yet\nPlease, pull to refresh it</string>
+
+    <string name="error_server">Server side error</string>
+    <string name="error_access_denied">Access denied</string>
+    <string name="error_common">Something went wrong</string>
+    <string name="error_connection_state">Connection error</string>
+    <string name="error_http_unavailable">connections is unavailable</string>
+    <string name="error_not_found">Not found http error</string>
+    <string name="error_database">Database error</string>
+    <string name="text_events_updated_successfully">Events is up to date</string>
+    <string name="text_event_type_update">updated</string>
+    <string name="text_please_tap_link_for_details">Please tap link below for details</string>
+    <string name="text_event_placeholder">%s to</string>
+    <string name="text_no_event_picked">Please pick event to see details.</string>
+
+</resources>
