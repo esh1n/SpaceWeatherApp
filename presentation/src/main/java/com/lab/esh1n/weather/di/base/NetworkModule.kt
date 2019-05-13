@@ -1,7 +1,7 @@
 package com.lab.esh1n.weather.di.base
 
+import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import com.lab.esh1n.data.api.APIService
-import com.lab.esh1n.data.api.RxErrorHandlingCallAdapterFactory
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
@@ -31,6 +31,13 @@ class NetworkModule {
                 .build()
     }
 
+
+    @Provides
+    @Singleton
+    fun provideKotlinCoroutineCallAdapterFactory(): CoroutineCallAdapterFactory {
+        return CoroutineCallAdapterFactory()
+    }
+
     @Provides
     @Singleton
     fun provideConverterFactory(): Converter.Factory {
@@ -39,12 +46,12 @@ class NetworkModule {
 
     @Provides
     @Singleton
-    fun provideAPIService(client: OkHttpClient, converterFactory: Converter.Factory): APIService {
+    fun provideAPIService(client: OkHttpClient, converterFactory: Converter.Factory, callAdapterFactory: CoroutineCallAdapterFactory): APIService {
         return Retrofit.Builder()
                 .baseUrl(URL)
                 .client(client)
                 .addConverterFactory(converterFactory)
-                .addCallAdapterFactory(RxErrorHandlingCallAdapterFactory.create())
+                .addCallAdapterFactory(callAdapterFactory)
                 .build()
                 .create(APIService::class.java)
 

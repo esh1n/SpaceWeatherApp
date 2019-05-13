@@ -4,7 +4,7 @@ import androidx.annotation.NonNull
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.lab.esh1n.weather.di.ViewModelKey
-import com.lab.esh1n.weather.di.events.EventsModule
+import com.lab.esh1n.weather.di.weather.EventsModule
 import com.lab.esh1n.weather.weather.viewmodel.EventDetailViewModel
 import com.lab.esh1n.weather.weather.viewmodel.EventsViewModel
 import dagger.Binds

@@ -8,7 +8,7 @@
 
     <fragment
         android:id="@+id/fragment_events"
-        android:name="com.lab.esh1n.weather.weather.fragment.EventsFragment"
+        android:name="com.lab.esh1n.weather.weather.fragment.WeatherFragment"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"

@@ -8,20 +8,18 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.lab.esh1n.weather.R
 import com.lab.esh1n.weather.base.BaseObserver
 import com.lab.esh1n.weather.base.BaseVMFragment
-import com.lab.esh1n.weather.databinding.FragmentEventsBinding
 import com.lab.esh1n.weather.domain.base.ErrorModel
-import com.lab.esh1n.weather.weather.WeatherModel
-import com.lab.esh1n.weather.weather.EventsAdapter
-import com.lab.esh1n.weather.weather.viewmodel.EventsViewModel
-import com.lab.esh1n.weather.weather.viewmodel.SharedEventViewModel
 import com.lab.esh1n.weather.utils.SnackbarBuilder
 import com.lab.esh1n.weather.utils.addFragmentToStack
+import com.lab.esh1n.weather.weather.WeatherModel
+import com.lab.esh1n.weather.weather.viewmodel.EventsViewModel
+import com.lab.esh1n.weather.weather.viewmodel.SharedEventViewModel
 
 /**
  * Created by esh1n on 3/16/18.
  */
 
-class EventsFragment : BaseVMFragment<EventsViewModel>() {
+class WeatherFragment : BaseVMFragment<EventsViewModel>() {
     override val viewModelClass = EventsViewModel::class.java
 
     override val layoutResource = R.layout.fragment_events
@@ -151,7 +149,7 @@ class EventsFragment : BaseVMFragment<EventsViewModel>() {
     }
 
     companion object {
-        fun newInstance() = EventsFragment()
+        fun newInstance() = WeatherFragment()
     }
 
 }

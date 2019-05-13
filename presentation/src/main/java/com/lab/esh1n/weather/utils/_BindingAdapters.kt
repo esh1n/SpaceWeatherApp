@@ -4,13 +4,25 @@ import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import com.lab.esh1n.weather.R
 
+
 private const val EVENT_KEYWORD = "Event"
 
-@BindingAdapter("eventType")
-fun setEventType(tv: TextView, type: String?) {
-    val eventValue = if (type == null) tv.context.getString(R.string.text_event_type_update) else getTypeDescription(type)
-    val eventWithPrefix = tv.context.getString(R.string.text_event_placeholder, eventValue)
-    tv.text = eventWithPrefix
+@BindingAdapter("temperatureCelsius")
+fun setTemperatureCelsius(tv: TextView, temperatureCelsius: Double?) {
+    temperatureCelsius?.let {
+        val temp = tv.context.getString(R.string.text_temperature_celsius, it)
+        tv.text = temp
+    }
+
+}
+
+
+@BindingAdapter(value = ["tempMin", "tempMax"], requireAll = false)
+fun setTemperatureRange(tv: TextView, tempMin: Double?, tempMax: Double?) {
+    if (tempMin != null && tempMax != null) {
+        val tempRange = tv.context.getString(R.string.text_temperature_range_celsius, tempMin, tempMax)
+        tv.text = tempRange
+    }
 }
 
 fun getTypeDescription(type: String): String {

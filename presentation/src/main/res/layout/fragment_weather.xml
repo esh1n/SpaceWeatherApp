@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
         <variable
-            name="event"
+            name="weather"
             type="com.lab.esh1n.weather.weather.WeatherModel"/>
     </data>
 
@@ -21,6 +22,7 @@
             android:layout_height="wrap_content">
 
             <TextView
+
                 android:id="@+id/view_empty"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -28,34 +30,53 @@
                 android:text="@string/text_no_event_picked"/>
 
             <LinearLayout
+                android:layout_marginTop="@dimen/margin_small"
                 android:id="@+id/view_content"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@android:color/white"
                 android:orientation="vertical"
                 android:padding="@dimen/margin_small"
+                tools:visibility="visible"
                 android:visibility="gone">
 
-                <ImageView
-                    android:id="@+id/ivAvatar"
-                    android:layout_width="@dimen/image_size_avatar_big"
-                    android:layout_height="@dimen/image_size_avatar_big"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="@dimen/margin_medium"
-                    android:contentDescription="@string/description_actor_avatar"/>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:textSize="@dimen/font_size_max"
+                        app:temperatureCelsius="@{weather.temp}"
+                        tools:text="16 C"/>
+
+                    <ImageView
+                        android:id="@+id/ivIcon"
+                        android:layout_width="@dimen/image_size_avatar_big"
+                        android:layout_height="@dimen/image_size_avatar_big"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginStart="@dimen/margin_medium"
+                        android:layout_marginLeft="@dimen/margin_medium"
+                        android:contentDescription="@string/description_actor_avatar"/>
+
+                </LinearLayout>
+
 
                 <TextView
                     android:id="@+id/tvActorName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_medium"
+                    android:layout_marginTop="@dimen/margin_small"
                     android:drawableStart="@drawable/ic_user"
                     android:drawablePadding="@dimen/padding_small"
-                    android:text="@{event.actorName}"
+                    android:text="@{weather.description}"
                     android:textColor="@color/colorPrimary"
                     android:textSize="@dimen/font_size_title"
                     android:textStyle="bold"
-                    tools:text="Jake Wharton"/>
+                    tools:text="Clear sky"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -68,10 +89,10 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical"
-                        android:text="@{event.type}"
+                        android:text="@string/text_temperature_range"
                         android:textColor="@color/font_color_black"
                         android:textSize="@dimen/font_size_medium"
-                        tools:text="pushed to"/>
+                        tools:text="Temperature range"/>
 
                     <TextView
                         android:id="@+id/tvRepository"
@@ -82,10 +103,11 @@
                         android:drawableStart="@drawable/ic_repo"
                         android:drawablePadding="@dimen/padding_small"
                         android:gravity="center_vertical"
-                        android:text="@{event.repositoryName}"
+                        app:tempMax="@{weather.tempMax}"
+                        app:tempMin="@{weather.tempMin}"
                         android:textColor="@color/orange"
                         android:textSize="@dimen/font_size_big"
-                        tools:text="Dagger2"/>
+                        tools:text="from 16 to 24 C"/>
                 </LinearLayout>
 
 
@@ -97,31 +119,10 @@
                     android:drawableStart="@drawable/ic_time"
                     android:drawablePadding="@dimen/padding_small"
                     android:gravity="center_vertical"
-                    android:text="@{event.createdDate}"
+                    android:text="@{weather.dateStr}"
                     android:textColor="@color/colorPrimaryDark"
                     android:textSize="@dimen/font_size_medium"
                     tools:text="30 of feb"/>
-
-                <TextView
-                    android:id="@+id/tvForksCount"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_medium"
-                    android:gravity="center_vertical"
-                    android:text="@string/text_please_tap_link_for_details"
-                    android:textColor="@color/colorPrimaryDark"
-                    android:textSize="@dimen/font_size_medium"/>
-
-
-                <TextView
-                    android:id="@+id/tvLink"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="2dp"
-                    android:text="@{event.repositoryLink}"
-                    android:textColor="@color/orange"
-                    android:textSize="@dimen/font_size_title"
-                    tools:text="http:dagger_link"/>
 
             </LinearLayout>
         </FrameLayout>

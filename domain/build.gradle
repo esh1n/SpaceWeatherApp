@@ -32,7 +32,7 @@ dependencies {
     implementation "androidx.room:room-rxjava2:${rootProject.ext.room}"
     kapt "androidx.room:room-compiler:${rootProject.ext.room}"
 
-    implementation "io.reactivex.rxjava2:rxjava:${rootProject.ext.rxJava}"
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:${rootProject.ext.lifecycleComponent}"
 
     implementation "com.squareup.retrofit2:retrofit:${rootProject.ext.retrofit}"
 

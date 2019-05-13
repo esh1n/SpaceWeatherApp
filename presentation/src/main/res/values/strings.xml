@@ -22,4 +22,9 @@
     <string name="text_event_placeholder">%s to</string>
     <string name="text_no_event_picked">Please pick event to see details.</string>
 
+
+    <string name="text_temperature_celsius">%d \u2109</string>
+    <string name="text_temperature_range_celsius">from %d to %d \u2109</string>
+    <string name="text_temperature_range">Temperature range</string>
+
 </resources>

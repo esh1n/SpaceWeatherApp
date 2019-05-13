@@ -5,12 +5,10 @@ import androidx.work.WorkManager
 import com.lab.esh1n.weather.base.BaseViewModel
 import com.lab.esh1n.weather.domain.base.Resource
 import com.lab.esh1n.weather.domain.events.FetchAndSaveEventsUseCase
-import com.lab.esh1n.weather.domain.events.GetEventsInDBUseCase
-import com.lab.esh1n.weather.weather.WeatherModel
-import com.lab.esh1n.weather.weather.mapper.EventModelMapper
 import com.lab.esh1n.weather.utils.SingleLiveEvent
-import com.lab.esh1n.weather.utils.applyAndroidSchedulers
 import com.lab.esh1n.weather.utils.startPeriodicSync
+import com.lab.esh1n.weather.weather.WeatherModel
+import com.lab.esh1n.weather.weather.mapper.WeatherModelMapper
 import javax.inject.Inject
 
 /**
@@ -26,7 +24,7 @@ constructor(private val loadEventsUseCase: GetEventsInDBUseCase,
 
     val events = MutableLiveData<Resource<List<WeatherModel>>>()
     val refreshOperation = SingleLiveEvent<Resource<Unit>>()
-    private val eventModelMapper = EventModelMapper()
+    private val eventModelMapper = WeatherModelMapper()
 
     //TODO move this periodic sync to success login event
     fun startPeriodicSync() {

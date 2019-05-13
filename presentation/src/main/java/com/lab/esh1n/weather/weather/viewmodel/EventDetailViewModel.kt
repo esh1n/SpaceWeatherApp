@@ -5,8 +5,7 @@ import com.lab.esh1n.weather.base.BaseViewModel
 import com.lab.esh1n.weather.domain.base.Resource
 import com.lab.esh1n.weather.domain.events.GetEventUseCase
 import com.lab.esh1n.weather.weather.WeatherModel
-import com.lab.esh1n.weather.weather.mapper.EventModelMapper
-import com.lab.esh1n.weather.utils.applyAndroidSchedulers
+import com.lab.esh1n.weather.weather.mapper.WeatherModelMapper
 import javax.inject.Inject
 
 
@@ -15,7 +14,7 @@ class EventDetailViewModel
 constructor(private val loadEventUseCase: GetEventUseCase) : BaseViewModel() {
 
     val event = MutableLiveData<Resource<WeatherModel>>()
-    private val eventModelMapper = EventModelMapper()
+    private val eventModelMapper = WeatherModelMapper()
 
     fun loadEvent(id: Long) {
         event.postValue(Resource.loading())

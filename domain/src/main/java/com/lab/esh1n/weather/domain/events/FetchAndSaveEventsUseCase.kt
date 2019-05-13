@@ -13,14 +13,13 @@ class FetchAndSaveEventsUseCase(private val api: APIService, private val weather
     private val weatherResponseMapper = WeatherResponseMapper()
 
     override suspend fun execute(argument: String): Resource<Unit> {
-
-        try {
-            val weatherResponce = api.getWeather(APP_ID, argument, UNITS)
-            val weatherEntry = weatherResponseMapper.map(weatherResponce)
+        return try {
+            val weatherResponse = api.getWeatherAsync(APP_ID, argument, UNITS).await()
+            val weatherEntry = weatherResponseMapper.map(weatherResponse)
             weatherDAO.saveWeather(weatherEntry)
-            return Resource.success()
+            Resource.success()
         } catch (ex: Throwable) {
-            return Resource.error(errorsHandler.handle(ex))
+            Resource.error(errorsHandler.handle(ex))
         }
     }
 

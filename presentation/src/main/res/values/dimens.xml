@@ -17,4 +17,5 @@
 
     <dimen name="icon_size_small">16dp</dimen>
     <dimen name="image_size_avatar_big">80dp</dimen>
+    <dimen name="font_size_max">32sp</dimen>
 </resources>

@@ -78,7 +78,9 @@ dependencies {
     implementation "android.arch.work:work-rxjava2:$workManager"
 
     implementation "com.squareup.retrofit2:retrofit:${rootProject.ext.retrofit}"
-    implementation "com.squareup.retrofit2:adapter-rxjava2:${rootProject.ext.retrofit}"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:${rootProject.ext.kotlin_coroutines_version}"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:${rootProject.ext.kotlin_coroutines_version}"
+    implementation "com.jakewharton.retrofit:retrofit2-kotlin-coroutines-adapter:${rootProject.ext.retrofit_coroutines_adapter_version}"
     implementation "com.squareup.retrofit2:converter-gson:${rootProject.ext.retrofit}"
     implementation "com.google.code.gson:gson:${rootProject.ext.gson}"
     implementation "com.squareup.okhttp3:okhttp:${rootProject.ext.okhttp}"

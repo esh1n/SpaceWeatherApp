@@ -8,17 +8,16 @@ import androidx.lifecycle.ViewModelProviders
 import com.lab.esh1n.weather.R
 import com.lab.esh1n.weather.base.BaseObserver
 import com.lab.esh1n.weather.base.BaseVMFragment
-import com.lab.esh1n.weather.databinding.FragmentEventDetailsBinding
 import com.lab.esh1n.weather.domain.base.ErrorModel
+import com.lab.esh1n.weather.utils.SnackbarBuilder
+import com.lab.esh1n.weather.utils.openUrl
 import com.lab.esh1n.weather.weather.WeatherModel
 import com.lab.esh1n.weather.weather.viewmodel.EventDetailViewModel
 import com.lab.esh1n.weather.weather.viewmodel.SharedEventViewModel
-import com.lab.esh1n.weather.utils.SnackbarBuilder
-import com.lab.esh1n.weather.utils.openUrl
 
 class EventDetailFragment : BaseVMFragment<EventDetailViewModel>() {
     override val viewModelClass = EventDetailViewModel::class.java
-    override val layoutResource = R.layout.fragment_event_details
+    override val layoutResource = R.layout.fragment_weather
     private var binding: FragmentEventDetailsBinding? = null
     private lateinit var sharedEventViewModel: SharedEventViewModel
 

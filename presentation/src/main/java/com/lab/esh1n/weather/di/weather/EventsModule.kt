@@ -1,11 +1,10 @@
-package com.lab.esh1n.weather.di.events
+package com.lab.esh1n.weather.di.weather
 
 import com.lab.esh1n.data.api.APIService
 import com.lab.esh1n.data.cache.WeatherDB
 import com.lab.esh1n.weather.domain.base.ErrorsHandler
 import com.lab.esh1n.weather.domain.events.FetchAndSaveEventsUseCase
 import com.lab.esh1n.weather.domain.events.GetEventUseCase
-import com.lab.esh1n.weather.domain.events.GetEventsInDBUseCase
 import dagger.Module
 import dagger.Provides
 

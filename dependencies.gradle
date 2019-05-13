@@ -1,5 +1,7 @@
 ext {
 
+
+    kotlin_coroutines_version = '1.1.1'
     androidxCompat = "1.1.0-alpha05"
     androidxComponent = "1.1.0-alpha06"
 
@@ -14,7 +16,8 @@ ext {
 
     retrofit = "2.5.0"
     gson = "2.8.5"
-    okhttp = '4.0.0-alpha01'
+    okhttp = '3.13.1'
+    retrofit_coroutines_adapter_version = '0.9.2'
 
     dagger = '2.22.1'
 
@@ -22,5 +25,6 @@ ext {
     rxAndroid = '2.1.1'
 
     workManager = "1.0.1"
+
 
 }
