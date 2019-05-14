@@ -16,6 +16,13 @@ fun setTemperatureCelsius(tv: TextView, temperatureCelsius: Double?) {
 
 }
 
+@BindingAdapter("intAsString")
+fun setIntAsString(tv: TextView, value: Int?) {
+    value?.let {
+        tv.text = value.toString()
+    }
+
+}
 
 @BindingAdapter(value = ["tempMin", "tempMax"], requireAll = false)
 fun setTemperatureRange(tv: TextView, tempMin: Double?, tempMax: Double?) {

@@ -1,19 +1,14 @@
 **About application**
 
-This application provides an ability to get latest GitHub events and shows the result in RecyclerView.
+This application provides an ability to get latest weather in Saint Petersburg.
 
-Event contains info about actor, who invoked event,event type, updated repository, event date.
+Weather contains info about temperature, wind, humidity and ect.
 
-As for portrait mode,after tap on specific event, it will be opened at new screen.
-As for landscape mode, after tap on specific event, it will be appear in own fragment right to events fragment.
-
-Events are synced by Workmanager with 5 minute interval. It's also possible to use pull-to-refresh feature.
+Weather are synced by Workmanager with 5 minute interval. It's also possible to use pull-to-refresh feature.
 
 As for images, Glide was used.
 As for local storage, Room was used.
 
-**About feature releases**
-It's in plans to update app by fetching personalized events. So I am going to add user search screen to see user's feed.
 
 **About architecture**
 
@@ -30,5 +25,5 @@ Project structure is devided on 3 layers:
 2. **Network stack** - Retrofit, OkHttp, GSON.
 3. **Database** - SQLite + Room library.
 4. **DI** - Dagger 2
-5. **RxJava 2**
+5. **Coroutines**
 6. **MVVM implementation** - Google architecture components (ViewModel + LiveData).

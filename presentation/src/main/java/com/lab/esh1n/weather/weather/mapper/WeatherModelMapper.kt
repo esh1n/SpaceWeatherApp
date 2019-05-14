@@ -30,6 +30,6 @@ class WeatherModelMapper : Mapper<WeatherEntity, WeatherModel>() {
     }
 
     companion object {
-        const val OPENMAP_URL = "http://openweathermap.org"
+        const val OPENMAP_URL = "https://openweathermap.org"
     }
 }

@@ -18,7 +18,7 @@ import javax.inject.Singleton
 @Module
 class NetworkModule {
     companion object {
-        private const val URL = "https://api.github.com/"
+        private const val URL = "https://api.openweathermap.org"
     }
 
     @Provides

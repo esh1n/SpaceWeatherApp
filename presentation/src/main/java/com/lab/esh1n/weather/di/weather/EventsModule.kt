@@ -3,8 +3,8 @@ package com.lab.esh1n.weather.di.weather
 import com.lab.esh1n.data.api.APIService
 import com.lab.esh1n.data.cache.WeatherDB
 import com.lab.esh1n.weather.domain.base.ErrorsHandler
-import com.lab.esh1n.weather.domain.events.FetchAndSaveEventsUseCase
-import com.lab.esh1n.weather.domain.events.GetEventUseCase
+import com.lab.esh1n.weather.domain.weather.FetchAndSaveWeatherUseCase
+import com.lab.esh1n.weather.domain.weather.LoadWeatherByCityFromDBUseCase
 import dagger.Module
 import dagger.Provides
 
@@ -12,17 +12,12 @@ import dagger.Provides
 class EventsModule {
 
     @Provides
-    fun provideEventsInDBUseCase(db: WeatherDB, errorsHandler: ErrorsHandler): GetEventsInDBUseCase {
-        return GetEventsInDBUseCase(db.repositoriesDAO(), errorsHandler)
+    fun provideFetchAndSaveWeatherUseCase(db: WeatherDB, api: APIService, errorsHandler: ErrorsHandler): FetchAndSaveWeatherUseCase {
+        return FetchAndSaveWeatherUseCase(api, db.weatherDAO(), errorsHandler)
     }
 
     @Provides
-    fun provideFetchAndSaveEventsUseCase(db: WeatherDB, api: APIService, errorsHandler: ErrorsHandler): FetchAndSaveEventsUseCase {
-        return FetchAndSaveEventsUseCase(api, db.repositoriesDAO(), errorsHandler)
-    }
-
-    @Provides
-    fun provideEventDetailsUseCase(db: WeatherDB, errorsHandler: ErrorsHandler): GetEventUseCase {
-        return GetEventUseCase(db.repositoriesDAO(), errorsHandler)
+    fun provideLoadWeatherByCityFromDBUseCase(db: WeatherDB, errorsHandler: ErrorsHandler): LoadWeatherByCityFromDBUseCase {
+        return LoadWeatherByCityFromDBUseCase(db.weatherDAO(), errorsHandler)
     }
 }

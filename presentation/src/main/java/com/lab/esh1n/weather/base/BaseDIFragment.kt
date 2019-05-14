@@ -9,8 +9,8 @@ import dagger.android.support.AndroidSupportInjection
 
 abstract class BaseDIFragment : BaseFragment() {
 
-    override fun onAttach(context: Context?) {
-        AndroidSupportInjection.inject(this)
+    override fun onAttach(context: Context) {
         super.onAttach(context)
+        AndroidSupportInjection.inject(this)
     }
 }

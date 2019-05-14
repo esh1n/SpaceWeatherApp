@@ -1,4 +1,4 @@
-package com.lab.esh1n.weather.domain.events.mapper
+package com.lab.esh1n.weather.domain.weather.mapper
 
 import com.lab.esh1n.data.api.response.WeatherResponse
 import com.lab.esh1n.data.cache.entity.WeatherEntity

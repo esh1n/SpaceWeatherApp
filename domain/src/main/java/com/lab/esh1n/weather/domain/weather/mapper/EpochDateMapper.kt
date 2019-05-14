@@ -1,4 +1,4 @@
-package com.lab.esh1n.weather.domain.events.mapper
+package com.lab.esh1n.weather.domain.weather.mapper
 
 import com.lab.esh1n.weather.domain.base.Mapper
 
@@ -7,7 +7,8 @@ import java.util.concurrent.TimeUnit
 
 class EpochDateMapper : Mapper<Long, Date>() {
     override fun map(source: Long): Date {
-       return Date(TimeUnit.SECONDS.convert(source,TimeUnit.MILLISECONDS))
+        val millSeconds = TimeUnit.MILLISECONDS.convert(source,TimeUnit.SECONDS)
+       return Date(millSeconds)
     }
 }
 

@@ -6,7 +6,7 @@ import androidx.work.WorkerParameters
 import androidx.work.workDataOf
 import com.lab.esh1n.weather.WeatherApp
 import com.lab.esh1n.weather.domain.base.Resource
-import com.lab.esh1n.weather.domain.events.FetchAndSaveEventsUseCase
+import com.lab.esh1n.weather.domain.weather.FetchAndSaveWeatherUseCase
 import com.lab.esh1n.weather.utils.WORKER_ERROR_DESCRIPTION
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.coroutineScope
@@ -16,7 +16,7 @@ class SyncAllDataWorker(context: Context, params: WorkerParameters) :
         CoroutineWorker(context, params) {
 
     @Inject
-    lateinit var syncDataWorker: FetchAndSaveEventsUseCase
+    lateinit var syncDataWorker: FetchAndSaveWeatherUseCase
 
     override val coroutineContext = Dispatchers.IO
 

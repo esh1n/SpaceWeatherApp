@@ -5,8 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.lab.esh1n.weather.di.ViewModelKey
 import com.lab.esh1n.weather.di.weather.EventsModule
-import com.lab.esh1n.weather.weather.viewmodel.EventDetailViewModel
-import com.lab.esh1n.weather.weather.viewmodel.EventsViewModel
+import com.lab.esh1n.weather.weather.viewmodel.WeatherViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
@@ -23,13 +22,8 @@ abstract class ViewModelModule {
 
     @Binds
     @IntoMap
-    @ViewModelKey(EventsViewModel::class)
-    abstract fun provideEventsViewModel(eventsViewModel: EventsViewModel): ViewModel
-
-    @Binds
-    @IntoMap
-    @ViewModelKey(EventDetailViewModel::class)
-    abstract fun provideEventDetailViewModel(eventDetail: EventDetailViewModel): ViewModel
+    @ViewModelKey(WeatherViewModel::class)
+    abstract fun provideWeatherViewModel(weatherViewModel: WeatherViewModel): ViewModel
 
     @Singleton
     @Binds
