@@ -6,7 +6,7 @@ apply plugin: 'kotlin-android-extensions'
 android {
     compileSdkVersion 28
     defaultConfig {
-        applicationId "com.lab.esh1n.github"
+        applicationId "com.lab.esh1n.weather"
         minSdkVersion 21
         targetSdkVersion 28
         versionCode 1
