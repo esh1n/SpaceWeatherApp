@@ -17,7 +17,7 @@ Project structure is devided on 3 layers:
 
 1. Data layer (data package) - This layer is responsible for "data" logic of application (contains code which communicates with database and remote API).
 2. Business logic layer (domain package) - This layer is responsible for implementation of business use cases.
-3. UI logic layer (presentation package) - This layer is responsible for end user application implementation. This layer contains another artitecture patterns for UI logic responsibility separation. It contains two approaches and you can check which one is more suited for you: **a)** MVP pattern **b)** MVVM pattern.
+3. UI logic layer (presentation package) - This layer is responsible for end user application implementation. This layer contains another artitecture patterns for UI logic responsibility separation.
 
 **Project details**
 
