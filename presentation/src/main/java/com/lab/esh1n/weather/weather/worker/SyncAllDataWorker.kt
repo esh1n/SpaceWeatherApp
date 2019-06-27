@@ -22,7 +22,7 @@ class SyncAllDataWorker(context: Context, params: WorkerParameters) :
 
     override suspend fun doWork(): Result = coroutineScope {
         WeatherApp.getWorkerComponent(applicationContext).inject(this@SyncAllDataWorker)
-        val syncResult = syncDataWorker.execute("Saint Petersburg")
+        val syncResult = syncDataWorker.execute("Voronezh")
         if (syncResult.status == Resource.Status.ERROR) {
             val failureResult = workDataOf(WORKER_ERROR_DESCRIPTION to syncResult.errorModel)
             Result.failure(failureResult)

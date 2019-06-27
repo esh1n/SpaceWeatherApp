@@ -52,7 +52,6 @@ constructor(private val loadEventsUseCase: LoadWeatherByCityFromDBUseCase,
     }
 
     companion object {
-        const val CITY_NAME = "Saint Petersburg"
+        const val CITY_NAME = "Voronezh"
     }
-
 }

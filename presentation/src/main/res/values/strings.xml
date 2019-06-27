@@ -26,5 +26,8 @@
     <string name="text_speed_suffix">m/s</string>
     <string name="text_pressure_suffix">mmHg</string>
     <string name="prefix_percent">%</string>
+    <string name="notification_title">Weather</string>
+    <string name="notification_message">Nessage</string>
+    <string name="ticker_text">Ticker</string>
 
 </resources>
