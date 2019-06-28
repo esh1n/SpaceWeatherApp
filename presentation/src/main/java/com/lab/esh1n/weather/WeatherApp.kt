@@ -2,6 +2,7 @@ package com.lab.esh1n.weather
 
 import android.app.Activity
 import android.app.Application
+import android.app.Service
 import android.content.Context
 import com.lab.esh1n.weather.di.AppComponent
 import com.lab.esh1n.weather.di.DaggerAppComponent
@@ -9,6 +10,7 @@ import com.lab.esh1n.weather.di.WorkerComponent
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasActivityInjector
+import dagger.android.HasServiceInjector
 import javax.inject.Inject
 
 
@@ -16,9 +18,18 @@ import javax.inject.Inject
  * Created by esh1n on 3/9/18.
  */
 
-class WeatherApp : Application(), HasActivityInjector {
+class WeatherApp : Application(), HasActivityInjector,HasServiceInjector {
+
+
     @Inject
     lateinit var activityDispatchingAndroidInjector: DispatchingAndroidInjector<Activity>
+
+    @Inject
+    lateinit var serviceDispatchingAndroidInjector: DispatchingAndroidInjector<Service>
+
+    override fun serviceInjector() = serviceDispatchingAndroidInjector
+
+    override fun activityInjector() =  activityDispatchingAndroidInjector
 
     private lateinit var appComponent: AppComponent
     private lateinit var workerComponent: WorkerComponent
@@ -32,10 +43,6 @@ class WeatherApp : Application(), HasActivityInjector {
                 .build()
         workerComponent = appComponent.plusWorkerComponent().build()
         appComponent.inject(this)
-    }
-
-    override fun activityInjector(): AndroidInjector<Activity>? {
-        return activityDispatchingAndroidInjector
     }
 
     companion object {

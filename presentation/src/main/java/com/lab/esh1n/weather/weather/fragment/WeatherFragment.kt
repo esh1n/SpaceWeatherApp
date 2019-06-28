@@ -1,5 +1,6 @@
 package com.lab.esh1n.weather.weather.fragment
 
+import android.app.IntentService
 import android.os.Bundle
 import android.view.View
 import androidx.databinding.DataBindingUtil

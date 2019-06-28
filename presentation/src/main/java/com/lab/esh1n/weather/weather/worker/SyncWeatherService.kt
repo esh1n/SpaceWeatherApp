@@ -3,21 +3,45 @@ package com.lab.esh1n.weather.weather.worker
 import android.app.*
 import android.content.Context
 import android.content.Intent
+import android.graphics.BitmapFactory
 import android.graphics.Color
-import android.graphics.drawable.Drawable
 import android.os.Build
 import android.os.IBinder
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
+import androidx.work.WorkManager
 import com.lab.esh1n.weather.R
+import com.lab.esh1n.weather.base.BaseCoroutineService
+import com.lab.esh1n.weather.base.BaseObserver
+import com.lab.esh1n.weather.domain.base.ErrorModel
+import com.lab.esh1n.weather.domain.weather.LoadWeatherByCityFromDBUseCase
 import com.lab.esh1n.weather.utils.ForegroundServiceLauncher
+import com.lab.esh1n.weather.utils.NotificationUtil.Companion.buildNotification
+import com.lab.esh1n.weather.utils.SnackbarBuilder
 import com.lab.esh1n.weather.weather.WeatherActivity
+import com.lab.esh1n.weather.weather.WeatherModel
+import com.lab.esh1n.weather.weather.viewmodel.WeatherViewModel
+import dagger.android.AndroidInjection
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
 
+class SyncWeatherService : BaseCoroutineService() {
+
+    @Inject
+    lateinit var loadWeatherByCityFromDBUseCase: LoadWeatherByCityFromDBUseCase
+
+    @Inject
+    lateinit var workManager: WorkManager
+
+    private var loadJob: Job? = null
 
 
+    private lateinit var weatherViewModel: WeatherViewModel
 
-class SyncWeatherService : Service() {
 
     override fun onBind(intent: Intent?): IBinder? {
         return null
@@ -33,55 +57,32 @@ class SyncWeatherService : Service() {
         fun stop(context: Context) = LAUNCHER.stopService(context)
 
         const val ONGOING_NOTIFICATION_ID = 123
-        const val CHANNEL_DEFAULT_IMPORTANCE = "Weather"
     }
 
     override fun onCreate() {
         super.onCreate()
-
-        val channelId =
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    createNotificationChannel("my_service", "My Background Service")
-                } else {
-                    // If earlier version channel ID is not used
-                    // https://developer.android.com/reference/android/support/v4/app/NotificationCompat.Builder.html#NotificationCompat.Builder(android.content.Context)
-                    ""
-                }
-        val pendingIntent: PendingIntent =
-                Intent(this, WeatherActivity::class.java).let { notificationIntent ->
-                    PendingIntent.getActivity(this, 0, notificationIntent, 0)
-                }
-
-        val drawableResourceId = this.resources.getIdentifier("status_04d", "drawable", this.packageName)
-        val notification: Notification = NotificationCompat.Builder(this, channelId)
-                .setContentTitle(getText(R.string.notification_title))
-                .setContentText(getText(R.string.notification_message))
-                .setSmallIcon(drawableResourceId)
-                .setContentIntent(pendingIntent)
-                .setTicker(getText(R.string.ticker_text))
-                .build()
-
-        startForeground(ONGOING_NOTIFICATION_ID, notification)
-
+        AndroidInjection.inject(this)
+        weatherViewModel = WeatherViewModel(loadWeatherByCityFromDBUseCase,workManager)
+        startForeground(ONGOING_NOTIFICATION_ID, buildNotification(this))
         LAUNCHER.onServiceCreated(this)
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         //...
-        return Service.START_NOT_STICKY
+        return START_NOT_STICKY
+    }
+
+    private fun loadWeather(){
+
     }
 
 
-    @RequiresApi(Build.VERSION_CODES.O)
-    private fun createNotificationChannel(channelId: String, channelName: String): String{
-        val chan = NotificationChannel(channelId,
-                channelName, NotificationManager.IMPORTANCE_NONE)
-        chan.lightColor = Color.BLUE
-        chan.lockscreenVisibility = Notification.VISIBILITY_PRIVATE
-        val service = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        service.createNotificationChannel(chan)
-        return channelId
+
+    override fun onDestroy() {
+        super.onDestroy()
     }
+
+
 
 
 }

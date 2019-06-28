@@ -18,8 +18,10 @@ import javax.inject.Singleton
     NetworkModule::class,
     DatabaseModule::class,
     ActivitiesModule::class,
+    ServicesModule::class,
     ViewModelModule::class])
 interface AppComponent {
+
     fun inject(app: WeatherApp)
 
     fun plusWorkerComponent(): WorkerComponent.Builder
