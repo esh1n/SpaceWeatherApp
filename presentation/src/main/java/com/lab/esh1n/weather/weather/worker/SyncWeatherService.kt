@@ -4,6 +4,7 @@ import android.app.*
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
+import android.graphics.drawable.Drawable
 import android.os.Build
 import android.os.IBinder
 import androidx.annotation.RequiresApi
@@ -11,6 +12,9 @@ import androidx.core.app.NotificationCompat
 import com.lab.esh1n.weather.R
 import com.lab.esh1n.weather.utils.ForegroundServiceLauncher
 import com.lab.esh1n.weather.weather.WeatherActivity
+
+
+
 
 
 class SyncWeatherService : Service() {
@@ -48,10 +52,11 @@ class SyncWeatherService : Service() {
                     PendingIntent.getActivity(this, 0, notificationIntent, 0)
                 }
 
+        val drawableResourceId = this.resources.getIdentifier("status_04d", "drawable", this.packageName)
         val notification: Notification = NotificationCompat.Builder(this, channelId)
                 .setContentTitle(getText(R.string.notification_title))
                 .setContentText(getText(R.string.notification_message))
-                .setSmallIcon(R.drawable.ic_humidity)
+                .setSmallIcon(drawableResourceId)
                 .setContentIntent(pendingIntent)
                 .setTicker(getText(R.string.ticker_text))
                 .build()
