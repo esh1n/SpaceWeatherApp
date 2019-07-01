@@ -4,7 +4,7 @@ import androidx.annotation.NonNull
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.lab.esh1n.weather.di.ViewModelKey
-import com.lab.esh1n.weather.di.weather.EventsModule
+import com.lab.esh1n.weather.di.weather.WeatherUseCaseModule
 import com.lab.esh1n.weather.weather.viewmodel.WeatherViewModel
 import dagger.Binds
 import dagger.Module
@@ -16,7 +16,7 @@ import javax.inject.Singleton
 /**
  * Created by esh1n on 3/9/18.
  */
-@Module(includes = [EventsModule::class])
+@Module(includes = [WeatherUseCaseModule::class])
 abstract class ViewModelModule {
 
 

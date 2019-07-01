@@ -28,6 +28,7 @@ dependencies {
 
     implementation "androidx.room:room-runtime:${rootProject.ext.room}"
     implementation "androidx.room:room-rxjava2:${rootProject.ext.room}"
+    implementation "androidx.room:room-ktx:${rootProject.ext.room}"
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:${rootProject.ext.lifecycleComponent}"
     kapt "androidx.room:room-compiler:${rootProject.ext.room}"
 

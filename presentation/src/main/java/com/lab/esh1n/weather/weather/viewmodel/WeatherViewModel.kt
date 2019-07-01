@@ -1,10 +1,13 @@
 package com.lab.esh1n.weather.weather.viewmodel
 
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.liveData
+import androidx.lifecycle.viewModelScope
 import androidx.work.WorkManager
 import com.lab.esh1n.weather.domain.base.Resource
-import com.lab.esh1n.weather.domain.weather.FetchAndSaveWeatherUseCase
-import com.lab.esh1n.weather.domain.weather.LoadWeatherByCityFromDBUseCase
+import com.lab.esh1n.weather.domain.weather.usecases.FetchAndSaveWeatherUseCase
+import com.lab.esh1n.weather.domain.weather.usecases.LoadWeatherByCityFromDBUseCase
 import com.lab.esh1n.weather.utils.SingleLiveEvent
 import com.lab.esh1n.weather.utils.startPeriodicSync
 import com.lab.esh1n.weather.weather.WeatherModel
@@ -34,12 +37,9 @@ constructor(private val loadEventsUseCase: LoadWeatherByCityFromDBUseCase,
     }
 
     val weatherLiveData: LiveData<Resource<WeatherModel>> = liveData() {
-        val mappedWeather = Transformations
-                .map(loadEventsUseCase.execute(CITY_NAME))
-                {
-                    Resource.map(it, cityWeatherModelMapper::map)
-                }
-        emitSource(mappedWeather)
+        val weatherEntity = loadEventsUseCase.execute(CITY_NAME)
+        val mappedResource = Resource.map(weatherEntity, cityWeatherModelMapper::map)
+        emit(mappedResource)
         refresh()
     }
 

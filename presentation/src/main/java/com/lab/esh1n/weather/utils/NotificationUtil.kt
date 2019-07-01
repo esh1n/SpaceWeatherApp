@@ -56,12 +56,12 @@ class NotificationUtil {
         }
     }
 
-    data class WeatherNotification(val title: String, val text: String, val resourceName: String, val ticker: String) {
+    data class WeatherNotification(val title: String, val text: String, val resourceName: String = "status_01d", val ticker: String) {
         companion object {
             fun emptyNotification(context: Context) = WeatherNotification(
                     context.getString(R.string.notification_title),
                     context.getString(R.string.notification_message),
-                    "status_01d", ticker = ""
+                    ticker = ""
             )
         }
     }

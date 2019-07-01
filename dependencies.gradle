@@ -7,7 +7,7 @@ ext {
 
     contraintLayout="2.0.0-beta1"
 
-    room = "2.1.0-beta01"
+    room = "2.1.0"
     lifecycleComponent = '2.2.0-alpha01'
 
     glide = '4.9.0'

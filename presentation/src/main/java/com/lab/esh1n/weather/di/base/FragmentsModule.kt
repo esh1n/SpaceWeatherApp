@@ -1,7 +1,7 @@
 package com.lab.esh1n.weather.di.base
 
 
-import com.lab.esh1n.weather.di.weather.EventsModule
+import com.lab.esh1n.weather.di.weather.WeatherUseCaseModule
 import com.lab.esh1n.weather.weather.fragment.WeatherFragment
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
@@ -13,7 +13,7 @@ import dagger.android.ContributesAndroidInjector
 @Module
 interface FragmentsModule {
 
-    @ContributesAndroidInjector(modules = [EventsModule::class])
+    @ContributesAndroidInjector(modules = [WeatherUseCaseModule::class])
     fun buildWeatherFragment(): WeatherFragment
 
 }
