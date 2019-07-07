@@ -1,6 +1,5 @@
 package com.lab.esh1n.weather.weather.fragment
 
-import android.app.IntentService
 import android.os.Bundle
 import android.view.View
 import androidx.databinding.DataBindingUtil
@@ -20,7 +19,7 @@ import com.lab.esh1n.weather.weather.worker.SyncWeatherService
  * Created by esh1n on 3/16/18.
  */
 
-class WeatherFragment : BaseVMFragment<WeatherViewModel>() {
+class CurrentPlaceFragment : BaseVMFragment<WeatherViewModel>() {
 
 
     override val viewModelClass = WeatherViewModel::class.java
@@ -143,6 +142,6 @@ class WeatherFragment : BaseVMFragment<WeatherViewModel>() {
     }
 
     companion object {
-        fun newInstance() = WeatherFragment()
+        fun newInstance() = CurrentPlaceFragment()
     }
 }

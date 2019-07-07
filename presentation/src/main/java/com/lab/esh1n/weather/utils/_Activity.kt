@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import com.lab.esh1n.weather.R
@@ -58,4 +59,8 @@ fun FragmentActivity?.addFragmentToStack(fragment: Fragment) {
         transaction.add(R.id.container_fragment, fragment, tag)
         transaction.addToBackStack(null).commit()
     }
+}
+
+fun AppCompatActivity.setABTitle(title: CharSequence?) {
+    supportActionBar?.title = title
 }

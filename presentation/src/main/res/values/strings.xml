@@ -31,5 +31,8 @@
     <string name="ticker_text">Ticker</string>
     <string name="error_loading_weather">Error of weather load</string>
     <string name="hint_refresh">Please refresh weather data</string>
+    <string name="menu_current_place">Current</string>
+    <string name="menu_destinations_on_earth">All places</string>
+    <string name="menu_settings">Settings</string>
 
 </resources>

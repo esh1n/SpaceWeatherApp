@@ -7,4 +7,8 @@
     <color name="colorAccent">#FF4081</color>
     <color name="font_color_black">#494e53</color>
     <color name="orange">#e28738</color>
+    <color name="gray_border_bottom_navigation">#4c000000</color>
+    <color name="bottom_menu_active">#d337e1</color>
+    <color name="bottom_menu_inactive">#8a8a8f</color>
+    <color name="gray_bottom_menu">#777777</color>
 </resources>

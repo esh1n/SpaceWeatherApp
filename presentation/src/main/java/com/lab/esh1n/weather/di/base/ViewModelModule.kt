@@ -5,6 +5,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.lab.esh1n.weather.di.ViewModelKey
 import com.lab.esh1n.weather.di.weather.WeatherUseCaseModule
+import com.lab.esh1n.weather.weather.viewmodel.AllPlacesViewModel
+import com.lab.esh1n.weather.weather.viewmodel.SettingsViewModel
 import com.lab.esh1n.weather.weather.viewmodel.WeatherViewModel
 import dagger.Binds
 import dagger.Module
@@ -25,6 +27,17 @@ abstract class ViewModelModule {
     @ViewModelKey(WeatherViewModel::class)
     abstract fun provideWeatherViewModel(weatherViewModel: WeatherViewModel): ViewModel
 
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(SettingsViewModel::class)
+    abstract fun provideSettingsViewModel(weatherViewModel: SettingsViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(AllPlacesViewModel::class)
+    abstract fun provideAllPlacesViewModel(weatherViewModel: AllPlacesViewModel): ViewModel
+
     @Singleton
     @Binds
     abstract fun provideViewModelFactory(factory: ViewModelFactory): ViewModelProvider.Factory
@@ -32,8 +45,7 @@ abstract class ViewModelModule {
 
     @Suppress("UNCHECKED_CAST")
     class ViewModelFactory @Inject
-    constructor(private val creators: Map<Class<out ViewModel>,
-            @JvmSuppressWildcards Provider<ViewModel>>) : ViewModelProvider.Factory {
+    constructor(private val creators: Map<Class<out ViewModel>, @JvmSuppressWildcards Provider<ViewModel>>) : ViewModelProvider.Factory {
 
         @NonNull
         override fun <T : ViewModel> create(@NonNull modelClass: Class<T>): T {

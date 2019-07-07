@@ -15,12 +15,17 @@ import javax.inject.Inject
  */
 
 abstract class BaseActivity : AppCompatActivity(), HasSupportFragmentInjector {
+
+    abstract val contentViewResourceId: Int
+
+
     @Inject
     lateinit var injector: DispatchingAndroidInjector<Fragment>
 
     override fun onCreate(@Nullable savedInstanceState: Bundle?) {
         AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
+        setContentView(contentViewResourceId)
     }
 
     override fun supportFragmentInjector(): AndroidInjector<Fragment>? {

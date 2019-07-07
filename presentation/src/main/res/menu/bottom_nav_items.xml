@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/menu_current_city"
+        android:icon="@drawable/ic_current_city"
+        android:title="@string/menu_current_place"/>
+
+    <item
+        android:id="@+id/menu_all_cities"
+        android:icon="@drawable/ic_destinations_on_earth"
+        android:title="@string/menu_destinations_on_earth"/>
+
+    <item
+        android:id="@+id/menu_settings"
+        android:icon="@drawable/ic_settings"
+        android:title="@string/menu_settings"/>
+</menu>
