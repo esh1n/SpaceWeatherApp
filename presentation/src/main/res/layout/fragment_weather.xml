@@ -43,7 +43,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
-                                android:text="@string/text_no_events" />
+                                android:text="@string/text_no_weather" />
 
                             <LinearLayout
                                 android:id="@+id/view_content"
@@ -77,8 +77,7 @@
                                         android:layout_height="@dimen/image_size_avatar_big"
                                         android:layout_gravity="center_horizontal"
                                         android:layout_marginStart="@dimen/margin_medium"
-                                        android:layout_marginLeft="@dimen/margin_medium"
-                                        android:contentDescription="@string/description_actor_avatar" />
+                                        android:layout_marginLeft="@dimen/margin_medium" />
 
                                 </LinearLayout>
 

@@ -1,13 +1,10 @@
 <resources>
-    <string name="app_name">WeatherApp</string>
+    <string name="app_name">RHCWeather</string>
 
     <string name="error_unexpected">Something went wrong.</string>
-    <string name="error_rate_limit">Please try again later, error occurred due to low api rate limit</string>
 
     <string name="search_repository_no_results_message">Sorry, no results for your query</string>
-    <string name="title_search">WeatherApp</string>
-    <string name="description_actor_avatar">Actor avatar image</string>
-    <string name="text_no_events">No weather yet\nPlease, pull to refresh it</string>
+    <string name="text_no_weather">No weather yet\nPlease, pull to refresh it</string>
 
     <string name="error_server">Server side error</string>
     <string name="error_access_denied">Access denied</string>

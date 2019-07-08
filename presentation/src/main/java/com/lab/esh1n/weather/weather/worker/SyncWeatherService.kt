@@ -12,6 +12,7 @@ import com.lab.esh1n.weather.domain.weather.usecases.LoadWeatherByCityFromDBUseC
 import com.lab.esh1n.weather.utils.ForegroundServiceLauncher
 import com.lab.esh1n.weather.utils.NotificationUtil
 import com.lab.esh1n.weather.utils.NotificationUtil.Companion.buildNotification
+import com.lab.esh1n.weather.utils.Temperature
 import dagger.android.AndroidInjection
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -76,8 +77,9 @@ class SyncWeatherService : BaseCoroutineService() {
         when (result.status) {
             Resource.Status.SUCCESS -> {
                 val weather = result.data!!
-                val title = "В ${weather.cityName} ${weather.description}"
-                val message = "Температура с ${weather.temperatureMin} до ${weather.temperatureMax}"
+                val title = getString(R.string.text_weather_in_city_base, weather.description)
+                val middleTemperature = Temperature.middleTemperature(weather.temperatureMin, weather.temperatureMax)
+                val message = getString(R.string.text_middle_temperature, weather.cityName, middleTemperature.getHumanReadable())
                 val resourceName = "status_${weather.iconId}"
                 return NotificationUtil.WeatherNotification(title, message, resourceName, title)
             }
