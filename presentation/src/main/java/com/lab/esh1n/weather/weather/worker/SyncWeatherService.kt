@@ -8,7 +8,7 @@ import com.lab.esh1n.data.cache.entity.WeatherEntity
 import com.lab.esh1n.weather.R
 import com.lab.esh1n.weather.base.BaseCoroutineService
 import com.lab.esh1n.weather.domain.base.Resource
-import com.lab.esh1n.weather.domain.weather.usecases.LoadWeatherByCityFromDBUseCase
+import com.lab.esh1n.weather.domain.weather.usecases.LoadCurrentWeatherUseCase
 import com.lab.esh1n.weather.utils.ForegroundServiceLauncher
 import com.lab.esh1n.weather.utils.NotificationUtil
 import com.lab.esh1n.weather.utils.NotificationUtil.Companion.buildNotification
@@ -24,7 +24,7 @@ import javax.inject.Inject
 class SyncWeatherService : BaseCoroutineService() {
 
     @Inject
-    lateinit var loadWeatherByCityFromDBUseCase: LoadWeatherByCityFromDBUseCase
+    lateinit var loadWeatherFromDBUseCase: LoadCurrentWeatherUseCase
 
     @Inject
     lateinit var workManager: WorkManager
@@ -63,7 +63,7 @@ class SyncWeatherService : BaseCoroutineService() {
     private fun loadWeather() {
         if (loadJob?.isActive == true) return
         loadJob = launch {
-            val result = withContext(Dispatchers.IO) { loadWeatherByCityFromDBUseCase.execute("Voronezh") }
+            val result = withContext(Dispatchers.IO) { loadWeatherFromDBUseCase.execute(Unit) }
             val notification = mapResultToWeatherNotification(result)
             startForeground(notification)
         }

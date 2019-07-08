@@ -31,5 +31,6 @@
     <string name="menu_current_place">Current</string>
     <string name="menu_destinations_on_earth">All places</string>
     <string name="menu_settings">Settings</string>
+    <string name="text_no_places">No Places</string>
 
 </resources>

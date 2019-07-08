@@ -6,8 +6,8 @@ import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
 import androidx.work.WorkManager
 import com.lab.esh1n.weather.domain.base.Resource
-import com.lab.esh1n.weather.domain.weather.usecases.FetchAndSaveWeatherUseCase
-import com.lab.esh1n.weather.domain.weather.usecases.LoadWeatherByCityFromDBUseCase
+import com.lab.esh1n.weather.domain.weather.usecases.FetchAndSaveCurrentPlaceWeatherUseCase
+import com.lab.esh1n.weather.domain.weather.usecases.LoadCurrentWeatherUseCase
 import com.lab.esh1n.weather.utils.SingleLiveEvent
 import com.lab.esh1n.weather.utils.startPeriodicSync
 import com.lab.esh1n.weather.weather.WeatherModel
@@ -21,10 +21,10 @@ import javax.inject.Inject
  * Created by esh1n on 3/16/18.
  */
 
-class WeatherViewModel
+class CurrentWeatherVM
 @Inject
-constructor(private val loadEventsUseCase: LoadWeatherByCityFromDBUseCase,
-            private val fetchAndSaveWeatherUseCase: FetchAndSaveWeatherUseCase,
+constructor(private val loadCurrentWeatherUseCase: LoadCurrentWeatherUseCase,
+            private val fetchAndSaveWeatherUseCase: FetchAndSaveCurrentPlaceWeatherUseCase,
             private val workManager: WorkManager)
     : ViewModel() {
 
@@ -37,7 +37,7 @@ constructor(private val loadEventsUseCase: LoadWeatherByCityFromDBUseCase,
     }
 
     val weatherLiveData: LiveData<Resource<WeatherModel>> = liveData() {
-        val weatherEntity = loadEventsUseCase.execute(CITY_NAME)
+        val weatherEntity = loadCurrentWeatherUseCase.execute(Unit)
         val mappedResource = Resource.map(weatherEntity, cityWeatherModelMapper::map)
         emit(mappedResource)
         refresh()
@@ -46,12 +46,9 @@ constructor(private val loadEventsUseCase: LoadWeatherByCityFromDBUseCase,
 
     fun refresh() {
         viewModelScope.launch() {
-            val result = withContext(Dispatchers.IO) { fetchAndSaveWeatherUseCase.execute(CITY_NAME) }
+            val result = withContext(Dispatchers.IO) { fetchAndSaveWeatherUseCase.execute(Unit) }
             refreshOperation.postValue(result)
         }
     }
 
-    companion object {
-        const val CITY_NAME = "Voronezh"
-    }
 }

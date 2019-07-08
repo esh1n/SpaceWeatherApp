@@ -12,17 +12,17 @@ import com.lab.esh1n.weather.utils.SnackbarBuilder
 import com.lab.esh1n.weather.utils.loadCircleImage
 import com.lab.esh1n.weather.utils.setVisibleOrGone
 import com.lab.esh1n.weather.weather.WeatherModel
-import com.lab.esh1n.weather.weather.viewmodel.WeatherViewModel
+import com.lab.esh1n.weather.weather.viewmodel.CurrentWeatherVM
 import com.lab.esh1n.weather.weather.worker.SyncWeatherService
 
 /**
  * Created by esh1n on 3/16/18.
  */
 
-class CurrentPlaceFragment : BaseVMFragment<WeatherViewModel>() {
+class CurrentPlaceFragment : BaseVMFragment<CurrentWeatherVM>() {
 
 
-    override val viewModelClass = WeatherViewModel::class.java
+    override val viewModelClass = CurrentWeatherVM::class.java
 
     override val layoutResource = R.layout.fragment_weather
 

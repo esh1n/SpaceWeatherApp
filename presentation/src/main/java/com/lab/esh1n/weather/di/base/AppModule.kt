@@ -2,6 +2,7 @@ package com.lab.esh1n.weather.di.base
 
 import android.app.Application
 import android.content.Context
+import android.content.SharedPreferences
 import androidx.work.WorkManager
 import com.lab.esh1n.weather.base.ErrorDescriptionProviderImpl
 import com.lab.esh1n.weather.domain.base.ErrorDescriptionProvider
@@ -17,6 +18,12 @@ class AppModule {
     @Singleton
     internal fun provideContext(application: Application): Context {
         return application.applicationContext
+    }
+
+    @Provides
+    @Singleton
+    fun provideSharedPreferences(application: Application): SharedPreferences {
+        return application.getSharedPreferences("rch.weather", Context.MODE_PRIVATE)
     }
 
 

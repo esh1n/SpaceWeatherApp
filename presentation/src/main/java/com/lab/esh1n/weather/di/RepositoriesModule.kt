@@ -1,5 +1,6 @@
 package com.lab.esh1n.weather.di
 
+import android.content.SharedPreferences
 import com.lab.esh1n.data.api.APIService
 import com.lab.esh1n.data.cache.WeatherDB
 import com.lab.esh1n.weather.domain.weather.WeatherRepository
@@ -13,8 +14,8 @@ class RepositoriesModule {
 
     @Provides
     @Singleton
-    fun provideWeatherRepository(userSessionApiService: APIService, database: WeatherDB): WeatherRepository {
-        return WeatherRepository(userSessionApiService, database)
+    fun provideWeatherRepository(userSessionApiService: APIService, database: WeatherDB, preferences: SharedPreferences): WeatherRepository {
+        return WeatherRepository(userSessionApiService, database, preferences)
     }
 
 }

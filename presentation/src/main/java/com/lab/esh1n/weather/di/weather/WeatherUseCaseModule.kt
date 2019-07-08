@@ -2,8 +2,9 @@ package com.lab.esh1n.weather.di.weather
 
 import com.lab.esh1n.weather.domain.base.ErrorsHandler
 import com.lab.esh1n.weather.domain.weather.WeatherRepository
+import com.lab.esh1n.weather.domain.weather.usecases.FetchAndSaveCurrentPlaceWeatherUseCase
 import com.lab.esh1n.weather.domain.weather.usecases.FetchAndSaveWeatherUseCase
-import com.lab.esh1n.weather.domain.weather.usecases.LoadWeatherByCityFromDBUseCase
+import com.lab.esh1n.weather.domain.weather.usecases.LoadCurrentWeatherUseCase
 import dagger.Module
 import dagger.Provides
 
@@ -16,7 +17,12 @@ class WeatherUseCaseModule {
     }
 
     @Provides
-    fun provideLoadWeatherByCityFromDBUseCase(weatherRepository: WeatherRepository, errorsHandler: ErrorsHandler): LoadWeatherByCityFromDBUseCase {
-        return LoadWeatherByCityFromDBUseCase(weatherRepository, errorsHandler)
+    fun provideFetchAndSaveCurrentPlaceWeatherUseCase(weatherRepository: WeatherRepository, errorsHandler: ErrorsHandler): FetchAndSaveCurrentPlaceWeatherUseCase {
+        return FetchAndSaveCurrentPlaceWeatherUseCase(weatherRepository, errorsHandler)
+    }
+
+    @Provides
+    fun provideLoadWeatherByCityFromDBUseCase(weatherRepository: WeatherRepository, errorsHandler: ErrorsHandler): LoadCurrentWeatherUseCase {
+        return LoadCurrentWeatherUseCase(weatherRepository, errorsHandler)
     }
 }
