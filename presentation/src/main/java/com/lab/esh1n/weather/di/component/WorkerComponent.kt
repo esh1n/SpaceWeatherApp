@@ -1,4 +1,4 @@
-package com.lab.esh1n.weather.di
+package com.lab.esh1n.weather.di.component
 
 
 import com.lab.esh1n.weather.di.worker.WorkerScope

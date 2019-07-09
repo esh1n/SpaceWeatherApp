@@ -158,7 +158,7 @@
                                         android:textColor="@color/colorPrimary"
                                         android:textSize="@dimen/font_size_title"
                                         android:textStyle="bold"
-                                        app:intAsString="@{weather.windSpeed}"
+                                        app:floatAsString="@{weather.windSpeed}"
                                         tools:text="15" />
 
                                     <TextView

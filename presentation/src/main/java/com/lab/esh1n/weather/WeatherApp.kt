@@ -4,10 +4,9 @@ import android.app.Activity
 import android.app.Application
 import android.app.Service
 import android.content.Context
-import com.lab.esh1n.weather.di.AppComponent
-import com.lab.esh1n.weather.di.DaggerAppComponent
-import com.lab.esh1n.weather.di.WorkerComponent
-import dagger.android.AndroidInjector
+import com.lab.esh1n.weather.di.component.AppComponent
+import com.lab.esh1n.weather.di.component.DaggerAppComponent
+import com.lab.esh1n.weather.di.component.WorkerComponent
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasActivityInjector
 import dagger.android.HasServiceInjector

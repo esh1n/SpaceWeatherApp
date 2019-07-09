@@ -1,10 +1,10 @@
-package com.lab.esh1n.weather.di.base
+package com.lab.esh1n.weather.di.module
 
 import androidx.annotation.NonNull
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.lab.esh1n.weather.di.ViewModelKey
-import com.lab.esh1n.weather.di.weather.WeatherUseCaseModule
+import com.lab.esh1n.weather.di.base.ViewModelKey
+import com.lab.esh1n.weather.di.weather.WeatherUseCasesModule
 import com.lab.esh1n.weather.weather.viewmodel.AllPlacesViewModel
 import com.lab.esh1n.weather.weather.viewmodel.CurrentWeatherVM
 import com.lab.esh1n.weather.weather.viewmodel.SettingsViewModel
@@ -18,7 +18,7 @@ import javax.inject.Singleton
 /**
  * Created by esh1n on 3/9/18.
  */
-@Module(includes = [WeatherUseCaseModule::class])
+@Module(includes = [WeatherUseCasesModule::class])
 abstract class ViewModelModule {
 
 

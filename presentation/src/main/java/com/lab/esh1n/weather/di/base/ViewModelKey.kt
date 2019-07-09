@@ -1,4 +1,4 @@
-package com.lab.esh1n.weather.di
+package com.lab.esh1n.weather.di.base
 
 import androidx.lifecycle.ViewModel
 import dagger.MapKey

@@ -1,7 +1,7 @@
-package com.lab.esh1n.weather.di.base
+package com.lab.esh1n.weather.di.module
 
 
-import com.lab.esh1n.weather.di.weather.WeatherUseCaseModule
+import com.lab.esh1n.weather.di.weather.WeatherUseCasesModule
 import com.lab.esh1n.weather.weather.fragment.AllPlacesFragment
 import com.lab.esh1n.weather.weather.fragment.CurrentPlaceFragment
 import com.lab.esh1n.weather.weather.fragment.SettingsFragment
@@ -15,7 +15,7 @@ import dagger.android.ContributesAndroidInjector
 @Module
 interface FragmentsModule {
 
-    @ContributesAndroidInjector(modules = [WeatherUseCaseModule::class])
+    @ContributesAndroidInjector(modules = [WeatherUseCasesModule::class])
     fun buildWeatherFragment(): CurrentPlaceFragment
 
     @ContributesAndroidInjector()

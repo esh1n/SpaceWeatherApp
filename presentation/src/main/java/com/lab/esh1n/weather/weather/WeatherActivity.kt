@@ -118,6 +118,10 @@ class WeatherActivity : BaseToolbarActivity() {
         super.onSaveInstanceState(outState)
     }
 
+    public fun setCurrentWeather() {
+        bottom_navigation.selectedItemId = R.id.menu_current_city
+    }
+
     companion object {
         private const val SELECTED_ITEM = "arg_selected_item"
     }

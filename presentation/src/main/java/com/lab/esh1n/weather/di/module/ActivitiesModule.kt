@@ -1,4 +1,4 @@
-package com.lab.esh1n.weather.di.base
+package com.lab.esh1n.weather.di.module
 
 import com.lab.esh1n.weather.weather.WeatherActivity
 import dagger.Module

@@ -19,7 +19,7 @@ class AllPlacesViewModel @Inject constructor(private val weatherRepository: Weat
     fun saveCurrentPlace(cityName: String) {
         viewModelScope.launch() {
             val result = withContext(Dispatchers.IO) { weatherRepository.saveCurrentCity(cityName) }
-            updateCurrentPlaceOperation.call()
+            updateCurrentPlaceOperation.postValue(Resource.success())
         }
     }
 

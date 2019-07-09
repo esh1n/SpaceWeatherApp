@@ -18,11 +18,11 @@ class WeatherResponseMapper : Mapper<WeatherResponse, WeatherEntity>() {
                 temperatureMax = source.main?.tempMax?:0.0,
                 iconId = source.weather?.get(0)?.icon ?: "01d",
                 description = source.weather?.get(0)?.description ?: "clear sky",
-                windSpeed = source.wind?.speed?:0,
+                windSpeed = source.wind?.speed ?: 0F,
                 windDegree = source.wind?.deg?:0,
                 pressure = source.main?.pressure?:0,
                 humidity = source.main?.humidity ?: 0,
-                date =  dateConverter.map(source.dt)
+                date = source.dt
         )
     }
 }

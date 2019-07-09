@@ -8,5 +8,5 @@ data class WindResponse(
 	val deg: Int? = null,
 
 	@field:SerializedName("speed")
-	val speed: Int? = null
+	val speed: Float? = null
 )

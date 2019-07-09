@@ -13,7 +13,6 @@ import com.lab.esh1n.weather.utils.loadCircleImage
 import com.lab.esh1n.weather.utils.setVisibleOrGone
 import com.lab.esh1n.weather.weather.WeatherModel
 import com.lab.esh1n.weather.weather.viewmodel.CurrentWeatherVM
-import com.lab.esh1n.weather.weather.worker.SyncWeatherService
 
 /**
  * Created by esh1n on 3/16/18.
@@ -45,7 +44,7 @@ class CurrentPlaceFragment : BaseVMFragment<CurrentWeatherVM>() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        SyncWeatherService.start(requireContext())
+        // SyncWeatherService.start(requireContext())
         observeWeather()
     }
 
@@ -123,7 +122,6 @@ class CurrentPlaceFragment : BaseVMFragment<CurrentWeatherVM>() {
             it.viewEmpty.setVisibleOrGone(true)
             it.viewContent.setVisibleOrGone(false)
         }
-
     }
 
     private fun showContent() {

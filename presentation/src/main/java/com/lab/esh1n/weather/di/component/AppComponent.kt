@@ -1,8 +1,8 @@
-package com.lab.esh1n.weather.di
+package com.lab.esh1n.weather.di.component
 
 import android.app.Application
 import com.lab.esh1n.weather.WeatherApp
-import com.lab.esh1n.weather.di.base.*
+import com.lab.esh1n.weather.di.module.*
 import dagger.BindsInstance
 import dagger.Component
 import dagger.android.AndroidInjectionModule

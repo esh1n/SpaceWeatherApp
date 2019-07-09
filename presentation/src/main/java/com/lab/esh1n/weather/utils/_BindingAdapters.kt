@@ -24,6 +24,14 @@ fun setIntAsString(tv: TextView, value: Int?) {
 
 }
 
+@BindingAdapter("floatAsString")
+fun setFloatAsString(tv: TextView, value: Float?) {
+    value?.let {
+        tv.text = value.toString()
+    }
+
+}
+
 @BindingAdapter(value = ["tempMin", "tempMax"], requireAll = false)
 fun setTemperatureRange(tv: TextView, tempMin: Double?, tempMax: Double?) {
     if (tempMin != null && tempMax != null) {

@@ -12,6 +12,7 @@ import com.lab.esh1n.weather.base.BaseVMFragment
 import com.lab.esh1n.weather.domain.base.ErrorModel
 import com.lab.esh1n.weather.utils.SnackbarBuilder
 import com.lab.esh1n.weather.utils.setVisibleOrGone
+import com.lab.esh1n.weather.weather.WeatherActivity
 import com.lab.esh1n.weather.weather.adapter.PlacesAdapter
 import com.lab.esh1n.weather.weather.model.PlaceWeather
 import com.lab.esh1n.weather.weather.viewmodel.AllPlacesViewModel
@@ -26,11 +27,13 @@ class AllPlacesFragment : BaseVMFragment<AllPlacesViewModel>() {
 
     private var placeRecyclerView: RecyclerView? = null
     private var emptyView: TextView? = null
+    private var loadingIndicator: View? = null
 
     override fun setupView(rootView: View) {
         super.setupView(rootView)
         adapter = PlacesAdapter(this::onPlaceClicked)
         placeRecyclerView = rootView.findViewById(R.id.list_places)
+        loadingIndicator = rootView.findViewById(R.id.loading_indicator)
         emptyView = rootView.findViewById(R.id.tv_no_places)
         placeRecyclerView?.let {
             it.layoutManager = LinearLayoutManager(requireActivity())
@@ -57,6 +60,24 @@ class AllPlacesFragment : BaseVMFragment<AllPlacesViewModel>() {
                 val isEmpty = data?.isEmpty() ?: true
                 emptyView!!.setVisibleOrGone(isEmpty)
                 adapter.swapCities(data.orEmpty())
+            }
+
+        })
+
+        viewModel.updateCurrentPlaceOperation.observe(this, object : BaseObserver<Unit>() {
+            override fun onData(data: Unit?) {
+
+                (requireActivity() as WeatherActivity).setCurrentWeather()
+
+            }
+
+            override fun onError(error: ErrorModel?) {
+                SnackbarBuilder.buildErrorSnack(view!!, getString(R.string.error_unexpected)).show()
+            }
+
+            override fun onProgress(progress: Boolean) {
+                super.onProgress(progress)
+                loadingIndicator?.setVisibleOrGone(progress)
             }
 
         })

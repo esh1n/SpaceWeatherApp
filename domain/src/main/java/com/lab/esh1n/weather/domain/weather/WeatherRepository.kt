@@ -35,8 +35,9 @@ class WeatherRepository constructor(private val api: APIService, database: Weath
         return weatherDAO.getWeather(cityName)
     }
 
-    fun getLiveWeatherByCity(cityName: String): LiveData<WeatherEntity> {
-        return weatherDAO.getLiveWeather(cityName)
+    fun getLiveCurrentWeather(): LiveData<WeatherEntity> {
+        val currentCity = preferences.getString(CITY_NAME, DEFAULT_CITY) ?: DEFAULT_CITY
+        return weatherDAO.getLiveWeather(currentCity)
     }
 
     suspend fun fetchAndSaveCurrentWeather() {

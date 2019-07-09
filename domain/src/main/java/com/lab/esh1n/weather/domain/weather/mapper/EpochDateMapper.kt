@@ -7,8 +7,8 @@ import java.util.concurrent.TimeUnit
 
 class EpochDateMapper : Mapper<Long, Date>() {
     override fun map(source: Long): Date {
-        val millSeconds = TimeUnit.MILLISECONDS.convert(source,TimeUnit.SECONDS)
-       return Date(millSeconds)
+        val millSeconds = TimeUnit.MILLISECONDS.convert(source, TimeUnit.SECONDS)
+        return Date(millSeconds)
     }
 }
 

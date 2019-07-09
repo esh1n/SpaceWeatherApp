@@ -1,4 +1,4 @@
-package com.lab.esh1n.weather.di.base
+package com.lab.esh1n.weather.di.module
 
 import android.app.Application
 import androidx.room.Room

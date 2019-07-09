@@ -4,7 +4,6 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.lab.esh1n.data.cache.contract.WeatherTableContract
-import java.util.*
 
 @Entity(tableName = WeatherTableContract.TABLE_NAME)
 data class WeatherEntity(
@@ -32,7 +31,7 @@ data class WeatherEntity(
         var description: String,
 
         @ColumnInfo(name = WeatherTableContract.COLUMN_WIND_SPEED)
-        var windSpeed: Int,
+        var windSpeed: Float,
 
         @ColumnInfo(name = WeatherTableContract.COLUMN_WIND_DEGREE)
         var windDegree: Int,
@@ -44,7 +43,7 @@ data class WeatherEntity(
         var humidity: Int,
 
         @ColumnInfo(name = WeatherTableContract.COLUMN_DATE)
-        var date: Date
+        var date: Long
 )
 
 data class WeatherModel(val id: Long,

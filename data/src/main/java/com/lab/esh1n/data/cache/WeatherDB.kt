@@ -9,7 +9,7 @@ import com.lab.esh1n.data.cache.entity.WeatherEntity
 /**
  * Created by esh1n on 3/7/18.
  */
-@Database(entities = [WeatherEntity::class], version = 1, exportSchema = false)
+@Database(entities = [WeatherEntity::class], version = 2, exportSchema = false)
 @TypeConverters(DBTypeConverters::class)
 abstract class WeatherDB : RoomDatabase() {
 

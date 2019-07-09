@@ -1,13 +1,10 @@
 package com.lab.esh1n.weather.weather.viewmodel
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.liveData
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import androidx.work.WorkManager
 import com.lab.esh1n.weather.domain.base.Resource
 import com.lab.esh1n.weather.domain.weather.usecases.FetchAndSaveCurrentPlaceWeatherUseCase
-import com.lab.esh1n.weather.domain.weather.usecases.LoadCurrentWeatherUseCase
+import com.lab.esh1n.weather.domain.weather.usecases.LoadCurrentWeatherLiveDataUseCase
 import com.lab.esh1n.weather.utils.SingleLiveEvent
 import com.lab.esh1n.weather.utils.startPeriodicSync
 import com.lab.esh1n.weather.weather.WeatherModel
@@ -23,7 +20,7 @@ import javax.inject.Inject
 
 class CurrentWeatherVM
 @Inject
-constructor(private val loadCurrentWeatherUseCase: LoadCurrentWeatherUseCase,
+constructor(private val loadCurrentWeatherUseCase: LoadCurrentWeatherLiveDataUseCase,
             private val fetchAndSaveWeatherUseCase: FetchAndSaveCurrentPlaceWeatherUseCase,
             private val workManager: WorkManager)
     : ViewModel() {
@@ -37,9 +34,12 @@ constructor(private val loadCurrentWeatherUseCase: LoadCurrentWeatherUseCase,
     }
 
     val weatherLiveData: LiveData<Resource<WeatherModel>> = liveData() {
-        val weatherEntity = loadCurrentWeatherUseCase.execute(Unit)
-        val mappedResource = Resource.map(weatherEntity, cityWeatherModelMapper::map)
-        emit(mappedResource)
+        val mappedWeather = Transformations
+                .map(loadCurrentWeatherUseCase.execute(Unit))
+                {
+                    Resource.map(it, cityWeatherModelMapper::map)
+                }
+        emitSource(mappedWeather)
         refresh()
     }
 

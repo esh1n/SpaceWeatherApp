@@ -1,4 +1,4 @@
-package com.lab.esh1n.weather.di.base
+package com.lab.esh1n.weather.di.module
 
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import com.lab.esh1n.data.api.APIService
