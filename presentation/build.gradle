@@ -43,7 +43,7 @@ dependencies {
     implementation project(':domain')
 
     implementation "androidx.appcompat:appcompat:${rootProject.ext.androidxCompat}"
-    implementation "com.google.android.material:material:${rootProject.ext.androidxComponent}"
+    implementation "com.google.android.material:material:${rootProject.ext.androidxMaterial}"
 
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:${rootProject.ext.lifecycleComponent}"
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:${rootProject.ext.lifecycleComponent}"
@@ -86,9 +86,6 @@ dependencies {
     implementation "com.squareup.okhttp3:logging-interceptor:${rootProject.ext.okhttp}"
 
     testImplementation "junit:junit:${rootProject.ext.junit}"
-
-    androidTestImplementation 'androidx.test:runner:1.2.0-beta01'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0-beta01'
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
