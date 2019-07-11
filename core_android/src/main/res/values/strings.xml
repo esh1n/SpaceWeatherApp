@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">core_android</string>
+    <string name="error_invalid_login">Invalid login</string>
+    <string name="error_server">Server side error</string>
+    <string name="error_access_denied">Access denied</string>
+    <string name="error_unauth">Authorization error</string>
+    <string name="error_common">Something went wrong</string>
+    <string name="error_connection_state">Connection error</string>
+
+</resources>

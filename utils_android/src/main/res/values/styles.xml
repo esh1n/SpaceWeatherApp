@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="NavyBoldTitle">
+        <item name="android:textColor">@color/navy</item>
+        <item name="android:textSize">@dimen/font_size_18</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="PinkText">
+        <item name="android:textColor">@android:color/holo_purple</item>
+        <item name="android:textSize">@dimen/font_size_15</item>
+    </style>
+
+    <style name="PinkBoldText" parent="PinkText">
+        <item name="android:textStyle">bold</item>
+    </style>
+
+</resources>

@@ -8,9 +8,11 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/core_android" />
             <option value="$PROJECT_DIR$/data" />
             <option value="$PROJECT_DIR$/domain" />
             <option value="$PROJECT_DIR$/presentation" />
+            <option value="$PROJECT_DIR$/utils_android" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

@@ -38,56 +38,40 @@ gradle.projectsEvaluated {
 }
 
 dependencies {
+
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation project(':data')
     implementation project(':domain')
 
-    implementation "androidx.appcompat:appcompat:${rootProject.ext.androidxCompat}"
-    implementation "com.google.android.material:material:${rootProject.ext.androidxMaterial}"
+    //androidx
+    implementation rootProject.ext.androidxCompat.appcompat
+    implementation rootProject.ext.androidxCompat.material
 
-    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:${rootProject.ext.lifecycleComponent}"
-    implementation "androidx.lifecycle:lifecycle-livedata-ktx:${rootProject.ext.lifecycleComponent}"
-    implementation "androidx.lifecycle:lifecycle-extensions:${rootProject.ext.lifecycleComponent}"
+    //lifecycle
+    implementation rootProject.ext.lifecycle.runtime
+    implementation rootProject.ext.lifecycle.viewmodel
+    implementation rootProject.ext.lifecycle.livedata
+    implementation rootProject.ext.lifecycle.extensions
+    kapt rootProject.ext.lifecycle.compiler
 
-    implementation "androidx.constraintlayout:constraintlayout:${rootProject.ext.contraintLayout}"
-    implementation "androidx.constraintlayout:constraintlayout-solver:${rootProject.ext.contraintLayout}"
+    //constraint layout
+    implementation rootProject.ext.constraintLayout.libCL
+    implementation rootProject.ext.constraintLayout.solver
 
-    implementation "com.github.bumptech.glide:glide:${rootProject.ext.glide}"
-    kapt "com.github.bumptech.glide:compiler:${rootProject.ext.glide}"
+    //glide
+    implementation rootProject.ext.glide.lib
+    kapt rootProject.ext.glide.compiler
 
-    implementation "androidx.room:room-ktx:${rootProject.ext.room}"
-    implementation "androidx.room:room-runtime:${rootProject.ext.room}"
-    kapt "androidx.room:room-compiler:${rootProject.ext.room}"
+    //dagger
+    kapt rootProject.ext.dagger.compiler
+    kapt rootProject.ext.dagger.android_processor
 
-    implementation "androidx.room:room-rxjava2:${rootProject.ext.room}"
+    //rxBindings
+    implementation rootProject.ext.rxBindings
 
-    implementation "io.reactivex.rxjava2:rxjava:${rootProject.ext.rxJava}"
-    implementation "io.reactivex.rxjava2:rxandroid:${rootProject.ext.rxAndroid}"
+    implementation  rootProject.ext.workManagerRx
 
-    kapt "com.google.dagger:dagger-android-processor:${rootProject.ext.dagger}"
-    kapt "com.google.dagger:dagger-compiler:${rootProject.ext.dagger}"
-
-    implementation "com.google.dagger:dagger:${rootProject.ext.dagger}"
-    implementation "com.google.dagger:dagger-android:${rootProject.ext.dagger}"
-    implementation "com.google.dagger:dagger-android-support:${rootProject.ext.dagger}"
-
-    // Kotlin + coroutines
-    implementation "android.arch.work:work-runtime-ktx:$workManager"
-    // optional - RxJava2 support
-    implementation "android.arch.work:work-rxjava2:$workManager"
-
-    implementation "com.squareup.retrofit2:retrofit:${rootProject.ext.retrofit}"
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:${rootProject.ext.kotlin_coroutines_version}"
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:${rootProject.ext.kotlin_coroutines_version}"
-    implementation "com.jakewharton.retrofit:retrofit2-kotlin-coroutines-adapter:${rootProject.ext.retrofit_coroutines_adapter_version}"
-    implementation "com.squareup.retrofit2:converter-gson:${rootProject.ext.retrofit}"
-    implementation "com.google.code.gson:gson:${rootProject.ext.gson}"
-    implementation "com.squareup.okhttp3:okhttp:${rootProject.ext.okhttp}"
-    implementation "com.squareup.okhttp3:logging-interceptor:${rootProject.ext.okhttp}"
-
-    testImplementation "junit:junit:${rootProject.ext.junit}"
-
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation kotlinVS
 
 }
 repositories {

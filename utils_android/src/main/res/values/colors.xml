@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="navy">#144370</color>
+    <color name="navy_gray_light">#e0e3e6</color>
+    <color name="item_title_font_color">#333333</color>
+    <color name="default_divider">#19606060</color>
+</resources>

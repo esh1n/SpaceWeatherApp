@@ -1,30 +1,96 @@
 ext {
 
+    compileSdkVersion = 28
+    buildToolsVer = "28.0.3"
+    minSdkVer = 16
+    targetSdkVer = 28
 
-    kotlin_coroutines_version = '1.1.1'
-    androidxCompat = "1.1.0-rc01"
-    androidxMaterial = "1.1.0-alpha07"
+    //androidx
+    androidxCompatVersion = "1.1.0-rc01"
+    androidxMaterialVersion = "1.1.0-alpha07"
 
-    contraintLayout="2.0.0-beta2"
+    supportLibraryVersion = '28.0.0'
+    androidxCompat = [
+            material      : "com.google.android.material:material:${androidxMaterialVersion}",
+            recyclerView  : "androidx.recyclerview:recyclerview:${androidxCompatVersion}",
+            cardView      : "androidx.cardview:cardview:${androidxCompatVersion}",
+            appcompat     : "androidx.appcompat:appcompat:${androidxCompatVersion}",
+    ]
 
-    room = "2.1.0"
-    lifecycleComponent = '2.2.0-alpha02'
+    //RxJava
+    rxJava = "2.2.8"
+    rxJava2 = "io.reactivex.rxjava2:rxjava:${rxJava}"
+    workManagerVersion = "1.0.1"
+    workManagerRx =  "android.arch.work:work-rxjava2:$workManagerVersion"
+    rxAndroidVersion = "2.1.1"
+    rxAndroid = "io.reactivex.rxjava2:rxandroid:${rxAndroidVersion}"
 
-    glide = '4.9.0'
-
-    junit = '4.13-beta-3'
-
-    retrofit = "2.5.0"
-    gson = "2.8.5"
-    okhttp = '3.13.1'
-    retrofit_coroutines_adapter_version = '0.9.2'
-
-    dagger = '2.22.1'
-
-    rxJava = '2.2.8'
-    rxAndroid = '2.1.1'
-
-    workManager = "1.0.1"
+    //Room
+    roomVersion = "2.1.0"
+    room = [
+            runtime : "androidx.room:room-runtime:${roomVersion}",
+            rxjava2 : "androidx.room:room-rxjava2:${roomVersion}",
+            ktx     : "androidx.room:room-ktx:${roomVersion}",
+            compiler: "androidx.room:room-compiler:${roomVersion}"
+    ]
 
 
+    lifecycleVersion = "2.2.0-alpha02"
+    lifecycle = [
+            runtime        : "androidx.lifecycle:lifecycle-runtime:${lifecycleVersion}",
+            viewmodel      : "androidx.lifecycle:lifecycle-viewmodel:${lifecycleVersion}",
+            livedata       : "androidx.lifecycle:lifecycle-livedata:${lifecycleVersion}",
+            extensions     : "androidx.lifecycle:lifecycle-extensions:${lifecycleVersion}",
+            compiler       : "androidx.lifecycle:lifecycle-compiler:${lifecycleVersion}",
+            reactivestreams: "androidx.lifecycle:lifecycle-reactivestreams:${lifecycleVersion}",
+    ]
+
+    constraintLayoutVesrion ="2.0.0-beta2"
+    constraintLayout = [
+            libCL  : "androidx.constraintlayout:constraintlayout:${constraintLayoutVesrion}",
+            solver : "androidx.constraintlayout:constraintlayout-solver:${constraintLayoutVesrion}",
+
+    ]
+
+    retrofitVersion = "2.5.0"
+    retrofit = [
+            lib          : "com.squareup.retrofit2:retrofit:${retrofitVersion}",
+            rxjava       : "com.squareup.retrofit2:adapter-rxjava2:${retrofitVersion}",
+            gsonConverter: "com.squareup.retrofit2:converter-gson:${retrofitVersion}",
+    ]
+
+    rxBindingsVersion = "2.1.1"
+    rxBindings = "com.jakewharton.rxbinding2:rxbinding-appcompat-v7:${rxBindingsVersion}"
+
+    gsonVersion = "2.8.5"
+    gson = "com.google.code.gson:gson:${gsonVersion}"
+
+    okHttpVersion = "3.13.1"
+    okHttp = [
+            lib         : "com.squareup.okhttp3:okhttp:${okHttpVersion}",
+            interceptor : "com.squareup.okhttp3:logging-interceptor:${okHttpVersion}",
+    ]
+
+    daggerVersion = "2.22.1"
+    dagger = [
+            lib              : "com.google.dagger:dagger:${daggerVersion}",
+            android          : "com.google.dagger:dagger-android:${daggerVersion}",
+            android_support  : "com.google.dagger:dagger-android-support:${daggerVersion}",
+            compiler         : "com.google.dagger:dagger-compiler:${daggerVersion}",
+            android_processor: "com.google.dagger:dagger-android-processor:${daggerVersion}",
+    ]
+
+    multidex = "com.android.support:multidex:1.0.3"
+    commonsioVersion = "2.4"
+    commonsio = "commons-io:commons-io:${commonsioVersion}"
+
+    glideVersion = "4.9.0"
+    glide = [
+            lib : "com.github.bumptech.glide:glide:${glideVersion}",
+            compiler: "com.github.bumptech.glide:compiler:${glideVersion}",
+            okhttp: "com.github.bumptech.glide:okhttp3-integration:${glideVersion}"
+    ]
+
+    kotlin_version = '1.3.31'
+    kotlinVS =   "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }

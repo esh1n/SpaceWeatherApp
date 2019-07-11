@@ -1,0 +1,52 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
+
+android {
+
+    compileSdkVersion rootProject.ext["compileSdkVersion"]
+
+    defaultConfig {
+        minSdkVersion rootProject.ext["minSdkVer"]
+        targetSdkVersion rootProject.ext["targetSdkVer"]
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+
+    api project(':utils_android')
+    implementation rootProject.ext.androidxCompat.appcompat
+    implementation rootProject.ext.androidxCompat.material
+
+    api rootProject.ext.dagger.lib
+    api rootProject.ext.dagger.android
+    api rootProject.ext.dagger.android_support
+
+    api rootProject.ext.rxJava2
+    api rootProject.ext.rxAndroid
+    api rootProject.ext.lifecycle.runtime
+    api rootProject.ext.lifecycle.extensions
+    api rootProject.ext.lifecycle.reactivestreams
+    kapt rootProject.ext.lifecycle.compiler
+    api rootProject.ext.gson
+    api rootProject.ext.okHttp.interceptor
+    api rootProject.ext.retrofit.lib
+    api rootProject.ext.retrofit.rxjava
+    api rootProject.ext.retrofit.gsonConverter
+}

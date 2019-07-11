@@ -3,16 +3,15 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 
 android {
-    compileSdkVersion 28
+
+    compileSdkVersion rootProject.ext["compileSdkVersion"]
 
     defaultConfig {
-        minSdkVersion 21
-        targetSdkVersion 28
+        minSdkVersion rootProject.ext["minSdkVer"]
+        targetSdkVersion rootProject.ext["targetSdkVer"]
         versionCode 1
         versionName "1.0"
-
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-
     }
 
     buildTypes {
@@ -21,22 +20,14 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation project(':data')
+    //implementation "androidx.lifecycle:lifecycle-livedata-ktx:${rootProject.ext.lifecycleComponent}"
+    implementation  rootProject.ext.kotlinVS
 
-    implementation "androidx.room:room-runtime:${rootProject.ext.room}"
-    implementation "androidx.room:room-rxjava2:${rootProject.ext.room}"
-    kapt "androidx.room:room-compiler:${rootProject.ext.room}"
-
-    implementation "androidx.lifecycle:lifecycle-livedata-ktx:${rootProject.ext.lifecycleComponent}"
-
-    implementation "com.squareup.retrofit2:retrofit:${rootProject.ext.retrofit}"
-
-    implementation  "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
 }
 repositories {

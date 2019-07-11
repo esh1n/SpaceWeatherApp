@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@android:color/white"
+        android:paddingEnd="@dimen/padding_medium"
+        android:paddingStart="@dimen/padding_medium">
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:baselineAligned="false"
+            android:orientation="horizontal">
+
+        <LinearLayout
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="@dimen/filter_item_margin_end"
+                android:layout_marginRight="@dimen/filter_item_margin_end"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+            <TextView
+                    style="@style/NavyBoldTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/date_filter_from_title"
+                    android:textSize="@dimen/font_size_16"
+            />
+
+            <EditText
+                    android:id="@+id/date_picker_from_date"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/date_filter_picker_margin_top"
+                    android:background="@drawable/bg_date_picker"
+                    android:focusable="false"
+                    android:hint="@string/filter_picker_from_hint"
+                    android:inputType="none"
+                    android:padding="@dimen/filter_picker_padding"
+                    android:textColor="@android:color/black"
+                    android:textSize="@dimen/date_filter_picker_font_size"
+            />
+
+        </LinearLayout>
+
+        <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+            <TextView
+                    style="@style/NavyBoldTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/date_filter_to_title"
+                    android:textSize="@dimen/font_size_16"/>
+
+            <EditText
+                    android:id="@+id/date_picker_to_date"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/date_filter_picker_margin_top"
+                    android:background="@drawable/bg_date_picker"
+                    android:focusable="false"
+                    android:hint="@string/date_filter_picker_to_hint"
+                    android:inputType="none"
+                    android:padding="@dimen/date_filter_picker_padding"
+                    android:textColor="@color/item_title_font_color"
+                    android:textSize="@dimen/date_filter_picker_font_size"/>
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <TextView
+            style="@style/PinkBoldText"
+            android:id="@+id/tv_clear_date_filters"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/padding_medium"
+            android:visibility="gone"
+            android:text="@string/date_filter_clear_filters"
+            android:textSize="@dimen/font_size_16"
+            android:textStyle="bold"/>
+
+    <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="@dimen/padding_small"
+            android:background="@color/default_divider"/>
+
+</LinearLayout>
