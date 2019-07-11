@@ -1,11 +1,11 @@
 package com.esh1n.utils_android.ui
 
-import android.R
 import android.app.Activity
 import android.graphics.Color
-import android.support.design.widget.Snackbar
 import android.view.View
 import android.widget.TextView
+import com.esh1n.utils_android.R
+import com.google.android.material.snackbar.Snackbar
 
 object SnackbarBuilder {
 
@@ -80,7 +80,7 @@ object SnackbarBuilder {
 
         val snackView = snackbar.view
         snackView.setBackgroundColor(bgColor)
-        val snackTextView = snackView.findViewById<View>(android.support.design.R.id.snackbar_text) as TextView
+        val snackTextView = snackView.findViewById<View>(com.google.android.material.R.id.snackbar_text) as TextView
 
         snackTextView.apply {
             textSize = 15f

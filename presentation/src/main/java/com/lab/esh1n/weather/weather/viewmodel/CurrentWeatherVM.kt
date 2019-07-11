@@ -1,17 +1,18 @@
 package com.lab.esh1n.weather.weather.viewmodel
 
-import androidx.lifecycle.*
+import android.app.Application
+import androidx.lifecycle.MutableLiveData
 import androidx.work.WorkManager
-import com.lab.esh1n.weather.domain.base.Resource
-import com.lab.esh1n.weather.domain.weather.usecases.FetchAndSaveCurrentPlaceWeatherUseCase
-import com.lab.esh1n.weather.domain.weather.usecases.LoadCurrentWeatherLiveDataUseCase
-import com.lab.esh1n.weather.utils.SingleLiveEvent
+import com.esh1n.core_android.error.ErrorModel
+import com.esh1n.core_android.rx.SchedulersFacade
+import com.esh1n.core_android.ui.viewmodel.BaseViewModel
+import com.esh1n.core_android.ui.viewmodel.Resource
+import com.esh1n.core_android.ui.viewmodel.SingleLiveEvent
+import com.lab.esh1n.weather.domain.weather.weather.usecases.FetchAndSaveCurrentPlaceWeatherUseCase
+import com.lab.esh1n.weather.domain.weather.weather.usecases.LoadCurrentWeatherLiveDataUseCase
 import com.lab.esh1n.weather.utils.startPeriodicSync
 import com.lab.esh1n.weather.weather.WeatherModel
 import com.lab.esh1n.weather.weather.mapper.WeatherModelMapper
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 /**
@@ -22,10 +23,12 @@ class CurrentWeatherVM
 @Inject
 constructor(private val loadCurrentWeatherUseCase: LoadCurrentWeatherLiveDataUseCase,
             private val fetchAndSaveWeatherUseCase: FetchAndSaveCurrentPlaceWeatherUseCase,
+            application: Application,
             private val workManager: WorkManager)
-    : ViewModel() {
+    : BaseViewModel(application) {
 
     val refreshOperation = SingleLiveEvent<Resource<Unit>>()
+    val weatherLiveData = MutableLiveData<Resource<WeatherModel>>()
     private val cityWeatherModelMapper = WeatherModelMapper()
 
     //TODO move this periodic sync to success login event
@@ -33,22 +36,33 @@ constructor(private val loadCurrentWeatherUseCase: LoadCurrentWeatherLiveDataUse
         workManager.startPeriodicSync()
     }
 
-    val weatherLiveData: LiveData<Resource<WeatherModel>> = liveData() {
-        val mappedWeather = Transformations
-                .map(loadCurrentWeatherUseCase.execute(Unit))
-                {
-                    Resource.map(it, cityWeatherModelMapper::map)
-                }
-        emitSource(mappedWeather)
+
+    fun loadUsers(tag: String) {
+        weatherLiveData.postValue(Resource.loading())
+        addDisposable(
+                loadCurrentWeatherUseCase.perform(Unit)
+                        .map { return@map Resource.map(it, cityWeatherModelMapper::map) }
+                        .compose(SchedulersFacade.applySchedulersObservable())
+                        .subscribe({ models -> weatherLiveData.postValue(models) },
+                                { throwable ->
+                                    weatherLiveData.postValue(Resource.error(ErrorModel.unexpectedError(throwable.message
+                                            ?: "")))
+                                })
+        )
         refresh()
     }
 
 
     fun refresh() {
-        viewModelScope.launch() {
-            val result = withContext(Dispatchers.IO) { fetchAndSaveWeatherUseCase.execute(Unit) }
-            refreshOperation.postValue(result)
-        }
+        addDisposable(
+                fetchAndSaveWeatherUseCase.perform(Unit)
+                        .compose(SchedulersFacade.applySchedulersSingle())
+                        .subscribe({ models -> },
+                                { throwable ->
+                                    refreshOperation.postValue(Resource.error(ErrorModel.unexpectedError(throwable.message
+                                            ?: "")))
+                                })
+        )
     }
 
 }

@@ -19,5 +19,4 @@ class DBTypeConverters {
     fun dateToLong(date: Date): Long {
         return date.time
     }
-
 }

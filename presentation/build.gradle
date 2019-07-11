@@ -29,6 +29,25 @@ android {
         targetCompatibility 1.8
         sourceCompatibility 1.8
     }
+
+    flavorDimensions "usual"
+
+    productFlavors {
+        mock {
+            applicationIdSuffix ".mock"
+            versionName "0.0.1.21"
+            setProperty("archivesBaseName", "LaunchTalks" + "-v" + versionName)
+            buildConfigField "String", "API_ENDPOINT", '"https://test.com/dev/api/"'
+        }
+
+
+        prod {
+            versionName "0.0.1.21"
+            applicationIdSuffix ".prod"
+            setProperty("archivesBaseName", "LaunchTalks" + "-v" + versionName)
+            buildConfigField "String", "API_ENDPOINT", '"https://api.openweathermap.org"'
+        }
+    }
 }
 
 gradle.projectsEvaluated {
@@ -42,6 +61,8 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation project(':data')
     implementation project(':domain')
+    implementation project(':mvvm_rx_live')
+    implementation project(':utils_android')
 
     //androidx
     implementation rootProject.ext.androidxCompat.appcompat

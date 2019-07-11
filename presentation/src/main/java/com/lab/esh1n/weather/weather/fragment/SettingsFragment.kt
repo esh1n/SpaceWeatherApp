@@ -1,7 +1,7 @@
 package com.lab.esh1n.weather.weather.fragment
 
+import com.esh1n.core_android.ui.fragment.BaseVMFragment
 import com.lab.esh1n.weather.R
-import com.lab.esh1n.weather.base.BaseVMFragment
 import com.lab.esh1n.weather.weather.viewmodel.SettingsViewModel
 
 class SettingsFragment : BaseVMFragment<SettingsViewModel>() {

@@ -1,11 +1,10 @@
 package com.lab.esh1n.weather.weather.mapper
 
 import com.lab.esh1n.data.cache.entity.WeatherEntity
-import com.lab.esh1n.weather.domain.base.Mapper
 import com.lab.esh1n.weather.weather.WeatherModel
 
 
-class WeatherModelMapper : Mapper<WeatherEntity, WeatherModel>() {
+class WeatherModelMapper : com.esh1n.core_android.map.Mapper<WeatherEntity, WeatherModel>() {
 
     private val dateMapper = UiDateMapper()
     override fun map(source: WeatherEntity): WeatherModel {

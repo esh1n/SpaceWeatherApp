@@ -6,12 +6,12 @@ import android.widget.TextView
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.esh1n.core_android.error.ErrorModel
+import com.esh1n.core_android.ui.fragment.BaseVMFragment
+import com.esh1n.core_android.ui.viewmodel.BaseObserver
+import com.esh1n.utils_android.ui.SnackbarBuilder
+import com.esh1n.utils_android.ui.setVisibleOrGone
 import com.lab.esh1n.weather.R
-import com.lab.esh1n.weather.base.BaseObserver
-import com.lab.esh1n.weather.base.BaseVMFragment
-import com.lab.esh1n.weather.domain.base.ErrorModel
-import com.lab.esh1n.weather.utils.SnackbarBuilder
-import com.lab.esh1n.weather.utils.setVisibleOrGone
 import com.lab.esh1n.weather.weather.WeatherActivity
 import com.lab.esh1n.weather.weather.adapter.PlacesAdapter
 import com.lab.esh1n.weather.weather.model.PlaceWeather

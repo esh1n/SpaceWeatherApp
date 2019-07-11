@@ -3,11 +3,11 @@ package com.lab.esh1n.weather.weather
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.app.ActionBar
+import com.esh1n.core_android.ui.activity.BaseToolbarActivity
+import com.esh1n.core_android.ui.addSingleFragmentToContainer
+import com.esh1n.core_android.ui.replaceFragment
+import com.esh1n.core_android.ui.setABTitle
 import com.lab.esh1n.weather.R
-import com.lab.esh1n.weather.base.BaseToolbarActivity
-import com.lab.esh1n.weather.utils.addSingleFragmentToContainer
-import com.lab.esh1n.weather.utils.replaceFragment
-import com.lab.esh1n.weather.utils.setABTitle
 import com.lab.esh1n.weather.weather.fragment.CurrentPlaceFragment
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -16,8 +16,7 @@ import kotlinx.android.synthetic.main.activity_main.*
  */
 
 class WeatherActivity : BaseToolbarActivity() {
-
-
+    override val toolbarId = R.id.toolbar
     override val contentViewResourceId = R.layout.activity_main
 
     private var selectedItem: Int = 0

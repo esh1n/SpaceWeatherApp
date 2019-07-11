@@ -5,8 +5,8 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.esh1n.utils_android.ui.inflate
 import com.lab.esh1n.weather.R
-import com.lab.esh1n.weather.utils.inflate
 import com.lab.esh1n.weather.weather.model.PlaceWeather
 
 

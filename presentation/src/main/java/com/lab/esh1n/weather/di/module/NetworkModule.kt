@@ -1,14 +1,16 @@
 package com.lab.esh1n.weather.di.module
 
-import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
+import com.dataart.dartcard.data.retrofit.ApiServiceBuilder
+import com.esh1n.core_android.retrofit.OkHttpBuilder
+import com.esh1n.core_android.retrofit.RxErrorHandlingCallAdapterFactory
 import com.lab.esh1n.data.api.APIService
+import com.lab.esh1n.weather.BuildConfig
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
-import retrofit2.Converter
-import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import javax.inject.Named
 import javax.inject.Singleton
 
 /**
@@ -17,44 +19,35 @@ import javax.inject.Singleton
 
 @Module
 class NetworkModule {
+
+    @Provides
+    @Singleton
+    fun provideUserSessionOkHttpClient(): OkHttpClient {
+        //val tokenAuthenticator = TokenAuthenticator(authorizationApiService, cache)
+        return OkHttpBuilder.newBuilder(BuildConfig.API_ENDPOINT)
+                .withLoggingInterceptor(HttpLoggingInterceptor.Level.BODY)
+                .withReadTimeOut(READ_WRITE_TIMEOUT)
+                .withWriteTimeOut(READ_WRITE_TIMEOUT)
+                .withConnectTimeOut(CONNECT_TIMEOUT)
+                .withUnauthorizedErrorInterceptor()
+                .withSelfSignedSSLSocketFactory()
+                // .withAuthenticator(tokenAuthenticator)
+                .build()
+    }
+
+    @Provides
+    @Singleton
+    fun provideUserSessionApiService(@Named("session") client: OkHttpClient): APIService {
+        return ApiServiceBuilder(endPointUrl = BuildConfig.API_ENDPOINT,
+                client = client,
+                converterFactory = GsonConverterFactory.create(),
+                callAdapterFactory = RxErrorHandlingCallAdapterFactory.create())
+                .build(APIService::class.java)
+    }
+
     companion object {
-        private const val URL = "https://api.openweathermap.org"
-    }
-
-    @Provides
-    @Singleton
-    fun provideOkHttpClient(): OkHttpClient {
-        val loggingInterceptor = HttpLoggingInterceptor()
-        loggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
-        return OkHttpClient.Builder()
-                .addInterceptor(loggingInterceptor)
-                .build()
-    }
-
-
-    @Provides
-    @Singleton
-    fun provideKotlinCoroutineCallAdapterFactory(): CoroutineCallAdapterFactory {
-        return CoroutineCallAdapterFactory()
-    }
-
-    @Provides
-    @Singleton
-    fun provideConverterFactory(): Converter.Factory {
-        return GsonConverterFactory.create()
-    }
-
-    @Provides
-    @Singleton
-    fun provideAPIService(client: OkHttpClient, converterFactory: Converter.Factory, callAdapterFactory: CoroutineCallAdapterFactory): APIService {
-        return Retrofit.Builder()
-                .baseUrl(URL)
-                .client(client)
-                .addConverterFactory(converterFactory)
-                .addCallAdapterFactory(callAdapterFactory)
-                .build()
-                .create(APIService::class.java)
-
+        private const val READ_WRITE_TIMEOUT = 60
+        private const val CONNECT_TIMEOUT = 30
     }
 
 }

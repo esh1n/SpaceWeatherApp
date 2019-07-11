@@ -3,14 +3,14 @@ package com.lab.esh1n.weather.weather.fragment
 import android.os.Bundle
 import android.view.View
 import androidx.databinding.DataBindingUtil
+import com.esh1n.core_android.error.ErrorModel
+import com.esh1n.core_android.ui.fragment.BaseVMFragment
+import com.esh1n.core_android.ui.viewmodel.BaseObserver
+import com.esh1n.utils_android.ui.SnackbarBuilder
+import com.esh1n.utils_android.ui.setVisibleOrGone
 import com.lab.esh1n.weather.R
-import com.lab.esh1n.weather.base.BaseObserver
-import com.lab.esh1n.weather.base.BaseVMFragment
 import com.lab.esh1n.weather.databinding.FragmentWeatherBinding
-import com.lab.esh1n.weather.domain.base.ErrorModel
-import com.lab.esh1n.weather.utils.SnackbarBuilder
 import com.lab.esh1n.weather.utils.loadCircleImage
-import com.lab.esh1n.weather.utils.setVisibleOrGone
 import com.lab.esh1n.weather.weather.WeatherModel
 import com.lab.esh1n.weather.weather.viewmodel.CurrentWeatherVM
 

@@ -3,7 +3,7 @@ package com.lab.esh1n.weather.di.module
 import android.content.SharedPreferences
 import com.lab.esh1n.data.api.APIService
 import com.lab.esh1n.data.cache.WeatherDB
-import com.lab.esh1n.weather.domain.weather.WeatherRepository
+import com.lab.esh1n.weather.domain.weather.weather.repository.WeatherRepository
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton

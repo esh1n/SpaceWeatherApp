@@ -1,8 +1,8 @@
 package com.esh1n.utils_android.ui
 
 import android.content.Context
-import android.support.v7.app.AlertDialog
 import android.view.View
+import androidx.appcompat.app.AlertDialog
 import com.esh1n.utils_android.R
 
 object DialogUtil {

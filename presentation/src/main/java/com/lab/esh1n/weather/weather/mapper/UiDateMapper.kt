@@ -1,11 +1,10 @@
 package com.lab.esh1n.weather.weather.mapper
 
-import com.lab.esh1n.weather.domain.base.Mapper
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
 
-class UiDateMapper : Mapper<Long, String>() {
+class UiDateMapper : com.esh1n.core_android.map.Mapper<Long, String>() {
 
     override fun map(source: Long): String {
         val millSeconds = TimeUnit.MILLISECONDS.convert(source, TimeUnit.SECONDS)
