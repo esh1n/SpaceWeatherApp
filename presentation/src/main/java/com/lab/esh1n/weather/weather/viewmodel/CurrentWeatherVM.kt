@@ -3,7 +3,6 @@ package com.lab.esh1n.weather.weather.viewmodel
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
 import androidx.work.WorkManager
-import com.esh1n.core_android.error.ErrorModel
 import com.esh1n.core_android.rx.SchedulersFacade
 import com.esh1n.core_android.rx.applyAndroidSchedulers
 import com.esh1n.core_android.ui.viewmodel.BaseViewModel
@@ -45,12 +44,8 @@ constructor(private val loadCurrentWeatherUseCase: LoadCurrentWeatherLiveDataUse
                         .map { return@map Resource.map(it, cityWeatherModelMapper::map) }
                         .compose(SchedulersFacade.applySchedulersObservable())
                         .subscribe({ models -> weatherLiveData.postValue(models) },
-                                { throwable ->
-                                    weatherLiveData.postValue(Resource.error(ErrorModel.unexpectedError(throwable.message
-                                            ?: "")))
-                                })
+                                { weatherLiveData.postValue(Resource.error(it)) })
         )
-        refresh()
     }
 
 
@@ -62,9 +57,8 @@ constructor(private val loadCurrentWeatherUseCase: LoadCurrentWeatherLiveDataUse
                         }
                         .applyAndroidSchedulers()
                         .subscribe({ result -> refreshOperation.postValue(result) },
-                                { throwable ->
-                                    refreshOperation.postValue(Resource.error(ErrorModel.unexpectedError(throwable.message
-                                            ?: "")))
+                                {
+                                    refreshOperation.postValue(Resource.error(it))
                                 })
         )
     }

@@ -2,7 +2,6 @@ package com.lab.esh1n.weather.weather.viewmodel
 
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
-import com.esh1n.core_android.error.ErrorModel
 import com.esh1n.core_android.rx.SchedulersFacade
 import com.esh1n.core_android.ui.viewmodel.BaseViewModel
 import com.esh1n.core_android.ui.viewmodel.Resource
@@ -11,7 +10,7 @@ import com.lab.esh1n.weather.domain.weather.weather.repository.WeatherRepository
 import com.lab.esh1n.weather.weather.model.PlaceWeather
 import javax.inject.Inject
 
-class AllPlacesViewModel @Inject constructor(private val weatherRepository: WeatherRepository, application: Application) : BaseViewModel(application) {
+class AllPlacesVM @Inject constructor(private val weatherRepository: WeatherRepository, application: Application) : BaseViewModel(application) {
 
     val updateCurrentPlaceOperation = SingleLiveEvent<Resource<Unit>>()
 
@@ -21,10 +20,9 @@ class AllPlacesViewModel @Inject constructor(private val weatherRepository: Weat
         addDisposable(
                 weatherRepository.saveCurrentCity(cityName)
                         .compose(SchedulersFacade.applySchedulersCompletable())
-                        .subscribe({ -> updateCurrentPlaceOperation.call() },
-                                { throwable ->
-                                    updateCurrentPlaceOperation.postValue(Resource.error(ErrorModel.unexpectedError(throwable.message
-                                            ?: "")))
+                        .subscribe({ updateCurrentPlaceOperation.call() },
+                                {
+                                    updateCurrentPlaceOperation.postValue(Resource.error(it))
                                 })
         )
 

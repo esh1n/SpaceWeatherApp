@@ -44,7 +44,6 @@ class CurrentPlaceFragment : BaseVMFragment<CurrentWeatherVM>() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        // SyncWeatherService.start(requireContext())
         observeWeather()
         viewModel.loadWeather()
     }

@@ -15,11 +15,11 @@ import com.lab.esh1n.weather.R
 import com.lab.esh1n.weather.weather.WeatherActivity
 import com.lab.esh1n.weather.weather.adapter.PlacesAdapter
 import com.lab.esh1n.weather.weather.model.PlaceWeather
-import com.lab.esh1n.weather.weather.viewmodel.AllPlacesViewModel
+import com.lab.esh1n.weather.weather.viewmodel.AllPlacesVM
 
-class AllPlacesFragment : BaseVMFragment<AllPlacesViewModel>() {
+class AllPlacesFragment : BaseVMFragment<AllPlacesVM>() {
 
-    override val viewModelClass = AllPlacesViewModel::class.java
+    override val viewModelClass = AllPlacesVM::class.java
 
     override val layoutResource = R.layout.fragment_all_places
 

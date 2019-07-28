@@ -32,6 +32,15 @@ data class Resource<T>(val status: Status, val data: T?, val errorModel: ErrorMo
             )
         }
 
+        fun <T> error(throwable: Throwable): Resource<T> {
+
+            return Resource(
+                    Status.ERROR,
+                    null,
+                    ErrorModel.unexpectedError(throwable.localizedMessage)
+            )
+        }
+
         fun <S, R> map(resource: Resource<S>, mapper: (S) -> R): Resource<R> {
             val data = resource.data
             if (resource.status == Status.SUCCESS) {

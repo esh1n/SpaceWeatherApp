@@ -3,8 +3,10 @@ package com.lab.esh1n.weather
 import android.app.Activity
 import android.app.Application
 import android.app.Service
+import android.content.Context
 import com.lab.esh1n.weather.di.component.AppComponent
 import com.lab.esh1n.weather.di.component.DaggerAppComponent
+import com.lab.esh1n.weather.di.component.WorkerComponent
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasActivityInjector
 import dagger.android.HasServiceInjector
@@ -29,7 +31,7 @@ class WeatherApp : Application(), HasActivityInjector,HasServiceInjector {
     override fun activityInjector() =  activityDispatchingAndroidInjector
 
     private lateinit var appComponent: AppComponent
-    // private lateinit var workerComponent: WorkerComponent
+    private lateinit var workerComponent: WorkerComponent
 
     override fun onCreate() {
         super.onCreate()
@@ -38,13 +40,13 @@ class WeatherApp : Application(), HasActivityInjector,HasServiceInjector {
                 .builder()
                 .application(this)
                 .build()
-        // workerComponent = appComponent.plusWorkerComponent().build()
+        workerComponent = appComponent.plusWorkerComponent().build()
         appComponent.inject(this)
     }
 
-//    companion object {
-//        fun getWorkerComponent(context: Context): WorkerComponent {
-//            return (context as WeatherApp).workerComponent
-//        }
-//    }
+    companion object {
+        fun getWorkerComponent(context: Context): WorkerComponent {
+            return (context as WeatherApp).workerComponent
+        }
+    }
 }
