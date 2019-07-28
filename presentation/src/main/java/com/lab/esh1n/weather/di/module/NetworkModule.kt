@@ -10,7 +10,6 @@ import dagger.Provides
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.converter.gson.GsonConverterFactory
-import javax.inject.Named
 import javax.inject.Singleton
 
 /**
@@ -37,7 +36,7 @@ class NetworkModule {
 
     @Provides
     @Singleton
-    fun provideUserSessionApiService(@Named("session") client: OkHttpClient): APIService {
+    fun provideUserSessionApiService(client: OkHttpClient): APIService {
         return ApiServiceBuilder(endPointUrl = BuildConfig.API_ENDPOINT,
                 client = client,
                 converterFactory = GsonConverterFactory.create(),

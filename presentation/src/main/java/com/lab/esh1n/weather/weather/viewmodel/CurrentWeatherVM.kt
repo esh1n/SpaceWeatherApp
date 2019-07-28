@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.work.WorkManager
 import com.esh1n.core_android.error.ErrorModel
 import com.esh1n.core_android.rx.SchedulersFacade
+import com.esh1n.core_android.rx.applyAndroidSchedulers
 import com.esh1n.core_android.ui.viewmodel.BaseViewModel
 import com.esh1n.core_android.ui.viewmodel.Resource
 import com.esh1n.core_android.ui.viewmodel.SingleLiveEvent
@@ -37,7 +38,7 @@ constructor(private val loadCurrentWeatherUseCase: LoadCurrentWeatherLiveDataUse
     }
 
 
-    fun loadUsers(tag: String) {
+    fun loadWeather() {
         weatherLiveData.postValue(Resource.loading())
         addDisposable(
                 loadCurrentWeatherUseCase.perform(Unit)
@@ -56,8 +57,11 @@ constructor(private val loadCurrentWeatherUseCase: LoadCurrentWeatherLiveDataUse
     fun refresh() {
         addDisposable(
                 fetchAndSaveWeatherUseCase.perform(Unit)
-                        .compose(SchedulersFacade.applySchedulersSingle())
-                        .subscribe({ models -> },
+                        .doOnSubscribe { _ ->
+                            refreshOperation.postValue(Resource.loading())
+                        }
+                        .applyAndroidSchedulers()
+                        .subscribe({ result -> refreshOperation.postValue(result) },
                                 { throwable ->
                                     refreshOperation.postValue(Resource.error(ErrorModel.unexpectedError(throwable.message
                                             ?: "")))

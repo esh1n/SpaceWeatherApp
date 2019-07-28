@@ -46,6 +46,7 @@ class CurrentPlaceFragment : BaseVMFragment<CurrentWeatherVM>() {
         super.onActivityCreated(savedInstanceState)
         // SyncWeatherService.start(requireContext())
         observeWeather()
+        viewModel.loadWeather()
     }
 
     private fun observeWeather() {
@@ -71,9 +72,9 @@ class CurrentPlaceFragment : BaseVMFragment<CurrentWeatherVM>() {
         })
         viewModel.refreshOperation.observe(this, object : BaseObserver<Unit>() {
             override fun onData(data: Unit?) {
-                data?.let {
-                    SnackbarBuilder.buildSnack(view!!, getString(R.string.text_weather_updated_successfully),duration = 500).show()
-                }
+
+                SnackbarBuilder.buildSnack(view!!, getString(R.string.text_weather_updated_successfully), duration = 500).show()
+
             }
 
             override fun onError(error: ErrorModel?) {
