@@ -6,32 +6,48 @@ import com.esh1n.core_android.rx.SchedulersFacade
 import com.esh1n.core_android.ui.viewmodel.BaseViewModel
 import com.esh1n.core_android.ui.viewmodel.Resource
 import com.esh1n.core_android.ui.viewmodel.SingleLiveEvent
-import com.lab.esh1n.weather.domain.weather.weather.repository.WeatherRepository
+import com.lab.esh1n.weather.domain.weather.places.usecase.GetAllPlacesUse
+import com.lab.esh1n.weather.weather.mapper.PlaceWeatherMapper
 import com.lab.esh1n.weather.weather.model.PlaceWeather
 import javax.inject.Inject
 
-class AllPlacesVM @Inject constructor(private val weatherRepository: WeatherRepository, application: Application) : BaseViewModel(application) {
+class AllPlacesVM @Inject constructor(private val loadCurrentWeatherUseCase: GetAllPlacesUse, application: Application) : BaseViewModel(application) {
 
     val updateCurrentPlaceOperation = SingleLiveEvent<Resource<Unit>>()
 
+    val allCities = MutableLiveData<Resource<List<PlaceWeather>>>()
+
+    private val placeWeatherMapper = PlaceWeatherMapper()
+
     fun saveCurrentPlace(cityName: String) {
         updateCurrentPlaceOperation.postValue(Resource.loading())
+//
+//        addDisposable(
+//                weatherRepository.saveCurrentCity(placeName)
+//                        .compose(SchedulersFacade.applySchedulersCompletable())
+//                        .subscribe({ updateCurrentPlaceOperation.call() },
+//                                {
+//                                    updateCurrentPlaceOperation.postValue(Resource.error(it))
+//                                })
+//        )
 
+    }
+
+    fun loadPlaces() {
+        //think about if no results how not to show progress
         addDisposable(
-                weatherRepository.saveCurrentCity(cityName)
-                        .compose(SchedulersFacade.applySchedulersCompletable())
-                        .subscribe({ updateCurrentPlaceOperation.call() },
-                                {
-                                    updateCurrentPlaceOperation.postValue(Resource.error(it))
-                                })
+                loadCurrentWeatherUseCase.perform(Unit)
+                        .doOnSubscribe { _ ->
+                            allCities.postValue(Resource.loading())
+                        }
+                        .map { return@map Resource.map(it, placeWeatherMapper::map) }
+                        .compose(SchedulersFacade.applySchedulersObservable())
+                        .subscribe { models ->
+                            allCities.postValue(models)
+                        }
         )
-
     }
 
-    val allCities = MutableLiveData<Resource<List<PlaceWeather>>>().apply {
-        value = Resource.success(listOf(PlaceWeather("Voronezh"), PlaceWeather("Moscow"),
-                PlaceWeather("Venice"), PlaceWeather("Istanbul"),
-                PlaceWeather("Barcelona")))
-    }
+
 
 }

@@ -7,6 +7,7 @@ import androidx.room.Query
 import androidx.room.TypeConverters
 import com.lab.esh1n.data.cache.DateConverter
 import com.lab.esh1n.data.cache.entity.PlaceEntry
+import io.reactivex.Flowable
 import io.reactivex.Single
 
 @Dao
@@ -17,4 +18,7 @@ abstract class PlaceDAO {
 
     @Query("SELECT id from place where placeName=:placeName")
     abstract fun getPlaceIdByName(placeName: String): Single<Int>
+
+    @Query("SELECT * from place")
+    abstract fun getAllPlaces(): Flowable<List<PlaceEntry>>
 }

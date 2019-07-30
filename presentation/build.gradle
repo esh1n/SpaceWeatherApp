@@ -23,6 +23,7 @@ android {
 
     dataBinding {
         enabled = true
+       // incremental = true
     }
 
     compileOptions {

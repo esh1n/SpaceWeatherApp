@@ -9,7 +9,7 @@ import com.esh1n.core_android.ui.viewmodel.BaseViewModel
 import com.esh1n.core_android.ui.viewmodel.Resource
 import com.esh1n.core_android.ui.viewmodel.SingleLiveEvent
 import com.lab.esh1n.weather.domain.weather.weather.usecases.FetchAndSaveCurrentPlaceWeatherUseCase
-import com.lab.esh1n.weather.domain.weather.weather.usecases.LoadCurrentWeatherLiveDataUseCase
+import com.lab.esh1n.weather.domain.weather.weather.usecases.LoadCurrentWeatherUseCase
 import com.lab.esh1n.weather.utils.startPeriodicSync
 import com.lab.esh1n.weather.weather.WeatherModel
 import com.lab.esh1n.weather.weather.mapper.WeatherModelMapper
@@ -21,7 +21,7 @@ import javax.inject.Inject
 
 class CurrentWeatherVM
 @Inject
-constructor(private val loadCurrentWeatherUseCase: LoadCurrentWeatherLiveDataUseCase,
+constructor(private val loadCurrentWeatherUseCase: LoadCurrentWeatherUseCase,
             private val fetchAndSaveWeatherUseCase: FetchAndSaveCurrentPlaceWeatherUseCase,
             application: Application,
             private val workManager: WorkManager)
@@ -41,10 +41,13 @@ constructor(private val loadCurrentWeatherUseCase: LoadCurrentWeatherLiveDataUse
         //think about if no results how not to show progress
         addDisposable(
                 loadCurrentWeatherUseCase.perform(Unit)
-                        .doOnSubscribe { _ ->
-                            weatherLiveData.postValue(Resource.loading())
-                        }
+//                        .doOnSubscribe { _ ->
+//                            weatherLiveData.postValue(Resource.loading())
+//                        }
                         .map { return@map Resource.map(it, cityWeatherModelMapper::map) }
+                        .defaultIfEmpty(
+                                Resource.ended()
+                        )
                         .compose(SchedulersFacade.applySchedulersObservable())
                         .subscribe { models ->
                             weatherLiveData.postValue(models)

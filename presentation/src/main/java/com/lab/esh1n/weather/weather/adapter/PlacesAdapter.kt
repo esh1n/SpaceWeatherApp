@@ -58,8 +58,8 @@ class PlacesAdapter(private val mClickHandler: (PlaceWeather) -> Unit) :
         }
 
         override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-            val cityName = oldBrands[oldItemPosition].cityName
-            val cityName1 = newBrands[newItemPosition].cityName
+            val cityName = oldBrands[oldItemPosition].placeName
+            val cityName1 = newBrands[newItemPosition].placeName
             return cityName == cityName1
         }
 
@@ -88,7 +88,7 @@ class PlacesAdapter(private val mClickHandler: (PlaceWeather) -> Unit) :
         }
 
         fun bindTo(placeWeather: PlaceWeather) {
-            placeNameTextView?.text = placeWeather.cityName
+            placeNameTextView?.text = placeWeather.placeName
         }
 
         fun clear() {

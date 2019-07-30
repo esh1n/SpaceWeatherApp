@@ -1,6 +1,7 @@
 package com.esh1n.core_android.error
 
 import com.esh1n.core_android.retrofit.RetrofitException
+import java.net.HttpURLConnection
 
 class ErrorsHandler(private val errorDescriptionProvider: ErrorDescriptionProvider) {
 
@@ -21,7 +22,8 @@ class ErrorsHandler(private val errorDescriptionProvider: ErrorDescriptionProvid
             errorModel = if (response == null) {
                 ErrorModel.connectionError()
             } else {
-                ErrorModel.httpError(code = throwable.response.code())
+                ErrorModel.httpError(code = throwable.response?.code()
+                        ?: HttpURLConnection.HTTP_INTERNAL_ERROR)
             }
         }
         return errorModel

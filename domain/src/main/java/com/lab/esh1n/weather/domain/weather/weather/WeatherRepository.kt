@@ -1,4 +1,4 @@
-package com.lab.esh1n.weather.domain.weather.weather.repository
+package com.lab.esh1n.weather.domain.weather.weather
 
 import android.content.SharedPreferences
 import com.lab.esh1n.data.api.APIService
