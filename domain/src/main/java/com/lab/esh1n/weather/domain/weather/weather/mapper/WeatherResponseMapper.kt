@@ -2,17 +2,16 @@ package com.lab.esh1n.weather.domain.weather.weather.mapper
 
 import com.esh1n.core_android.map.Mapper
 import com.lab.esh1n.data.api.response.WeatherResponse
-import com.lab.esh1n.data.cache.entity.WeatherEntity
+import com.lab.esh1n.data.cache.entity.WeatherEntry
 
-class WeatherResponseMapper : Mapper<WeatherResponse, WeatherEntity>() {
+class WeatherResponseMapper(val placeId: Int) : Mapper<WeatherResponse, WeatherEntry>() {
 
     private val dateConverter = EpochDateMapper()
 
-    override fun map(source: WeatherResponse): WeatherEntity {
+    override fun map(source: WeatherResponse): WeatherEntry {
 
-        return WeatherEntity(
-                id = source.id,
-                cityName = source.name ?: "",
+        return WeatherEntry(
+                placeId = placeId,
                 temperature = source.main?.temp?:0.0,
                 temperatureMin = source.main?.tempMin?:0.0,
                 temperatureMax = source.main?.tempMax?:0.0,
@@ -22,7 +21,7 @@ class WeatherResponseMapper : Mapper<WeatherResponse, WeatherEntity>() {
                 windDegree = source.wind?.deg?:0,
                 pressure = source.main?.pressure?:0,
                 humidity = source.main?.humidity ?: 0,
-                date = source.dt
+                date = dateConverter.map(source.dt)
         )
     }
 }

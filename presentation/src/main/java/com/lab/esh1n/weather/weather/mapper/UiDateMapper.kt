@@ -1,14 +1,13 @@
 package com.lab.esh1n.weather.weather.mapper
 
+import com.esh1n.core_android.map.Mapper
 import java.text.SimpleDateFormat
 import java.util.*
-import java.util.concurrent.TimeUnit
 
-class UiDateMapper : com.esh1n.core_android.map.Mapper<Long, String>() {
+class UiDateMapper : Mapper<Date, String>() {
 
-    override fun map(source: Long): String {
-        val millSeconds = TimeUnit.MILLISECONDS.convert(source, TimeUnit.SECONDS)
-        return UI_FORMATTER.get()!!.format(Date(millSeconds))
+    override fun map(source: Date): String {
+        return UI_FORMATTER.get()!!.format(source)
     }
 
     companion object {

@@ -1,16 +1,17 @@
 package com.lab.esh1n.weather.weather.mapper
 
-import com.lab.esh1n.data.cache.entity.WeatherEntity
+import com.esh1n.core_android.map.Mapper
+import com.lab.esh1n.data.cache.entity.WeatherWithPlace
 import com.lab.esh1n.weather.weather.WeatherModel
 
 
-class WeatherModelMapper : com.esh1n.core_android.map.Mapper<WeatherEntity, WeatherModel>() {
+class WeatherModelMapper : Mapper<WeatherWithPlace, WeatherModel>() {
 
     private val dateMapper = UiDateMapper()
-    override fun map(source: WeatherEntity): WeatherModel {
+    override fun map(source: WeatherWithPlace): WeatherModel {
         return WeatherModel(
                 id = source.id,
-                cityName = source.cityName,
+                cityName = source.placeName,
                 temp = source.temperature,
                 tempMax = source.temperatureMax,
                 tempMin = source.temperatureMin,
@@ -20,7 +21,7 @@ class WeatherModelMapper : com.esh1n.core_android.map.Mapper<WeatherEntity, Weat
                 windDegree = source.windDegree,
                 pressure = source.pressure,
                 humidity = source.humidity,
-                dateStr = dateMapper.map(source.date)
+                dateStr = dateMapper.map(source.measured_at)
         )
     }
 

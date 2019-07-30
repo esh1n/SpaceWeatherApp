@@ -38,13 +38,17 @@ constructor(private val loadCurrentWeatherUseCase: LoadCurrentWeatherLiveDataUse
 
 
     fun loadWeather() {
-        weatherLiveData.postValue(Resource.loading())
+        //think about if no results how not to show progress
         addDisposable(
                 loadCurrentWeatherUseCase.perform(Unit)
+                        .doOnSubscribe { _ ->
+                            weatherLiveData.postValue(Resource.loading())
+                        }
                         .map { return@map Resource.map(it, cityWeatherModelMapper::map) }
                         .compose(SchedulersFacade.applySchedulersObservable())
-                        .subscribe({ models -> weatherLiveData.postValue(models) },
-                                { weatherLiveData.postValue(Resource.error(it)) })
+                        .subscribe { models ->
+                            weatherLiveData.postValue(models)
+                        }
         )
     }
 

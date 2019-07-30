@@ -6,9 +6,10 @@ package com.lab.esh1n.data.cache.contract
 
 interface WeatherTableContract {
     companion object {
-        const val TABLE_NAME = "weathers"
-        const val COLUMN_ID = "id"
-        const val COLUMN_CITY = "cityName"
+        const val WEATHER_TABLE_NAME = "weather"
+        const val PLACE_TABLE_NAME = "place"
+        const val COLUMN_PLACE_ID = "id"
+        const val COLUMN_WEATHER_PLACE_ID = "placeId"
         const val COLUMN_TEMPERATURE_MAX = "temp_max"
         const val COLUMN_TEMPERATURE_MIN = "temp_min"
         const val COLUMN_TEMPERATURE = "temp"
@@ -18,6 +19,6 @@ interface WeatherTableContract {
         const val COLUMN_WIND_DEGREE = "wind_degree"
         const val COLUMN_HUMIDITY = "humidity"
         const val COLUMN_PRESSURE = "pressure"
-        const val COLUMN_DATE = "measured_at"
+        const val COLUMN_WEATHER_DATE = "measured_at"
     }
 }

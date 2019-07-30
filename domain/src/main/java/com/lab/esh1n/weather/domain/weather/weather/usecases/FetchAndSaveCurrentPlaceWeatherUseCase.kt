@@ -14,7 +14,9 @@ class FetchAndSaveCurrentPlaceWeatherUseCase(private val weatherRepository: Weat
         return weatherRepository
                 .fetchAndSaveCurrentWeather()
                 .andThen(Single.just(Resource.success()))
-                .onErrorReturn { error -> Resource.error(errorsHandler.handle(error)) }
+                .onErrorReturn { error ->
+                    Resource.error(errorsHandler.handle(error))
+                }
     }
 
 }
