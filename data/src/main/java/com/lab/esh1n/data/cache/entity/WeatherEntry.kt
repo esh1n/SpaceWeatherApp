@@ -36,10 +36,10 @@ open class WeatherEntry(
 
         var windSpeed: Float,
 
-        var windDegree: Int,
+        var windDegree: Float,
 
-        var pressure: Int,
+        var pressure: Float,
 
-        var humidity: Int
+        var humidity: Float
 )
 

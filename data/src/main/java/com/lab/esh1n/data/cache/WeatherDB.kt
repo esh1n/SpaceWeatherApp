@@ -5,6 +5,7 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
+import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.lab.esh1n.data.cache.dao.PlaceDAO
 import com.lab.esh1n.data.cache.dao.WeatherDAO
@@ -12,10 +13,11 @@ import com.lab.esh1n.data.cache.entity.PlaceEntry
 import com.lab.esh1n.data.cache.entity.WeatherEntry
 import java.util.concurrent.Executors
 
+
 /**
  * Created by esh1n on 3/7/18.
  */
-@Database(entities = [WeatherEntry::class, PlaceEntry::class], version = 1, exportSchema = false)
+@Database(entities = [WeatherEntry::class, PlaceEntry::class], version = 2, exportSchema = false)
 @TypeConverters(DateConverter::class)
 abstract class WeatherDB : RoomDatabase() {
 
@@ -37,6 +39,7 @@ abstract class WeatherDB : RoomDatabase() {
                 Room.databaseBuilder(context.applicationContext,
                         WeatherDB::class.java, NAME)
                         // prepopulate the database after onCreate was called
+                        .addMigrations(MIGRATION_1_2)
                         .addCallback(object : Callback() {
                             override fun onCreate(db: SupportSQLiteDatabase) {
                                 super.onCreate(db)
@@ -48,8 +51,17 @@ abstract class WeatherDB : RoomDatabase() {
                         })
                         .build()
 
-        val PREPOPULATE_DATA = listOf(PlaceEntry(1, "Voronezh"), PlaceEntry(2, "MOSCOW"))
+        val PREPOPULATE_DATA = listOf(PlaceEntry(472045, "Voronezh", true), PlaceEntry(524901, "MOSCOW", false))
+
+        val MIGRATION_1_2: Migration = object : Migration(1, 2) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                database.execSQL("ALTER TABLE place "
+                        + " ADD COLUMN isCurrent INTEGER");
+            }
+        }
     }
+
+
 
 }
 

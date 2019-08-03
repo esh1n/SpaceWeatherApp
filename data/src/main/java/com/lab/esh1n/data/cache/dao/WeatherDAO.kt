@@ -16,8 +16,8 @@ import io.reactivex.Flowable
 @TypeConverters(DateConverter::class)
 interface WeatherDAO {
 
-    @Query("SELECT DISTINCT * FROM weather INNER JOIN  place ON place.id = placeId WHERE placeName =:cityName ORDER BY measured_at DESC")
-    fun getWeather(cityName: String): Flowable<WeatherWithPlace>
+    @Query("SELECT DISTINCT * FROM weather INNER JOIN  place ON place.id = placeId WHERE isCurrent = 1 ORDER BY measured_at DESC")
+    fun getCurrentWeather(): Flowable<WeatherWithPlace>
 
     @Query("DELETE FROM " + WeatherTableContract.WEATHER_TABLE_NAME)
     fun clear()

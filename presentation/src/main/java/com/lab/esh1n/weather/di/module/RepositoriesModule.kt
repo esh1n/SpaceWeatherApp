@@ -21,7 +21,7 @@ class RepositoriesModule {
 
     @Provides
     @Singleton
-    fun providePlaceRepository(userSessionApiService: APIService, database: WeatherDB, preferences: SharedPreferences): PlacesRepository {
+    fun providePlaceRepository(userSessionApiService: APIService, database: WeatherDB): PlacesRepository {
         return PlacesRepository(userSessionApiService, database)
     }
 

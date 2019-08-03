@@ -11,7 +11,9 @@ data class PlaceEntry(
         @ColumnInfo(name = WeatherTableContract.COLUMN_PLACE_ID)
         var id: Int,
 
-        var placeName: String
+        var placeName: String,
+
+        var isCurrent: Boolean
 )
 
 

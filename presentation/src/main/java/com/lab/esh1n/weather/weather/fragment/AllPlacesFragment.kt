@@ -85,7 +85,7 @@ class AllPlacesFragment : BaseVMFragment<AllPlacesVM>() {
     }
 
     private fun onPlaceClicked(placeWeather: PlaceWeather) {
-        viewModel.saveCurrentPlace(placeWeather.placeName)
+        viewModel.saveCurrentPlace(placeWeather.id)
     }
 
     companion object {

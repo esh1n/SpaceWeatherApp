@@ -13,6 +13,6 @@ interface APIService {
 
     @GET("/data/2.5/weather")
     fun getWeatherAsync(@Query("APPID") appId: String,
-                        @Query("q") cityName: String,
+                        @Query("id") id: Int,
                         @Query("units") units: String): Single<WeatherResponse>
 }

@@ -3,6 +3,7 @@ package com.lab.esh1n.weather.di.weather
 import com.esh1n.core_android.error.ErrorsHandler
 import com.lab.esh1n.weather.domain.weather.places.PlacesRepository
 import com.lab.esh1n.weather.domain.weather.places.usecase.GetAllPlacesUse
+import com.lab.esh1n.weather.domain.weather.places.usecase.UpdateCurrentPlaceUseCase
 import com.lab.esh1n.weather.domain.weather.weather.WeatherRepository
 import com.lab.esh1n.weather.domain.weather.weather.usecases.FetchAndSaveCurrentPlaceWeatherUseCase
 import com.lab.esh1n.weather.domain.weather.weather.usecases.LoadCurrentWeatherUseCase
@@ -26,6 +27,11 @@ class WeatherUseCasesModule {
     @Provides
     fun provideLoadAllPlacesUseCase(placesRepository: PlacesRepository, errorsHandler: ErrorsHandler): GetAllPlacesUse {
         return GetAllPlacesUse(placesRepository, errorsHandler)
+    }
+
+    @Provides
+    fun provideUpdateCurrentPlaceUseCase(placesRepository: PlacesRepository, errorsHandler: ErrorsHandler): UpdateCurrentPlaceUseCase {
+        return UpdateCurrentPlaceUseCase(placesRepository, errorsHandler)
     }
 
 }

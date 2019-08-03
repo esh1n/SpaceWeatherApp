@@ -18,9 +18,9 @@ class WeatherResponseMapper(val placeId: Int) : Mapper<WeatherResponse, WeatherE
                 iconId = source.weather?.get(0)?.icon ?: "01d",
                 description = source.weather?.get(0)?.description ?: "clear sky",
                 windSpeed = source.wind?.speed ?: 0F,
-                windDegree = source.wind?.deg?:0,
-                pressure = source.main?.pressure?:0,
-                humidity = source.main?.humidity ?: 0,
+                windDegree = source.wind?.deg ?: 0F,
+                pressure = source.main?.pressure ?: 0F,
+                humidity = source.main?.humidity ?: 0F,
                 date = dateConverter.map(source.dt)
         )
     }

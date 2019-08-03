@@ -1,10 +1,7 @@
 package com.lab.esh1n.data.cache.dao
 
-import androidx.room.Dao
-import androidx.room.Insert
+import androidx.room.*
 import androidx.room.OnConflictStrategy.REPLACE
-import androidx.room.Query
-import androidx.room.TypeConverters
 import com.lab.esh1n.data.cache.DateConverter
 import com.lab.esh1n.data.cache.entity.PlaceEntry
 import io.reactivex.Flowable
@@ -21,4 +18,21 @@ abstract class PlaceDAO {
 
     @Query("SELECT * from place")
     abstract fun getAllPlaces(): Flowable<List<PlaceEntry>>
+
+    @Query("SELECT id from place WHERE isCurrent = 1")
+    abstract fun getCurrentCityId(): Single<Int>
+
+    @Query("UPDATE place SET isCurrent = 1 WHERE id = :id")
+    abstract fun setCurrentPlace(id: Int)
+
+    @Query("UPDATE place SET isCurrent = 0")
+    abstract fun deselectCurrentPlace()
+
+
+    @Transaction
+    open fun updateCurrentPlace(id: Int) {
+        deselectCurrentPlace()
+        setCurrentPlace(id)
+    }
+
 }

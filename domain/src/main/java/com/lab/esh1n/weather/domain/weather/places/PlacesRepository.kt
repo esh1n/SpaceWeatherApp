@@ -3,6 +3,7 @@ package com.lab.esh1n.weather.domain.weather.places
 import com.lab.esh1n.data.api.APIService
 import com.lab.esh1n.data.cache.WeatherDB
 import com.lab.esh1n.data.cache.entity.PlaceEntry
+import io.reactivex.Completable
 import io.reactivex.Observable
 
 class PlacesRepository constructor(private val apiService: APIService, db: WeatherDB) {
@@ -10,5 +11,11 @@ class PlacesRepository constructor(private val apiService: APIService, db: Weath
 
     fun getAllPlaces(): Observable<List<PlaceEntry>> {
         return placeDAO.getAllPlaces().toObservable()
+    }
+
+    fun updateCurrentPlace(id: Int): Completable {
+        return Completable.fromAction {
+            placeDAO.updateCurrentPlace(id)
+        }
     }
 }

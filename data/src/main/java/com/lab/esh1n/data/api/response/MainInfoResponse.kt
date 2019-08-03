@@ -4,18 +4,18 @@ import com.google.gson.annotations.SerializedName
 
 data class MainInfoResponse(
 
-	@field:SerializedName("temp")
+        @field:SerializedName("temp")
 	val temp: Double? = null,
 
-	@field:SerializedName("temp_min")
+        @field:SerializedName("temp_min")
 	val tempMin: Double? = null,
 
-	@field:SerializedName("humidity")
-	val humidity: Int? = null,
+        @field:SerializedName("humidity")
+        val humidity: Float? = null,
 
-	@field:SerializedName("pressure")
-	val pressure: Int? = null,
+        @field:SerializedName("pressure")
+        val pressure: Float? = null,
 
-	@field:SerializedName("temp_max")
+        @field:SerializedName("temp_max")
 	val tempMax: Double? = null
 )

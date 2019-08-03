@@ -7,7 +7,9 @@ import com.lab.esh1n.weather.weather.model.PlaceWeather
 class PlaceWeatherMapper : Mapper<PlaceEntry, PlaceWeather>() {
     override fun map(source: PlaceEntry): PlaceWeather {
         return PlaceWeather(
-                placeName = source.placeName
+                placeName = source.placeName,
+                id = source.id,
+                isCurrent = source.isCurrent
         )
     }
 }
