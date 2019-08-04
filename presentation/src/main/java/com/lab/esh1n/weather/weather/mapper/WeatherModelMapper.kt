@@ -21,7 +21,8 @@ class WeatherModelMapper : Mapper<WeatherWithPlace, WeatherModel>() {
                 windDegree = source.windDegree,
                 pressure = source.pressure,
                 humidity = source.humidity,
-                dateStr = dateMapper.map(source.measured_at)
+                dateStr = dateMapper.map(source.measured_at),
+                dateTxt = source.dateTxt
         )
     }
 

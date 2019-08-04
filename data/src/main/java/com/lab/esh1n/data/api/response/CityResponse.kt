@@ -1,0 +1,9 @@
+package com.lab.esh1n.data.api.response
+
+data class CityResponse(
+        val country: String? = null,
+        val coord: CoordResponse? = null,
+        val timezone: Int? = null,
+        val name: String? = null,
+        val id: Int? = null
+)

@@ -1,12 +1,12 @@
 package com.esh1n.core_android.map
 
-abstract class Mapper<S, T> {
+abstract class Mapper<S : Any, T : Any> {
 
-    fun map(source: List<S>?): List<T> {
+    fun map(source: List<S?>?): List<T> {
         return if (source == null) {
             emptyList()
         } else {
-            source.filter { it != null }.map { map(it) }.toMutableList()
+            source.filterNotNull().map { map(it) }.toList()
         }
     }
 

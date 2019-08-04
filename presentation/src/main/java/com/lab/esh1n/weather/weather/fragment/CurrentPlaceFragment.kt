@@ -27,11 +27,6 @@ class CurrentPlaceFragment : BaseVMFragment<CurrentWeatherVM>() {
 
     private var binding: FragmentWeatherBinding? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        viewModel.startPeriodicSync()
-    }
-
     override fun setupView(rootView: View) {
         super.setupView(rootView)
         binding = DataBindingUtil.bind(rootView)

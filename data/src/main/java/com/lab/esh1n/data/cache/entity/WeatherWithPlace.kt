@@ -13,6 +13,8 @@ class WeatherWithPlace(
 
         var measured_at: Date,
 
+        var dateTxt: String,
+
         var temperature: Double,
 
         var temperatureMin: Double,

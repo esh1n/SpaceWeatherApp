@@ -117,7 +117,9 @@ class OkHttpBuilder private constructor(endPoint: String) {
 
     private fun addAuthorizationHeader(requestBuilder: Request.Builder, token: String?): Request.Builder {
         Log.d("Auth", "attach token to request $token")
-        requestBuilder.header("X-Auth-Token", token)
+        token?.let {
+            requestBuilder.header("X-Auth-Token", it)
+        }
         return requestBuilder
     }
 

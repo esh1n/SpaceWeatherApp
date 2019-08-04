@@ -15,4 +15,5 @@ data class WeatherModel(val id: Int,
                         val windDegree: Int,
                         val pressure: Int,
                         val humidity: Int,
-                        val dateStr: String)
+                        val dateStr: String,
+                        val dateTxt: String)

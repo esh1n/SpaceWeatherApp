@@ -24,6 +24,8 @@ open class WeatherEntry(
         @ColumnInfo(name = COLUMN_WEATHER_DATE)
         var date: Date,
 
+        var dateTxt: String,
+
         var temperature: Double,
 
         var temperatureMin: Double,
@@ -34,9 +36,9 @@ open class WeatherEntry(
 
         var description: String,
 
-        var windSpeed: Float,
+        var windSpeed: Double,
 
-        var windDegree: Float,
+        var windDegree: Double,
 
         var pressure: Float,
 

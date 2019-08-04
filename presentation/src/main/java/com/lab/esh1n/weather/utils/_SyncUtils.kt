@@ -6,7 +6,7 @@ import java.util.concurrent.TimeUnit
 
 const val WORKER_ERROR_DESCRIPTION = "WORKER_ERROR_DESCRIPTION"
 
-fun WorkManager.startPeriodicSync() {
+fun WorkManager.startCurrentPlacePeriodicSync() {
     val constraints = Constraints.Builder()
             .setRequiredNetworkType(NetworkType.CONNECTED)
             .build()
@@ -14,8 +14,5 @@ fun WorkManager.startPeriodicSync() {
     val syncAllDataWorker = PeriodicWorkRequest.Builder(SyncAllDataWorker::class.java, 5L, TimeUnit.MINUTES)
             .setConstraints(constraints)
             .build()
-
-    enqueueUniquePeriodicWork(SyncAllDataWorker::class.java.name, ExistingPeriodicWorkPolicy.REPLACE, syncAllDataWorker);
-
-
+    enqueueUniquePeriodicWork(SyncAllDataWorker::class.java.name, ExistingPeriodicWorkPolicy.REPLACE, syncAllDataWorker)
 }

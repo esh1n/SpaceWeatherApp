@@ -4,9 +4,9 @@ import com.google.gson.annotations.SerializedName
 
 data class WindResponse(
 
-		@field:SerializedName("deg")
-		val deg: Float? = null,
+        @field:SerializedName("deg")
+        val deg: Double? = null,
 
-		@field:SerializedName("speed")
-	val speed: Float? = null
+        @field:SerializedName("speed")
+        val speed: Double? = null
 )

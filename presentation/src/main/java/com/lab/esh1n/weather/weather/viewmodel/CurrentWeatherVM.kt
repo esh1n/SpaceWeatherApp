@@ -10,7 +10,6 @@ import com.esh1n.core_android.ui.viewmodel.Resource
 import com.esh1n.core_android.ui.viewmodel.SingleLiveEvent
 import com.lab.esh1n.weather.domain.weather.weather.usecases.FetchAndSaveCurrentPlaceWeatherUseCase
 import com.lab.esh1n.weather.domain.weather.weather.usecases.LoadCurrentWeatherUseCase
-import com.lab.esh1n.weather.utils.startPeriodicSync
 import com.lab.esh1n.weather.weather.WeatherModel
 import com.lab.esh1n.weather.weather.mapper.WeatherModelMapper
 import javax.inject.Inject
@@ -32,9 +31,6 @@ constructor(private val loadCurrentWeatherUseCase: LoadCurrentWeatherUseCase,
     private val cityWeatherModelMapper = WeatherModelMapper()
 
     //TODO move this periodic sync to success login event
-    fun startPeriodicSync() {
-        workManager.startPeriodicSync()
-    }
 
 
     fun loadWeather() {
