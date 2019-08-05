@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="text_weather_in_city_base">%s</string>
-    <string name="text_middle_temperature">In %s now it feels like %s\u2103</string>
+    <string name="text_weather_notification_title">%s</string>
+    <string name="text_weather_description">In %s now it feels like %s\u2103\nLast update: %s</string>
 </resources>

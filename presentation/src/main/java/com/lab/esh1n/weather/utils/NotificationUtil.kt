@@ -11,8 +11,12 @@ import android.graphics.Color
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
+import com.esh1n.core_android.ui.viewmodel.Resource
+import com.lab.esh1n.data.cache.entity.WeatherWithPlace
 import com.lab.esh1n.weather.R
 import com.lab.esh1n.weather.weather.WeatherActivity
+import com.lab.esh1n.weather.weather.model.Temperature
 
 class NotificationUtil {
     companion object {
@@ -27,8 +31,10 @@ class NotificationUtil {
             val drawableResourceId = context.resources.getIdentifier(weatherNotification.resourceName, "drawable", context.packageName)
             return NotificationCompat.Builder(context, prepareChannelId(context))
                     .setContentTitle(weatherNotification.title)
+                    .setStyle(NotificationCompat.BigTextStyle().bigText(weatherNotification.text))
                     .setContentText(weatherNotification.text)
                     .setSmallIcon(drawableResourceId)
+                    .setOngoing(true)
                     .setLargeIcon(BitmapFactory.decodeResource(context.resources, drawableResourceId))
                     .setContentIntent(pendingIntent)
                     .setTicker(weatherNotification.ticker)
@@ -54,6 +60,38 @@ class NotificationUtil {
             service.createNotificationChannel(chan)
             return channelId
         }
+
+        private fun mapResultToWeatherNotification(result: Resource<WeatherWithPlace>, ctx: Context): WeatherNotification {
+
+            when (result.status) {
+                Resource.Status.SUCCESS -> {
+                    val weather = result.data!!
+                    val title = ctx.getString(R.string.text_weather_notification_title, weather.description)
+                    val middleTemperature = Temperature.middleTemperature(weather.temperatureMin, weather.temperatureMax)
+                    val message = ctx.getString(R.string.text_weather_description, weather.placeName, middleTemperature.getHumanReadable(), weather.dateTxt)
+                    val resourceName = "status_${weather.iconId}"
+                    return WeatherNotification(title, message, resourceName, title)
+                }
+
+                Resource.Status.ERROR -> {
+                    val title = ctx.getString(R.string.error_loading_weather)
+                    val message = ctx.getString(R.string.hint_refresh, result.errorModel?.message)
+                    return WeatherNotification(title, message, ticker = title)
+                }
+
+                else -> return WeatherNotification.emptyNotification(ctx)
+            }
+        }
+
+        fun sendCurrentWeatherNotification(result: Resource<WeatherWithPlace>, context: Context) {
+            val weatherNotification = mapResultToWeatherNotification(result, context)
+            with(NotificationManagerCompat.from(context)) {
+                // notificationId is a unique int for each notification that you must define
+                notify(CURRENT_WEATHER_NOTIFICATION_ID, buildNotification(context, weatherNotification))
+            }
+        }
+
+        const val CURRENT_WEATHER_NOTIFICATION_ID = 1233219
     }
 
     data class WeatherNotification(val title: String, val text: String, val resourceName: String = "status_01d", val ticker: String) {

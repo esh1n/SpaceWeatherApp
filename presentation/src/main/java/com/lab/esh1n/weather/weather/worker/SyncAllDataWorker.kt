@@ -7,6 +7,8 @@ import androidx.work.WorkerParameters
 import com.esh1n.core_android.ui.viewmodel.Resource
 import com.lab.esh1n.weather.WeatherApp
 import com.lab.esh1n.weather.domain.weather.weather.usecases.FetchAndSaveCurrentPlaceWeatherUseCase
+import com.lab.esh1n.weather.domain.weather.weather.usecases.LoadCurrentWeatherSingleUseCase
+import com.lab.esh1n.weather.utils.NotificationUtil
 import com.lab.esh1n.weather.utils.WORKER_ERROR_DESCRIPTION
 import io.reactivex.Single
 import javax.inject.Inject
@@ -17,10 +19,15 @@ class SyncAllDataWorker(context: Context, params: WorkerParameters) :
     @Inject
     lateinit var fetchAndSaveCurrentPlaceWeatherUseCase: FetchAndSaveCurrentPlaceWeatherUseCase
 
+    @Inject
+    lateinit var loadCurrentWeatherUseCase: LoadCurrentWeatherSingleUseCase
+
     override fun createWork(): Single<Result> {
         WeatherApp.getWorkerComponent(applicationContext).inject(this@SyncAllDataWorker)
         return fetchAndSaveCurrentPlaceWeatherUseCase
                 .perform(Unit)
+                .flatMap { loadCurrentWeatherUseCase.perform(Unit) }
+                .doOnSuccess { NotificationUtil.sendCurrentWeatherNotification(it, applicationContext) }
                 .map { resource ->
                     if (resource.status == Resource.Status.ERROR) {
                         val failureResult = Data.Builder()
@@ -28,10 +35,13 @@ class SyncAllDataWorker(context: Context, params: WorkerParameters) :
                                 .build()
                         Result.failure(failureResult)
                     } else {
+
                         Result.success()
                     }
                 }
+
     }
+
 
 }
 

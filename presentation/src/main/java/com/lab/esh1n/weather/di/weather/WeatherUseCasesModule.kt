@@ -6,6 +6,7 @@ import com.lab.esh1n.weather.domain.weather.places.usecase.GetAllPlacesUse
 import com.lab.esh1n.weather.domain.weather.places.usecase.UpdateCurrentPlaceUseCase
 import com.lab.esh1n.weather.domain.weather.weather.WeatherRepository
 import com.lab.esh1n.weather.domain.weather.weather.usecases.FetchAndSaveCurrentPlaceWeatherUseCase
+import com.lab.esh1n.weather.domain.weather.weather.usecases.LoadCurrentWeatherSingleUseCase
 import com.lab.esh1n.weather.domain.weather.weather.usecases.LoadCurrentWeatherUseCase
 import dagger.Module
 import dagger.Provides
@@ -34,4 +35,9 @@ class WeatherUseCasesModule {
         return UpdateCurrentPlaceUseCase(placesRepository, weatherRepository, errorsHandler)
     }
 
+
+    @Provides
+    fun provideLoadCurrentWeatherSingleUseCase(weatherRepository: WeatherRepository, errorsHandler: ErrorsHandler): LoadCurrentWeatherSingleUseCase {
+        return LoadCurrentWeatherSingleUseCase(weatherRepository, errorsHandler)
+    }
 }
