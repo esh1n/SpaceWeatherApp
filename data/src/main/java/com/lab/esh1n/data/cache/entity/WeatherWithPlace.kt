@@ -11,6 +11,8 @@ class WeatherWithPlace(
 
         var placeId: String,
 
+        var timezone: String,
+
         var measured_at: Date,
 
         var dateTxt: String,

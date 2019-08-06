@@ -7,8 +7,9 @@ import com.lab.esh1n.weather.weather.WeatherModel
 
 class WeatherModelMapper : Mapper<WeatherWithPlace, WeatherModel>() {
 
-    private val dateMapper = UiDateMapper()
+
     override fun map(source: WeatherWithPlace): WeatherModel {
+        val dateMapper = UiDateMapper(source.timezone)
         return WeatherModel(
                 id = source.id,
                 cityName = source.placeName,

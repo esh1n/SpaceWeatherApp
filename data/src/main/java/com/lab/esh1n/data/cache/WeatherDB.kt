@@ -51,7 +51,7 @@ abstract class WeatherDB : RoomDatabase() {
                         })
                         .build()
 
-        val PREPOPULATE_DATA = listOf(PlaceEntry(472045, "Voronezh", true), PlaceEntry(524901, "MOSCOW", false))
+        val PREPOPULATE_DATA = listOf(PlaceEntry(472045, "Voronezh", "Europe/Moscow", true), PlaceEntry(524901, "MOSCOW", "Europe/Moscow", false))
 
         val MIGRATION_1_2: Migration = object : Migration(1, 2) {
             override fun migrate(database: SupportSQLiteDatabase) {

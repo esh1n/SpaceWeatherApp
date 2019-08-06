@@ -13,6 +13,8 @@ data class PlaceEntry(
 
         var placeName: String,
 
+        var timezone: String,
+
         var isCurrent: Boolean
 )
 
