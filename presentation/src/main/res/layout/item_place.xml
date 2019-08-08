@@ -1,16 +1,94 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:padding="@dimen/margin_small">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <TextView
-        android:id="@+id/tv_city_name"
-        android:layout_width="wrap_content"
+    <data>
+
+        <variable
+            name="place"
+            type="com.lab.esh1n.weather.weather.model.PlaceModel" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="@dimen/font_size_big"
-        tools:text="Fall down" />
+        android:background="@android:color/holo_blue_light"
+        android:orientation="vertical"
+        android:padding="@dimen/margin_medium">
 
-</LinearLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/tv_time"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toStartOf="@+id/iv_place_actions"
+                android:gravity="start"
+                android:text="@{place.time}"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/f14"
+                tools:text="16:34" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/iv_place_actions"
+                android:layout_width="@dimen/dots_options_icon_size"
+                android:layout_height="@dimen/dots_options_icon_size"
+                android:layout_alignParentEnd="true"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_three_dots" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:id="@+id/container_weather"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:orientation="horizontal">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/iv_weather_status"
+                    android:layout_width="@dimen/place_current_weather_icon_size"
+                    android:layout_height="@dimen/place_current_weather_icon_size"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/status_02d" />
+
+                <TextView
+                    android:id="@+id/tv_temperature"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:padding="5dp"
+                    android:text="@{place.temperature}"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/f18"
+                    android:textStyle="bold"
+                    tools:text="17%" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tv_place_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="@dimen/margin_small"
+                android:layout_toStartOf="@+id/container_weather"
+                android:ellipsize="end"
+                android:text="@{place.name}"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/f20"
+                android:textStyle="bold"
+                tools:text="Voronezh" />
+
+        </RelativeLayout>
+
+    </LinearLayout>
+</layout>

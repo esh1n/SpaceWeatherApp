@@ -2,18 +2,19 @@ package com.lab.esh1n.weather.weather.adapter
 
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
+import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.esh1n.utils_android.ui.inflate
 import com.lab.esh1n.weather.R
-import com.lab.esh1n.weather.weather.model.PlaceWeather
+import com.lab.esh1n.weather.databinding.ItemPlaceBinding
+import com.lab.esh1n.weather.weather.model.PlaceModel
 
 
-class PlacesAdapter(private val mClickHandler: (PlaceWeather) -> Unit) :
+class PlacesAdapter(private val mClickHandler: (PlaceModel) -> Unit) :
         RecyclerView.Adapter<PlacesAdapter.ViewHolder>() {
 
-    private var places: List<PlaceWeather>? = null
+    private var places: List<PlaceModel>? = null
 
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
@@ -34,7 +35,7 @@ class PlacesAdapter(private val mClickHandler: (PlaceWeather) -> Unit) :
         return places?.size ?: 0
     }
 
-    fun swapCities(newTags: List<PlaceWeather>) {
+    fun swapCities(newTags: List<PlaceModel>) {
         if (places == null) {
             this.places = newTags
             notifyDataSetChanged()
@@ -46,7 +47,7 @@ class PlacesAdapter(private val mClickHandler: (PlaceWeather) -> Unit) :
     }
 
 
-    private inner class DiffCallback(private val oldBrands: List<PlaceWeather>, private val newBrands: List<PlaceWeather>) :
+    private inner class DiffCallback(private val oldBrands: List<PlaceModel>, private val newBrands: List<PlaceModel>) :
             DiffUtil.Callback() {
 
         override fun getOldListSize(): Int {
@@ -58,8 +59,8 @@ class PlacesAdapter(private val mClickHandler: (PlaceWeather) -> Unit) :
         }
 
         override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-            val cityName = oldBrands[oldItemPosition].placeName
-            val cityName1 = newBrands[newItemPosition].placeName
+            val cityName = oldBrands[oldItemPosition].name
+            val cityName1 = newBrands[newItemPosition].name
             return cityName == cityName1
         }
 
@@ -72,7 +73,7 @@ class PlacesAdapter(private val mClickHandler: (PlaceWeather) -> Unit) :
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view), View.OnClickListener {
 
-        private var placeNameTextView: TextView? = view.findViewById(R.id.tv_city_name)
+        private var itemPlaceBinding: ItemPlaceBinding? = DataBindingUtil.bind(view)
 
         init {
             view.setOnClickListener(this)
@@ -82,17 +83,21 @@ class PlacesAdapter(private val mClickHandler: (PlaceWeather) -> Unit) :
             val adapterPosition = adapterPosition
             val brandModel = places?.get(adapterPosition)
             brandModel?.let {
-                mClickHandler.invoke(it)
+                mClickHandler(it)
             }
 
         }
 
-        fun bindTo(placeWeather: PlaceWeather) {
-            placeNameTextView?.text = placeWeather.placeName
+        fun bindTo(placeWeather: PlaceModel) {
+            itemPlaceBinding?.let {
+                it.place = placeWeather
+                it.executePendingBindings()
+                // binding.ivAvatar.loadCircleImage(eventModel.actorAvatar)
+            }
         }
 
         fun clear() {
-            placeNameTextView = null
+            itemPlaceBinding = null
         }
     }
 }

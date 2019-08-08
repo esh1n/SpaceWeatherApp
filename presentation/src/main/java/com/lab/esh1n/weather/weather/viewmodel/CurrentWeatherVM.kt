@@ -10,8 +10,8 @@ import com.esh1n.core_android.ui.viewmodel.Resource
 import com.esh1n.core_android.ui.viewmodel.SingleLiveEvent
 import com.lab.esh1n.weather.domain.weather.weather.usecases.FetchAndSaveCurrentPlaceWeatherUseCase
 import com.lab.esh1n.weather.domain.weather.weather.usecases.LoadCurrentWeatherUseCase
-import com.lab.esh1n.weather.weather.WeatherModel
 import com.lab.esh1n.weather.weather.mapper.WeatherModelMapper
+import com.lab.esh1n.weather.weather.model.WeatherModel
 import javax.inject.Inject
 
 /**

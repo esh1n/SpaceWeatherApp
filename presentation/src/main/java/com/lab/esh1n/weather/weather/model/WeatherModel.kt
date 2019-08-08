@@ -1,12 +1,15 @@
 package com.lab.esh1n.weather.weather.model
 
-data class WeatherModel(val id: Long,
+data class WeatherModel(val id: Int,
                         val cityName: String,
-                        val temperature: Int,
+                        val temp: Double,
                         val iconUrl: String,
-                        val tempMin: Float,
-                        val tempMax: Float,
+                        val tempMin: Double,
+                        val tempMax: Double,
                         val description: String,
-                        val windSpeed: Int,
+                        val windSpeed: Float,
+                        val windDegree: Int,
                         val pressure: Int,
-                        val humidity: Int)
+                        val humidity: Int,
+                        val dateStr: String,
+                        val dateTxt: String)

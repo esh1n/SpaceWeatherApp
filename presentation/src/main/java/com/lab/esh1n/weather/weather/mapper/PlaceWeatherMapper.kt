@@ -1,15 +1,18 @@
 package com.lab.esh1n.weather.weather.mapper
 
 import com.esh1n.core_android.map.Mapper
-import com.lab.esh1n.data.cache.entity.PlaceEntry
-import com.lab.esh1n.weather.weather.model.PlaceWeather
+import com.lab.esh1n.data.cache.entity.PlaceWithCurrentWeatherEntry
+import com.lab.esh1n.weather.weather.model.PlaceModel
 
-class PlaceWeatherMapper : Mapper<PlaceEntry, PlaceWeather>() {
-    override fun map(source: PlaceEntry): PlaceWeather {
-        return PlaceWeather(
-                placeName = source.placeName,
+class PlaceWeatherMapper : Mapper<PlaceWithCurrentWeatherEntry, PlaceModel>() {
+    override fun map(source: PlaceWithCurrentWeatherEntry): PlaceModel {
+        val uiDateMapper = UiDateMapper(source.timezone)
+        return PlaceModel(
+                name = source.placeName,
                 id = source.id,
-                isCurrent = source.isCurrent
+                iconUrl = source.iconId,
+                time = uiDateMapper.map(source.date),
+                temperature = source.temperatureMax.toString()
         )
     }
 }

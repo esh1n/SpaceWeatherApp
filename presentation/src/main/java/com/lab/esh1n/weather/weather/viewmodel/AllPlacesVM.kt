@@ -10,14 +10,14 @@ import com.esh1n.core_android.ui.viewmodel.SingleLiveEvent
 import com.lab.esh1n.weather.domain.weather.places.usecase.GetAllPlacesUse
 import com.lab.esh1n.weather.domain.weather.places.usecase.UpdateCurrentPlaceUseCase
 import com.lab.esh1n.weather.weather.mapper.PlaceWeatherMapper
-import com.lab.esh1n.weather.weather.model.PlaceWeather
+import com.lab.esh1n.weather.weather.model.PlaceModel
 import javax.inject.Inject
 
 class AllPlacesVM @Inject constructor(private val loadPlacesUseCase: GetAllPlacesUse, private var updateCurrentPlaceUseCase: UpdateCurrentPlaceUseCase, application: Application) : BaseViewModel(application) {
 
     val updateCurrentPlaceOperation = SingleLiveEvent<Resource<Unit>>()
 
-    val allCities = MutableLiveData<Resource<List<PlaceWeather>>>()
+    val allCities = MutableLiveData<Resource<List<PlaceModel>>>()
 
     private val placeWeatherMapper = PlaceWeatherMapper()
 

@@ -14,7 +14,7 @@ import com.esh1n.utils_android.ui.setVisibleOrGone
 import com.lab.esh1n.weather.R
 import com.lab.esh1n.weather.weather.WeatherActivity
 import com.lab.esh1n.weather.weather.adapter.PlacesAdapter
-import com.lab.esh1n.weather.weather.model.PlaceWeather
+import com.lab.esh1n.weather.weather.model.PlaceModel
 import com.lab.esh1n.weather.weather.viewmodel.AllPlacesVM
 
 class AllPlacesFragment : BaseVMFragment<AllPlacesVM>() {
@@ -51,12 +51,12 @@ class AllPlacesFragment : BaseVMFragment<AllPlacesVM>() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel.allCities.observe(this, object : BaseObserver<List<PlaceWeather>>() {
+        viewModel.allCities.observe(this, object : BaseObserver<List<PlaceModel>>() {
             override fun onError(error: ErrorModel?) {
                 SnackbarBuilder.buildSnack(view!!, error?.message ?: "").show()
             }
 
-            override fun onData(data: List<PlaceWeather>?) {
+            override fun onData(data: List<PlaceModel>?) {
                 val isEmpty = data?.isEmpty() ?: true
                 emptyView!!.setVisibleOrGone(isEmpty)
                 adapter.swapCities(data.orEmpty())
@@ -84,7 +84,7 @@ class AllPlacesFragment : BaseVMFragment<AllPlacesVM>() {
         viewModel.loadPlaces()
     }
 
-    private fun onPlaceClicked(placeWeather: PlaceWeather) {
+    private fun onPlaceClicked(placeWeather: PlaceModel) {
         viewModel.saveCurrentPlace(placeWeather.id)
     }
 

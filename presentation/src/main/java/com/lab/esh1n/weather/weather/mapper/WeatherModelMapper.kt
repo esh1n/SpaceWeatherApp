@@ -2,7 +2,7 @@ package com.lab.esh1n.weather.weather.mapper
 
 import com.esh1n.core_android.map.Mapper
 import com.lab.esh1n.data.cache.entity.WeatherWithPlace
-import com.lab.esh1n.weather.weather.WeatherModel
+import com.lab.esh1n.weather.weather.model.WeatherModel
 
 
 class WeatherModelMapper : Mapper<WeatherWithPlace, WeatherModel>() {

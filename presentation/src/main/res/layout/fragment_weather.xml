@@ -7,7 +7,7 @@
 
         <variable
             name="weather"
-            type="com.lab.esh1n.weather.weather.WeatherModel"/>
+            type="com.lab.esh1n.weather.weather.model.WeatherModel" />
     </data>
 
 

@@ -11,7 +11,7 @@ import com.esh1n.utils_android.ui.setVisibleOrGone
 import com.lab.esh1n.weather.R
 import com.lab.esh1n.weather.databinding.FragmentWeatherBinding
 import com.lab.esh1n.weather.utils.loadCircleImage
-import com.lab.esh1n.weather.weather.WeatherModel
+import com.lab.esh1n.weather.weather.model.WeatherModel
 import com.lab.esh1n.weather.weather.viewmodel.CurrentWeatherVM
 
 /**
