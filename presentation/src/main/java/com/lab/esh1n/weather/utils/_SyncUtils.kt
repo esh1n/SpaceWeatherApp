@@ -11,7 +11,7 @@ fun WorkManager.startCurrentPlacePeriodicSync() {
             .setRequiredNetworkType(NetworkType.CONNECTED)
             .build()
 
-    val syncAllDataWorker = PeriodicWorkRequest.Builder(SyncAllDataWorker::class.java, 5L, TimeUnit.MINUTES)
+    val syncAllDataWorker = PeriodicWorkRequest.Builder(SyncAllDataWorker::class.java, 1L, TimeUnit.HOURS)
             .setConstraints(constraints)
             .build()
     enqueueUniquePeriodicWork(SyncAllDataWorker::class.java.name, ExistingPeriodicWorkPolicy.REPLACE, syncAllDataWorker)
