@@ -6,23 +6,29 @@ class DateBuilder {
     private var calendar: Calendar? = null
 
     constructor(initDate: Date) {
-        calendar = Calendar.getInstance()
+        calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"))
         calendar!!.time = initDate
     }
 
     constructor() {
-        calendar = Calendar.getInstance()
+        calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"))
     }
 
     constructor(year: Int, month: Int, dayOfMonth: Int) {
-        calendar = Calendar.getInstance()
-        calendar!!.set(Calendar.YEAR, year)
-        calendar!!.set(Calendar.MONTH, month)
-        calendar!!.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+        calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"))
+        calendar?.let {
+            it.set(Calendar.YEAR, year)
+            it.set(Calendar.MONTH, month)
+            it.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+        }
     }
 
     fun build(): Date {
         return calendar!!.time
+    }
+
+    fun getDay(): Int {
+        return calendar!!.get(Calendar.DAY_OF_MONTH)
     }
 
     fun withDayInMonth(dayInMonth: Int): DateBuilder {
@@ -58,6 +64,16 @@ class DateBuilder {
 
     fun withMonth(month: Int): DateBuilder {
         calendar!!.set(Calendar.MONTH, month)
+        return this
+    }
+
+    fun minusMinutes(minutes: Int): DateBuilder {
+        calendar?.add(Calendar.MINUTE, -minutes)
+        return this
+    }
+
+    fun plusDays(days: Int): DateBuilder {
+        calendar?.add(Calendar.DAY_OF_MONTH, days)
         return this
     }
 

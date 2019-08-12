@@ -3,14 +3,16 @@ package com.lab.esh1n.weather.weather.fragment
 import android.os.Bundle
 import android.view.View
 import androidx.databinding.DataBindingUtil
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.esh1n.core_android.error.ErrorModel
 import com.esh1n.core_android.ui.fragment.BaseVMFragment
 import com.esh1n.core_android.ui.viewmodel.BaseObserver
 import com.esh1n.utils_android.ui.SnackbarBuilder
 import com.esh1n.utils_android.ui.setVisibleOrGone
 import com.lab.esh1n.weather.R
-import com.lab.esh1n.weather.databinding.FragmentWeatherBinding
-import com.lab.esh1n.weather.utils.loadCircleImage
+import com.lab.esh1n.weather.databinding.FragmentCurrentPlaceBinding
+import com.lab.esh1n.weather.weather.adapter.CurrentWeatherAdapter
 import com.lab.esh1n.weather.weather.model.WeatherModel
 import com.lab.esh1n.weather.weather.viewmodel.CurrentWeatherVM
 
@@ -23,9 +25,11 @@ class CurrentPlaceFragment : BaseVMFragment<CurrentWeatherVM>() {
 
     override val viewModelClass = CurrentWeatherVM::class.java
 
-    override val layoutResource = R.layout.fragment_weather
+    override val layoutResource = R.layout.fragment_current_place
 
-    private var binding: FragmentWeatherBinding? = null
+    private var binding: FragmentCurrentPlaceBinding? = null
+
+    private lateinit var adapter: CurrentWeatherAdapter
 
     override fun setupView(rootView: View) {
         super.setupView(rootView)
@@ -34,6 +38,17 @@ class CurrentPlaceFragment : BaseVMFragment<CurrentWeatherVM>() {
             it.swipeRefreshLayout.setOnRefreshListener {
                 viewModel.refresh()
             }
+            adapter = CurrentWeatherAdapter()
+            it.listWeathers.layoutManager = LinearLayoutManager(requireActivity())
+            it.listWeathers.addItemDecoration(
+                    DividerItemDecoration(
+                            requireActivity(),
+                            DividerItemDecoration.VERTICAL
+                    )
+            )
+
+            it.listWeathers.setHasFixedSize(true)
+            it.listWeathers.adapter = adapter
         }
     }
 
@@ -44,16 +59,7 @@ class CurrentPlaceFragment : BaseVMFragment<CurrentWeatherVM>() {
     }
 
     private fun observeWeather() {
-        viewModel.weatherLiveData.observe(this, object : BaseObserver<WeatherModel>() {
-            override fun onData(data: WeatherModel?) {
-                if (data != null) {
-                    showContent()
-                    bindEventToView(data)
-                } else {
-                    showEmptyView()
-                }
-            }
-
+        viewModel.weatherLiveData.observe(this, object : BaseObserver<List<WeatherModel>>() {
             override fun onError(error: ErrorModel?) {
                 SnackbarBuilder.buildErrorSnack(view!!, error?.message ?: "").show()
             }
@@ -62,6 +68,13 @@ class CurrentPlaceFragment : BaseVMFragment<CurrentWeatherVM>() {
                 super.onProgress(progress)
                 showProgress(progress)
             }
+
+            override fun onData(data: List<WeatherModel>?) {
+                val isEmpty = data?.isEmpty() ?: true
+                binding?.tvNoWeather?.setVisibleOrGone(isEmpty)
+                adapter.swapWeathers(data.orEmpty())
+            }
+
 
         })
         viewModel.refreshOperation.observe(this, object : BaseObserver<Unit>() {
@@ -112,27 +125,7 @@ class CurrentPlaceFragment : BaseVMFragment<CurrentWeatherVM>() {
     }
 
 
-    private fun showEmptyView() {
-        binding?.let {
-            it.viewEmpty.setVisibleOrGone(true)
-            it.viewContent.setVisibleOrGone(false)
-        }
-    }
 
-    private fun showContent() {
-        binding?.let {
-            it.viewEmpty.setVisibleOrGone(false)
-            it.viewContent.setVisibleOrGone(true)
-        }
-    }
-
-    private fun bindEventToView(weatherModel: WeatherModel) {
-        binding?.let {
-            it.weather = weatherModel
-            it.ivIcon.loadCircleImage(weatherModel.iconUrl)
-            it.executePendingBindings()
-        }
-    }
 
     companion object {
         fun newInstance() = CurrentPlaceFragment()

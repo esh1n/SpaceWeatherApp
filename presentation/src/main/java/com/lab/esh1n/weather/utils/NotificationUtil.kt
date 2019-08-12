@@ -13,6 +13,7 @@ import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.esh1n.core_android.ui.viewmodel.Resource
+import com.esh1n.utils_android.ui.getImage
 import com.lab.esh1n.data.cache.entity.WeatherWithPlace
 import com.lab.esh1n.weather.R
 import com.lab.esh1n.weather.weather.WeatherActivity
@@ -29,7 +30,7 @@ class NotificationUtil {
                     }
 
 
-            val drawableResourceId = context.resources.getIdentifier(weatherNotification.resourceName, "drawable", context.packageName)
+            val drawableResourceId = context.getImage(weatherNotification.iconId)
             return NotificationCompat.Builder(context, prepareChannelId(context))
                     .setContentTitle(weatherNotification.title)
                     .setStyle(NotificationCompat.BigTextStyle().bigText(weatherNotification.text))
@@ -71,8 +72,7 @@ class NotificationUtil {
                     val middleTemperature = Temperature.middleTemperature(weather.temperatureMin, weather.temperatureMax)
                     val weatherDate = UiDateMapper(weather.timezone).map(weather.measured_at)
                     val message = ctx.getString(R.string.text_weather_description, weather.placeName, middleTemperature.getHumanReadable(), weatherDate)
-                    val resourceName = "status_${weather.iconId}"
-                    return WeatherNotification(title, message, resourceName, title)
+                    return WeatherNotification(title, message, weather.iconId, title)
                 }
 
                 Resource.Status.ERROR -> {
@@ -96,7 +96,7 @@ class NotificationUtil {
         const val CURRENT_WEATHER_NOTIFICATION_ID = 1233219
     }
 
-    data class WeatherNotification(val title: String, val text: String, val resourceName: String = "status_01d", val ticker: String) {
+    data class WeatherNotification(val title: String, val text: String, val iconId: String = "01d", val ticker: String) {
         companion object {
             fun emptyNotification(context: Context) = WeatherNotification(
                     context.getString(R.string.notification_title),

@@ -27,7 +27,7 @@ constructor(private val loadCurrentWeatherUseCase: LoadCurrentWeatherUseCase,
     : BaseViewModel(application) {
 
     val refreshOperation = SingleLiveEvent<Resource<Unit>>()
-    val weatherLiveData = MutableLiveData<Resource<WeatherModel>>()
+    val weatherLiveData = MutableLiveData<Resource<List<WeatherModel>>>()
     private val cityWeatherModelMapper = WeatherModelMapper()
 
     //TODO move this periodic sync to success login event

@@ -19,6 +19,8 @@
     <dimen name="f14">14sp</dimen>
     <dimen name="f16">16sp</dimen>
     <dimen name="f18">18sp</dimen>
+    <dimen name="f20">20sp</dimen>
+    <dimen name="f46">46sp</dimen>
 
 
     <dimen name="icon_size_small">16dp</dimen>
@@ -27,6 +29,8 @@
     <dimen name="font_size_max">36sp</dimen>
     <dimen name="place_current_weather_icon_size">40dp</dimen>
     <dimen name="dots_options_icon_size">25dp</dimen>
-    <dimen name="f20">20sp</dimen>
+
+
+    <dimen name="day_forecast_description_image_size">40dp</dimen>
 
 </resources>

@@ -9,10 +9,10 @@ import io.reactivex.Observable
 
 
 class LoadCurrentWeatherUseCase(private val weatherRepository: WeatherRepository, errorsHandler: ErrorsHandler) :
-        UseCase<Observable<Resource<WeatherWithPlace>>, Unit>(errorsHandler) {
+        UseCase<Observable<Resource<List<WeatherWithPlace>>>, Unit>(errorsHandler) {
 
-    override fun perform(args: Unit): Observable<Resource<WeatherWithPlace>> {
-        return weatherRepository.getCurrentWeather()
+    override fun perform(args: Unit): Observable<Resource<List<WeatherWithPlace>>> {
+        return weatherRepository.getCurrentWeatherWithForecast()
                 .map { users -> Resource.success(users) }
                 .onErrorReturn { error ->
                     Resource.error(errorsHandler.handle(error))

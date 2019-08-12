@@ -1,6 +1,7 @@
 package com.lab.esh1n.weather.domain.weather.weather
 
 import android.content.SharedPreferences
+import com.esh1n.utils_android.DateBuilder
 import com.lab.esh1n.data.api.APIService
 import com.lab.esh1n.data.api.response.CityResponse
 import com.lab.esh1n.data.api.response.ForecastResponse
@@ -53,13 +54,15 @@ class WeatherRepository constructor(private val api: APIService, database: Weath
 
     }
 
-    fun getCurrentWeather(): Observable<WeatherWithPlace> {
-        val now = Date()
-        return weatherDAO.getCurrentWeather(now).toObservable()
+    fun getCurrentWeatherWithForecast(): Observable<List<WeatherWithPlace>> {
+        val minus30Minutes = DateBuilder(Date()).minusMinutes(30).build()
+        val plus5Days = DateBuilder(Date()).plusDays(5).build()
+        return weatherDAO.getDetailedCurrentWeather(minus30Minutes, plus5Days).toObservable()
     }
 
     fun getCurrentWeatherSingle(): Single<WeatherWithPlace> {
-        return getCurrentWeather().firstOrError()
+        val now = Date()
+        return weatherDAO.getCurrentWeather(now).firstOrError()
     }
 
     fun fetchAndSaveCurrentWeather(): Completable {

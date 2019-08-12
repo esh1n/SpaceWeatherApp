@@ -18,7 +18,7 @@ class PlacesAdapter(private val mClickHandler: (PlaceModel) -> Unit) :
 
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
-        val view = viewGroup.context.inflate(R.layout.item_place, viewGroup)
+        val view = viewGroup.inflate(R.layout.item_place)
         return ViewHolder(view)
     }
 

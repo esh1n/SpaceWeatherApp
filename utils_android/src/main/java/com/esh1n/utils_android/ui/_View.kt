@@ -10,8 +10,12 @@ fun View.setVisibleOrGone(visible: Boolean) {
     visibility = if (visible) View.VISIBLE else View.GONE
 }
 
-fun Context.inflate(res: Int, parent: ViewGroup? = null): View {
-    return LayoutInflater.from(this).inflate(res, parent, false)
+fun Context.getImage(iconId: String): Int {
+    return resources.getIdentifier("status_$iconId", "drawable", packageName)
+}
+
+fun ViewGroup.inflate(res: Int): View {
+    return LayoutInflater.from(this.context).inflate(res, this, false)
 }
 
 fun Context.getColorCompat(colorResource: Int): Int {

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="weather"
+            type="com.lab.esh1n.weather.weather.model.CurrentWeatherModel"/>
+    </data>
+
+
+    <LinearLayout
+        android:id="@+id/view_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/holo_blue_light"
+        android:orientation="vertical"
+        android:padding="@dimen/margin_small">
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/margin_medium"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/f46"
+                android:textStyle="bold"
+                app:temperatureCelsius="@{weather.tempMax}"
+                tools:text="16 C"/>
+
+            <ImageView
+                android:id="@+id/iv_icon"
+                android:layout_width="@dimen/image_size_avatar_big"
+                android:layout_height="@dimen/image_size_avatar_big"
+                android:layout_marginStart="@dimen/margin_medium"
+                android:contentDescription="@string/app_name"
+                android:scaleType="centerCrop"
+                android:src="@drawable/status_01d"
+                app:convertPathToIcon="@{weather.iconId}"/>
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/margin_smallest"
+            android:text="@{weather.description}"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/f18"
+            tools:text="Clear sky"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/margin_smallest"
+            android:textColor="@color/navy_gray_light"
+            android:textSize="@dimen/f18"
+            app:tempMax="@{weather.tempMax}"
+            app:tempMin="@{weather.tempMin}"
+            tools:text="From 14 to 18"/>
+
+    </LinearLayout>
+
+</layout>
