@@ -6,11 +6,8 @@ import androidx.databinding.BindingAdapter
 import com.esh1n.utils_android.ui.getImage
 import com.lab.esh1n.weather.R
 
-
-private const val EVENT_KEYWORD = "Event"
-
 @BindingAdapter("temperatureCelsius")
-fun setTemperatureCelsius(tv: TextView, temperatureCelsius: Double?) {
+fun setTemperatureCelsius(tv: TextView, temperatureCelsius: Int?) {
     temperatureCelsius?.let {
         val temp = tv.context.getString(R.string.text_temperature_celsius, it)
         tv.text = temp
@@ -41,9 +38,10 @@ fun convertPathToIcon(tv: ImageView, iconId: String?) {
 }
 
 @BindingAdapter(value = ["tempMin", "tempMax"], requireAll = false)
-fun setTemperatureRange(tv: TextView, tempMin: Double?, tempMax: Double?) {
+fun setTemperatureRange(tv: TextView, tempMin: Int?, tempMax: Int?) {
     if (tempMin != null && tempMax != null) {
-        val tempRange = tv.context.getString(R.string.text_temperature_range_celsius, tempMin, tempMax)
+        val tempRange = if (tempMin != tempMax) tv.context.getString(R.string.text_temperature_range_celsius, tempMin, tempMax) else
+            tv.context.getString(R.string.text_temperature_no_range_celsius, tempMin)
         tv.text = tempRange
     }
 }

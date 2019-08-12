@@ -11,6 +11,8 @@ import com.lab.esh1n.data.cache.dao.PlaceDAO
 import com.lab.esh1n.data.cache.dao.WeatherDAO
 import com.lab.esh1n.data.cache.entity.WeatherEntry
 import com.lab.esh1n.data.cache.entity.WeatherWithPlace
+import com.lab.esh1n.weather.domain.BuildConfig
+
 import com.lab.esh1n.weather.domain.weather.weather.mapper.ForecastWeatherMapper
 import com.lab.esh1n.weather.domain.weather.weather.mapper.WeatherResponseMapper
 import io.reactivex.Completable
@@ -25,12 +27,11 @@ class WeatherRepository constructor(private val api: APIService, database: Weath
     private val placeDAO: PlaceDAO = database.placeDAO()
 
     companion object {
-        const val APP_ID = "542ffd081e67f4512b705f89d2a611b2"
         const val UNITS = "metric"
     }
 
     fun fetchAndSaveWeather(id: Int): Completable {
-        return api.getWeatherAsync(APP_ID, id, UNITS).map {
+        return api.getWeatherAsync(BuildConfig.APP_ID, id, UNITS).map {
             WeatherResponseMapper(id).map(it)
         }.flatMapCompletable { weatherEntry ->
             weatherDAO.saveWeather(weatherEntry)
@@ -38,8 +39,8 @@ class WeatherRepository constructor(private val api: APIService, database: Weath
     }
 
     fun fetchAndSaveForecast(id: Int): Completable {
-        return Single.zip<WeatherResponse, ForecastResponse, Pair<CityResponse?, List<WeatherEntry>>>(api.getWeatherAsync(APP_ID, id, UNITS),
-                api.getForecastAsync(APP_ID, id, UNITS), BiFunction { currentWeatherResponse, forecast ->
+        return Single.zip<WeatherResponse, ForecastResponse, Pair<CityResponse?, List<WeatherEntry>>>(api.getWeatherAsync(BuildConfig.APP_ID, id, UNITS),
+                api.getForecastAsync(BuildConfig.APP_ID, id, UNITS), BiFunction { currentWeatherResponse, forecast ->
             val city = forecast.city
             val currentWeather = WeatherResponseMapper(id).map(currentWeatherResponse)
             val forecastWeathers = ForecastWeatherMapper(id)
@@ -51,8 +52,9 @@ class WeatherRepository constructor(private val api: APIService, database: Weath
         }).flatMapCompletable { pair ->
             weatherDAO.saveWeathers(pair.second)
         }
-
     }
+
+
 
     fun getCurrentWeatherWithForecast(): Observable<List<WeatherWithPlace>> {
         val minus30Minutes = DateBuilder(Date()).minusMinutes(30).build()

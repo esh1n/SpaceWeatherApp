@@ -5,6 +5,7 @@ import androidx.room.OnConflictStrategy.REPLACE
 import com.lab.esh1n.data.cache.DateConverter
 import com.lab.esh1n.data.cache.entity.PlaceEntry
 import com.lab.esh1n.data.cache.entity.PlaceWithCurrentWeatherEntry
+import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.Single
 import java.util.*
@@ -13,7 +14,7 @@ import java.util.*
 @TypeConverters(DateConverter::class)
 abstract class PlaceDAO {
     @Insert(onConflict = REPLACE)
-    abstract fun insertPlaces(places: List<PlaceEntry>)
+    abstract fun insertPlaces(places: List<PlaceEntry>): Completable
 
     @Query("SELECT id from place where placeName=:placeName")
     abstract fun getPlaceIdByName(placeName: String): Single<Int>
@@ -30,11 +31,14 @@ abstract class PlaceDAO {
     @Query("UPDATE place SET isCurrent = 0")
     abstract fun deselectCurrentPlace()
 
+    @Query("SELECT id from place")
+    abstract fun getAllPlacesIds(): Single<List<Int>>
 
     @Transaction
     open fun updateCurrentPlace(id: Int) {
         deselectCurrentPlace()
         setCurrentPlace(id)
     }
+
 
 }

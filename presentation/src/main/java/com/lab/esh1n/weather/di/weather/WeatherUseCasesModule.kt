@@ -2,7 +2,9 @@ package com.lab.esh1n.weather.di.weather
 
 import com.esh1n.core_android.error.ErrorsHandler
 import com.lab.esh1n.weather.domain.weather.places.PlacesRepository
+import com.lab.esh1n.weather.domain.weather.places.usecase.FetchAndSaveAllPlacesForecastUseCase
 import com.lab.esh1n.weather.domain.weather.places.usecase.GetAllPlacesUse
+import com.lab.esh1n.weather.domain.weather.places.usecase.PrePopulatePlacesUseCase
 import com.lab.esh1n.weather.domain.weather.places.usecase.UpdateCurrentPlaceUseCase
 import com.lab.esh1n.weather.domain.weather.weather.WeatherRepository
 import com.lab.esh1n.weather.domain.weather.weather.usecases.FetchAndSaveCurrentPlaceWeatherUseCase
@@ -19,6 +21,17 @@ class WeatherUseCasesModule {
     fun provideFetchAndSaveCurrentPlaceWeatherUseCase(weatherRepository: WeatherRepository, errorsHandler: ErrorsHandler): FetchAndSaveCurrentPlaceWeatherUseCase {
         return FetchAndSaveCurrentPlaceWeatherUseCase(weatherRepository, errorsHandler)
     }
+
+    @Provides
+    fun provideFetchAndSaveAllPlacesForecastUseCase(placesRepository: PlacesRepository, errorsHandler: ErrorsHandler): FetchAndSaveAllPlacesForecastUseCase {
+        return FetchAndSaveAllPlacesForecastUseCase(placesRepository, errorsHandler)
+    }
+
+    @Provides
+    fun providePrePopulatePlacesUseCase(placesRepository: PlacesRepository, errorsHandler: ErrorsHandler): PrePopulatePlacesUseCase {
+        return PrePopulatePlacesUseCase(placesRepository, errorsHandler)
+    }
+
 
     @Provides
     fun provideLoadCurrentWeatherLiveDataUseCase(weatherRepository: WeatherRepository, errorsHandler: ErrorsHandler): LoadCurrentWeatherUseCase {
