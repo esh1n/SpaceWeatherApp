@@ -33,7 +33,8 @@ fun setFloatAsString(tv: TextView, value: Float?) {
 @BindingAdapter("convertPathToIcon")
 fun convertPathToIcon(tv: ImageView, iconId: String?) {
     iconId?.let {
-        tv.setImageResource(tv.context.getImage(iconId))
+        val preparedIconId = tv.context.getImage(iconId)
+        tv.setImageResource(preparedIconId)
     }
 }
 

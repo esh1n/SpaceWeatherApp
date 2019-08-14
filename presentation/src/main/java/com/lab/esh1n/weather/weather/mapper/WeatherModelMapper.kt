@@ -44,19 +44,25 @@ class WeatherModelMapper {
                 val first = values[0]
                 val averageTempMax = values.map { it.temperatureMax }.average()
                 val averageTempMin = values.map { it.temperatureMin }.average()
-                val averageIcon = values.map { it.iconId.substring(0, 1).toInt() }.average().toInt()
-                val averageIconStr = String.format("%02d", averageIcon) + "d"
+                val averageIcon = calculateWeatherIcon(values)
                 DayWeatherModel(dayDate = dateMapper.map(first.measured_at),
                         humanDate = "N/A",
                         tempMax = averageTempMax.toInt(),
                         tempMin = averageTempMin.toInt(),
-                        iconId = averageIconStr)
+                        iconId = averageIcon)
             }.values.drop(1)
             resultWeatherModel.addAll(dayWeathers)
             return resultWeatherModel
 
         }
 
+    }
+
+    private fun calculateWeatherIcon(weathes: List<WeatherWithPlace>): String {
+        if (weathes.isEmpty()) {
+            return "01d";
+        }
+        return weathes[(weathes.size / 2)].iconId
     }
 
 
