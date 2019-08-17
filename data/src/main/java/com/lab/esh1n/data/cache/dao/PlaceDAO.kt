@@ -19,7 +19,7 @@ abstract class PlaceDAO {
     @Query("SELECT id from place where placeName=:placeName")
     abstract fun getPlaceIdByName(placeName: String): Single<Int>
 
-    @Query("SELECT id,placeName,iconId,temperatureMax,measured_at,timezone  FROM place  INNER JOIN weather w ON place.id = w.placeId AND w.measured_at = (SELECT measured_at FROM weather innerW WHERE  innerW.placeId = w.placeId ORDER BY abs(:now - measured_at) ASC LIMIT 1)")
+    @Query("SELECT id,placeName,iconId,temperatureMax,measured_at,timezone,w.dateTxt  FROM place  INNER JOIN weather w ON place.id = w.placeId AND w.measured_at = (SELECT measured_at FROM weather innerW WHERE  innerW.placeId = w.placeId ORDER BY abs(:now - measured_at) ASC LIMIT 1)")
     abstract fun getAllPlacesWithCurrentWeather(now: Date): Flowable<List<PlaceWithCurrentWeatherEntry>>
 
     @Query("SELECT id from place WHERE isCurrent = 1")

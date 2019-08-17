@@ -13,7 +13,7 @@ import com.lab.esh1n.weather.utils.WORKER_ERROR_DESCRIPTION
 import io.reactivex.Single
 import javax.inject.Inject
 
-class SyncCurrentWeatherWorker(context: Context, params: WorkerParameters) :
+class SyncCurrentsWeatherWorker(context: Context, params: WorkerParameters) :
         RxWorker(context, params) {
 
     @Inject
@@ -23,7 +23,7 @@ class SyncCurrentWeatherWorker(context: Context, params: WorkerParameters) :
     lateinit var loadCurrentWeatherUseCase: LoadCurrentWeatherSingleUseCase
 
     override fun createWork(): Single<Result> {
-        WeatherApp.getWorkerComponent(applicationContext).inject(this@SyncCurrentWeatherWorker)
+        WeatherApp.getWorkerComponent(applicationContext).inject(this@SyncCurrentsWeatherWorker)
         return fetchAndSaveCurrentPlaceWeatherUseCase
                 .perform(Unit)
                 .flatMap { loadCurrentWeatherUseCase.perform(Unit) }

@@ -71,4 +71,10 @@ class WeatherRepository constructor(private val api: APIService, database: Weath
         return placeDAO.getCurrentCityId()
                 .flatMapCompletable { fetchAndSaveWeather(it) }
     }
+
+    fun fetchAndSaveAllPlacesCurrentWeathers(): Completable {
+        return placeDAO.getAllPlacesIds()
+                .flattenAsObservable { it }
+                .flatMapCompletable { id -> fetchAndSaveWeather(id) }
+    }
 }

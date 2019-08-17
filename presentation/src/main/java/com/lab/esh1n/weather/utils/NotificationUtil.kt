@@ -17,6 +17,8 @@ import com.esh1n.utils_android.ui.getImage
 import com.lab.esh1n.data.cache.entity.WeatherWithPlace
 import com.lab.esh1n.weather.R
 import com.lab.esh1n.weather.weather.WeatherActivity
+import com.lab.esh1n.weather.weather.mapper.DateFormat
+import com.lab.esh1n.weather.weather.mapper.UILocalizer
 import com.lab.esh1n.weather.weather.mapper.UiDateMapper
 import com.lab.esh1n.weather.weather.model.Temperature
 
@@ -70,8 +72,8 @@ class NotificationUtil {
                     val weather = result.data!!
                     val title = ctx.getString(R.string.text_weather_notification_title, weather.description)
                     val middleTemperature = Temperature.middleTemperature(weather.temperatureMin, weather.temperatureMax)
-                    val weatherDate = UiDateMapper(weather.timezone).map(weather.measured_at)
-                    val message = ctx.getString(R.string.text_weather_description, weather.placeName, middleTemperature.getHumanReadable(), weatherDate)
+                    val weatherDate = UiDateMapper(weather.timezone, UILocalizer.getDateFormat(DateFormat.HOUR)).map(weather.measured_at)
+                    val message = ctx.getString(R.string.text_weather_description, middleTemperature.getHumanReadable(), weatherDate, weather.placeName)
                     return WeatherNotification(title, message, weather.iconId, title)
                 }
 

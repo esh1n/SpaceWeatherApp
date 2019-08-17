@@ -6,13 +6,13 @@ import com.lab.esh1n.weather.weather.model.PlaceModel
 
 class PlaceWeatherMapper : Mapper<PlaceWithCurrentWeatherEntry, PlaceModel>() {
     override fun map(source: PlaceWithCurrentWeatherEntry): PlaceModel {
-        val uiDateMapper = UiDateMapper(source.timezone)
+        val uiDateMapper = UiDateMapper(source.timezone, UILocalizer.getDateFormat(DateFormat.FULL))
         return PlaceModel(
                 name = source.placeName,
                 id = source.id,
-                iconUrl = source.iconId,
+                iconId = source.iconId,
                 time = uiDateMapper.map(source.date),
-                temperature = source.temperatureMax.toString()
+                temperature = source.temperatureMax
         )
     }
 }

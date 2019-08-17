@@ -11,7 +11,8 @@ fun View.setVisibleOrGone(visible: Boolean) {
 }
 
 fun Context.getImage(iconId: String, prefix: String = ""): Int {
-    return resources.getIdentifier("${prefix}status_$iconId", "drawable", packageName)
+    val res = "${prefix}status_$iconId"
+    return resources.getIdentifier(res, "drawable", packageName)
 }
 
 fun ViewGroup.inflate(res: Int): View {

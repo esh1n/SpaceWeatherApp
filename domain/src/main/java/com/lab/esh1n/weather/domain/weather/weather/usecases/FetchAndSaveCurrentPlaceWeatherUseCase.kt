@@ -12,7 +12,7 @@ class FetchAndSaveCurrentPlaceWeatherUseCase(private val weatherRepository: Weat
 
     override fun perform(args: Any): Single<Resource<Unit>> {
         return weatherRepository
-                .fetchAndSaveCurrentWeather()
+                .fetchAndSaveAllPlacesCurrentWeathers()
                 .andThen(Single.just(Resource.success()))
                 .onErrorReturn { error ->
                     Resource.error(errorsHandler.handle(error))

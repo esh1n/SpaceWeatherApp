@@ -17,7 +17,7 @@ class WeatherModelMapper {
             return emptyList()
         } else {
             val timezone = source[0].timezone
-            val dateMapper = UiDateMapper(timezone)
+            val dateMapper = UiDateMapper(timezone, UILocalizer.getDateFormat(DateFormat.MONTH_DAY))
             val dayToForecast: TreeMap<Int, MutableList<WeatherWithPlace>> = TreeMap()
             source.forEach { weather ->
                 val day = DateBuilder(weather.measured_at).getDay()

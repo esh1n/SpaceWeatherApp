@@ -4,7 +4,7 @@ package com.lab.esh1n.weather.di.component
 import com.lab.esh1n.weather.di.worker.WorkerScope
 import com.lab.esh1n.weather.weather.worker.PrePopulatePlacesWorker
 import com.lab.esh1n.weather.weather.worker.SyncAllPlacesForecastWorker
-import com.lab.esh1n.weather.weather.worker.SyncCurrentWeatherWorker
+import com.lab.esh1n.weather.weather.worker.SyncCurrentsWeatherWorker
 //import com.lab.esh1n.weather.weather.worker.SyncCurrentWeatherWorker
 import dagger.Subcomponent
 
@@ -12,7 +12,7 @@ import dagger.Subcomponent
 @Subcomponent()
 interface WorkerComponent {
 
-    fun inject(worker: SyncCurrentWeatherWorker)
+    fun inject(worker: SyncCurrentsWeatherWorker)
     fun inject(worker: SyncAllPlacesForecastWorker)
     fun inject(worker: PrePopulatePlacesWorker)
 

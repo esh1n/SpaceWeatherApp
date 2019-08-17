@@ -3,7 +3,7 @@ package com.lab.esh1n.weather.utils
 import androidx.work.*
 import com.lab.esh1n.weather.weather.worker.PrePopulatePlacesWorker
 import com.lab.esh1n.weather.weather.worker.SyncAllPlacesForecastWorker
-import com.lab.esh1n.weather.weather.worker.SyncCurrentWeatherWorker
+import com.lab.esh1n.weather.weather.worker.SyncCurrentsWeatherWorker
 import java.util.concurrent.TimeUnit
 
 const val WORKER_ERROR_DESCRIPTION = "WORKER_ERROR_DESCRIPTION"
@@ -13,10 +13,10 @@ fun WorkManager.startCurrentPlacePeriodicSync() {
             .setRequiredNetworkType(NetworkType.CONNECTED)
             .build()
 
-    val syncAllDataWorker = PeriodicWorkRequest.Builder(SyncCurrentWeatherWorker::class.java, 1, TimeUnit.HOURS)
+    val syncAllDataWorker = PeriodicWorkRequest.Builder(SyncCurrentsWeatherWorker::class.java, 1, TimeUnit.HOURS)
             .setConstraints(constraints)
             .build()
-    enqueueUniquePeriodicWork(SyncCurrentWeatherWorker::class.java.name, ExistingPeriodicWorkPolicy.REPLACE, syncAllDataWorker)
+    enqueueUniquePeriodicWork(SyncCurrentsWeatherWorker::class.java.name, ExistingPeriodicWorkPolicy.REPLACE, syncAllDataWorker)
 }
 
 fun WorkManager.startAllPlacesForecastPeriodicSync() {
