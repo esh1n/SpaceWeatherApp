@@ -27,9 +27,11 @@ interface WeatherDAO {
     @Query("DELETE FROM " + WeatherTableContract.WEATHER_TABLE_NAME)
     fun clear()
 
+    @Transaction
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun saveWeather(entities: WeatherEntry): Completable
 
+    @Transaction
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun saveWeathers(entities: List<WeatherEntry>): Completable
 

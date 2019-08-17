@@ -4,6 +4,7 @@ import com.esh1n.utils_android.DateBuilder
 import com.lab.esh1n.data.cache.entity.WeatherWithPlace
 import com.lab.esh1n.weather.weather.model.CurrentWeatherModel
 import com.lab.esh1n.weather.weather.model.DayWeatherModel
+import com.lab.esh1n.weather.weather.model.Temperature
 import com.lab.esh1n.weather.weather.model.WeatherModel
 import java.util.*
 
@@ -35,26 +36,33 @@ class WeatherModelMapper {
             resultWeatherModel.add(CurrentWeatherModel(
                     description = value.description,
                     humanDate = dateMapper.map(value.measured_at),
-                    tempMax = value.temperatureMax,
-                    tempMin = value.temperatureMin,
+                    tempMax = value.temperatureMax.toInt(),
+                    tempMin = value.temperatureMin.toInt(),
+                    currentTemperature = Temperature.middleTemperature(value.temperatureMin, value.temperatureMax).value.toInt(),
                     iconId = value.iconId))
-            val dayWeathers = dayToForecast.mapValues { (day, values) ->
+            val dayWeathers = dayToForecast.mapValues { (_, values) ->
                 val first = values[0]
                 val averageTempMax = values.map { it.temperatureMax }.average()
                 val averageTempMin = values.map { it.temperatureMin }.average()
-                val averageIcon = values.map { it.iconId.substring(0, 1).toInt() }.average().toInt()
-                val averageIconStr = String.format("%02d", averageIcon) + "d"
+                val averageIcon = calculateWeatherIcon(values)
                 DayWeatherModel(dayDate = dateMapper.map(first.measured_at),
                         humanDate = "N/A",
-                        tempMax = averageTempMax,
-                        tempMin = averageTempMin,
-                        iconId = averageIconStr)
+                        tempMax = averageTempMax.toInt(),
+                        tempMin = averageTempMin.toInt(),
+                        iconId = averageIcon)
             }.values.drop(1)
             resultWeatherModel.addAll(dayWeathers)
             return resultWeatherModel
 
         }
 
+    }
+
+    private fun calculateWeatherIcon(weathes: List<WeatherWithPlace>): String {
+        if (weathes.isEmpty()) {
+            return "01d";
+        }
+        return weathes[(weathes.size / 2)].iconId
     }
 
 

@@ -8,7 +8,7 @@ import androidx.work.WorkManager
 import com.lab.esh1n.weather.di.component.AppComponent
 import com.lab.esh1n.weather.di.component.DaggerAppComponent
 import com.lab.esh1n.weather.di.component.WorkerComponent
-import com.lab.esh1n.weather.utils.startCurrentPlacePeriodicSync
+import com.lab.esh1n.weather.utils.prepopulateDbAndStartSync
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasActivityInjector
 import dagger.android.HasServiceInjector
@@ -48,7 +48,10 @@ class WeatherApp : Application(), HasActivityInjector,HasServiceInjector {
                 .build()
         workerComponent = appComponent.plusWorkerComponent().build()
         appComponent.inject(this)
-        workManager.startCurrentPlacePeriodicSync()
+        with(workManager) {
+            prepopulateDbAndStartSync()
+        }
+
     }
 
     companion object {

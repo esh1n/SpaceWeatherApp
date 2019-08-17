@@ -17,8 +17,9 @@
     <string name="text_event_placeholder">%s to</string>
 
 
-    <string name="text_temperature_celsius">%.2f \u2103</string>
-    <string name="text_temperature_range_celsius">from %.2f to %.2f \u2103</string>
+    <string name="text_temperature_celsius">%d\u2103</string>
+    <string name="text_temperature_range_celsius">from %d u2103 to %d \u2103</string>
+    <string name="text_temperature_no_range_celsius">It\'s all day around %d \u2103</string>
     <string name="text_temperature_range">Temperature range</string>
     <string name="text_speed_suffix">m/s</string>
     <string name="text_pressure_suffix">mmHg</string>

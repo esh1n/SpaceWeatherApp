@@ -11,14 +11,13 @@ import com.lab.esh1n.data.cache.dao.PlaceDAO
 import com.lab.esh1n.data.cache.dao.WeatherDAO
 import com.lab.esh1n.data.cache.entity.PlaceEntry
 import com.lab.esh1n.data.cache.entity.WeatherEntry
-import java.util.*
 import java.util.concurrent.Executors
 
 
 /**
  * Created by esh1n on 3/7/18.
  */
-@Database(entities = [WeatherEntry::class, PlaceEntry::class], version = 2, exportSchema = false)
+@Database(entities = [WeatherEntry::class, PlaceEntry::class], version = 1, exportSchema = false)
 @TypeConverters(DateConverter::class)
 abstract class WeatherDB : RoomDatabase() {
 
@@ -39,28 +38,17 @@ abstract class WeatherDB : RoomDatabase() {
         private fun buildDatabase(context: Context) =
                 Room.databaseBuilder(context.applicationContext,
                         WeatherDB::class.java, NAME)
-                        // prepopulate the database after onCreate was called
-                        .addMigrations(MIGRATION_1_2)
-                        .addCallback(object : Callback() {
-                            override fun onCreate(db: SupportSQLiteDatabase) {
-                                super.onCreate(db)
-                                // insert the data on the IO Thread
-                                ExecutorsUtil.ioThread {
-                                    getInstance(context).placeDAO().insertPlaces(PREPOPULATE_PLACES)
-                                    getInstance(context).weatherDAO().saveWeathers(PREPOPULATE_WEATHER).blockingAwait()
-
-                                }
-                            }
-                        })
+                        .fallbackToDestructiveMigration()
                         .build()
-
-        val PREPOPULATE_PLACES = listOf(PlaceEntry(472045, "Voronezh", "Europe/Moscow", true), PlaceEntry(524901, "Moscow", "Europe/Moscow", false))
-        val PREPOPULATE_WEATHER = listOf(WeatherEntry(524901, Date(), "", 12.1, 10.1, 18.1, "01d", "clear sky", 120.0, 12.0, 12f, 12f))
 
         val MIGRATION_1_2: Migration = object : Migration(1, 2) {
             override fun migrate(database: SupportSQLiteDatabase) {
                 database.execSQL("ALTER TABLE place "
                         + " ADD COLUMN isCurrent INTEGER");
+            }
+        }
+        val MIGRATION_2_3: Migration = object : Migration(2, 3) {
+            override fun migrate(database: SupportSQLiteDatabase) {
             }
         }
     }
