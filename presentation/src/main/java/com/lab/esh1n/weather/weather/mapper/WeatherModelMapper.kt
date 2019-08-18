@@ -42,11 +42,18 @@ class WeatherModelMapper {
                     iconId = value.iconId))
             val dayWeathers = dayToForecast.mapValues { (_, values) ->
                 val first = values[0]
-                val averageTempMax = values.map { it.temperatureMax }.average()
-                val averageTempMin = values.map { it.temperatureMin }.average()
-                val averageIcon = calculateWeatherIcon(values)
+                val weathersToAnalyse = values
+                        .filter {
+                            val hourOfDay = DateBuilder(it.measured_at, it.timezone).getHour24Format()
+                            hourOfDay in 9..21
+                        }
+                val averageTempMax = weathersToAnalyse.map { it.temperatureMax }.average()
+                val averageTempMin = weathersToAnalyse.map { it.temperatureMin }.average()
+                val averageIcon = calculateWeatherIcon(weathersToAnalyse)
+                val dateOfWeekMapper = UiDateMapper(timezone, UILocalizer.getDateFormat(DateFormat.DAY_OF_WEEK))
+                val dayOfWeek = dateOfWeekMapper.map(first.measured_at)
                 DayWeatherModel(dayDate = dateMapper.map(first.measured_at),
-                        humanDate = "N/A",
+                        humanDate = dayOfWeek,
                         tempMax = averageTempMax.toInt(),
                         tempMin = averageTempMin.toInt(),
                         iconId = averageIcon)
@@ -58,11 +65,12 @@ class WeatherModelMapper {
 
     }
 
-    private fun calculateWeatherIcon(weathes: List<WeatherWithPlace>): String {
-        if (weathes.isEmpty()) {
+    private fun calculateWeatherIcon(weathers: List<WeatherWithPlace>): String {
+        if (weathers.isEmpty()) {
             return "01d";
         }
-        return weathes[(weathes.size / 2)].iconId
+        //TODO play with different locations and weather data to calculate summary icon
+        return weathers[(weathers.size / 2)].iconId
     }
 
 

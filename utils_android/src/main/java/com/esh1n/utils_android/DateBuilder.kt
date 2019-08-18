@@ -5,8 +5,8 @@ import java.util.*
 class DateBuilder {
     private var calendar: Calendar? = null
 
-    constructor(initDate: Date) {
-        calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"))
+    constructor(initDate: Date, timeZoneID: String = "UTC") {
+        calendar = Calendar.getInstance(TimeZone.getTimeZone(timeZoneID))
         calendar!!.time = initDate
     }
 
@@ -14,14 +14,6 @@ class DateBuilder {
         calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"))
     }
 
-    constructor(year: Int, month: Int, dayOfMonth: Int) {
-        calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"))
-        calendar?.let {
-            it.set(Calendar.YEAR, year)
-            it.set(Calendar.MONTH, month)
-            it.set(Calendar.DAY_OF_MONTH, dayOfMonth)
-        }
-    }
 
     fun build(): Date {
         return calendar!!.time
@@ -29,6 +21,10 @@ class DateBuilder {
 
     fun getDay(): Int {
         return calendar!!.get(Calendar.DAY_OF_MONTH)
+    }
+
+    fun getHour24Format(): Int {
+        return calendar!!.get(Calendar.HOUR_OF_DAY)
     }
 
     fun withDayInMonth(dayInMonth: Int): DateBuilder {

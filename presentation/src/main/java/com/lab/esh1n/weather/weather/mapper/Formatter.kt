@@ -15,7 +15,12 @@ enum class DateFormat(val format: String) {
             return getDateFormat(this.format, locale)
         }
     },
-    MONTH_DAY("d MMM") {
+    DAY_OF_WEEK("EEEE") {
+        override fun getSimpleDateFormat(locale: Locale): ThreadLocal<SimpleDateFormat> {
+            return getDateFormat(this.format, locale)
+        }
+    },
+    MONTH_DAY("d MMMM") {
         override fun getSimpleDateFormat(locale: Locale): ThreadLocal<SimpleDateFormat> {
             return getDateFormat(this.format, locale)
         }
