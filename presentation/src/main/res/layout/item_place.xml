@@ -34,12 +34,14 @@
                 tools:text="16:34" />
 
             <androidx.appcompat.widget.AppCompatImageView
+
                 android:id="@+id/iv_place_actions"
                 android:layout_width="@dimen/dots_options_icon_size"
                 android:layout_height="@dimen/dots_options_icon_size"
                 android:layout_alignParentEnd="true"
                 android:scaleType="fitCenter"
-                android:src="@drawable/ic_three_dots" />
+                android:src="@drawable/ic_three_dots"
+                />
 
         </RelativeLayout>
 

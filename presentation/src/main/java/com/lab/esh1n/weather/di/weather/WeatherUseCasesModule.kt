@@ -2,7 +2,7 @@ package com.lab.esh1n.weather.di.weather
 
 import com.esh1n.core_android.error.ErrorsHandler
 import com.lab.esh1n.weather.domain.weather.places.PlacesRepository
-import com.lab.esh1n.weather.domain.weather.places.usecase.FetchAndSaveAllPlacesForecastUseCase
+import com.lab.esh1n.weather.domain.weather.places.usecase.DaylyForecastSyncUseCase
 import com.lab.esh1n.weather.domain.weather.places.usecase.GetAllPlacesUse
 import com.lab.esh1n.weather.domain.weather.places.usecase.PrePopulatePlacesUseCase
 import com.lab.esh1n.weather.domain.weather.places.usecase.UpdateCurrentPlaceUseCase
@@ -23,8 +23,8 @@ class WeatherUseCasesModule {
     }
 
     @Provides
-    fun provideFetchAndSaveAllPlacesForecastUseCase(placesRepository: PlacesRepository, errorsHandler: ErrorsHandler): FetchAndSaveAllPlacesForecastUseCase {
-        return FetchAndSaveAllPlacesForecastUseCase(placesRepository, errorsHandler)
+    fun provideFetchAndSaveAllPlacesForecastUseCase(placesRepository: PlacesRepository, errorsHandler: ErrorsHandler): DaylyForecastSyncUseCase {
+        return DaylyForecastSyncUseCase(placesRepository, errorsHandler)
     }
 
     @Provides

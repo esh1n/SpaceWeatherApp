@@ -11,7 +11,7 @@ import com.lab.esh1n.weather.databinding.ItemPlaceBinding
 import com.lab.esh1n.weather.weather.model.PlaceModel
 
 
-class PlacesAdapter(private val mClickHandler: (PlaceModel) -> Unit) :
+class PlacesAdapter(private val mClickHandler: IPlaceClickable) :
         RecyclerView.Adapter<PlacesAdapter.ViewHolder>() {
 
     private var places: List<PlaceModel>? = null
@@ -77,14 +77,20 @@ class PlacesAdapter(private val mClickHandler: (PlaceModel) -> Unit) :
 
         init {
             view.setOnClickListener(this)
+            view.findViewById<View>(R.id.iv_place_actions).setOnClickListener(this)
         }
 
         override fun onClick(v: View) {
             val adapterPosition = adapterPosition
-            val brandModel = places?.get(adapterPosition)
-            brandModel?.let {
-                mClickHandler(it)
+            val placeModel = places?.get(adapterPosition)
+            placeModel?.let {
+                if (v.id == R.id.iv_place_actions) {
+                    mClickHandler.onPlaceOptions(it)
+                } else {
+                    mClickHandler.onPlaceClick(it)
+                }
             }
+
 
         }
 
@@ -99,5 +105,10 @@ class PlacesAdapter(private val mClickHandler: (PlaceModel) -> Unit) :
         fun clear() {
             itemPlaceBinding = null
         }
+    }
+
+    interface IPlaceClickable {
+        fun onPlaceClick(placeWeather: PlaceModel)
+        fun onPlaceOptions(placeWeather: PlaceModel)
     }
 }

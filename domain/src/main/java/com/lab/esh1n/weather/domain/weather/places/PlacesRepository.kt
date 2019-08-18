@@ -1,5 +1,6 @@
 package com.lab.esh1n.weather.domain.weather.places
 
+import com.esh1n.utils_android.DateBuilder
 import com.lab.esh1n.data.api.APIService
 import com.lab.esh1n.data.cache.WeatherDB
 import com.lab.esh1n.data.cache.entity.PlaceEntry
@@ -31,6 +32,22 @@ class PlacesRepository constructor(private val apiService: APIService, db: Weath
                     ForecastWeatherMapper(id).map(response.list)
                 }
                 .flatMapCompletable { weathers -> weatherDAO.saveWeathers(weathers) }
+    }
+
+    fun updateCurrentPlacesForecast(): Completable {
+        val threeHoursAgo = DateBuilder(Date()).minusHours(3).build()
+
+        return weatherDAO
+                .clearOldWeathers(threeHoursAgo)
+                .andThen(placeDAO
+                        .getCurrentCityId()
+                        .flatMap { id -> apiService.getForecastAsync(BuildConfig.APP_ID, id, UNITS) }
+                        .map { response ->
+                            val id = response.city!!.id!!
+                            ForecastWeatherMapper(id).map(response.list)
+                        }
+                        .flatMapCompletable { weathers -> weatherDAO.saveWeathers(weathers) }
+                )
     }
 
     fun prePopulatePlaces(): Completable {

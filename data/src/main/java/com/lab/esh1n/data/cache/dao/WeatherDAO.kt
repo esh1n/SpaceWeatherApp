@@ -7,6 +7,7 @@ import com.lab.esh1n.data.cache.entity.WeatherEntry
 import com.lab.esh1n.data.cache.entity.WeatherWithPlace
 import io.reactivex.Completable
 import io.reactivex.Flowable
+import io.reactivex.Single
 import java.util.*
 
 /**
@@ -34,5 +35,11 @@ interface WeatherDAO {
     @Transaction
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun saveWeathers(entities: List<WeatherEntry>): Completable
+
+    @Query("SELECT EXISTS(SELECT 1 FROM weather WHERE placeId=:id AND measured_at>:fourDaysAfterNow)")
+    fun checkIf4daysForecastExist(id: Int, fourDaysAfterNow: Date): Single<Int>
+
+    @Query("DELETE FROM weather WHERE measured_at<=:threeHoursAgo")
+    fun clearOldWeathers(threeHoursAgo: Date): Completable
 
 }

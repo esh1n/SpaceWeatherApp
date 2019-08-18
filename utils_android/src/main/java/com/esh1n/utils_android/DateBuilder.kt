@@ -68,6 +68,11 @@ class DateBuilder {
         return this
     }
 
+    fun minusHours(hours: Int): DateBuilder {
+        calendar?.add(Calendar.HOUR_OF_DAY, -hours)
+        return this
+    }
+
     fun plusDays(days: Int): DateBuilder {
         calendar?.add(Calendar.DAY_OF_MONTH, days)
         return this

@@ -9,8 +9,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.esh1n.core_android.error.ErrorModel
 import com.esh1n.core_android.ui.fragment.BaseVMFragment
 import com.esh1n.core_android.ui.viewmodel.BaseObserver
+import com.esh1n.utils_android.ui.DialogUtil
 import com.esh1n.utils_android.ui.SnackbarBuilder
 import com.esh1n.utils_android.ui.setVisibleOrGone
+import com.lab.esh1n.data.cache.entity.WeatherWithPlace
 import com.lab.esh1n.weather.R
 import com.lab.esh1n.weather.weather.WeatherActivity
 import com.lab.esh1n.weather.weather.adapter.PlacesAdapter
@@ -31,7 +33,7 @@ class AllPlacesFragment : BaseVMFragment<AllPlacesVM>() {
 
     override fun setupView(rootView: View) {
         super.setupView(rootView)
-        adapter = PlacesAdapter(this::onPlaceClicked)
+        adapter = PlacesAdapter(iPlaceClickable)
         placeRecyclerView = rootView.findViewById(R.id.list_places)
         loadingIndicator = rootView.findViewById(R.id.loading_indicator)
         emptyView = rootView.findViewById(R.id.tv_no_places)
@@ -64,8 +66,8 @@ class AllPlacesFragment : BaseVMFragment<AllPlacesVM>() {
 
         })
 
-        viewModel.updateCurrentPlaceOperation.observe(this, object : BaseObserver<Unit>() {
-            override fun onData(data: Unit?) {
+        viewModel.updateCurrentPlaceOperation.observe(this, object : BaseObserver<WeatherWithPlace>() {
+            override fun onData(data: WeatherWithPlace?) {
 
                 (requireActivity() as WeatherActivity).setCurrentWeather()
 
@@ -84,8 +86,22 @@ class AllPlacesFragment : BaseVMFragment<AllPlacesVM>() {
         viewModel.loadPlaces()
     }
 
-    private fun onPlaceClicked(placeWeather: PlaceModel) {
-        viewModel.saveCurrentPlace(placeWeather.id)
+
+    private val iPlaceClickable = object : PlacesAdapter.IPlaceClickable {
+        override fun onPlaceClick(placeWeather: PlaceModel) {
+            SnackbarBuilder.buildSnack(view!!, "Open details").show()
+        }
+
+        override fun onPlaceOptions(placeWeather: PlaceModel) {
+            DialogUtil.buildListDialog(requireActivity(),
+                    getString(R.string.text_choose_action),
+                    R.array.choose_place_actions) { result ->
+                if (result == 0) {
+                    viewModel.saveCurrentPlace(placeWeather.id)
+                }
+            }.show()
+        }
+
     }
 
     companion object {

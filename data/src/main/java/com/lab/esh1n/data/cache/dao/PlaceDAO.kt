@@ -1,7 +1,7 @@
 package com.lab.esh1n.data.cache.dao
 
 import androidx.room.*
-import androidx.room.OnConflictStrategy.REPLACE
+import androidx.room.OnConflictStrategy.IGNORE
 import com.lab.esh1n.data.cache.DateConverter
 import com.lab.esh1n.data.cache.entity.PlaceEntry
 import com.lab.esh1n.data.cache.entity.PlaceWithCurrentWeatherEntry
@@ -13,7 +13,7 @@ import java.util.*
 @Dao
 @TypeConverters(DateConverter::class)
 abstract class PlaceDAO {
-    @Insert(onConflict = REPLACE)
+    @Insert(onConflict = IGNORE)
     abstract fun insertPlaces(places: List<PlaceEntry>): Completable
 
     @Query("SELECT id from place where placeName=:placeName")

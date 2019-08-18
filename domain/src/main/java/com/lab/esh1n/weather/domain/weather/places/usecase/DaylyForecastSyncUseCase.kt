@@ -7,12 +7,12 @@ import com.lab.esh1n.weather.domain.weather.places.PlacesRepository
 import io.reactivex.Single
 
 
-class FetchAndSaveAllPlacesForecastUseCase(private val placesRepository: PlacesRepository, errorsHandler: ErrorsHandler) :
+class DaylyForecastSyncUseCase(private val placesRepository: PlacesRepository, errorsHandler: ErrorsHandler) :
         UseCase<Single<Resource<Unit>>, Unit>(errorsHandler) {
 
     override fun perform(args: Unit): Single<Resource<Unit>> {
         return placesRepository
-                .fetchAndSaveAllPlacesForecast()
+                .updateCurrentPlacesForecast()
                 .andThen(Single.just(Resource.success()))
                 .onErrorReturn { error ->
                     Resource.error(errorsHandler.handle(error))
