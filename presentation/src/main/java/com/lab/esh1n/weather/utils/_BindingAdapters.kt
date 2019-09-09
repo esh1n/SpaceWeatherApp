@@ -1,5 +1,6 @@
 package com.lab.esh1n.weather.utils
 
+import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
@@ -31,12 +32,22 @@ fun setFloatAsString(tv: TextView, value: Float?) {
 }
 
 @BindingAdapter("convertPathToIcon")
-fun convertPathToIcon(tv: ImageView, iconId: String?) {
+fun getWeatherIconRes(tv: ImageView, iconId: String?) {
     iconId?.let {
-        val preparedIconId = tv.context.getImage(iconId)
+        val preparedIconId = tv.context.getImage(iconId, "ic_")
         tv.setImageResource(preparedIconId)
     }
 }
+
+@BindingAdapter("bgIcon")
+fun getWeatherIconBackground(tv: View, iconId: String?) {
+    iconId?.let {
+        val preparedIconId = tv.context.getImage(iconId, "bg_")
+        tv.setBackgroundResource(preparedIconId)
+    }
+}
+
+
 
 @BindingAdapter(value = ["tempMin", "tempMax"], requireAll = false)
 fun setTemperatureRange(tv: TextView, tempMin: Int?, tempMax: Int?) {

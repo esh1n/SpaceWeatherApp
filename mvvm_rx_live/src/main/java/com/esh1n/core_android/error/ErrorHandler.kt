@@ -15,18 +15,16 @@ class ErrorsHandler(private val errorDescriptionProvider: ErrorDescriptionProvid
 
     private fun convertToErrorModel(throwable: Throwable): ErrorModel {
 
-        var errorModel = ErrorModel.unexpectedError(throwable.localizedMessage)
-
         if (throwable is RetrofitException) {
             val response = throwable.message
-            errorModel = if (response == null) {
+            return if (response == null) {
                 ErrorModel.connectionError()
             } else {
                 ErrorModel.httpError(code = throwable.response?.code()
                         ?: HttpURLConnection.HTTP_INTERNAL_ERROR)
             }
         }
-        return errorModel
+        return ErrorModel.unexpectedError(throwable.localizedMessage)
     }
 
 }

@@ -12,6 +12,7 @@
 
 
     <LinearLayout
+        app:bgIcon="@{weather.iconId}"
         android:id="@+id/view_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -27,16 +28,6 @@
             android:layout_marginTop="@dimen/margin_medium"
             android:orientation="horizontal">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:textColor="@android:color/white"
-                android:textSize="@dimen/f46"
-                android:textStyle="bold"
-                app:temperatureCelsius="@{weather.tempMax}"
-                tools:text="16 C"/>
-
             <ImageView
                 android:id="@+id/iv_icon"
                 android:layout_marginStart="@dimen/margin_medium"
@@ -44,8 +35,18 @@
                 android:layout_height="@dimen/image_size_avatar_big"
                 android:contentDescription="@string/app_name"
                 android:scaleType="centerCrop"
-                android:src="@drawable/status_01d"
+                android:src="@drawable/ic_status_01d"
                 app:convertPathToIcon="@{weather.iconId}"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/f46"
+                android:textStyle="bold"
+                app:temperatureCelsius="@{weather.tempMax}"
+                tools:text="16 C" />
 
         </LinearLayout>
 
@@ -55,7 +56,7 @@
             android:layout_gravity="center"
             android:layout_marginTop="@dimen/margin_smallest"
             android:text="@{weather.description}"
-            android:textColor="@android:color/white"
+            android:textColor="@android:color/black"
             android:textSize="@dimen/f20"
             tools:text="Clear sky"/>
 

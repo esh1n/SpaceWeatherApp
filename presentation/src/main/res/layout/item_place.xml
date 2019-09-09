@@ -11,8 +11,9 @@
     </data>
 
     <LinearLayout
+        android:layout_height="@dimen/overall_day_height"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        app:bgIcon="@{place.iconId}"
         android:background="@android:color/holo_blue_light"
         android:orientation="vertical"
         android:padding="@dimen/margin_medium">
@@ -29,7 +30,7 @@
                 android:layout_toStartOf="@+id/iv_place_actions"
                 android:gravity="start"
                 android:text="@{place.time}"
-                android:textColor="@android:color/white"
+                android:textColor="@android:color/black"
                 android:textSize="@dimen/f14"
                 tools:text="16:34" />
 
@@ -57,14 +58,6 @@
                 android:layout_alignParentEnd="true"
                 android:orientation="horizontal">
 
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/iv_weather_status"
-                    android:layout_width="@dimen/place_current_weather_icon_size"
-                    android:layout_height="@dimen/place_current_weather_icon_size"
-                    android:scaleType="centerCrop"
-                    app:convertPathToIcon="@{place.iconId}"
-                    android:src="@drawable/status_02d" />
-
                 <TextView
                     android:id="@+id/tv_temperature"
                     android:layout_width="wrap_content"
@@ -72,10 +65,18 @@
                     android:ellipsize="end"
                     android:padding="5dp"
                     app:temperatureCelsius="@{place.temperature}"
-                    android:textColor="@android:color/white"
+                    android:textColor="@android:color/black"
                     android:textSize="@dimen/f18"
                     android:textStyle="bold"
                     tools:text="17%" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/iv_weather_status"
+                    android:layout_width="@dimen/place_current_weather_icon_size"
+                    android:layout_height="@dimen/place_current_weather_icon_size"
+                    android:scaleType="centerCrop"
+                    app:convertPathToIcon="@{place.iconId}"
+                    android:src="@drawable/ic_status_02d" />
             </LinearLayout>
 
             <TextView
@@ -87,7 +88,7 @@
                 android:layout_toStartOf="@+id/container_weather"
                 android:ellipsize="end"
                 android:text="@{place.name}"
-                android:textColor="@android:color/white"
+                android:textColor="@android:color/black"
                 android:textSize="@dimen/f20"
                 android:textStyle="bold"
                 tools:text="Voronezh" />

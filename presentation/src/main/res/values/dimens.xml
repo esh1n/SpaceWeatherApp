@@ -32,5 +32,6 @@
 
 
     <dimen name="day_forecast_description_image_size">40dp</dimen>
+    <dimen name="overall_day_height">100dp</dimen>
 
 </resources>
