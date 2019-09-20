@@ -21,7 +21,10 @@ class ForecastWeatherMapper(val placeId: Int) : Mapper<ForecastItemResponse, Wea
                 pressure = source.main?.pressure ?: 0F,
                 humidity = source.main?.humidity ?: 0F,
                 date = dateConverter.map(source.dt ?: Date().time),
-                dateTxt = source.dtTxt ?: ""
+                dateTxt = source.dtTxt ?: "",
+                snow = source.snow?.snow3h ?: 0,
+                rain = source.rain?.rain3h ?: 0,
+                cloudiness = source.clouds?.all ?: 0
         )
     }
 }

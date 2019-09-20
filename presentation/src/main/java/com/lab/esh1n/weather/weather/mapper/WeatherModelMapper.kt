@@ -39,7 +39,8 @@ class WeatherModelMapper {
                     tempMax = value.temperatureMax.toInt(),
                     tempMin = value.temperatureMin.toInt(),
                     currentTemperature = Temperature.middleTemperature(value.temperatureMin, value.temperatureMax).value.toInt(),
-                    iconId = value.iconId))
+                    iconId = value.iconId,
+                    snow = value.))
             val dayWeathers = dayToForecast.mapValues { (_, values) ->
                 val first = values[0]
                 val weathersToAnalyse = values

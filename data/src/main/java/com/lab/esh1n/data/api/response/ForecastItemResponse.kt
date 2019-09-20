@@ -10,5 +10,6 @@ data class ForecastItemResponse(
         val weather: List<WeatherItemResponse?>? = null,
         val main: MainInfoResponse? = null,
         val clouds: CloudsResponse? = null,
-        val wind: WindResponse? = null
+        val wind: WindResponse? = null,
+        val snow: SnowResponse? = null
 )

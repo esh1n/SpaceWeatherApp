@@ -10,8 +10,12 @@ class CurrentWeatherModel(
         humanDate: String,
         iconId: String,
         currentTemperature: Int,
+        val snow: Int,
+        val cloudiness: Int,
+        val rain: Int,
         tempMin: Int,
-        tempMax: Int) : WeatherModel(humanDate, iconId, tempMin, tempMax)
+        tempMax: Int,
+        val hour24Format: Int) : WeatherModel(humanDate, iconId, tempMin, tempMax)
 
 class DayWeatherModel(val dayDate: String,
                       humanDate: String,

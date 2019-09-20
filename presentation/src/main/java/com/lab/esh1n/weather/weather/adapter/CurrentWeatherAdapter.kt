@@ -1,18 +1,17 @@
 package com.lab.esh1n.weather.weather.adapter
 
 
+import android.graphics.drawable.GradientDrawable
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.esh1n.utils_android.ui.inflate
-import com.lab.esh1n.weather.R
 import com.lab.esh1n.weather.databinding.ItemDayOverrallWeatherBinding
 import com.lab.esh1n.weather.databinding.ItemHeaderCurrentWeatherBinding
-import com.lab.esh1n.weather.weather.model.CurrentWeatherModel
-import com.lab.esh1n.weather.weather.model.DayWeatherModel
-import com.lab.esh1n.weather.weather.model.WeatherModel
+import com.lab.esh1n.weather.weather.model.*
+
 
 class CurrentWeatherAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -99,9 +98,19 @@ class CurrentWeatherAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() 
         fun populate(weatherModel: CurrentWeatherModel) {
             binding?.let {
                 it.weather = weatherModel
+                it.viewContent.background = prepareWeatherGradient(WeatherBackgroundModel())
                 it.executePendingBindings()
             }
         }
+    }
+
+    private fun prepareWeatherGradient(weatherBackgroundModel: WeatherBackgroundModel): GradientDrawable {
+        val colors = WeatherBackgroundUtil.getGradientBackgroundColors(weatherBackgroundModel)
+        val gd = GradientDrawable(
+                GradientDrawable.Orientation.TOP_BOTTOM, colors)
+        gd.cornerRadius = 45f
+        return gd
+
     }
 
     internal inner class VHItem(itemView: View) : RecyclerView.ViewHolder(itemView) {

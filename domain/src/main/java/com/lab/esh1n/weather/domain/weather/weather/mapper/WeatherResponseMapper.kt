@@ -22,7 +22,10 @@ class WeatherResponseMapper(val placeId: Int) : Mapper<WeatherResponse, WeatherE
                 pressure = source.main?.pressure ?: 0F,
                 humidity = source.main?.humidity ?: 0F,
                 date = dateConverter.map(source.dt),
-                dateTxt = "Current"
+                dateTxt = "Current",
+                snow = source.snow?.snow3h ?: source.snow?.snow1h ?: 0,
+                rain = source.rain?.rain3h ?: source.rain?.rain1h ?: 0,
+                cloudiness = source.clouds?.all ?: 0
         )
     }
 }

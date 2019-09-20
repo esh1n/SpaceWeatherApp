@@ -12,13 +12,12 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/overall_day_height"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
         android:paddingStart="@dimen/padding_medium"
         android:paddingTop="@dimen/margin_small"
         android:paddingEnd="@dimen/padding_medium"
-        android:paddingBottom="@dimen/margin_small"
-        app:bgIcon="@{weather.iconId}">
+        android:paddingBottom="@dimen/margin_small">
 
         <LinearLayout
             android:layout_width="wrap_content"
