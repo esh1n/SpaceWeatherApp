@@ -11,9 +11,9 @@
     </data>
 
     <LinearLayout
+        android:id="@+id/root_container"
         android:layout_height="@dimen/overall_day_height"
         android:layout_width="match_parent"
-        app:bgIcon="@{place.iconId}"
         android:background="@android:color/holo_blue_light"
         android:orientation="vertical"
         android:padding="@dimen/margin_medium">
@@ -24,13 +24,14 @@
 
             <TextView
                 android:id="@+id/tv_time"
+
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_toStartOf="@+id/iv_place_actions"
                 android:gravity="start"
                 android:text="@{place.time}"
-                android:textColor="@android:color/black"
+                app:txtColor="@{place.weatherBackgroundModel.isDay}"
                 android:textSize="@dimen/f14"
                 tools:text="16:34" />
 
@@ -65,7 +66,7 @@
                     android:ellipsize="end"
                     android:padding="5dp"
                     app:temperatureCelsius="@{place.temperature}"
-                    android:textColor="@android:color/black"
+                    app:txtColor="@{place.weatherBackgroundModel.isDay}"
                     android:textSize="@dimen/f18"
                     android:textStyle="bold"
                     tools:text="17%" />
@@ -88,7 +89,7 @@
                 android:layout_toStartOf="@+id/container_weather"
                 android:ellipsize="end"
                 android:text="@{place.name}"
-                android:textColor="@android:color/black"
+                app:txtColor="@{place.weatherBackgroundModel.isDay}"
                 android:textSize="@dimen/f20"
                 android:textStyle="bold"
                 tools:text="Voronezh" />

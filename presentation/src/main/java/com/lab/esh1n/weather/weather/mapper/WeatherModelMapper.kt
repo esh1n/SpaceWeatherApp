@@ -34,13 +34,19 @@ class WeatherModelMapper {
             val value = dayToForecast.firstEntry().value[0]
             val resultWeatherModel = mutableListOf<WeatherModel>()
             resultWeatherModel.add(CurrentWeatherModel(
+                    placeName = value.placeName,
                     description = value.description,
                     humanDate = dateMapper.map(value.measured_at),
                     tempMax = value.temperatureMax.toInt(),
                     tempMin = value.temperatureMin.toInt(),
                     currentTemperature = Temperature.middleTemperature(value.temperatureMin, value.temperatureMax).value.toInt(),
                     iconId = value.iconId,
-                    snow = value.))
+                    snow = value.snow,
+                    cloudiness = value.cloudiness,
+                    rain = value.rain,
+                    hour24Format = DateBuilder(value.measured_at, timezone).getHour24Format(),
+                    isDay = isDay(value.iconId)
+            ))
             val dayWeathers = dayToForecast.mapValues { (_, values) ->
                 val first = values[0]
                 val weathersToAnalyse = values
@@ -68,10 +74,16 @@ class WeatherModelMapper {
 
     private fun calculateWeatherIcon(weathers: List<WeatherWithPlace>): String {
         if (weathers.isEmpty()) {
-            return "01d";
+            return "01d"
         }
         //TODO play with different locations and weather data to calculate summary icon
         return weathers[(weathers.size / 2)].iconId
+    }
+
+    companion object {
+        fun isDay(iconId: String): Boolean {
+            return iconId.last() == 'd'
+        }
     }
 
 

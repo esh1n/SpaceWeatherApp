@@ -52,10 +52,13 @@ class WeatherActivity : BaseToolbarActivity() {
     }
 
     private fun getTitleByTab(tab: MainFragmentTab): CharSequence {
+        if (tab == MainFragmentTab.CURRENT_PLACE) {
+            return ""
+        }
         val titleRes = when (tab) {
-            MainFragmentTab.CURRENT_PLACE -> R.string.menu_current_place
             MainFragmentTab.ALL_PLACES -> R.string.menu_destinations_on_earth
             MainFragmentTab.SETTINGS -> R.string.menu_settings
+            else -> R.string.app_name
         }
         return getString(titleRes)
     }
@@ -117,7 +120,7 @@ class WeatherActivity : BaseToolbarActivity() {
         super.onSaveInstanceState(outState)
     }
 
-    public fun setCurrentWeather() {
+    fun setCurrentWeather() {
         bottom_navigation.selectedItemId = R.id.menu_current_city
     }
 

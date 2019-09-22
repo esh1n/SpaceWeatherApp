@@ -23,8 +23,8 @@ class WeatherResponseMapper(val placeId: Int) : Mapper<WeatherResponse, WeatherE
                 humidity = source.main?.humidity ?: 0F,
                 date = dateConverter.map(source.dt),
                 dateTxt = "Current",
-                snow = source.snow?.snow3h ?: source.snow?.snow1h ?: 0,
-                rain = source.rain?.rain3h ?: source.rain?.rain1h ?: 0,
+                snow = source.snow?.snow3h ?: source.snow?.snow1h ?: 0f,
+                rain = source.rain?.rain3h ?: source.rain?.rain1h ?: 0f,
                 cloudiness = source.clouds?.all ?: 0
         )
     }

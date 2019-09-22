@@ -7,12 +7,14 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.esh1n.core_android.error.ErrorModel
 import com.esh1n.core_android.ui.fragment.BaseVMFragment
+import com.esh1n.core_android.ui.setTitle
 import com.esh1n.core_android.ui.viewmodel.BaseObserver
 import com.esh1n.utils_android.ui.SnackbarBuilder
 import com.esh1n.utils_android.ui.setVisibleOrGone
 import com.lab.esh1n.weather.R
 import com.lab.esh1n.weather.databinding.FragmentCurrentPlaceBinding
 import com.lab.esh1n.weather.weather.adapter.CurrentWeatherAdapter
+import com.lab.esh1n.weather.weather.model.CurrentWeatherModel
 import com.lab.esh1n.weather.weather.model.WeatherModel
 import com.lab.esh1n.weather.weather.viewmodel.CurrentWeatherVM
 
@@ -52,6 +54,7 @@ class CurrentPlaceFragment : BaseVMFragment<CurrentWeatherVM>() {
         }
     }
 
+
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         observeWeather()
@@ -72,6 +75,9 @@ class CurrentPlaceFragment : BaseVMFragment<CurrentWeatherVM>() {
             override fun onData(data: List<WeatherModel>?) {
                 val isEmpty = data?.isEmpty() ?: true
                 binding?.tvNoWeather?.setVisibleOrGone(isEmpty)
+                val placeName = (data?.get(0) as? CurrentWeatherModel)?.placeName
+                        ?: getString(R.string.menu_current_place)
+                setTitle(placeName)
                 adapter.swapWeathers(data.orEmpty())
             }
 

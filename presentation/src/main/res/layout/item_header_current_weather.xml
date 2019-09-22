@@ -41,7 +41,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:textColor="@android:color/black"
+                app:txtColor="@{weather.isDay}"
                 android:textSize="@dimen/f46"
                 android:textStyle="bold"
                 app:temperatureCelsius="@{weather.tempMax}"
@@ -55,7 +55,7 @@
             android:layout_gravity="center"
             android:layout_marginTop="@dimen/margin_smallest"
             android:text="@{weather.description}"
-            android:textColor="@android:color/black"
+            app:txtColor="@{weather.isDay}"
             android:textSize="@dimen/f20"
             tools:text="Clear sky"/>
 

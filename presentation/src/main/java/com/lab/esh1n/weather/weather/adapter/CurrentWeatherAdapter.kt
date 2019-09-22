@@ -1,19 +1,23 @@
 package com.lab.esh1n.weather.weather.adapter
 
 
-import android.graphics.drawable.GradientDrawable
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.esh1n.utils_android.ui.inflate
+import com.lab.esh1n.weather.R
 import com.lab.esh1n.weather.databinding.ItemDayOverrallWeatherBinding
 import com.lab.esh1n.weather.databinding.ItemHeaderCurrentWeatherBinding
-import com.lab.esh1n.weather.weather.model.*
+import com.lab.esh1n.weather.weather.model.CurrentWeatherModel
+import com.lab.esh1n.weather.weather.model.DayWeatherModel
+import com.lab.esh1n.weather.weather.model.WeatherBackgroundModel
+import com.lab.esh1n.weather.weather.model.WeatherBackgroundUtil.Companion.prepareWeatherGradient
+import com.lab.esh1n.weather.weather.model.WeatherModel
 
 
-class CurrentWeatherAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class CurrentWeatherAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private var weathers: List<WeatherModel>? = null
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -93,25 +97,19 @@ class CurrentWeatherAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() 
     }
 
     internal inner class VHHeader(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        var binding: ItemHeaderCurrentWeatherBinding? = DataBindingUtil.bind(itemView);
+        var binding: ItemHeaderCurrentWeatherBinding? = DataBindingUtil.bind(itemView)
 
         fun populate(weatherModel: CurrentWeatherModel) {
             binding?.let {
                 it.weather = weatherModel
-                it.viewContent.background = prepareWeatherGradient(WeatherBackgroundModel())
+                val backgroundModel = WeatherBackgroundModel(weatherModel.iconId, weatherModel.isDay, weatherModel.hour24Format, weatherModel.cloudiness, weatherModel.rain, weatherModel.snow)
+                it.viewContent.background = prepareWeatherGradient(it.root.context, backgroundModel)
                 it.executePendingBindings()
             }
         }
     }
 
-    private fun prepareWeatherGradient(weatherBackgroundModel: WeatherBackgroundModel): GradientDrawable {
-        val colors = WeatherBackgroundUtil.getGradientBackgroundColors(weatherBackgroundModel)
-        val gd = GradientDrawable(
-                GradientDrawable.Orientation.TOP_BOTTOM, colors)
-        gd.cornerRadius = 45f
-        return gd
 
-    }
 
     internal inner class VHItem(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var binding: ItemDayOverrallWeatherBinding? = DataBindingUtil.bind(itemView)

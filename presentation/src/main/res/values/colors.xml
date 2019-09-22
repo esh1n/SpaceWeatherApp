@@ -11,4 +11,35 @@
     <color name="bottom_menu_active">#d337e1</color>
     <color name="bottom_menu_inactive">#8a8a8f</color>
     <color name="gray_bottom_menu">#777777</color>
+
+    <string-array name="clear_sky">
+        <item>#00c0f5</item>
+        <item>#00d4fa</item>
+        <item>#d7f5f2</item>
+    </string-array>
+
+    <string-array name="cloudy_sky">
+        <item>#89b5d9</item>
+        <item>#00c0f5</item>
+        <item>#60abd6</item>
+    </string-array>
+
+    <string-array name="rain_sky">
+        <item>#3F51B5</item>
+        <item>#a3b6c9</item>
+        <item>#89b5d9</item>
+    </string-array>
+
+    <string-array name="night_clear_sky">
+        <item>#07305e</item>
+        <item>#0780b0</item>
+        <item>#3F51B5</item>
+    </string-array>
+
+    <string-array name="night_cloudy_sky">
+        <item>#03080d</item>
+        <item>#002f5e</item>
+        <item>#2f3494</item>
+    </string-array>
+
 </resources>
