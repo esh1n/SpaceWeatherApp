@@ -12,6 +12,7 @@ import com.lab.esh1n.weather.weather.MainFragmentTab
 import com.lab.esh1n.weather.weather.viewmodel.SettingsVM
 import kotlinx.android.synthetic.main.fragment_weathers_host.*
 
+
 class WeatherHostFragment : BaseVMFragment<SettingsVM>() {
 
     override val viewModelClass = SettingsVM::class.java
@@ -76,16 +77,36 @@ class WeatherHostFragment : BaseVMFragment<SettingsVM>() {
         updateBottomMenuCheckedItem(menuId)
 
         with(getTabByMenu(menuId)) {
-            val fragment = childFragmentManager.findFragmentByTag(name)!!
-
-            val transaction = childFragmentManager.beginTransaction()
-            activeFragment?.let {
-                transaction.hide(it)
-            }
-            transaction.show(fragment).commit()
-            activeFragment = fragment
+            replaceFragmentByAttach(this)
             setTitle(getTitleByTab(this))
         }
+    }
+
+    private fun replaceFragmentByAttach(tab: MainFragmentTab) {
+        val fragmentTransaction = childFragmentManager.beginTransaction()
+        val curFrag = childFragmentManager.primaryNavigationFragment
+        if (curFrag != null) {
+            fragmentTransaction.detach(curFrag)
+        }
+
+        val fragment = childFragmentManager.findFragmentByTag(tab.name)!!
+
+        fragmentTransaction.attach(fragment).show(fragment)
+
+        fragmentTransaction.setPrimaryNavigationFragment(fragment)
+        fragmentTransaction.setReorderingAllowed(true)
+        fragmentTransaction.commitNowAllowingStateLoss()
+    }
+
+    private fun replaceFragmentByShowHide(tab: MainFragmentTab) {
+        val fragment = childFragmentManager.findFragmentByTag(tab.name)!!
+
+        val transaction = childFragmentManager.beginTransaction()
+        activeFragment?.let {
+            transaction.hide(it)
+        }
+        transaction.show(fragment).commit()
+        activeFragment = fragment
     }
 
     private fun getTitleByTab(tab: MainFragmentTab): CharSequence {
