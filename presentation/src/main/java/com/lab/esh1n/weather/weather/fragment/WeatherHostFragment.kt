@@ -3,8 +3,9 @@ package com.lab.esh1n.weather.weather.fragment
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
+import androidx.collection.ArrayMap
+import androidx.fragment.app.Fragment
 import com.esh1n.core_android.ui.fragment.BaseVMFragment
-import com.esh1n.core_android.ui.replaceFragment
 import com.esh1n.core_android.ui.setTitle
 import com.lab.esh1n.weather.R
 import com.lab.esh1n.weather.weather.MainFragmentTab
@@ -19,9 +20,36 @@ class WeatherHostFragment : BaseVMFragment<SettingsVM>() {
 
     override val layoutResource: Int = R.layout.fragment_weathers_host
 
+    private lateinit var fragments: ArrayMap<MainFragmentTab, Fragment>
+
+    private var activeFragment: Fragment? = null
+
     companion object {
         private const val SELECTED_ITEM = "arg_selected_item"
         fun newInstance() = WeatherHostFragment()
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        initFragments()
+
+    }
+
+    private fun initFragments() {
+//        fragments = ArrayMap<MainFragmentTab,Fragment>().apply {
+//
+//        }
+        MainFragmentTab.values().forEach { tab ->
+            val fragment = tab.fragment
+            childFragmentManager
+                    .beginTransaction()
+                    .add(R.id.container_fragment, fragment, tab.name)
+                    .hide(fragment)
+                    .commit()
+        }
+        childFragmentManager.executePendingTransactions();
+
+
     }
 
     override fun setupView(rootView: View, savedInstanceState: Bundle?) {
@@ -34,7 +62,7 @@ class WeatherHostFragment : BaseVMFragment<SettingsVM>() {
 
 
     private fun setupBottomNavigation() {
-        bottom_navigation.getMenu().clear(); //clear old inflated items.
+        bottom_navigation.menu.clear() //clear old inflated items.
         bottom_navigation.inflateMenu(R.menu.bottom_nav_items);
         bottom_navigation.setOnNavigationItemSelectedListener { item ->
             selectFragment(item)
@@ -48,19 +76,27 @@ class WeatherHostFragment : BaseVMFragment<SettingsVM>() {
         updateBottomMenuCheckedItem(menuId)
 
         with(getTabByMenu(menuId)) {
-            childFragmentManager.replaceFragment(fragment, name)
+            val fragment = childFragmentManager.findFragmentByTag(name)!!
+
+            val transaction = childFragmentManager.beginTransaction()
+            activeFragment?.let {
+                transaction.hide(it)
+            }
+            transaction.show(fragment).commit()
+            activeFragment = fragment
             setTitle(getTitleByTab(this))
         }
     }
 
     private fun getTitleByTab(tab: MainFragmentTab): CharSequence {
-        if (tab == MainFragmentTab.CURRENT_PLACE) {
-            return ""
-        }
+
         val titleRes = when (tab) {
             MainFragmentTab.ALL_PLACES -> R.string.menu_destinations_on_earth
             MainFragmentTab.SETTINGS -> R.string.menu_settings
-            else -> R.string.app_name
+            MainFragmentTab.CURRENT_PLACE -> {
+                val currentFragment = childFragmentManager.findFragmentByTag(tab.name) as CurrentPlaceFragment
+                return currentFragment.getTitle()
+            }
         }
         return getString(titleRes)
     }
