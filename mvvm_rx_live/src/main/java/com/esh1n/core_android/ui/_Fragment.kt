@@ -12,7 +12,7 @@ fun Fragment.hideKeyboard() {
     view?.let { hideKeyboard(activity, it.windowToken) }
 }
 
-fun Fragment.setTitle(title: String?) {
+fun Fragment.setTitle(title: CharSequence) {
     (activity as BaseToolbarActivity).setABTitle(title)
 }
 

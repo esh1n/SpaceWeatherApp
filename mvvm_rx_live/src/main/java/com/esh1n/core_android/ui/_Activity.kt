@@ -7,6 +7,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
+import androidx.fragment.app.FragmentManager
 import com.esh1n.core_android.R
 
 inline fun <reified T : Activity> Context?.startActivity() {
@@ -44,9 +45,9 @@ fun FragmentActivity?.addFragment(fragment: Fragment, hide: Boolean = false, tag
     }
 }
 
-fun FragmentActivity?.replaceFragment(fragment: Fragment, tag: String) {
+fun FragmentManager?.replaceFragment(fragment: Fragment, tag: String) {
     this?.let {
-        val transaction = supportFragmentManager.beginTransaction()
+        val transaction = beginTransaction()
         transaction.replace(R.id.container_fragment, fragment, tag)
         transaction.commit()
     }

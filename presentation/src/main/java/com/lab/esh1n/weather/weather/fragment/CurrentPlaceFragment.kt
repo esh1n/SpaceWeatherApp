@@ -33,8 +33,8 @@ class CurrentPlaceFragment : BaseVMFragment<CurrentWeatherVM>() {
 
     private lateinit var adapter: CurrentWeatherAdapter
 
-    override fun setupView(rootView: View) {
-        super.setupView(rootView)
+    override fun setupView(rootView: View, savedInstanceState: Bundle?) {
+        super.setupView(rootView, savedInstanceState)
         binding = DataBindingUtil.bind(rootView)
         binding?.let {
             it.swipeRefreshLayout.setOnRefreshListener {

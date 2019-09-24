@@ -19,10 +19,10 @@ abstract class BaseFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setupView(view)
+        setupView(view, savedInstanceState)
     }
 
-    protected open fun setupView(rootView: View) {
+    protected open fun setupView(rootView: View, savedInstanceState: Bundle?) {
 
     }
 }

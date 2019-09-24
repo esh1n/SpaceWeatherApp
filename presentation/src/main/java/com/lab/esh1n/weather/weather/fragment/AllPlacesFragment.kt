@@ -14,7 +14,6 @@ import com.esh1n.utils_android.ui.SnackbarBuilder
 import com.esh1n.utils_android.ui.setVisibleOrGone
 import com.lab.esh1n.data.cache.entity.WeatherWithPlace
 import com.lab.esh1n.weather.R
-import com.lab.esh1n.weather.weather.WeatherActivity
 import com.lab.esh1n.weather.weather.adapter.PlacesAdapter
 import com.lab.esh1n.weather.weather.model.PlaceModel
 import com.lab.esh1n.weather.weather.viewmodel.AllPlacesVM
@@ -31,8 +30,8 @@ class AllPlacesFragment : BaseVMFragment<AllPlacesVM>() {
     private var emptyView: TextView? = null
     private var loadingIndicator: View? = null
 
-    override fun setupView(rootView: View) {
-        super.setupView(rootView)
+    override fun setupView(rootView: View, savedInstanceState: Bundle?) {
+        super.setupView(rootView, savedInstanceState)
         adapter = PlacesAdapter(iPlaceClickable)
         placeRecyclerView = rootView.findViewById(R.id.list_places)
         loadingIndicator = rootView.findViewById(R.id.loading_indicator)
@@ -69,7 +68,7 @@ class AllPlacesFragment : BaseVMFragment<AllPlacesVM>() {
         viewModel.updateCurrentPlaceOperation.observe(this, object : BaseObserver<WeatherWithPlace>() {
             override fun onData(data: WeatherWithPlace?) {
 
-                (requireActivity() as WeatherActivity).setCurrentWeather()
+                (parentFragment as WeatherHostFragment).setCurrentWeather()
 
             }
 
