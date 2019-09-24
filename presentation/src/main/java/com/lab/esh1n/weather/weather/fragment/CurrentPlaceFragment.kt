@@ -33,6 +33,8 @@ class CurrentPlaceFragment : BaseVMFragment<CurrentWeatherVM>() {
 
     private lateinit var adapter: CurrentWeatherAdapter
 
+    private var title: String? = null
+
     override fun setupView(rootView: View, savedInstanceState: Bundle?) {
         super.setupView(rootView, savedInstanceState)
         binding = DataBindingUtil.bind(rootView)
@@ -78,6 +80,7 @@ class CurrentPlaceFragment : BaseVMFragment<CurrentWeatherVM>() {
                 val placeName = (data?.get(0) as? CurrentWeatherModel)?.placeName
                         ?: getString(R.string.menu_current_place)
                 setTitle(placeName)
+                title = placeName
                 adapter.swapWeathers(data.orEmpty())
             }
 
@@ -130,8 +133,9 @@ class CurrentPlaceFragment : BaseVMFragment<CurrentWeatherVM>() {
         }
     }
 
-
-
+    fun getTitle(): CharSequence {
+        return title ?: ""
+    }
 
     companion object {
         fun newInstance() = CurrentPlaceFragment()
