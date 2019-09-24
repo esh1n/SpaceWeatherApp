@@ -10,7 +10,8 @@ data class PlaceWithCurrentWeatherEntry(val id: Int,
                                         val timezone: String,
                                         val dateTxt: String,
                                         @ColumnInfo(name = WeatherTableContract.COLUMN_WEATHER_DATE)
-                                        var date: Date,
-                                        val temperatureMax: Int) {
-
-}
+                                        val date: Date,
+                                        val snow: Int,
+                                        val cloudiness: Int,
+                                        val rain: Int,
+                                        val temperatureMax: Int)

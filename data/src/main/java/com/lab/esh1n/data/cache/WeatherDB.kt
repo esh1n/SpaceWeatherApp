@@ -26,7 +26,7 @@ abstract class WeatherDB : RoomDatabase() {
     abstract fun placeDAO(): PlaceDAO
 
     companion object {
-        const val NAME = "weather.db"
+        private const val NAME = "weather.db"
         @Volatile
         private var INSTANCE: WeatherDB? = null
 
@@ -44,7 +44,7 @@ abstract class WeatherDB : RoomDatabase() {
         val MIGRATION_1_2: Migration = object : Migration(1, 2) {
             override fun migrate(database: SupportSQLiteDatabase) {
                 database.execSQL("ALTER TABLE place "
-                        + " ADD COLUMN isCurrent INTEGER");
+                        + " ADD COLUMN isCurrent INTEGER")
             }
         }
         val MIGRATION_2_3: Migration = object : Migration(2, 3) {

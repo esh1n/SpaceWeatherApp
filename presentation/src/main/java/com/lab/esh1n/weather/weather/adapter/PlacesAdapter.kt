@@ -9,6 +9,7 @@ import com.esh1n.utils_android.ui.inflate
 import com.lab.esh1n.weather.R
 import com.lab.esh1n.weather.databinding.ItemPlaceBinding
 import com.lab.esh1n.weather.weather.model.PlaceModel
+import com.lab.esh1n.weather.weather.model.WeatherBackgroundUtil.Companion.prepareWeatherGradient
 
 
 class PlacesAdapter(private val mClickHandler: IPlaceClickable) :
@@ -97,6 +98,7 @@ class PlacesAdapter(private val mClickHandler: IPlaceClickable) :
         fun bindTo(placeWeather: PlaceModel) {
             itemPlaceBinding?.let {
                 it.place = placeWeather
+                it.rootContainer.background = prepareWeatherGradient(it.root.context, placeWeather.weatherBackgroundModel)
                 it.executePendingBindings()
                 // binding.ivAvatar.loadCircleImage(eventModel.actorAvatar)
             }

@@ -45,8 +45,8 @@ open class WeatherEntry(
         var pressure: Float,
 
         var humidity: Float,
-        val snow: Int,
+        val snow: Float,
         val cloudiness: Int,
-        val rain: Int
+        val rain: Float
 )
 

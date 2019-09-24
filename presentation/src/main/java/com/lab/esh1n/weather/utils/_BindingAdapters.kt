@@ -1,11 +1,11 @@
 package com.lab.esh1n.weather.utils
 
-import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import com.esh1n.utils_android.ui.getImage
 import com.lab.esh1n.weather.R
+import com.lab.esh1n.weather.weather.model.WeatherBackgroundUtil
 
 @BindingAdapter("temperatureCelsius")
 fun setTemperatureCelsius(tv: TextView, temperatureCelsius: Int?) {
@@ -39,11 +39,10 @@ fun getWeatherIconRes(tv: ImageView, iconId: String?) {
     }
 }
 
-@BindingAdapter("bgIcon")
-fun getWeatherIconBackground(tv: View, iconId: String?) {
-    iconId?.let {
-        val preparedIconId = tv.context.getImage(iconId, "bg_")
-        tv.setBackgroundResource(preparedIconId)
+@BindingAdapter("txtColor")
+fun getTextColor(tv: TextView, isDay: Boolean?) {
+    isDay?.let {
+        tv.setTextColor(WeatherBackgroundUtil.getColorForTime(isDay))
     }
 }
 

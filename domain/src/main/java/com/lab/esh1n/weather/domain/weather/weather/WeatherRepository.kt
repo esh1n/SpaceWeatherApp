@@ -26,12 +26,10 @@ class WeatherRepository constructor(private val api: APIService, database: Weath
         const val UNITS = "metric"
     }
 
-    fun fetchAndSaveWeather(id: Int): Completable {
-        return api.getWeatherAsync(BuildConfig.APP_ID, id, UNITS).map {
-            WeatherResponseMapper(id).map(it)
-        }.flatMapCompletable { weatherEntry ->
-            weatherDAO.saveWeather(weatherEntry)
-        }
+    private fun fetchAndSaveWeather(id: Int): Completable {
+        return api.getWeatherAsync(BuildConfig.APP_ID, id, UNITS)
+                .map { WeatherResponseMapper(id).map(it) }
+                .flatMapCompletable { weatherEntry -> weatherDAO.saveWeather(weatherEntry) }
     }
 
 
@@ -87,6 +85,8 @@ class WeatherRepository constructor(private val api: APIService, database: Weath
     fun fetchAndSaveAllPlacesCurrentWeathers(): Completable {
         return placeDAO.getAllPlacesIds()
                 .flattenAsObservable { it }
-                .flatMapCompletable { id -> fetchAndSaveWeather(id) }
+                .flatMapCompletable { id ->
+                    fetchAndSaveWeather(id)
+                }
     }
 }

@@ -3,9 +3,21 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/SpaceWeatherApp.iml" filepath="$PROJECT_DIR$/.idea/SpaceWeatherApp.iml" />
+      <module fileurl="file://$PROJECT_DIR$/data/SpaceWeatherApp-data.iml" filepath="$PROJECT_DIR$/data/SpaceWeatherApp-data.iml" />
+      <module fileurl="file://$PROJECT_DIR$/domain/SpaceWeatherApp-domain.iml" filepath="$PROJECT_DIR$/domain/SpaceWeatherApp-domain.iml" />
+      <module fileurl="file://$PROJECT_DIR$/mvvm_rx_live/SpaceWeatherApp-mvvm_rx_live.iml" filepath="$PROJECT_DIR$/mvvm_rx_live/SpaceWeatherApp-mvvm_rx_live.iml" />
+      <module fileurl="file://$PROJECT_DIR$/presentation/SpaceWeatherApp-presentation.iml" filepath="$PROJECT_DIR$/presentation/SpaceWeatherApp-presentation.iml" />
+      <module fileurl="file://$PROJECT_DIR$/utils_android/SpaceWeatherApp-utils_android.iml" filepath="$PROJECT_DIR$/utils_android/SpaceWeatherApp-utils_android.iml" />
+      <module fileurl="file://$PROJECT_DIR$/StudioProjects-SpaceWeatherApp.iml" filepath="$PROJECT_DIR$/StudioProjects-SpaceWeatherApp.iml" />
+      <module fileurl="file://$PROJECT_DIR$/data/StudioProjects-SpaceWeatherApp-data.iml" filepath="$PROJECT_DIR$/data/StudioProjects-SpaceWeatherApp-data.iml" />
+      <module fileurl="file://$PROJECT_DIR$/domain/StudioProjects-SpaceWeatherApp-domain.iml" filepath="$PROJECT_DIR$/domain/StudioProjects-SpaceWeatherApp-domain.iml" />
+      <module fileurl="file://$PROJECT_DIR$/mvvm_rx_live/StudioProjects-SpaceWeatherApp-mvvm_rx_live.iml" filepath="$PROJECT_DIR$/mvvm_rx_live/StudioProjects-SpaceWeatherApp-mvvm_rx_live.iml" />
+      <module fileurl="file://$PROJECT_DIR$/presentation/StudioProjects-SpaceWeatherApp-presentation.iml" filepath="$PROJECT_DIR$/presentation/StudioProjects-SpaceWeatherApp-presentation.iml" />
+      <module fileurl="file://$PROJECT_DIR$/utils_android/StudioProjects-SpaceWeatherApp-utils_android.iml" filepath="$PROJECT_DIR$/utils_android/StudioProjects-SpaceWeatherApp-utils_android.iml" />
       <module fileurl="file://$PROJECT_DIR$/WeatherApp.iml" filepath="$PROJECT_DIR$/WeatherApp.iml" />
       <module fileurl="file://$PROJECT_DIR$/data/data.iml" filepath="$PROJECT_DIR$/data/data.iml" />
       <module fileurl="file://$PROJECT_DIR$/domain/domain.iml" filepath="$PROJECT_DIR$/domain/domain.iml" />
+      <module fileurl="file://$PROJECT_DIR$/esh1n-StudioProjects-SpaceWeatherApp.iml" filepath="$PROJECT_DIR$/esh1n-StudioProjects-SpaceWeatherApp.iml" />
       <module fileurl="file://$PROJECT_DIR$/mvvm_rx_live/mvvm_rx_live.iml" filepath="$PROJECT_DIR$/mvvm_rx_live/mvvm_rx_live.iml" />
       <module fileurl="file://$PROJECT_DIR$/presentation/presentation.iml" filepath="$PROJECT_DIR$/presentation/presentation.iml" />
       <module fileurl="file://$PROJECT_DIR$/utils_android/utils_android.iml" filepath="$PROJECT_DIR$/utils_android/utils_android.iml" />

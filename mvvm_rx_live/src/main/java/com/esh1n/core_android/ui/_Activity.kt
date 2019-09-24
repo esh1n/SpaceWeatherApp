@@ -62,5 +62,8 @@ fun FragmentActivity?.addFragmentToStack(fragment: Fragment) {
 }
 
 fun AppCompatActivity.setABTitle(title: CharSequence?) {
-    supportActionBar?.title = title
+    if (!title.isNullOrBlank()) {
+        supportActionBar?.title = title
+    }
+
 }

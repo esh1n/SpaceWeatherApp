@@ -33,6 +33,8 @@ class WeatherWithPlace(
 
         var pressure: Int,
 
-        var humidity: Int) {
-
-}
+        var humidity: Int,
+        val snow: Int,
+        val cloudiness: Int,
+        val rain: Int,
+        val isCurrent: Boolean)

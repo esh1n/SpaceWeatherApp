@@ -5,7 +5,6 @@ import com.lab.esh1n.data.api.APIService
 import com.lab.esh1n.data.cache.WeatherDB
 import com.lab.esh1n.data.cache.entity.PlaceEntry
 import com.lab.esh1n.data.cache.entity.PlaceWithCurrentWeatherEntry
-import com.lab.esh1n.data.cache.entity.WeatherEntry
 import com.lab.esh1n.weather.domain.BuildConfig
 import com.lab.esh1n.weather.domain.weather.weather.WeatherRepository.Companion.UNITS
 import com.lab.esh1n.weather.domain.weather.weather.mapper.ForecastWeatherMapper
@@ -26,7 +25,9 @@ class PlacesRepository constructor(private val apiService: APIService, db: Weath
     fun fetchAndSaveAllPlacesForecast(): Completable {
         return placeDAO.getAllPlacesIds()
                 .flattenAsObservable { it }
-                .flatMapSingle { id -> apiService.getForecastAsync(BuildConfig.APP_ID, id, UNITS) }
+                .flatMapSingle { id ->
+                    apiService.getForecastAsync(BuildConfig.APP_ID, id, UNITS)
+                }
                 .map { response ->
                     val id = response.city!!.id!!
                     ForecastWeatherMapper(id).map(response.list)
@@ -53,6 +54,7 @@ class PlacesRepository constructor(private val apiService: APIService, db: Weath
     fun prePopulatePlaces(): Completable {
         val PREPOPULATE_PLACES = listOf(
                 PlaceEntry(472045, "Voronezh", "Europe/Moscow", true),
+                PlaceEntry(6455259, "Paris", "Europe/Prague", false),
                 PlaceEntry(524901, "Moscow", "Europe/Moscow", false),
                 PlaceEntry(694423, "Sevastopol", "Europe/Moscow", false),
                 PlaceEntry(498817, "Leningrad", "Europe/Moscow", false),
@@ -60,8 +62,9 @@ class PlacesRepository constructor(private val apiService: APIService, db: Weath
                 PlaceEntry(3164603, "Venezia", "Europe/Prague", false),
                 PlaceEntry(3067696, "Prague", "Europe/Prague", false),
                 PlaceEntry(745044, "Istanbul", "Europe/Moscow", false)
+
         )
-        val PREPOPULATE_WEATHER = listOf(WeatherEntry(524901, Date(), "", 12.1, 10.1, 18.1, "01d", "clear sky", 120.0, 12.0, 12f, 12f))
+        //   val PREPOPULATE_WEATHER = listOf(WeatherEntry(524901, Date(), "", 12.1, 10.1, 18.1, "01d", "clear sky", 120.0, 12.0, 12f, 12f))
         return placeDAO.insertPlaces(PREPOPULATE_PLACES)
     }
 
