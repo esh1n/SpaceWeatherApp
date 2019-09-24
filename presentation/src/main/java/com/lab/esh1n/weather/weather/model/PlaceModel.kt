@@ -5,4 +5,28 @@ data class PlaceModel(val id: Int,
                       val iconId: String,
                       val time: String,
                       val temperature: Int,
-                      val weatherBackgroundModel: WeatherBackgroundModel)
+                      val weatherBackgroundModel: WeatherBackgroundModel) {
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as PlaceModel
+
+        if (id != other.id) return false
+        if (name != other.name) return false
+        if (iconId != other.iconId) return false
+        if (time != other.time) return false
+        if (temperature != other.temperature) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = id
+        result = 31 * result + name.hashCode()
+        result = 31 * result + iconId.hashCode()
+        result = 31 * result + time.hashCode()
+        result = 31 * result + temperature
+        return result
+    }
+}
