@@ -4,11 +4,9 @@ import android.app.Activity
 import android.app.Application
 import android.app.Service
 import android.content.Context
-import androidx.work.WorkManager
 import com.lab.esh1n.weather.di.component.AppComponent
 import com.lab.esh1n.weather.di.component.DaggerAppComponent
 import com.lab.esh1n.weather.di.component.WorkerComponent
-import com.lab.esh1n.weather.utils.prepopulateDbAndStartSync
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasActivityInjector
 import dagger.android.HasServiceInjector
@@ -28,8 +26,6 @@ class WeatherApp : Application(), HasActivityInjector,HasServiceInjector {
     @Inject
     lateinit var serviceDispatchingAndroidInjector: DispatchingAndroidInjector<Service>
 
-    @Inject
-    lateinit var workManager: WorkManager
 
     override fun serviceInjector() = serviceDispatchingAndroidInjector
 
@@ -48,9 +44,6 @@ class WeatherApp : Application(), HasActivityInjector,HasServiceInjector {
                 .build()
         workerComponent = appComponent.plusWorkerComponent().build()
         appComponent.inject(this)
-        with(workManager) {
-            prepopulateDbAndStartSync()
-        }
 
     }
 
