@@ -7,7 +7,7 @@ import com.lab.esh1n.weather.di.base.ViewModelKey
 import com.lab.esh1n.weather.di.weather.WeatherUseCasesModule
 import com.lab.esh1n.weather.weather.viewmodel.AllPlacesVM
 import com.lab.esh1n.weather.weather.viewmodel.CurrentWeatherVM
-import com.lab.esh1n.weather.weather.viewmodel.SettingsVM
+import com.lab.esh1n.weather.weather.viewmodel.EmptyVM
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
@@ -30,8 +30,8 @@ abstract class ViewModelModule {
 
     @Binds
     @IntoMap
-    @ViewModelKey(SettingsVM::class)
-    abstract fun provideSettingsViewModel(weatherVM: SettingsVM): ViewModel
+    @ViewModelKey(EmptyVM::class)
+    abstract fun provideSettingsViewModel(weatherVM: EmptyVM): ViewModel
 
     @Binds
     @IntoMap

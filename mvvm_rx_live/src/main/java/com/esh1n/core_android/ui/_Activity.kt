@@ -53,10 +53,10 @@ fun FragmentManager?.replaceFragment(fragment: Fragment, tag: String) {
     }
 }
 
-fun FragmentActivity?.addFragmentToStack(fragment: Fragment) {
+fun FragmentManager?.addFragmentToStack(fragment: Fragment) {
     this?.let {
         val tag = fragment.javaClass.simpleName
-        val transaction = supportFragmentManager.beginTransaction()
+        val transaction = beginTransaction()
         transaction.add(R.id.container_fragment, fragment, tag)
         transaction.addToBackStack(null).commit()
     }

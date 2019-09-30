@@ -2,10 +2,7 @@ package com.lab.esh1n.weather.di.module
 
 
 import com.lab.esh1n.weather.di.weather.WeatherUseCasesModule
-import com.lab.esh1n.weather.weather.fragment.AllPlacesFragment
-import com.lab.esh1n.weather.weather.fragment.CurrentPlaceFragment
-import com.lab.esh1n.weather.weather.fragment.SettingsFragment
-import com.lab.esh1n.weather.weather.fragment.WeatherHostFragment
+import com.lab.esh1n.weather.weather.fragment.*
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
@@ -27,5 +24,8 @@ interface FragmentsModule {
 
     @ContributesAndroidInjector()
     fun buildAllPlaces(): AllPlacesFragment
+
+    @ContributesAndroidInjector()
+    fun buildForecastFragment(): ForecastFragment
 
 }

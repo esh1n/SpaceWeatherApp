@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.esh1n.core_android.error.ErrorModel
+import com.esh1n.core_android.ui.addFragmentToStack
 import com.esh1n.core_android.ui.fragment.BaseVMFragment
 import com.esh1n.core_android.ui.viewmodel.BaseObserver
 import com.esh1n.utils_android.ui.DialogUtil
@@ -88,7 +89,7 @@ class AllPlacesFragment : BaseVMFragment<AllPlacesVM>() {
 
     private val iPlaceClickable = object : PlacesAdapter.IPlaceClickable {
         override fun onPlaceClick(placeWeather: PlaceModel) {
-            SnackbarBuilder.buildSnack(view!!, "Open details").show()
+            parentFragment?.fragmentManager.addFragmentToStack(ForecastFragment.newInstance())
         }
 
         override fun onPlaceOptions(placeWeather: PlaceModel) {
