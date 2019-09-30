@@ -90,6 +90,7 @@ class AllPlacesFragment : BaseVMFragment<AllPlacesVM>() {
     private val iPlaceClickable = object : PlacesAdapter.IPlaceClickable {
         override fun onPlaceClick(placeWeather: PlaceModel) {
             parentFragment?.fragmentManager.addFragmentToStack(ForecastFragment.newInstance())
+
         }
 
         override fun onPlaceOptions(placeWeather: PlaceModel) {

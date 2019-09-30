@@ -3,10 +3,11 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-android-extensions'
 
+
 android {
     compileSdkVersion 28
     defaultConfig {
-        applicationId "com.lab.esh1n.weather"
+        applicationId "com.lab.esh1n.weather_se"
         minSdkVersion 21
         targetSdkVersion 28
         versionCode 1
@@ -35,7 +36,7 @@ android {
 
     productFlavors {
         mock {
-            applicationIdSuffix ".mock"
+            //applicationIdSuffix ".mock"
             versionName "0.0.1.21"
             setProperty("archivesBaseName", "LaunchTalks" + "-v" + versionName)
             buildConfigField "String", "API_ENDPOINT", '"https://test.com/dev/api/"'
@@ -44,7 +45,7 @@ android {
 
         prod {
             versionName "0.0.1.21"
-            applicationIdSuffix ".prod"
+            //applicationIdSuffix ".prod"
             setProperty("archivesBaseName", "LaunchTalks" + "-v" + versionName)
             buildConfigField "String", "API_ENDPOINT", '"https://api.openweathermap.org"'
         }
@@ -95,7 +96,14 @@ dependencies {
 
     implementation kotlinVS
 
+    implementation 'com.google.firebase:firebase-analytics:17.2.0'
+
 }
 repositories {
     mavenCentral()
 }
+
+apply plugin: 'com.google.gms.google-services'
+apply plugin: 'io.fabric'
+
+
