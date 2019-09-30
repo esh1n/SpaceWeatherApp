@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">RHCWeather</string>
+    <string name="app_name">Weather SE</string>
 
     <string name="error_unexpected">Something went wrong.</string>
 

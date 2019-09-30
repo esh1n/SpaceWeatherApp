@@ -17,7 +17,10 @@ import com.lab.esh1n.weather.weather.mapper.PlaceWeatherMapper
 import com.lab.esh1n.weather.weather.model.PlaceModel
 import javax.inject.Inject
 
-class AllPlacesVM @Inject constructor(private val loadPlacesUseCase: GetAllPlacesUse, private val loadCurrentPlaceUseCase: LoadCurrentWeatherSingleUseCase, private var updateCurrentPlaceUseCase: UpdateCurrentPlaceUseCase, private val workManager: WorkManager, application: Application) : BaseViewModel(application) {
+class AllPlacesVM @Inject constructor(private val loadPlacesUseCase: GetAllPlacesUse,
+                                      private val loadCurrentPlaceUseCase: LoadCurrentWeatherSingleUseCase,
+                                      private var updateCurrentPlaceUseCase: UpdateCurrentPlaceUseCase,
+                                      private val workManager: WorkManager, application: Application) : BaseViewModel(application) {
 
     val updateCurrentPlaceOperation = SingleLiveEvent<Resource<WeatherWithPlace>>()
 

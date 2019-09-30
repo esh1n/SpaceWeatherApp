@@ -10,6 +10,7 @@ import com.lab.esh1n.weather.domain.weather.weather.WeatherRepository.Companion.
 import com.lab.esh1n.weather.domain.weather.weather.mapper.ForecastWeatherMapper
 import io.reactivex.Completable
 import io.reactivex.Observable
+import io.reactivex.Single
 import java.util.*
 
 class PlacesRepository constructor(private val apiService: APIService, db: WeatherDB) {
@@ -20,6 +21,10 @@ class PlacesRepository constructor(private val apiService: APIService, db: Weath
     fun getAllPlaces(): Observable<List<PlaceWithCurrentWeatherEntry>> {
         val now = Date()
         return placeDAO.getAllPlacesWithCurrentWeather(now).toObservable()
+    }
+
+    fun checkIfCurrentPlaceExist(): Single<Boolean> {
+        return placeDAO.checkIfCurrentPlaceExist()
     }
 
     fun fetchAndSaveAllPlacesForecast(): Completable {

@@ -3,7 +3,6 @@ package com.lab.esh1n.weather.weather.fragment
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
-import androidx.collection.ArrayMap
 import androidx.fragment.app.Fragment
 import com.esh1n.core_android.ui.fragment.BaseVMFragment
 import com.esh1n.core_android.ui.setTitle
@@ -20,8 +19,6 @@ class WeatherHostFragment : BaseVMFragment<EmptyVM>() {
     private var selectedItem: Int = 0
 
     override val layoutResource: Int = R.layout.fragment_weathers_host
-
-    private lateinit var fragments: ArrayMap<MainFragmentTab, Fragment>
 
     private var activeFragment: Fragment? = null
 
