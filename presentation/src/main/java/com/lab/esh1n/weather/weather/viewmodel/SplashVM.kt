@@ -9,7 +9,7 @@ import com.lab.esh1n.weather.utils.observePrepopulateSync
 import com.lab.esh1n.weather.utils.prepopulateDbAndStartSync
 import javax.inject.Inject
 
-class SplashViewModel @Inject
+class SplashVM @Inject
 constructor(application: Application, private val workManager: WorkManager) : BaseViewModel(application) {
     fun startSync() {
         with(workManager) {

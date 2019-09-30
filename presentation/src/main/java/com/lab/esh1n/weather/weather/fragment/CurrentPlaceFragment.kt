@@ -2,7 +2,6 @@ package com.lab.esh1n.weather.weather.fragment
 
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -145,12 +144,10 @@ class CurrentPlaceFragment : BaseVMFragment<CurrentWeatherVM>() {
 
     override fun onStart() {
         super.onStart()
-        Toast.makeText(requireContext(), "onStart", Toast.LENGTH_SHORT).show()
     }
 
     override fun onResume() {
         super.onResume()
-        Toast.makeText(requireContext(), "onResume", Toast.LENGTH_SHORT).show()
     }
 
     companion object {

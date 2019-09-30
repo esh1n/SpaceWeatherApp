@@ -2,10 +2,7 @@ package com.lab.esh1n.weather.di.weather
 
 import com.esh1n.core_android.error.ErrorsHandler
 import com.lab.esh1n.weather.domain.weather.places.PlacesRepository
-import com.lab.esh1n.weather.domain.weather.places.usecase.DaylyForecastSyncUseCase
-import com.lab.esh1n.weather.domain.weather.places.usecase.GetAllPlacesUse
-import com.lab.esh1n.weather.domain.weather.places.usecase.PrePopulatePlacesUseCase
-import com.lab.esh1n.weather.domain.weather.places.usecase.UpdateCurrentPlaceUseCase
+import com.lab.esh1n.weather.domain.weather.places.usecase.*
 import com.lab.esh1n.weather.domain.weather.weather.WeatherRepository
 import com.lab.esh1n.weather.domain.weather.weather.usecases.FetchAndSaveCurrentPlaceWeatherUseCase
 import com.lab.esh1n.weather.domain.weather.weather.usecases.LoadCurrentWeatherSingleUseCase
@@ -52,5 +49,10 @@ class WeatherUseCasesModule {
     @Provides
     fun provideLoadCurrentWeatherSingleUseCase(weatherRepository: WeatherRepository, errorsHandler: ErrorsHandler): LoadCurrentWeatherSingleUseCase {
         return LoadCurrentWeatherSingleUseCase(weatherRepository, errorsHandler)
+    }
+
+    @Provides
+    fun provideCheckIsDataInitialized(placesRepository: PlacesRepository, errorsHandler: ErrorsHandler): CheckDataInitializedUseCase {
+        return CheckDataInitializedUseCase(placesRepository, errorsHandler)
     }
 }

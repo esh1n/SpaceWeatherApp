@@ -28,4 +28,7 @@ interface FragmentsModule {
     @ContributesAndroidInjector()
     fun buildForecastFragment(): ForecastFragment
 
+    @ContributesAndroidInjector()
+    fun buildSplashFragment(): SplashFragment
+
 }
