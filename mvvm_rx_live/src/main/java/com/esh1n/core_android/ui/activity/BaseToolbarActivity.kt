@@ -59,7 +59,7 @@ abstract class BaseToolbarActivity : BaseDIActivity() {
         toolbar?.setNavigationOnClickListener { _ -> action.invoke() }
     }
 
-    fun disableHomeAsUpButton() {
-        supportActionBar?.setDisplayHomeAsUpEnabled(false)
+    fun showHomeAsUpButton(show: Boolean) {
+        supportActionBar?.setDisplayHomeAsUpEnabled(show)
     }
 }
