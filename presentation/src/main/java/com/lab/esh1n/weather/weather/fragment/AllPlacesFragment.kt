@@ -55,7 +55,6 @@ class AllPlacesFragment : BaseVMFragment<AllPlacesVM>() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        Crashlytics.getInstance().crash()
         viewModel.allCities.observe(this, object : BaseObserver<List<PlaceModel>>() {
             override fun onError(error: ErrorModel?) {
                 SnackbarBuilder.buildSnack(view!!, error?.message ?: "").show()

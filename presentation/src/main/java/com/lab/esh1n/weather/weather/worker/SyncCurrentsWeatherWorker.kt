@@ -27,7 +27,9 @@ class SyncCurrentsWeatherWorker(context: Context, params: WorkerParameters) :
         return fetchAndSaveCurrentPlaceWeatherUseCase
                 .perform(Unit)
                 .flatMap { loadCurrentWeatherUseCase.perform(Unit) }
-                .doOnSuccess { NotificationUtil.sendCurrentWeatherNotification(it, applicationContext) }
+                .doOnSuccess {
+                    NotificationUtil.sendCurrentWeatherNotification(it, applicationContext)
+                }
                 .map { resource ->
                     if (resource.status == Resource.Status.ERROR) {
                         val failureResult = Data.Builder()
