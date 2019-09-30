@@ -1,11 +1,13 @@
 package com.lab.esh1n.weather.weather.fragment
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.TextView
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.crashlytics.android.Crashlytics
 import com.esh1n.core_android.error.ErrorModel
 import com.esh1n.core_android.ui.addFragmentToStack
 import com.esh1n.core_android.ui.fragment.BaseVMFragment
@@ -53,6 +55,7 @@ class AllPlacesFragment : BaseVMFragment<AllPlacesVM>() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        Crashlytics.getInstance().crash()
         viewModel.allCities.observe(this, object : BaseObserver<List<PlaceModel>>() {
             override fun onError(error: ErrorModel?) {
                 SnackbarBuilder.buildSnack(view!!, error?.message ?: "").show()
@@ -89,6 +92,7 @@ class AllPlacesFragment : BaseVMFragment<AllPlacesVM>() {
 
     private val iPlaceClickable = object : PlacesAdapter.IPlaceClickable {
         override fun onPlaceClick(placeWeather: PlaceModel) {
+            Crashlytics.log(Log.DEBUG, "tag", "opened forecast for${placeWeather.name}")
             parentFragment?.fragmentManager.addFragmentToStack(ForecastFragment.newInstance())
 
         }
