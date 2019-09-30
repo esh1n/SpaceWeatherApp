@@ -12,6 +12,11 @@
     <color name="bottom_menu_inactive">#8a8a8f</color>
     <color name="gray_bottom_menu">#777777</color>
 
+    <color name="bg_splash_sky_start">#00c0f5</color>
+    <color name="bg_splash_sky_middle">#00d4fa</color>
+    <color name="bg_splash_sky_end">#d7f5f2</color>
+
+
     <string-array name="clear_sky">
         <item>#00c0f5</item>
         <item>#00d4fa</item>

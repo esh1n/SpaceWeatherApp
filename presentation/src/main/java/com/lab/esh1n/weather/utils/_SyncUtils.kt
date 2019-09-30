@@ -1,5 +1,6 @@
 package com.lab.esh1n.weather.utils
 
+import androidx.lifecycle.LiveData
 import androidx.work.*
 import com.lab.esh1n.weather.weather.worker.PrePopulatePlacesWorker
 import com.lab.esh1n.weather.weather.worker.SyncAllPlacesForecastWorker
@@ -7,6 +8,7 @@ import com.lab.esh1n.weather.weather.worker.SyncCurrentsWeatherWorker
 import java.util.concurrent.TimeUnit
 
 const val WORKER_ERROR_DESCRIPTION = "WORKER_ERROR_DESCRIPTION"
+const val PREPOPULATE_WORK_ID = "prepopulate_work_id"
 
 fun WorkManager.startCurrentPlacePeriodicSync() {
     val constraints = Constraints.Builder()
@@ -36,5 +38,9 @@ fun WorkManager.prepopulateDbAndStartSync() {
     val prepopulate = OneTimeWorkRequest.Builder(PrePopulatePlacesWorker::class.java)
             .setConstraints(constraints)
             .build()
-    enqueue(prepopulate)
+    enqueueUniqueWork(PREPOPULATE_WORK_ID, ExistingWorkPolicy.REPLACE, prepopulate)
+}
+
+fun WorkManager.observePrepopulateSync(): LiveData<MutableList<WorkInfo>> {
+    return getWorkInfosForUniqueWorkLiveData(PREPOPULATE_WORK_ID)
 }
