@@ -12,6 +12,7 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import com.crashlytics.android.Crashlytics
 import com.esh1n.core_android.ui.viewmodel.Resource
 import com.esh1n.utils_android.ui.getImage
 import com.lab.esh1n.data.cache.entity.WeatherWithPlace
@@ -24,8 +25,11 @@ import com.lab.esh1n.weather.weather.model.Temperature
 
 class NotificationUtil {
     companion object {
-        fun buildNotification(context: Context,
-                              weatherNotification: WeatherNotification = WeatherNotification.emptyNotification(context)): Notification {
+
+        private const val TAG = "Notification"
+
+        private fun buildNotification(context: Context,
+                                      weatherNotification: WeatherNotification = WeatherNotification.emptyNotification(context)): Notification {
             val pendingIntent: PendingIntent =
                     Intent(context, WeatherActivity::class.java).let { notificationIntent ->
                         PendingIntent.getActivity(context, 0, notificationIntent, 0)
@@ -92,10 +96,11 @@ class NotificationUtil {
             with(NotificationManagerCompat.from(context)) {
                 // notificationId is a unique int for each notification that you must define
                 notify(CURRENT_WEATHER_NOTIFICATION_ID, buildNotification(context, weatherNotification))
+                Crashlytics.log(5, TAG, "send notification ${weatherNotification.text}")
             }
         }
 
-        const val CURRENT_WEATHER_NOTIFICATION_ID = 1233219
+        private const val CURRENT_WEATHER_NOTIFICATION_ID = 1233219
     }
 
     data class WeatherNotification(val title: String, val text: String, val iconId: String = "01d", val ticker: String) {

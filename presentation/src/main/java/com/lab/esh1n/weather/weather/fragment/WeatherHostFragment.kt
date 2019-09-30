@@ -34,9 +34,6 @@ class WeatherHostFragment : BaseVMFragment<EmptyVM>() {
     }
 
     private fun initFragments() {
-//        fragments = ArrayMap<MainFragmentTab,Fragment>().apply {
-//
-//        }
         MainFragmentTab.values().forEach { tab ->
             val fragment = tab.fragment
             childFragmentManager
@@ -45,7 +42,7 @@ class WeatherHostFragment : BaseVMFragment<EmptyVM>() {
                     .hide(fragment)
                     .commit()
         }
-        childFragmentManager.executePendingTransactions();
+        childFragmentManager.executePendingTransactions()
 
 
     }

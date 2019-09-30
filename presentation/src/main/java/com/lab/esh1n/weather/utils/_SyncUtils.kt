@@ -33,7 +33,6 @@ fun WorkManager.startAllPlacesForecastPeriodicSync() {
 
 fun WorkManager.prepopulateDbAndStartSync() {
     val constraints = Constraints.Builder()
-            .setRequiredNetworkType(NetworkType.CONNECTED)
             .build()
     val prepopulate = OneTimeWorkRequest.Builder(PrePopulatePlacesWorker::class.java)
             .setConstraints(constraints)

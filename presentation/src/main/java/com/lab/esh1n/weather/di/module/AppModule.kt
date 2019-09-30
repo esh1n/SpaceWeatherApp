@@ -5,8 +5,10 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.content.res.Resources
 import androidx.work.WorkManager
+import com.crashlytics.android.Crashlytics
 import com.esh1n.core_android.error.ErrorDescriptionProvider
 import com.esh1n.core_android.error.ErrorModel
+import com.esh1n.core_android.error.ErrorTrackerProvider
 import com.esh1n.core_android.error.ErrorsHandler
 import com.lab.esh1n.weather.R
 import dagger.Module
@@ -37,8 +39,18 @@ class AppModule {
 
     @Provides
     @Singleton
-    fun provideErrorHandler(errorDescriptionProvider: ErrorDescriptionProvider): ErrorsHandler {
-        return ErrorsHandler(errorDescriptionProvider)
+    fun provideErrorTrackerImpl(application: Application): ErrorTrackerProvider {
+        return object : ErrorTrackerProvider {
+            override fun trackError(throwable: Throwable) {
+                Crashlytics.logException(throwable)
+            }
+        }
+    }
+
+    @Provides
+    @Singleton
+    fun provideErrorHandler(errorDescriptionProvider: ErrorDescriptionProvider, errorTrackerProvider: ErrorTrackerProvider): ErrorsHandler {
+        return ErrorsHandler(errorDescriptionProvider, errorTrackerProvider)
     }
 
     @Provides
@@ -73,4 +85,3 @@ class ErrorDescriptionProviderImpl(private val resources: Resources) : ErrorDesc
         }
     }
 }
-
