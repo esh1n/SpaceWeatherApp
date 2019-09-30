@@ -124,4 +124,5 @@ class WeatherHostFragment : BaseVMFragment<SettingsVM>() {
         bottom_navigation.selectedItemId = R.id.menu_current_city
     }
 
+
 }
