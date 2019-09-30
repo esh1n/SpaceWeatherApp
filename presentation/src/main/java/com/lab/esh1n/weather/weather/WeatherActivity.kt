@@ -13,10 +13,24 @@ import com.lab.esh1n.weather.weather.fragment.WeatherHostFragment
 class WeatherActivity : BaseToolbarActivity() {
     override val toolbarId = R.id.toolbar
     override val contentViewResourceId = R.layout.activity_main
-
+    override val isDisplayHomeAsUpEnabled = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         addSingleFragmentToContainer(WeatherHostFragment.newInstance())
+        initFragmentTransactionsListener()
+    }
+
+    private fun initFragmentTransactionsListener() {
+        supportFragmentManager.addOnBackStackChangedListener { this.processFragmentsSwitching() }
+    }
+
+    private fun processFragmentsSwitching() {
+
+        supportFragmentManager.let {
+            val isInRootFragment = it.backStackEntryCount == 0
+            this.showHomeAsUpButton(!isInRootFragment)
+        }
+
     }
 }
