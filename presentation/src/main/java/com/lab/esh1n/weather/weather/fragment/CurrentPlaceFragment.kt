@@ -68,6 +68,13 @@ class CurrentPlaceFragment : BaseVMFragment<CurrentWeatherVM>() {
         viewModel.loadWeather()
     }
 
+    private fun getPlaceName(data: List<WeatherModel>?): String {
+        val noData = data?.isNullOrEmpty() ?: false
+        return if (noData)
+            getString(R.string.menu_current_place) else
+            (data!![0] as? CurrentWeatherModel)?.placeName ?: ""
+    }
+
     private fun observeWeather() {
         viewModel.weatherLiveData.observe(this, object : BaseObserver<List<WeatherModel>>() {
             override fun onError(error: ErrorModel?) {
@@ -82,14 +89,11 @@ class CurrentPlaceFragment : BaseVMFragment<CurrentWeatherVM>() {
             override fun onData(data: List<WeatherModel>?) {
                 val isEmpty = data?.isEmpty() ?: true
                 binding?.tvNoWeather?.setVisibleOrGone(isEmpty)
-                val placeName = (data?.get(0) as? CurrentWeatherModel)?.placeName
-                        ?: getString(R.string.menu_current_place)
+                val placeName = getPlaceName(data)
                 setTitle(placeName)
                 title = placeName
                 adapter.swapWeathers(data.orEmpty())
             }
-
-
         })
         viewModel.refreshOperation.observe(this, object : BaseObserver<Unit>() {
             override fun onData(data: Unit?) {
