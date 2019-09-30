@@ -9,13 +9,13 @@ import com.esh1n.core_android.ui.fragment.BaseVMFragment
 import com.esh1n.core_android.ui.setTitle
 import com.lab.esh1n.weather.R
 import com.lab.esh1n.weather.weather.MainFragmentTab
-import com.lab.esh1n.weather.weather.viewmodel.SettingsVM
+import com.lab.esh1n.weather.weather.viewmodel.EmptyVM
 import kotlinx.android.synthetic.main.fragment_weathers_host.*
 
 
-class WeatherHostFragment : BaseVMFragment<SettingsVM>() {
+class WeatherHostFragment : BaseVMFragment<EmptyVM>() {
 
-    override val viewModelClass = SettingsVM::class.java
+    override val viewModelClass = EmptyVM::class.java
 
     private var selectedItem: Int = 0
 

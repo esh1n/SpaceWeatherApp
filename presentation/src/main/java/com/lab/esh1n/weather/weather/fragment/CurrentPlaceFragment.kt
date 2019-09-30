@@ -7,6 +7,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.esh1n.core_android.error.ErrorModel
+import com.esh1n.core_android.ui.addFragmentToStack
 import com.esh1n.core_android.ui.fragment.BaseVMFragment
 import com.esh1n.core_android.ui.setTitle
 import com.esh1n.core_android.ui.viewmodel.BaseObserver
@@ -43,7 +44,7 @@ class CurrentPlaceFragment : BaseVMFragment<CurrentWeatherVM>() {
             it.swipeRefreshLayout.setOnRefreshListener {
                 viewModel.refresh()
             }
-            adapter = CurrentWeatherAdapter()
+            adapter = CurrentWeatherAdapter(this::onWeatherClicked)
             it.listWeathers.layoutManager = LinearLayoutManager(requireActivity())
             it.listWeathers.addItemDecoration(
                     DividerItemDecoration(
@@ -55,6 +56,10 @@ class CurrentPlaceFragment : BaseVMFragment<CurrentWeatherVM>() {
             it.listWeathers.setHasFixedSize(true)
             it.listWeathers.adapter = adapter
         }
+    }
+
+    private fun onWeatherClicked(weatherModel: WeatherModel) {
+        parentFragment?.fragmentManager.addFragmentToStack(ForecastFragment.newInstance())
     }
 
 

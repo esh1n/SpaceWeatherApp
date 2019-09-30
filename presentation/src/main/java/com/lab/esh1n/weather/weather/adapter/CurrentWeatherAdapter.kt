@@ -17,7 +17,7 @@ import com.lab.esh1n.weather.weather.model.WeatherBackgroundUtil.Companion.prepa
 import com.lab.esh1n.weather.weather.model.WeatherModel
 
 
-class CurrentWeatherAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class CurrentWeatherAdapter(private val cityDayForecastClick: (WeatherModel) -> Unit) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private var weathers: List<WeatherModel>? = null
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -96,8 +96,20 @@ class CurrentWeatherAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         }
     }
 
-    internal inner class VHHeader(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    internal inner class VHHeader(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
+
+        override fun onClick(v: View?) {
+            val weatherModel = weathers?.get(adapterPosition)
+            weatherModel?.let {
+                cityDayForecastClick(weatherModel)
+            }
+        }
+
         var binding: ItemHeaderCurrentWeatherBinding? = DataBindingUtil.bind(itemView)
+
+        init {
+            itemView.setOnClickListener(this)
+        }
 
         fun populate(weatherModel: CurrentWeatherModel) {
             binding?.let {
@@ -110,9 +122,20 @@ class CurrentWeatherAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     }
 
 
-
-    internal inner class VHItem(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    internal inner class VHItem(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
         var binding: ItemDayOverrallWeatherBinding? = DataBindingUtil.bind(itemView)
+
+        override fun onClick(v: View?) {
+            val weatherModel = weathers?.get(adapterPosition)
+            weatherModel?.let {
+                cityDayForecastClick(weatherModel)
+            }
+        }
+
+
+        init {
+            itemView.setOnClickListener(this)
+        }
 
         fun populate(weatherModel: DayWeatherModel) {
             binding?.let {
