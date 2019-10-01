@@ -30,6 +30,8 @@ open class WeatherEntry(
         @ColumnInfo(name = COLUMN_WEATHER_DATE_TXT)
         var dateTxt: String,
 
+        var dateSeconds: Long,
+
         var temperature: Double,
 
         var temperatureMin: Double,

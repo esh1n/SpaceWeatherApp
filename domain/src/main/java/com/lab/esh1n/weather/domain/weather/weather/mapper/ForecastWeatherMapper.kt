@@ -24,7 +24,8 @@ class ForecastWeatherMapper(val placeId: Int) : Mapper<ForecastItemResponse, Wea
                 dateTxt = source.dtTxt ?: "",
                 snow = source.snow?.snow3h ?: 0f,
                 rain = source.rain?.rain3h ?: 0f,
-                cloudiness = source.clouds?.all ?: 0
+                cloudiness = source.clouds?.all ?: 0,
+                dateSeconds = source.dt ?: 0
         )
     }
 }

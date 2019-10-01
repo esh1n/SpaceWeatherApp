@@ -38,7 +38,7 @@ class SplashFragment : BaseVMFragment<SplashVM>() {
                     SnackbarBuilder.buildErrorSnack(requireView(), failureDescription).show()
                     fixPrepopulateButton?.setVisibleOrGone(true)
                 } else {
-                    fragmentManager.replaceFragment(WeatherHostFragment.newInstance(), WeatherHostFragment.javaClass.simpleName)
+                    fragmentManager.replaceFragment(WeatherHostFragment.newInstance(), WeatherHostFragment::javaClass.name)
                 }
             }
         })

@@ -31,7 +31,7 @@ class WeatherRepository constructor(private val api: APIService, database: Weath
     private fun fetchAndSaveWeather(id: Int): Completable {
         return api.getWeatherAsync(BuildConfig.APP_ID, id, UNITS)
                 .map { WeatherResponseMapper(id).map(it) }
-                .flatMapCompletable { weatherEntry -> weatherDAO.saveWeather(weatherEntry) }
+                .flatMapCompletable { weatherEntry -> weatherDAO.saveWeatherCompletable(weatherEntry) }
     }
 
 
@@ -44,7 +44,7 @@ class WeatherRepository constructor(private val api: APIService, database: Weath
                             allWeathers.addAll(forecastWeathers)
                             allWeathers
                         }).flatMapCompletable { allWeathers ->
-                    weatherDAO.saveWeathers(allWeathers)
+                    weatherDAO.saveWeathersCompletable(allWeathers)
                 }
     }
 
@@ -95,6 +95,7 @@ class WeatherRepository constructor(private val api: APIService, database: Weath
     fun fetchAndSaveAllPlacesCurrentWeathers(): Completable {
         return placeDAO.getAllPlacesIds()
                 .flatMap { ids ->
+                    // val testIds= arrayListOf(472045)
                     val requests = ids.map { zipCurrentWeatherWithPlaceId(it) }
                     return@flatMap Single.zip<Pair<Int, WeatherResponse>, List<WeatherEntry>>(
                             requests,
@@ -104,7 +105,11 @@ class WeatherRepository constructor(private val api: APIService, database: Weath
                     )
 
                 }.flatMapCompletable { weatherEntries ->
-                    weatherDAO.saveWeathers(weatherEntries)
+                    Completable.fromAction {
+                        weatherDAO.updateCurrentWeathers(weatherEntries)
+                    }
+                    //weatherDAO.saveWeathersCompletable(weatherEntries)
+
                 }
     }
 

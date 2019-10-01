@@ -7,7 +7,8 @@ import java.util.concurrent.TimeUnit
 
 class EpochDateMapper : TwoWayMapper<Long, Date>() {
     override fun mapInverse(source: Date): Long {
-        return TimeUnit.SECONDS.convert(source.time, TimeUnit.MILLISECONDS)
+        val seconds = TimeUnit.SECONDS.convert(source.time, TimeUnit.MILLISECONDS)
+        return seconds
     }
 
     override fun map(source: Long): Date {

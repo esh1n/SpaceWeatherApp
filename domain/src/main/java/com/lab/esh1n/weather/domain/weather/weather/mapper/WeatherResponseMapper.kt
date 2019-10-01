@@ -9,7 +9,6 @@ class WeatherResponseMapper(private val placeId: Int) : Mapper<WeatherResponse, 
     private val dateConverter = EpochDateMapper()
 
     override fun map(source: WeatherResponse): WeatherEntry {
-
         return WeatherEntry(
                 placeId = placeId,
                 temperature = source.main?.temp ?: 0.0,
@@ -25,7 +24,9 @@ class WeatherResponseMapper(private val placeId: Int) : Mapper<WeatherResponse, 
                 dateTxt = "Current",
                 snow = source.snow?.snow3h ?: source.snow?.snow1h ?: 0f,
                 rain = source.rain?.rain3h ?: source.rain?.rain1h ?: 0f,
-                cloudiness = source.clouds?.all ?: 0
+                cloudiness = source.clouds?.all ?: 0,
+                dateSeconds = source.dt
         )
     }
+
 }

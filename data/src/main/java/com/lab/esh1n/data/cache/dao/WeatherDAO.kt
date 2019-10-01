@@ -18,10 +18,10 @@ import java.util.*
 @TypeConverters(DateConverter::class)
 abstract class WeatherDAO {
 
-    @Query("SELECT * FROM weather INNER JOIN  place ON place.id = placeId WHERE isCurrent = 1 AND measured_at>=:almostNow AND measured_at<:plus5days  ORDER BY abs(:almostNow - measured_at) ASC")
+    @Query("SELECT * FROM weather INNER JOIN  place ON place.id = placeId WHERE isCurrent = 1 AND epochDateMills>=:almostNow AND epochDateMills<:plus5days  ORDER BY abs(:almostNow - epochDateMills) ASC")
     abstract fun getDetailedCurrentWeather(almostNow: Date, plus5days: Date): Flowable<List<WeatherWithPlace>>
 
-    @Query("SELECT DISTINCT * FROM weather INNER JOIN  place ON place.id = placeId WHERE isCurrent = 1 ORDER BY abs(:now - measured_at) ASC")
+    @Query("SELECT DISTINCT * FROM weather INNER JOIN  place ON place.id = placeId WHERE isCurrent = 1 ORDER BY abs(:now - epochDateMills) ASC")
     abstract fun getCurrentWeather(now: Date): Flowable<WeatherWithPlace>
 
 
@@ -29,26 +29,38 @@ abstract class WeatherDAO {
     abstract fun clear()
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    abstract fun saveWeather(entities: WeatherEntry): Completable
+    abstract fun saveWeatherCompletable(entities: WeatherEntry): Completable
 
-    @Transaction
-    open fun updateCurrentWeather(weather: WeatherEntry) {
-        val dateInMills = weather.date.time
-        deletePreviousEntries(dateInMills, weather.placeId)
-        saveWeather(weather)
-    }
-
-    @Query("DELETE FROM weather WHERE placeId=:cityId AND measured_at < :newCurrentDate ")
-    abstract fun deletePreviousEntries(newCurrentDate: Long, cityId: Int)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    abstract fun saveWeather(entities: WeatherEntry)
 
     @Transaction
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    abstract fun saveWeathers(entities: List<WeatherEntry>): Completable
+    abstract fun saveWeathersCompletable(entities: List<WeatherEntry>): Completable
 
-    @Query("SELECT EXISTS(SELECT 1 FROM weather WHERE placeId=:id AND measured_at>:fourDaysAfterNow)")
+
+    @Transaction
+    open fun updateCurrentWeathers(weathers: List<WeatherEntry>) {
+        weathers.forEach {
+            updateCurrentWeather(it)
+        }
+    }
+
+    open fun updateCurrentWeather(weather: WeatherEntry) {
+        saveWeather(weather)
+        val dateInMills = weather.date.time
+        deletePreviousEntries(dateInMills, weather.placeId)
+
+    }
+
+    @Query("DELETE FROM weather WHERE placeId=:cityId AND epochDateMills<:newCurrentDate ")
+    abstract fun deletePreviousEntries(newCurrentDate: Long, cityId: Int)
+
+
+    @Query("SELECT EXISTS(SELECT 1 FROM weather WHERE placeId=:id AND epochDateMills>:fourDaysAfterNow)")
     abstract fun checkIf4daysForecastExist(id: Int, fourDaysAfterNow: Date): Single<Int>
 
-    @Query("DELETE FROM weather WHERE measured_at<=:threeHoursAgo")
+    @Query("DELETE FROM weather WHERE epochDateMills<=:threeHoursAgo")
     abstract fun clearOldWeathers(threeHoursAgo: Date): Completable
 
 }

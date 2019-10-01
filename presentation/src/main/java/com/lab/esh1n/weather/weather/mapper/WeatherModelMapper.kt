@@ -1,5 +1,6 @@
 package com.lab.esh1n.weather.weather.mapper
 
+import android.util.Log
 import com.esh1n.utils_android.DateBuilder
 import com.lab.esh1n.data.cache.entity.WeatherWithPlace
 import com.lab.esh1n.weather.weather.model.CurrentWeatherModel
@@ -21,21 +22,19 @@ class WeatherModelMapper {
         } else {
             val firstWeather = source[0]
             val timezone = firstWeather.timezone
-            val firstDay = DateBuilder(firstWeather.measured_at).getDay()
+            val firstDay = DateBuilder(firstWeather.epochDateMills).getDay()
             val dateMapper = UiDateMapper(timezone, UILocalizer.getDateFormat(DateFormat.MONTH_DAY))
             val dayToForecast = createDayMap(source)
             val firstDayForecasts = dayToForecast[firstDay]
             dayToForecast.remove(firstDay)
             val currentWeatherModel = mapCurrentWeatherModel(firstDayForecasts
                     ?: arrayListOf(), timezone, dateMapper)
-
+            Log.d("CurrentP", "!!!END---------------------------------------")
             val resultWeatherModel = mutableListOf<WeatherModel>()
             resultWeatherModel.add(currentWeatherModel)
             resultWeatherModel.addAll(mapOtherDay(dayToForecast, timezone, dateMapper))
             return resultWeatherModel
-
         }
-
     }
 
     private fun mapOtherDay(dayToForecast: HashMap<Int, MutableList<WeatherWithPlace>>, timezone: String, dateMapper: UiDateMapper): Collection<DayWeatherModel> {
@@ -43,15 +42,15 @@ class WeatherModelMapper {
             val first = values[0]
             val weathersToAnalyse = values
                     .filter {
-                        val hourOfDay = DateBuilder(it.measured_at, it.timezone).getHour24Format()
+                        val hourOfDay = DateBuilder(it.epochDateMills, it.timezone).getHour24Format()
                         hourOfDay in 9..21
                     }
             val averageTempMax = weathersToAnalyse.map { it.temperatureMax }.average()
             val averageTempMin = weathersToAnalyse.map { it.temperatureMin }.average()
             val averageIcon = calculateWeatherIcon(weathersToAnalyse)
             val dateOfWeekMapper = UiDateMapper(timezone, UILocalizer.getDateFormat(DateFormat.DAY_OF_WEEK))
-            val dayOfWeek = dateOfWeekMapper.map(first.measured_at)
-            DayWeatherModel(dayDate = dateMapper.map(first.measured_at),
+            val dayOfWeek = dateOfWeekMapper.map(first.epochDateMills)
+            DayWeatherModel(dayDate = dateMapper.map(first.epochDateMills),
                     humanDate = dayOfWeek,
                     tempMax = averageTempMax.toInt(),
                     tempMin = averageTempMin.toInt(),
@@ -61,12 +60,17 @@ class WeatherModelMapper {
 
     private fun mapCurrentWeatherModel(source: List<WeatherWithPlace>, timezone: String, dateMapper: UiDateMapper): CurrentWeatherModel {
         val nowInMills = Date().time
-        val value = source.minBy { abs(it.measured_at.time - nowInMills) } ?: source[0]
+        Log.d("CurrentP", "!!!mapCurrentWeatherModel---------------------------------------")
+        source.forEach {
+            val diff = abs(it.epochDateMills.time - nowInMills)
+            Log.d("CurrentP", "dateSec ${it.dateSeconds} date ${it.dateTxt} diff $diff")
+        }
+        val value = source.minBy { abs(it.epochDateMills.time - nowInMills) } ?: source[0]
 
         return CurrentWeatherModel(
                 placeName = value.placeName,
                 description = value.description,
-                humanDate = dateMapper.map(value.measured_at),
+                humanDate = dateMapper.map(value.epochDateMills),
                 tempMax = value.temperatureMax.toInt(),
                 tempMin = value.temperatureMin.toInt(),
                 currentTemperature = Temperature.middleTemperature(value.temperatureMin, value.temperatureMax).value.toInt(),
@@ -74,7 +78,7 @@ class WeatherModelMapper {
                 snow = value.snow,
                 cloudiness = value.cloudiness,
                 rain = value.rain,
-                hour24Format = DateBuilder(value.measured_at, timezone).getHour24Format(),
+                hour24Format = DateBuilder(value.epochDateMills, timezone).getHour24Format(),
                 isDay = isDay(value.iconId)
         )
     }
@@ -82,15 +86,12 @@ class WeatherModelMapper {
     private fun createDayMap(source: List<WeatherWithPlace>): HashMap<Int, MutableList<WeatherWithPlace>> {
         val dayToForecast: HashMap<Int, MutableList<WeatherWithPlace>> = HashMap()
         source.forEach { weather ->
-            val day = DateBuilder(weather.measured_at).getDay()
-            var list = dayToForecast[day]
-            if (list == null) {
-                list = mutableListOf(weather).apply {
-                    add(weather)
-                }
-                dayToForecast[day] = list
+            val day = DateBuilder(weather.epochDateMills).getDay()
+
+            if (dayToForecast.containsKey(day)) {
+                dayToForecast[day]!!.add(weather)
             } else {
-                list.add(weather)
+                dayToForecast[day] = mutableListOf(weather)
             }
         }
         return dayToForecast

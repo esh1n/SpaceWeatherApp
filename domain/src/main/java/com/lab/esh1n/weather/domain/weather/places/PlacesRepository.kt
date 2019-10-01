@@ -37,7 +37,7 @@ class PlacesRepository constructor(private val apiService: APIService, db: Weath
                     val id = response.city!!.id!!
                     ForecastWeatherMapper(id).map(response.list)
                 }
-                .flatMapCompletable { weathers -> weatherDAO.saveWeathers(weathers) }
+                .flatMapCompletable { weathers -> weatherDAO.saveWeathersCompletable(weathers) }
     }
 
     fun updateCurrentPlacesForecast(): Completable {
@@ -52,7 +52,7 @@ class PlacesRepository constructor(private val apiService: APIService, db: Weath
                             val id = response.city!!.id!!
                             ForecastWeatherMapper(id).map(response.list)
                         }
-                        .flatMapCompletable { weathers -> weatherDAO.saveWeathers(weathers) }
+                        .flatMapCompletable { weathers -> weatherDAO.saveWeathersCompletable(weathers) }
                 )
     }
 
