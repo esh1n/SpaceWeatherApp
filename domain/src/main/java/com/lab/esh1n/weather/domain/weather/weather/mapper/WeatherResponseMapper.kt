@@ -4,7 +4,7 @@ import com.esh1n.core_android.map.Mapper
 import com.lab.esh1n.data.api.response.WeatherResponse
 import com.lab.esh1n.data.cache.entity.WeatherEntry
 
-class WeatherResponseMapper(val placeId: Int) : Mapper<WeatherResponse, WeatherEntry>() {
+class WeatherResponseMapper(private val placeId: Int) : Mapper<WeatherResponse, WeatherEntry>() {
 
     private val dateConverter = EpochDateMapper()
 

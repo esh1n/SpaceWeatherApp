@@ -7,6 +7,9 @@ import com.lab.esh1n.weather.weather.model.DayWeatherModel
 import com.lab.esh1n.weather.weather.model.Temperature
 import com.lab.esh1n.weather.weather.model.WeatherModel
 import java.text.DecimalFormat
+import java.util.*
+import kotlin.collections.HashMap
+import kotlin.math.abs
 
 
 class WeatherModelMapper {
@@ -57,7 +60,8 @@ class WeatherModelMapper {
     }
 
     private fun mapCurrentWeatherModel(source: List<WeatherWithPlace>, timezone: String, dateMapper: UiDateMapper): CurrentWeatherModel {
-        val value = source[0]
+        val nowInMills = Date().time
+        val value = source.minBy { abs(it.measured_at.time - nowInMills) } ?: source[0]
 
         return CurrentWeatherModel(
                 placeName = value.placeName,

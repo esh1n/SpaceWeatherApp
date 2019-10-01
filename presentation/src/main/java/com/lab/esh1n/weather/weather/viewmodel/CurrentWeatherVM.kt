@@ -12,6 +12,7 @@ import com.lab.esh1n.weather.domain.weather.weather.usecases.FetchAndSaveCurrent
 import com.lab.esh1n.weather.domain.weather.weather.usecases.LoadCurrentWeatherUseCase
 import com.lab.esh1n.weather.weather.mapper.WeatherModelMapper
 import com.lab.esh1n.weather.weather.model.WeatherModel
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 /**
@@ -37,6 +38,7 @@ constructor(private val loadCurrentWeatherUseCase: LoadCurrentWeatherUseCase,
         //think about if no results how not to show progress
         addDisposable(
                 loadCurrentWeatherUseCase.perform(Unit)
+                        .throttleLast(1L, TimeUnit.SECONDS)
 //                        .doOnSubscribe { _ ->
 //                            weatherLiveData.postValue(Resource.loading())
 //                        }

@@ -3,6 +3,7 @@ package com.lab.esh1n.weather.domain.weather.weather
 import android.content.SharedPreferences
 import com.esh1n.utils_android.DateBuilder
 import com.lab.esh1n.data.api.APIService
+import com.lab.esh1n.data.api.response.WeatherResponse
 import com.lab.esh1n.data.cache.WeatherDB
 import com.lab.esh1n.data.cache.dao.PlaceDAO
 import com.lab.esh1n.data.cache.dao.WeatherDAO
@@ -15,6 +16,7 @@ import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.functions.BiFunction
+import io.reactivex.functions.Function
 import java.util.*
 
 
@@ -82,11 +84,45 @@ class WeatherRepository constructor(private val api: APIService, database: Weath
                 .flatMapCompletable { fetchAndSaveWeather(it) }
     }
 
-    fun fetchAndSaveAllPlacesCurrentWeathers(): Completable {
+    fun fetchAndSaveAllPlacesCurrentWeather2(): Completable {
         return placeDAO.getAllPlacesIds()
                 .flattenAsObservable { it }
                 .flatMapCompletable { id ->
                     fetchAndSaveWeather(id)
                 }
     }
+
+    fun fetchAndSaveAllPlacesCurrentWeathers(): Completable {
+        return placeDAO.getAllPlacesIds()
+                .flatMap { ids ->
+                    val requests = ids.map { zipCurrentWeatherWithPlaceId(it) }
+                    return@flatMap Single.zip<Pair<Int, WeatherResponse>, List<WeatherEntry>>(
+                            requests,
+                            Function {
+                                return@Function mapResponsesToWeatherEntities(it)
+                            }
+                    )
+
+                }.flatMapCompletable { weatherEntries ->
+                    weatherDAO.saveWeathers(weatherEntries)
+                }
+    }
+
+    private fun mapResponsesToWeatherEntities(responses: Array<Any>): List<WeatherEntry> {
+        return responses.map {
+            val idWithReponse = it as Pair<Int, WeatherResponse>
+            WeatherResponseMapper(idWithReponse.first).map(idWithReponse.second)
+        }
+    }
+
+    //
+    private fun zipCurrentWeatherWithPlaceId(id: Int): Single<Pair<Int, WeatherResponse>> {
+        val request = api.getWeatherAsync(BuildConfig.APP_ID, id, UNITS)
+        return Single.zip(Single.just(id), request, BiFunction<Int, WeatherResponse, Pair<Int, WeatherResponse>> { placeId, forecast ->
+            Pair(placeId, forecast)
+        });
+
+    }
+
+
 }

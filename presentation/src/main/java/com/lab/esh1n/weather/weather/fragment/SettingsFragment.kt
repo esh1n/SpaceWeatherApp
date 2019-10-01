@@ -18,7 +18,6 @@ class SettingsFragment : BaseVMFragment<EmptyVM>() {
 
     override fun onStart() {
         super.onStart()
-        Crashlytics.logException(RuntimeException("test"))
         Crashlytics.log(Log.DEBUG, "SettingsFragment", "Settings opened")
     }
 }

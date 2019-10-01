@@ -16,30 +16,39 @@ import java.util.*
 
 @Dao
 @TypeConverters(DateConverter::class)
-interface WeatherDAO {
+abstract class WeatherDAO {
 
     @Query("SELECT * FROM weather INNER JOIN  place ON place.id = placeId WHERE isCurrent = 1 AND measured_at>=:almostNow AND measured_at<:plus5days  ORDER BY abs(:almostNow - measured_at) ASC")
-    fun getDetailedCurrentWeather(almostNow: Date, plus5days: Date): Flowable<List<WeatherWithPlace>>
+    abstract fun getDetailedCurrentWeather(almostNow: Date, plus5days: Date): Flowable<List<WeatherWithPlace>>
 
     @Query("SELECT DISTINCT * FROM weather INNER JOIN  place ON place.id = placeId WHERE isCurrent = 1 ORDER BY abs(:now - measured_at) ASC")
-    fun getCurrentWeather(now: Date): Flowable<WeatherWithPlace>
+    abstract fun getCurrentWeather(now: Date): Flowable<WeatherWithPlace>
 
 
     @Query("DELETE FROM " + WeatherTableContract.WEATHER_TABLE_NAME)
-    fun clear()
+    abstract fun clear()
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    abstract fun saveWeather(entities: WeatherEntry): Completable
+
+    @Transaction
+    open fun updateCurrentWeather(weather: WeatherEntry) {
+        val dateInMills = weather.date.time
+        deletePreviousEntries(dateInMills, weather.placeId)
+        saveWeather(weather)
+    }
+
+    @Query("DELETE FROM weather WHERE placeId=:cityId AND measured_at < :newCurrentDate ")
+    abstract fun deletePreviousEntries(newCurrentDate: Long, cityId: Int)
 
     @Transaction
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun saveWeather(entities: WeatherEntry): Completable
-
-    @Transaction
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun saveWeathers(entities: List<WeatherEntry>): Completable
+    abstract fun saveWeathers(entities: List<WeatherEntry>): Completable
 
     @Query("SELECT EXISTS(SELECT 1 FROM weather WHERE placeId=:id AND measured_at>:fourDaysAfterNow)")
-    fun checkIf4daysForecastExist(id: Int, fourDaysAfterNow: Date): Single<Int>
+    abstract fun checkIf4daysForecastExist(id: Int, fourDaysAfterNow: Date): Single<Int>
 
     @Query("DELETE FROM weather WHERE measured_at<=:threeHoursAgo")
-    fun clearOldWeathers(threeHoursAgo: Date): Completable
+    abstract fun clearOldWeathers(threeHoursAgo: Date): Completable
 
 }

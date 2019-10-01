@@ -29,13 +29,6 @@ class PrePopulatePlacesWorker(context: Context, params: WorkerParameters) :
         WeatherApp.getWorkerComponent(applicationContext).inject(this@PrePopulatePlacesWorker)
         return prepopulateUseCase
                 .perform(Unit)
-                .doOnSuccess {
-                    Crashlytics.log("PrePopulatePlacesWorker start sync workers")
-                    with(workManager) {
-                        startCurrentPlacePeriodicSync()
-                        startAllPlacesForecastPeriodicSync()
-                    }
-                }
                 .map { resource ->
                     val message = resource.errorModel?.message
                     Crashlytics.logException(Exception(message))
@@ -45,7 +38,10 @@ class PrePopulatePlacesWorker(context: Context, params: WorkerParameters) :
                                 .build()
                         Result.failure(failureResult)
                     } else {
-
+                        with(workManager) {
+                            startCurrentPlacePeriodicSync()
+                            startAllPlacesForecastPeriodicSync()
+                        }
                         Result.success()
                     }
                 }
