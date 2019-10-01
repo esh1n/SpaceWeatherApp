@@ -9,7 +9,9 @@ import com.esh1n.core_android.ui.viewmodel.BaseViewModel
 import com.esh1n.core_android.ui.viewmodel.Resource
 import com.esh1n.core_android.ui.viewmodel.SingleLiveEvent
 import com.lab.esh1n.weather.domain.weather.weather.usecases.FetchAndSaveCurrentPlaceWeatherUseCase
+import com.lab.esh1n.weather.domain.weather.weather.usecases.LoadCurrentWeatherSingleUseCase
 import com.lab.esh1n.weather.domain.weather.weather.usecases.LoadCurrentWeatherUseCase
+import com.lab.esh1n.weather.utils.NotificationUtil
 import com.lab.esh1n.weather.weather.mapper.WeatherModelMapper
 import com.lab.esh1n.weather.weather.model.WeatherModel
 import java.util.concurrent.TimeUnit
@@ -21,7 +23,7 @@ import javax.inject.Inject
 
 class CurrentWeatherVM
 @Inject
-constructor(private val loadCurrentWeatherUseCase: LoadCurrentWeatherUseCase,
+constructor(private val loadCurrentWeatherUseCase: LoadCurrentWeatherUseCase, private val loadCurrentWeatherSingleUseCase: LoadCurrentWeatherSingleUseCase,
             private val fetchAndSaveWeatherUseCase: FetchAndSaveCurrentPlaceWeatherUseCase,
             application: Application,
             private val workManager: WorkManager)
@@ -57,9 +59,13 @@ constructor(private val loadCurrentWeatherUseCase: LoadCurrentWeatherUseCase,
     fun refresh() {
         addDisposable(
                 fetchAndSaveWeatherUseCase.perform(Unit)
+                        .flatMap { loadCurrentWeatherSingleUseCase.perform(Unit) }
+                        .doOnSuccess {
+                            NotificationUtil.sendCurrentWeatherNotification(it, getApplication())
+                        }
                         .doOnSubscribe { _ ->
                             refreshOperation.postValue(Resource.loading())
-                        }
+                        }.map { Resource.map(it) { Unit } }
                         .applyAndroidSchedulers()
                         .subscribe({ result -> refreshOperation.postValue(result) },
                                 {
