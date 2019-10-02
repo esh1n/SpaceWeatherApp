@@ -20,6 +20,10 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+
+        debug{
+            //applicationIdSuffix ".debug"
+        }
     }
 
     dataBinding {
@@ -36,7 +40,7 @@ android {
 
     productFlavors {
         mock {
-            //applicationIdSuffix ".mock"
+
             versionName "0.0.1.21"
             setProperty("archivesBaseName", "LaunchTalks" + "-v" + versionName)
             buildConfigField "String", "API_ENDPOINT", '"https://test.com/dev/api/"'
@@ -100,6 +104,7 @@ dependencies {
 
     // Add dependency
     implementation 'com.crashlytics.sdk.android:crashlytics:2.10.1'
+    implementation 'com.google.firebase:firebase-ads:18.2.0'
 
 }
 repositories {

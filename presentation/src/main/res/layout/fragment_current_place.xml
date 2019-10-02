@@ -27,19 +27,14 @@
                 android:layout_height="match_parent"
                 app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-                <FrameLayout
+                <LinearLayout
+                    android:orientation="vertical"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@android:color/white">
 
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/list_weathers"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                        tools:listitem="@layout/item_day_overrall_weather"/>
-
                     <TextView
+                        android:layout_marginTop="@dimen/margin_medium"
                         android:id="@+id/tv_no_weather"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -47,7 +42,22 @@
                         android:text="@string/text_no_places"
                         android:visibility="gone"/>
 
-                </FrameLayout>
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/list_weathers"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        tools:listitem="@layout/item_day_overrall_weather" />
+
+                    <com.google.android.gms.ads.AdView xmlns:ads="http://schemas.android.com/apk/res-auto"
+                        android:id="@+id/adView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        ads:adSize="LARGE_BANNER"
+                        ads:adUnitId="@string/admob_banner_id"></com.google.android.gms.ads.AdView>
+
+
+                </LinearLayout>
             </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
         </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
