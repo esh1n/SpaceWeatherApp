@@ -8,6 +8,8 @@ import com.esh1n.core_android.rx.applyAndroidSchedulers
 import com.esh1n.core_android.ui.viewmodel.BaseViewModel
 import com.esh1n.core_android.ui.viewmodel.Resource
 import com.esh1n.core_android.ui.viewmodel.SingleLiveEvent
+import com.google.android.gms.ads.MobileAds
+import com.google.android.gms.ads.initialization.OnInitializationCompleteListener
 import com.lab.esh1n.weather.domain.weather.weather.usecases.FetchAndSaveCurrentPlaceWeatherUseCase
 import com.lab.esh1n.weather.domain.weather.weather.usecases.LoadCurrentWeatherSingleUseCase
 import com.lab.esh1n.weather.domain.weather.weather.usecases.LoadCurrentWeatherUseCase
@@ -30,6 +32,7 @@ constructor(private val loadCurrentWeatherUseCase: LoadCurrentWeatherUseCase, pr
     : BaseViewModel(application) {
 
     val refreshOperation = SingleLiveEvent<Resource<Unit>>()
+    val initAdEvent = SingleLiveEvent<Resource<Boolean>>()
     val weatherLiveData = MutableLiveData<Resource<List<WeatherModel>>>()
     private val cityWeatherModelMapper = WeatherModelMapper()
 
@@ -72,6 +75,13 @@ constructor(private val loadCurrentWeatherUseCase: LoadCurrentWeatherUseCase, pr
                                     refreshOperation.postValue(Resource.error(it))
                                 })
         )
+    }
+
+    fun initAdMob() {
+
+        MobileAds.initialize(getApplication(), OnInitializationCompleteListener { status ->
+            initAdEvent.postValue(Resource.success(true))
+        })
     }
 
 }

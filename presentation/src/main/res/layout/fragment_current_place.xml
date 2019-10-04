@@ -49,13 +49,6 @@
                         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                         tools:listitem="@layout/item_day_overrall_weather" />
 
-                    <com.google.android.gms.ads.AdView xmlns:ads="http://schemas.android.com/apk/res-auto"
-                        android:id="@+id/adView"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        ads:adSize="LARGE_BANNER"
-                        ads:adUnitId="@string/admob_banner_id"></com.google.android.gms.ads.AdView>
-
 
                 </LinearLayout>
             </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

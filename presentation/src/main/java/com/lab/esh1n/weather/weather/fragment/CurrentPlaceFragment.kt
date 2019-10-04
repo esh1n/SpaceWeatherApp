@@ -19,6 +19,7 @@ import com.lab.esh1n.weather.weather.model.CurrentWeatherModel
 import com.lab.esh1n.weather.weather.model.WeatherModel
 import com.lab.esh1n.weather.weather.viewmodel.CurrentWeatherVM
 
+
 /**
  * Created by esh1n on 3/16/18.
  */
@@ -35,6 +36,7 @@ class CurrentPlaceFragment : BaseVMFragment<CurrentWeatherVM>() {
     private lateinit var adapter: CurrentWeatherAdapter
 
     private var title: String? = null
+
 
     override fun setupView(rootView: View, savedInstanceState: Bundle?) {
         super.setupView(rootView, savedInstanceState)
@@ -57,15 +59,27 @@ class CurrentPlaceFragment : BaseVMFragment<CurrentWeatherVM>() {
         }
     }
 
+
     private fun onWeatherClicked(weatherModel: WeatherModel) {
         parentFragment?.fragmentManager.addFragmentToStack(ForecastFragment.newInstance())
     }
 
-
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        viewModel.initAdEvent.observe(viewLifecycleOwner, object : BaseObserver<Boolean>() {
+            override fun onError(error: ErrorModel?) {
+
+            }
+
+            override fun onData(data: Boolean?) {
+                data?.let {
+
+                }
+            }
+        })
         observeWeather()
         viewModel.loadWeather()
+        viewModel.initAdMob()
     }
 
     private fun getPlaceName(data: List<WeatherModel>?): String {
@@ -155,6 +169,7 @@ class CurrentPlaceFragment : BaseVMFragment<CurrentWeatherVM>() {
     }
 
     companion object {
+        const val TAG = "CurrentPlaceFragment"
         fun newInstance() = CurrentPlaceFragment()
     }
 }

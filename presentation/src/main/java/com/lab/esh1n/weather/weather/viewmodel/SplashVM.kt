@@ -24,7 +24,6 @@ constructor(application: Application, private val workManager: WorkManager) : Ba
     private fun initAdmob() {
         val context = getApplication<WeatherApp>()
         val appId = context.getString(R.string.admob_app_id)
-        val test = context.getString(R.string.admob_test)
         MobileAds.initialize(context, appId);
     }
 

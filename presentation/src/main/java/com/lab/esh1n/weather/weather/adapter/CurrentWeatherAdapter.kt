@@ -1,15 +1,20 @@
 package com.lab.esh1n.weather.weather.adapter
 
 
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.esh1n.utils_android.ui.inflate
+import com.google.android.gms.ads.AdListener
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.AdView
 import com.lab.esh1n.weather.R
 import com.lab.esh1n.weather.databinding.ItemDayOverrallWeatherBinding
 import com.lab.esh1n.weather.databinding.ItemHeaderCurrentWeatherBinding
+import com.lab.esh1n.weather.weather.fragment.CurrentPlaceFragment
 import com.lab.esh1n.weather.weather.model.CurrentWeatherModel
 import com.lab.esh1n.weather.weather.model.DayWeatherModel
 import com.lab.esh1n.weather.weather.model.WeatherBackgroundModel
@@ -21,12 +26,19 @@ class CurrentWeatherAdapter(private val cityDayForecastClick: (WeatherModel) -> 
 
     private var weathers: List<WeatherModel>? = null
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        if (viewType == TYPE_HEADER) {
-            val view = parent.inflate(R.layout.item_header_current_weather)
-            return VHHeader(view)
-        } else {
-            val view = parent.inflate(R.layout.item_day_overrall_weather)
-            return VHItem(view)
+        return when (viewType) {
+            TYPE_HEADER -> {
+                val view = parent.inflate(R.layout.item_header_current_weather)
+                VHHeader(view)
+            }
+            TYPE_ITEM -> {
+                val view = parent.inflate(R.layout.item_day_overrall_weather)
+                VHItem(view)
+            }
+            else -> {
+                val bannerLayoutView = parent.inflate(R.layout.banner_ad_container)
+                AdViewHolder(bannerLayoutView)
+            }
         }
 
     }
@@ -42,12 +54,19 @@ class CurrentWeatherAdapter(private val cityDayForecastClick: (WeatherModel) -> 
     }
 
     override fun getItemCount(): Int {
-        return weathers?.size ?: 0
+        return if (weathers.isNullOrEmpty()) {
+            0
+        } else {
+            weathers!!.size + ADS_BANNER_COUNT
+        }
     }
 
     override fun getItemViewType(position: Int): Int {
-        return if (isPositionHeader(position)) TYPE_HEADER else TYPE_ITEM
-
+        return when {
+            isPositionHeader(position) -> TYPE_HEADER
+            position == weathers?.size ?: -1 -> TYPE_AD_BANNER
+            else -> TYPE_ITEM
+        }
     }
 
     private fun isPositionHeader(position: Int): Boolean {
@@ -55,7 +74,9 @@ class CurrentWeatherAdapter(private val cityDayForecastClick: (WeatherModel) -> 
     }
 
     private fun getItem(position: Int): WeatherModel? {
-        return weathers?.get(position)
+        return if (weathers.isNullOrEmpty() || position == weathers!!.size)
+            null
+        else weathers?.get(position)
     }
 
     fun swapWeathers(newWeathers: List<WeatherModel>) {
@@ -121,6 +142,53 @@ class CurrentWeatherAdapter(private val cityDayForecastClick: (WeatherModel) -> 
         }
     }
 
+    inner class AdViewHolder internal constructor(view: View) : RecyclerView.ViewHolder(view) {
+        private var adView: AdView? = null
+
+        init {
+            initAd(view)
+        }
+
+        private fun initAd(view: View) {
+            adView = view.findViewById(R.id.adView)
+            adView?.adListener = object : AdListener() {
+                override fun onAdLoaded() {
+                    Log.d(CurrentPlaceFragment.TAG, "onAdLoaded")
+                    // Code to be executed when an ad finishes loading.
+                }
+
+                override fun onAdFailedToLoad(errorCode: Int) {
+                    Log.d(CurrentPlaceFragment.TAG, "onAdFailedToLoad")
+                    // Code to be executed when an ad request fails.
+                }
+
+                override fun onAdOpened() {
+                    Log.d(CurrentPlaceFragment.TAG, "onAdOpened")
+                    // Code to be executed when an ad opens an overlay that
+                    // covers the screen.
+                }
+
+                override fun onAdClicked() {
+                    Log.d(CurrentPlaceFragment.TAG, "onAdClicked")
+                    // Code to be executed when the user clicks on an ad.
+                }
+
+                override fun onAdLeftApplication() {
+                    Log.d(CurrentPlaceFragment.TAG, "onAdLeftApplication")
+                    // Code to be executed when the user has left the app.
+                }
+
+                override fun onAdClosed() {
+                    Log.d(CurrentPlaceFragment.TAG, "onAdClosed")
+                    // Code to be executed when the user is about to return
+                    // to the app after tapping on an ad.
+                }
+            }
+            val adRequest = AdRequest.Builder().build()
+            adView?.loadAd(adRequest)
+        }
+    }
+
 
     internal inner class VHItem(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
         var binding: ItemDayOverrallWeatherBinding? = DataBindingUtil.bind(itemView)
@@ -148,5 +216,7 @@ class CurrentWeatherAdapter(private val cityDayForecastClick: (WeatherModel) -> 
     companion object {
         private const val TYPE_HEADER = 0
         private const val TYPE_ITEM = 1
+        private const val TYPE_AD_BANNER = 2
+        private const val ADS_BANNER_COUNT = 1
     }
 }

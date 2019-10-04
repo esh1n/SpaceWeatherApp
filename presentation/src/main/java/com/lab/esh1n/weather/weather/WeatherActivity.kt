@@ -65,11 +65,25 @@ class WeatherActivity : BaseToolbarActivity() {
         initFragmentTransactionsListener()
     }
 
+    override fun onResume() {
+        super.onResume()
+        logOnResumeEvent()
+    }
+
+    //TODO move to own analytics holder
     private fun logRouteEvent(isDataInitialized: Boolean) {
         val bundle = Bundle()
         bundle.putString(FirebaseAnalytics.Param.ITEM_ID, "main_activity")
         bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, "on_route_data")
         bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, isDataInitialized.toString())
+        firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle)
+    }
+
+    private fun logOnResumeEvent() {
+        val bundle = Bundle()
+        bundle.putString(FirebaseAnalytics.Param.ITEM_ID, "main_activity")
+        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, "on_resume")
+        bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "-what?")
         firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle)
     }
 
