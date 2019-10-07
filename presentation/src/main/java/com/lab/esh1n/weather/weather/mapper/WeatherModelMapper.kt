@@ -16,6 +16,7 @@ import kotlin.math.abs
 class WeatherModelMapper {
 
 
+
     fun map(source: List<WeatherWithPlace>): List<WeatherModel> {
         if (source.isEmpty()) {
             return emptyList()
@@ -58,28 +59,31 @@ class WeatherModelMapper {
         }.values
     }
 
-    private fun mapCurrentWeatherModel(source: List<WeatherWithPlace>, timezone: String, dateMapper: UiDateMapper): CurrentWeatherModel {
+    private fun mapCurrentWeatherModel(source: MutableList<WeatherWithPlace>, timezone: String, dateMapper: UiDateMapper): CurrentWeatherModel {
         val nowInMills = Date().time
         Log.d("CurrentP", "!!!mapCurrentWeatherModel---------------------------------------")
         source.forEach {
             val diff = abs(it.epochDateMills.time - nowInMills)
             Log.d("CurrentP", "dateSec ${it.dateSeconds} date ${it.dateTxt} diff $diff")
         }
-        val value = source.minBy { abs(it.epochDateMills.time - nowInMills) } ?: source[0]
+        val now = source.minBy { abs(it.epochDateMills.time - nowInMills) } ?: source[0]
+        source.remove(now)
 
+        val hourWeathers = HourWeatherEventMapper(timezone).map(source)
         return CurrentWeatherModel(
-                placeName = value.placeName,
-                description = value.description,
-                humanDate = dateMapper.map(value.epochDateMills),
-                tempMax = value.temperatureMax.toInt(),
-                tempMin = value.temperatureMin.toInt(),
-                currentTemperature = Temperature.middleTemperature(value.temperatureMin, value.temperatureMax).value.toInt(),
-                iconId = value.iconId,
-                snow = value.snow,
-                cloudiness = value.cloudiness,
-                rain = value.rain,
-                hour24Format = DateBuilder(value.epochDateMills, timezone).getHour24Format(),
-                isDay = isDay(value.iconId)
+                placeName = now.placeName,
+                description = now.description,
+                humanDate = dateMapper.map(now.epochDateMills),
+                tempMax = now.temperatureMax.toInt(),
+                tempMin = now.temperatureMin.toInt(),
+                currentTemperature = Temperature.middleTemperature(now.temperatureMin, now.temperatureMax).getHumanReadable(),
+                iconId = now.iconId,
+                snow = now.snow,
+                cloudiness = now.cloudiness,
+                rain = now.rain,
+                hour24Format = DateBuilder(now.epochDateMills, timezone).getHour24Format(),
+                isDay = isDay(now.iconId),
+                hourWeatherEvents = hourWeathers
         )
     }
 
@@ -104,8 +108,7 @@ class WeatherModelMapper {
         val iconsIds: List<Int> = weathers.map { Integer.parseInt(it.iconId.substring(0, 2)) }
         val mostOccasionsIcon = iconsIds.groupingBy { it }.eachCount().maxBy { it.value }?.key ?: 1
         val formatter = DecimalFormat("00")
-        val result = "${formatter.format(mostOccasionsIcon)}d"
-        return result
+        return "${formatter.format(mostOccasionsIcon)}d"
     }
 
     companion object {

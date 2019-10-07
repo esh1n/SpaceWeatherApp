@@ -13,7 +13,7 @@ abstract class BaseViewModel(app: Application) : AndroidViewModel(app) {
         disposables.clear()
     }
 
-    fun addDisposable(d: Disposable) {
-        disposables.add(d)
+    protected fun Disposable.disposeOnDestroy() {
+        disposables.add(this)
     }
 }

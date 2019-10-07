@@ -31,7 +31,6 @@ class AllPlacesVM @Inject constructor(private val loadPlacesUseCase: GetAllPlace
     fun saveCurrentPlace(id: Int) {
         updateCurrentPlaceOperation.postValue(Resource.loading())
 
-        addDisposable(
                 updateCurrentPlaceUseCase.perform(id)
                         .flatMap {
                             loadCurrentPlaceUseCase.perform(Unit)
@@ -44,25 +43,23 @@ class AllPlacesVM @Inject constructor(private val loadPlacesUseCase: GetAllPlace
                             NotificationUtil.sendCurrentWeatherNotification(result, getApplication())
                             updateCurrentPlaceOperation.postValue(result)
                         }, {
-                                    updateCurrentPlaceOperation.postValue(Resource.error(it))
-                                })
-        )
-
+                            updateCurrentPlaceOperation.postValue(Resource.error(it))
+                        })
+                        .disposeOnDestroy()
     }
 
     fun loadPlaces() {
         //think about if no results how not to show progress
-        addDisposable(
-                loadPlacesUseCase.perform(Unit)
-                        .doOnSubscribe { _ ->
-                            allCities.postValue(Resource.loading())
-                        }
-                        .map { return@map Resource.map(it, placeWeatherMapper::map) }
-                        .compose(SchedulersFacade.applySchedulersObservable())
-                        .subscribe { models ->
-                            allCities.postValue(models)
-                        }
-        )
+        loadPlacesUseCase.perform(Unit)
+                .doOnSubscribe { _ ->
+                    allCities.postValue(Resource.loading())
+                }
+                .map { return@map Resource.map(it, placeWeatherMapper::map) }
+                .compose(SchedulersFacade.applySchedulersObservable())
+                .subscribe { models ->
+                    allCities.postValue(models)
+                }
+                .disposeOnDestroy()
     }
 
 

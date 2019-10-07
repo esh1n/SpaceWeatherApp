@@ -8,6 +8,20 @@
     android:orientation="vertical"
     tools:context=".weather.WeatherActivity">
 
+    <Button
+        android:id="@+id/bt_recreate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="recreate"
+        android:visibility="gone" />
+
+    <FrameLayout
+        android:id="@+id/container_fragment"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical"></FrameLayout>
+
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -19,15 +33,7 @@
             android:background="?attr/colorPrimary"
             android:minHeight="?attr/actionBarSize"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-            app:theme="@style/Toolbar"/>
+            app:theme="@style/Toolbar" />
     </com.google.android.material.appbar.AppBarLayout>
-
-    <FrameLayout
-        android:id="@+id/container_fragment"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:orientation="vertical">
-    </FrameLayout>
 
 </LinearLayout>

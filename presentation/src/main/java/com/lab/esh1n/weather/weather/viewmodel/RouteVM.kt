@@ -15,12 +15,10 @@ class RouteVM @Inject constructor(app: Application, private val checkDataInitial
 
     fun checkIfInitialized() {
         Crashlytics.log("checkIfInitialized")
-        addDisposable(
                 checkDataInitializedUseCase.perform(Unit)
                         .applyAndroidSchedulers()
                         .subscribe { models ->
                             dataWasInitializedEvent.postValue(models)
-                        }
-        )
+                        }.disposeOnDestroy()
     }
 }

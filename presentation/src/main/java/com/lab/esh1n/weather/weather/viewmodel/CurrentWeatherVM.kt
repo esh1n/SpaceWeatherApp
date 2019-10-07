@@ -41,26 +41,25 @@ constructor(private val loadCurrentWeatherUseCase: LoadCurrentWeatherUseCase, pr
 
     fun loadWeather() {
         //think about if no results how not to show progress
-        addDisposable(
                 loadCurrentWeatherUseCase.perform(Unit)
                         .throttleLast(1L, TimeUnit.SECONDS)
 //                        .doOnSubscribe { _ ->
 //                            weatherLiveData.postValue(Resource.loading())
 //                        }
-                        .map { return@map Resource.map(it, cityWeatherModelMapper::map) }
+                        .map {
+                            return@map Resource.map(it, cityWeatherModelMapper::map)
+                        }
                         .defaultIfEmpty(
                                 Resource.ended()
                         )
                         .compose(SchedulersFacade.applySchedulersObservable())
                         .subscribe { models ->
                             weatherLiveData.postValue(models)
-                        }
-        )
+                        }.disposeOnDestroy()
     }
 
 
     fun refresh() {
-        addDisposable(
                 fetchAndSaveWeatherUseCase.perform(Unit)
                         .flatMap { loadCurrentWeatherSingleUseCase.perform(Unit) }
                         .doOnSuccess {
@@ -73,8 +72,7 @@ constructor(private val loadCurrentWeatherUseCase: LoadCurrentWeatherUseCase, pr
                         .subscribe({ result -> refreshOperation.postValue(result) },
                                 {
                                     refreshOperation.postValue(Resource.error(it))
-                                })
-        )
+                                }).disposeOnDestroy()
     }
 
     fun initAdMob() {

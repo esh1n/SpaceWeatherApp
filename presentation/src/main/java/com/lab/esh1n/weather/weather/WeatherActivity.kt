@@ -1,6 +1,7 @@
 package com.lab.esh1n.weather.weather
 
 import android.os.Bundle
+import android.widget.Button
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import com.crashlytics.android.Crashlytics
@@ -61,6 +62,9 @@ class WeatherActivity : BaseToolbarActivity() {
             }
 
         })
+        findViewById<Button>(R.id.bt_recreate).setOnClickListener {
+            recreate()
+        }
         viewModel.checkIfInitialized()
         initFragmentTransactionsListener()
     }
