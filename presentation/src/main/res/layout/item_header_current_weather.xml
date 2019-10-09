@@ -1,15 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools">
-
-    <data>
-
-        <variable
-            name="weather"
-            type="com.lab.esh1n.weather.weather.model.CurrentWeatherModel"/>
-    </data>
-
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <LinearLayout
         android:id="@+id/view_content"
@@ -29,22 +21,22 @@
 
             <ImageView
                 android:id="@+id/iv_icon"
-                android:layout_marginStart="@dimen/margin_medium"
                 android:layout_width="@dimen/image_size_avatar_big"
                 android:layout_height="@dimen/image_size_avatar_big"
+                android:layout_marginStart="@dimen/margin_medium"
                 android:contentDescription="@string/app_name"
                 android:scaleType="centerCrop"
                 android:src="@drawable/ic_status_01d"
-                app:convertPathToIcon="@{weather.iconId}"/>
+                app:convertPathToIcon="@{weather.iconId}" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                app:txtColor="@{weather.isDay}"
                 android:textSize="@dimen/f46"
                 android:textStyle="bold"
                 app:temperatureCelsius="@{weather.tempMax}"
+                app:txtColor="@{weather.isDay}"
                 tools:text="16 C" />
 
         </LinearLayout>
@@ -55,11 +47,26 @@
             android:layout_gravity="center"
             android:layout_marginTop="@dimen/margin_smallest"
             android:text="@{weather.description}"
-            app:txtColor="@{weather.isDay}"
             android:textSize="@dimen/f20"
-            tools:text="Clear sky"/>
+            app:txtColor="@{weather.isDay}"
+            tools:text="Clear sky" />
 
-
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/margin_smallest"
+            android:textColor="@color/gray_bottom_menu"
+            app:lastUpdateTime="@{weather.humanDate}"
+            tools:text="Last update time" />
     </LinearLayout>
+
+
+    <data>
+
+        <variable
+            name="weather"
+            type="com.lab.esh1n.weather.weather.model.CurrentWeatherModel" />
+    </data>
 
 </layout>

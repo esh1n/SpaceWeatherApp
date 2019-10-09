@@ -46,7 +46,12 @@ fun getTextColor(tv: TextView, isDay: Boolean?) {
     }
 }
 
-
+@BindingAdapter("lastUpdateTime")
+fun getLastUpdateTime(tv: TextView, lastUpdateTime: String?) {
+    lastUpdateTime?.let {
+        tv.text = tv.context.getString(R.string.text_last_update_time, lastUpdateTime)
+    }
+}
 
 @BindingAdapter(value = ["tempMin", "tempMax"], requireAll = false)
 fun setTemperatureRange(tv: TextView, tempMin: Int?, tempMax: Int?) {

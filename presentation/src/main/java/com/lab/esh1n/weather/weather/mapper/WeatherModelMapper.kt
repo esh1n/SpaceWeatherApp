@@ -29,7 +29,7 @@ class WeatherModelMapper {
             val firstDayForecasts = dayToForecast[firstDay]
             dayToForecast.remove(firstDay)
             val currentWeatherModel = mapCurrentWeatherModel(firstDayForecasts
-                    ?: arrayListOf(), timezone, dateMapper)
+                    ?: arrayListOf(), timezone)
             Log.d("CurrentP", "!!!END---------------------------------------")
             val resultWeatherModel = mutableListOf<WeatherModel>()
             resultWeatherModel.add(currentWeatherModel)
@@ -59,15 +59,12 @@ class WeatherModelMapper {
         }.values
     }
 
-    private fun mapCurrentWeatherModel(source: MutableList<WeatherWithPlace>, timezone: String, dateMapper: UiDateMapper): CurrentWeatherModel {
+    private fun mapCurrentWeatherModel(source: MutableList<WeatherWithPlace>, timezone: String): CurrentWeatherModel {
         val nowInMills = Date().time
-        Log.d("CurrentP", "!!!mapCurrentWeatherModel---------------------------------------")
-        source.forEach {
-            val diff = abs(it.epochDateMills.time - nowInMills)
-            Log.d("CurrentP", "dateSec ${it.dateSeconds} date ${it.dateTxt} diff $diff")
-        }
         val now = source.minBy { abs(it.epochDateMills.time - nowInMills) } ?: source[0]
         source.remove(now)
+
+        val dateMapper = UiDateMapper(timezone, UILocalizer.getDateFormat(DateFormat.DAY_HOUR))
 
         val hourWeathers = HourWeatherEventMapper(timezone).map(source)
         return CurrentWeatherModel(

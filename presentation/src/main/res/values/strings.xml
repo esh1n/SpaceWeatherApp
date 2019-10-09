@@ -35,6 +35,7 @@
     <string name="text_no_places">No Places</string>
     <string name="text_choose_action">Choose Action</string>
     <string name="text_fix_fail">Fix prepopulate</string>
+    <string name="text_last_update_time">Measured at: %s</string>
 
 
     <string-array

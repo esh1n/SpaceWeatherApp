@@ -36,5 +36,4 @@
         android:text="recreate"
         android:visibility="gone" />
 
-
 </LinearLayout>
