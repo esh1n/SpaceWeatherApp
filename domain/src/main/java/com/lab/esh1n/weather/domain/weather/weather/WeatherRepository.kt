@@ -108,8 +108,6 @@ class WeatherRepository constructor(private val api: APIService, database: Weath
                     Completable.fromAction {
                         weatherDAO.updateCurrentWeathers(weatherEntries)
                     }
-                    //weatherDAO.saveWeathersCompletable(weatherEntries)
-
                 }
     }
 
