@@ -15,6 +15,7 @@
     <color name="bg_splash_sky_start">#00c0f5</color>
     <color name="bg_splash_sky_middle">#00d4fa</color>
     <color name="bg_splash_sky_end">#d7f5f2</color>
+    <color name="bg_white">#FEFEFE</color>
 
 
     <string-array name="clear_sky">

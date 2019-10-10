@@ -21,6 +21,16 @@
         <item name="android:singleLine">true</item>
     </style>
 
+    <style name="SettingsTextView" parent="EventTextView">
+        <item name="android:textSize">@dimen/font_size_16</item>
+    </style>
+
+
+    <style name="SettingsTitleTextView">
+        <item name="android:textSize">@dimen/font_size_18</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
     <style name="Toolbar" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
         <item name="android:textColorPrimary">@android:color/white</item>
         <item name="android:textColorSecondary">@android:color/white</item>

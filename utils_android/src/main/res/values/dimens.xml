@@ -2,9 +2,9 @@
 <resources>
     <dimen name="padding_medium">16dp</dimen>
     <dimen name="filter_item_margin_end">15dp</dimen>
-    <dimen name="font_size_18">18dp</dimen>
-    <dimen name="font_size_15">15dp</dimen>
-    <dimen name="font_size_16">16dp</dimen>
+    <dimen name="font_size_18">18sp</dimen>
+    <dimen name="font_size_15">15sp</dimen>
+    <dimen name="font_size_16">16sp</dimen>
     <dimen name="date_filter_picker_margin_top">8dp</dimen>
     <dimen name="card_radius">4dp</dimen>
     <dimen name="filter_picker_padding">8dp</dimen>
