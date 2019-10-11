@@ -34,7 +34,12 @@ abstract class ViewModelModule {
     @Binds
     @IntoMap
     @ViewModelKey(EmptyVM::class)
-    abstract fun provideSettingsViewModel(weatherVM: EmptyVM): ViewModel
+    abstract fun provideEmptyVM(weatherVM: EmptyVM): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(SettingsViewModel::class)
+    abstract fun provideSettingsViewModel(weatherVM: SettingsViewModel): ViewModel
 
     @Binds
     @IntoMap

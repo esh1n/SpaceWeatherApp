@@ -7,7 +7,7 @@ import androidx.work.WorkerParameters
 import com.crashlytics.android.Crashlytics
 import com.esh1n.core_android.ui.viewmodel.Resource
 import com.lab.esh1n.weather.WeatherApp
-import com.lab.esh1n.weather.domain.weather.places.usecase.DaylyForecastSyncUseCase
+import com.lab.esh1n.weather.domain.weather.places.usecase.DailyForecastSyncUseCase
 import com.lab.esh1n.weather.utils.WORKER_ERROR_DESCRIPTION
 import io.reactivex.Single
 import javax.inject.Inject
@@ -17,7 +17,7 @@ class SyncAllPlacesForecastWorker(context: Context, params: WorkerParameters) :
         RxWorker(context, params) {
 
     @Inject
-    lateinit var dailyForecastSyncUseCase: DaylyForecastSyncUseCase
+    lateinit var dailyForecastSyncUseCase: DailyForecastSyncUseCase
 
     override fun createWork(): Single<Result> {
         WeatherApp.getWorkerComponent(applicationContext).inject(this@SyncAllPlacesForecastWorker)

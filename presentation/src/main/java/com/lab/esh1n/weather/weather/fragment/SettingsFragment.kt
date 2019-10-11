@@ -8,17 +8,18 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.crashlytics.android.Crashlytics
+import com.esh1n.core_android.error.ErrorModel
 import com.esh1n.core_android.ui.fragment.BaseVMFragment
+import com.esh1n.core_android.ui.viewmodel.BaseObserver
+import com.esh1n.utils_android.ui.SnackbarBuilder
 import com.lab.esh1n.weather.R
 import com.lab.esh1n.weather.weather.adapter.SettingsAdapter
-import com.lab.esh1n.weather.weather.model.HeaderSettingModel
 import com.lab.esh1n.weather.weather.model.SettingsModel
-import com.lab.esh1n.weather.weather.model.TextSettingModel
-import com.lab.esh1n.weather.weather.viewmodel.EmptyVM
+import com.lab.esh1n.weather.weather.viewmodel.SettingsViewModel
 
-class SettingsFragment : BaseVMFragment<EmptyVM>() {
+class SettingsFragment : BaseVMFragment<SettingsViewModel>() {
 
-    override val viewModelClass = EmptyVM::class.java
+    override val viewModelClass = SettingsViewModel::class.java
 
     override val layoutResource: Int = R.layout.fragment_settings
 
@@ -40,7 +41,23 @@ class SettingsFragment : BaseVMFragment<EmptyVM>() {
             it.setHasFixedSize(true)
             it.adapter = settingsAdapter
         }
-        settingsAdapter.setSettings(arrayListOf(HeaderSettingModel("Main"), TextSettingModel("Language", "English")))
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        viewModel.settings.observe(viewLifecycleOwner, object : BaseObserver<List<SettingsModel>>() {
+            override fun onData(data: List<SettingsModel>?) {
+                data?.let {
+                    settingsAdapter.setSettings(data)
+                }
+            }
+
+            override fun onError(error: ErrorModel?) {
+                SnackbarBuilder.buildErrorSnack(requireView(), error?.message ?: "").show()
+            }
+
+        })
+        viewModel.loadSettings()
     }
 
     private fun settingClick(settingsModel: SettingsModel) {

@@ -1,8 +1,10 @@
 package com.lab.esh1n.weather.di.weather
 
 import com.esh1n.core_android.error.ErrorsHandler
+import com.lab.esh1n.data.cache.entity.AppSettingsInteractor
 import com.lab.esh1n.weather.domain.weather.places.PlacesRepository
 import com.lab.esh1n.weather.domain.weather.places.usecase.*
+import com.lab.esh1n.weather.domain.weather.settings.LoadSettingsUseCase
 import com.lab.esh1n.weather.domain.weather.weather.WeatherRepository
 import com.lab.esh1n.weather.domain.weather.weather.usecases.FetchAndSaveCurrentPlaceWeatherUseCase
 import com.lab.esh1n.weather.domain.weather.weather.usecases.LoadCurrentWeatherSingleUseCase
@@ -20,8 +22,13 @@ class WeatherUseCasesModule {
     }
 
     @Provides
-    fun provideFetchAndSaveAllPlacesForecastUseCase(placesRepository: PlacesRepository, errorsHandler: ErrorsHandler): DaylyForecastSyncUseCase {
-        return DaylyForecastSyncUseCase(placesRepository, errorsHandler)
+    fun provideFetchAndSaveAllPlacesForecastUseCase(placesRepository: PlacesRepository, errorsHandler: ErrorsHandler): DailyForecastSyncUseCase {
+        return DailyForecastSyncUseCase(placesRepository, errorsHandler)
+    }
+
+    @Provides
+    fun provideLoadSettingsUseCase(settingsInteractor: AppSettingsInteractor, errorsHandler: ErrorsHandler): LoadSettingsUseCase {
+        return LoadSettingsUseCase(settingsInteractor, errorsHandler)
     }
 
     @Provides

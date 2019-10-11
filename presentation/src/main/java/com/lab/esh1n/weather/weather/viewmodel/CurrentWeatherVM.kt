@@ -72,7 +72,8 @@ constructor(private val loadCurrentWeatherUseCase: LoadCurrentWeatherUseCase, pr
                         .subscribe({ result -> refreshOperation.postValue(result) },
                                 {
                                     refreshOperation.postValue(Resource.error(it))
-                                }).disposeOnDestroy()
+                                })
+                        .disposeOnDestroy()
     }
 
     fun initAdMob() {

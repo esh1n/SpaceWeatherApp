@@ -36,6 +36,8 @@
     <string name="text_choose_action">Choose Action</string>
     <string name="text_fix_fail">Fix prepopulate</string>
     <string name="text_last_update_time">Measured at: %s</string>
+    <string name="text_settings_header">Main</string>
+    <string name="text_settings_language">Language</string>
 
 
     <string-array

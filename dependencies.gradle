@@ -2,7 +2,7 @@ ext {
 
     compileSdkVersion = 28
     buildToolsVer = "28.0.3"
-    minSdkVer = 16
+    minSdkVer = 21
     targetSdkVer = 28
 
     //androidx
