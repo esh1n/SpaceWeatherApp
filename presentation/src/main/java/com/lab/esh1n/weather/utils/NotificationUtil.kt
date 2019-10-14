@@ -14,13 +14,13 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.crashlytics.android.Crashlytics
 import com.esh1n.core_android.ui.viewmodel.Resource
-import com.esh1n.utils_android.ui.getImage
+import com.esh1n.utils_android.ui.getLocalizedContext
 import com.lab.esh1n.data.cache.entity.WeatherWithPlace
 import com.lab.esh1n.weather.R
 import com.lab.esh1n.weather.weather.WeatherActivity
 import com.lab.esh1n.weather.weather.mapper.DateFormat
-import com.lab.esh1n.weather.weather.mapper.UILocalizer
 import com.lab.esh1n.weather.weather.mapper.UiDateMapper
+import com.lab.esh1n.weather.weather.mapper.UiLocalizer
 import com.lab.esh1n.weather.weather.model.Temperature
 
 class NotificationUtil {
@@ -69,14 +69,14 @@ class NotificationUtil {
             return channelId
         }
 
-        private fun mapResultToWeatherNotification(result: Resource<WeatherWithPlace>, ctx: Context): WeatherNotification {
+        private fun mapResultToWeatherNotification(result: Resource<WeatherWithPlace>, ctx: Context, dateMapper: UiDateMapper): WeatherNotification {
 
             when (result.status) {
                 Resource.Status.SUCCESS -> {
                     val weather = result.data!!
                     val title = ctx.getString(R.string.text_weather_notification_title, weather.description)
                     val middleTemperature = Temperature.middleTemperature(weather.temperatureMin, weather.temperatureMax)
-                    val weatherDate = UiDateMapper(weather.timezone, UILocalizer.getDateFormat(DateFormat.HOUR)).map(weather.epochDateMills)
+                    val weatherDate = dateMapper.map(weather.epochDateMills)
                     val message = ctx.getString(R.string.text_weather_description, middleTemperature.getHumanReadable(), weatherDate, weather.placeName)
                     return WeatherNotification(title, message, weather.iconId, title)
                 }
@@ -91,11 +91,14 @@ class NotificationUtil {
             }
         }
 
-        fun sendCurrentWeatherNotification(result: Resource<WeatherWithPlace>, context: Context) {
-            val weatherNotification = mapResultToWeatherNotification(result, context)
-            with(NotificationManagerCompat.from(context)) {
+        fun sendCurrentWeatherNotification(result: Resource<WeatherWithPlace>, context: Context, uiLocalizer: UiLocalizer) {
+            val localizedContext = context.getLocalizedContext(uiLocalizer.getLocale())
+            val dateMapper = uiLocalizer.provideDateMapper(result.data?.timezone
+                    ?: "UTC", DateFormat.HOUR)
+            val weatherNotification = mapResultToWeatherNotification(result, localizedContext, dateMapper)
+            with(NotificationManagerCompat.from(localizedContext)) {
                 // notificationId is a unique int for each notification that you must define
-                notify(CURRENT_WEATHER_NOTIFICATION_ID, buildNotification(context, weatherNotification))
+                notify(CURRENT_WEATHER_NOTIFICATION_ID, buildNotification(localizedContext, weatherNotification))
                 Crashlytics.log(5, TAG, "send notification ${weatherNotification.text}")
             }
         }

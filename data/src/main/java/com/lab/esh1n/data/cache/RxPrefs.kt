@@ -19,7 +19,7 @@ interface SingleValueCache {
 
 }
 
-open class SettingsInteractor(private val sharedPreferences: SharedPreferences) : SingleValueCache {
+open class RxPrefs(private val sharedPreferences: SharedPreferences) : SingleValueCache {
     private val gson: Gson = Gson()
 
     private var publisher = PublishSubject.create<String>()

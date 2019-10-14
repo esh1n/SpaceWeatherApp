@@ -1,9 +1,9 @@
 package com.lab.esh1n.weather.utils
 
+import android.content.Context
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
-import com.esh1n.utils_android.ui.getImage
 import com.lab.esh1n.weather.R
 import com.lab.esh1n.weather.weather.model.WeatherBackgroundUtil
 
@@ -61,3 +61,9 @@ fun setTemperatureRange(tv: TextView, tempMin: Int?, tempMax: Int?) {
         tv.text = tempRange
     }
 }
+
+fun Context.getImage(iconId: String, prefix: String = ""): Int {
+    val res = "${prefix}status_$iconId"
+    return resources.getIdentifier(res, "drawable", packageName)
+}
+

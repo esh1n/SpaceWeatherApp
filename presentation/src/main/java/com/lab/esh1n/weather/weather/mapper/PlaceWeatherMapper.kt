@@ -6,9 +6,9 @@ import com.lab.esh1n.data.cache.entity.PlaceWithCurrentWeatherEntry
 import com.lab.esh1n.weather.weather.model.PlaceModel
 import com.lab.esh1n.weather.weather.model.WeatherBackgroundModel
 
-class PlaceWeatherMapper : Mapper<PlaceWithCurrentWeatherEntry, PlaceModel>() {
+class PlaceWeatherMapper(private val uiLocalizer: UiLocalizer) : Mapper<PlaceWithCurrentWeatherEntry, PlaceModel>() {
     override fun map(source: PlaceWithCurrentWeatherEntry): PlaceModel {
-        val uiDateMapper = UiDateMapper(source.timezone, UILocalizer.getDateFormat(DateFormat.FULL))
+        val uiDateMapper = uiLocalizer.provideDateMapper(source.timezone, DateFormat.FULL)
         return PlaceModel(
                 name = source.placeName,
                 id = source.id,

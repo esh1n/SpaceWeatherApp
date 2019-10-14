@@ -1,0 +1,48 @@
+<resources>
+    <string name="app_name">Погода СЕ</string>
+
+    <string name="error_unexpected">Что-то пошло не так.</string>
+
+    <string name="search_repository_no_results_message">Извините, нет результатов</string>
+    <string name="text_no_weather">Пока нет погоды\nПотяните вниз, чтобы обновить</string>
+
+    <string name="error_server">Ошибка сервера</string>
+    <string name="error_access_denied">нет доступа</string>
+    <string name="error_common">Что-то пошло не так.</string>
+    <string name="error_connection_state">Ошибка соединения с сервером</string>
+    <string name="error_http_unavailable">Ошибка соединения с сервером</string>
+    <string name="error_not_found">404 ошибка</string>
+    <string name="error_database">Ошибка базы</string>
+    <string name="text_weather_updated_successfully">Данные погоды синхронизированы</string>
+    <string name="text_event_placeholder">%s для</string>
+
+
+    <string name="text_temperature_celsius">%d\u2103</string>
+    <string name="text_temperature_range_celsius">от %d u2103 до %d \u2103</string>
+    <string name="text_temperature_no_range_celsius">Весь день будет %d \u2103</string>
+    <string name="text_temperature_range">Диапазон температур</string>
+    <string name="text_speed_suffix">m/s</string>
+    <string name="text_pressure_suffix">mmHg</string>
+    <string name="prefix_percent">%</string>
+    <string name="notification_title">Погода</string>
+    <string name="notification_message">Сообщение</string>
+    <string name="ticker_text">Тикер</string>
+    <string name="error_loading_weather">Ох, ошибочка вышла…</string>
+    <string name="hint_refresh">Пожалуйста обновите данные %s</string>
+    <string name="menu_current_place">Текуший</string>
+    <string name="menu_destinations_on_earth">Все места</string>
+    <string name="menu_settings">Настройки</string>
+    <string name="text_no_places">Не добавлено мест</string>
+    <string name="text_choose_action">Выберите действие</string>
+    <string name="text_fix_fail">Пофиксите презаполнение</string>
+    <string name="text_last_update_time">Измерено в: %s</string>
+    <string name="text_settings_header">Главные</string>
+    <string name="text_settings_language">Язык</string>
+
+
+    <string-array name="choose_place_actions">
+        <item>Set Primary</item>
+        <item>Rename</item>
+    </string-array>
+
+</resources>

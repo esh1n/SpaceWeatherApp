@@ -13,7 +13,7 @@ import kotlin.collections.HashMap
 import kotlin.math.abs
 
 
-class WeatherModelMapper {
+class WeatherModelMapper(private val uiLocalizer: UiLocalizer) {
 
 
 
@@ -24,7 +24,7 @@ class WeatherModelMapper {
             val firstWeather = source[0]
             val timezone = firstWeather.timezone
             val firstDay = DateBuilder(firstWeather.epochDateMills).getDay()
-            val dateMapper = UiDateMapper(timezone, UILocalizer.getDateFormat(DateFormat.MONTH_DAY))
+            val dateMapper = uiLocalizer.provideDateMapper(timezone, DateFormat.MONTH_DAY)
             val dayToForecast = createDayMap(source)
             val firstDayForecasts = dayToForecast[firstDay]
             dayToForecast.remove(firstDay)
@@ -49,7 +49,7 @@ class WeatherModelMapper {
             val averageTempMax = weathersToAnalyse.map { it.temperatureMax }.average()
             val averageTempMin = weathersToAnalyse.map { it.temperatureMin }.average()
             val averageIcon = calculateWeatherIcon(weathersToAnalyse)
-            val dateOfWeekMapper = UiDateMapper(timezone, UILocalizer.getDateFormat(DateFormat.DAY_OF_WEEK))
+            val dateOfWeekMapper = uiLocalizer.provideDateMapper(timezone, DateFormat.DAY_OF_WEEK)
             val dayOfWeek = dateOfWeekMapper.map(first.epochDateMills)
             DayWeatherModel(dayDate = dateMapper.map(first.epochDateMills),
                     humanDate = dayOfWeek,
@@ -64,13 +64,14 @@ class WeatherModelMapper {
         val now = source.minBy { abs(it.epochDateMills.time - nowInMills) } ?: source[0]
         source.remove(now)
 
-        val dateMapper = UiDateMapper(timezone, UILocalizer.getDateFormat(DateFormat.DAY_HOUR))
+        val dayHourDateMapper = uiLocalizer.provideDateMapper(timezone, DateFormat.DAY_HOUR)
+        val dateHourMapper = uiLocalizer.provideDateMapper(timezone, DateFormat.HOUR)
 
-        val hourWeathers = HourWeatherEventMapper(timezone).map(source)
+        val hourWeathers = HourWeatherEventMapper(dateHourMapper).map(source)
         return CurrentWeatherModel(
                 placeName = now.placeName,
                 description = now.description,
-                humanDate = dateMapper.map(now.epochDateMills),
+                humanDate = dayHourDateMapper.map(now.epochDateMills),
                 tempMax = now.temperatureMax.toInt(),
                 tempMin = now.temperatureMin.toInt(),
                 currentTemperature = Temperature.middleTemperature(now.temperatureMin, now.temperatureMax).getHumanReadable(),

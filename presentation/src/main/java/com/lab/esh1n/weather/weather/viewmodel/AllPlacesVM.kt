@@ -14,19 +14,21 @@ import com.lab.esh1n.weather.domain.weather.places.usecase.UpdateCurrentPlaceUse
 import com.lab.esh1n.weather.domain.weather.weather.usecases.LoadCurrentWeatherSingleUseCase
 import com.lab.esh1n.weather.utils.NotificationUtil
 import com.lab.esh1n.weather.weather.mapper.PlaceWeatherMapper
+import com.lab.esh1n.weather.weather.mapper.UiLocalizer
 import com.lab.esh1n.weather.weather.model.PlaceModel
 import javax.inject.Inject
 
 class AllPlacesVM @Inject constructor(private val loadPlacesUseCase: GetAllPlacesUse,
                                       private val loadCurrentPlaceUseCase: LoadCurrentWeatherSingleUseCase,
                                       private var updateCurrentPlaceUseCase: UpdateCurrentPlaceUseCase,
-                                      private val workManager: WorkManager, application: Application) : BaseViewModel(application) {
+                                      private val workManager: WorkManager, application: Application,
+                                      private val uiLocalizer: UiLocalizer) : BaseViewModel(application) {
 
     val updateCurrentPlaceOperation = SingleLiveEvent<Resource<WeatherWithPlace>>()
 
     val allCities = MutableLiveData<Resource<List<PlaceModel>>>()
 
-    private val placeWeatherMapper = PlaceWeatherMapper()
+    private val placeWeatherMapper = PlaceWeatherMapper(uiLocalizer)
 
     fun saveCurrentPlace(id: Int) {
         updateCurrentPlaceOperation.postValue(Resource.loading())
@@ -40,7 +42,8 @@ class AllPlacesVM @Inject constructor(private val loadPlacesUseCase: GetAllPlace
                         }
                         .applyAndroidSchedulers()
                         .subscribe({ result ->
-                            NotificationUtil.sendCurrentWeatherNotification(result, getApplication())
+
+                            NotificationUtil.sendCurrentWeatherNotification(result, getApplication(), uiLocalizer)
                             updateCurrentPlaceOperation.postValue(result)
                         }, {
                             updateCurrentPlaceOperation.postValue(Resource.error(it))

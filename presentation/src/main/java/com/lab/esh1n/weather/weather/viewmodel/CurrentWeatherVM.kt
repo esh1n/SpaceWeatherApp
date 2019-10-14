@@ -14,6 +14,7 @@ import com.lab.esh1n.weather.domain.weather.weather.usecases.FetchAndSaveCurrent
 import com.lab.esh1n.weather.domain.weather.weather.usecases.LoadCurrentWeatherSingleUseCase
 import com.lab.esh1n.weather.domain.weather.weather.usecases.LoadCurrentWeatherUseCase
 import com.lab.esh1n.weather.utils.NotificationUtil
+import com.lab.esh1n.weather.weather.mapper.UiLocalizer
 import com.lab.esh1n.weather.weather.mapper.WeatherModelMapper
 import com.lab.esh1n.weather.weather.model.WeatherModel
 import java.util.concurrent.TimeUnit
@@ -28,13 +29,14 @@ class CurrentWeatherVM
 constructor(private val loadCurrentWeatherUseCase: LoadCurrentWeatherUseCase, private val loadCurrentWeatherSingleUseCase: LoadCurrentWeatherSingleUseCase,
             private val fetchAndSaveWeatherUseCase: FetchAndSaveCurrentPlaceWeatherUseCase,
             application: Application,
-            private val workManager: WorkManager)
+            private val workManager: WorkManager,
+            private val uiLocalizer: UiLocalizer)
     : BaseViewModel(application) {
 
     val refreshOperation = SingleLiveEvent<Resource<Unit>>()
     val initAdEvent = SingleLiveEvent<Resource<Boolean>>()
     val weatherLiveData = MutableLiveData<Resource<List<WeatherModel>>>()
-    private val cityWeatherModelMapper = WeatherModelMapper()
+    private val cityWeatherModelMapper = WeatherModelMapper(uiLocalizer)
 
     //TODO move this periodic sync to success login event
 
@@ -63,7 +65,7 @@ constructor(private val loadCurrentWeatherUseCase: LoadCurrentWeatherUseCase, pr
                 fetchAndSaveWeatherUseCase.perform(Unit)
                         .flatMap { loadCurrentWeatherSingleUseCase.perform(Unit) }
                         .doOnSuccess {
-                            NotificationUtil.sendCurrentWeatherNotification(it, getApplication())
+                            NotificationUtil.sendCurrentWeatherNotification(it, getApplication(), uiLocalizer)
                         }
                         .doOnSubscribe { _ ->
                             refreshOperation.postValue(Resource.loading())

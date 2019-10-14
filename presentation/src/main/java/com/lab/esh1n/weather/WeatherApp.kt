@@ -4,12 +4,14 @@ import android.app.Activity
 import android.app.Application
 import android.app.Service
 import android.content.Context
+import com.lab.esh1n.data.cache.entity.AppPrefs
 import com.lab.esh1n.weather.di.component.AppComponent
 import com.lab.esh1n.weather.di.component.DaggerAppComponent
 import com.lab.esh1n.weather.di.component.WorkerComponent
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasActivityInjector
 import dagger.android.HasServiceInjector
+import java.util.*
 import javax.inject.Inject
 
 
@@ -25,6 +27,9 @@ class WeatherApp : Application(), HasActivityInjector,HasServiceInjector {
 
     @Inject
     lateinit var serviceDispatchingAndroidInjector: DispatchingAndroidInjector<Service>
+
+    @Inject
+    lateinit var appPrefs: AppPrefs
 
 
     override fun serviceInjector() = serviceDispatchingAndroidInjector
@@ -45,6 +50,11 @@ class WeatherApp : Application(), HasActivityInjector,HasServiceInjector {
         workerComponent = appComponent.plusWorkerComponent().build()
         appComponent.inject(this)
 
+    }
+
+
+    fun getLocaleBlocking(): Locale {
+        return appPrefs.getCurrentLocale()
     }
 
     companion object {

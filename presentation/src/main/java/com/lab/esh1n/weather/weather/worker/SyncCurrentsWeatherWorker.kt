@@ -11,6 +11,7 @@ import com.lab.esh1n.weather.domain.weather.weather.usecases.FetchAndSaveCurrent
 import com.lab.esh1n.weather.domain.weather.weather.usecases.LoadCurrentWeatherSingleUseCase
 import com.lab.esh1n.weather.utils.NotificationUtil
 import com.lab.esh1n.weather.utils.WORKER_ERROR_DESCRIPTION
+import com.lab.esh1n.weather.weather.mapper.UiLocalizer
 import io.reactivex.Single
 import javax.inject.Inject
 
@@ -23,13 +24,16 @@ class SyncCurrentsWeatherWorker(context: Context, params: WorkerParameters) :
     @Inject
     lateinit var loadCurrentWeatherUseCase: LoadCurrentWeatherSingleUseCase
 
+    @Inject
+    lateinit var uiLocalizer: UiLocalizer
+
     override fun createWork(): Single<Result> {
         WeatherApp.getWorkerComponent(applicationContext).inject(this@SyncCurrentsWeatherWorker)
         return fetchAndSaveCurrentPlaceWeatherUseCase
                 .perform(Unit)
                 .flatMap { loadCurrentWeatherUseCase.perform(Unit) }
                 .doOnSuccess {
-                    NotificationUtil.sendCurrentWeatherNotification(it, applicationContext)
+                    NotificationUtil.sendCurrentWeatherNotification(it, applicationContext, uiLocalizer)
                 }
                 .map { resource ->
                     val message = resource.errorModel?.message

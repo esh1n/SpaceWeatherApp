@@ -4,8 +4,7 @@ import com.esh1n.core_android.map.Mapper
 import com.lab.esh1n.data.cache.entity.WeatherWithPlace
 import com.lab.esh1n.weather.weather.model.HourWeather
 
-class HourWeatherEventMapper(private val timezone: String) : Mapper<WeatherWithPlace, HourWeather>() {
-    private val dateMapper = UiDateMapper(timezone, UILocalizer.getDateFormat(DateFormat.HOUR))
+class HourWeatherEventMapper(private val dateMapper: UiDateMapper) : Mapper<WeatherWithPlace, HourWeather>() {
     override fun map(source: WeatherWithPlace): HourWeather {
         val time = dateMapper.map(source.epochDateMills)
         return HourWeather(

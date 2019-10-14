@@ -1,5 +1,7 @@
 package com.lab.esh1n.weather.weather
 
+import android.content.Context
+import android.content.res.Configuration
 import android.os.Bundle
 import android.widget.Button
 import androidx.lifecycle.ViewModelProvider
@@ -12,16 +14,18 @@ import com.esh1n.core_android.ui.viewmodel.BaseObserver
 import com.esh1n.utils_android.ui.SnackbarBuilder
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.lab.esh1n.weather.R
+import com.lab.esh1n.weather.WeatherApp
 import com.lab.esh1n.weather.weather.fragment.SplashFragment
 import com.lab.esh1n.weather.weather.fragment.WeatherHostFragment
 import com.lab.esh1n.weather.weather.viewmodel.RouteVM
+import java.util.*
 import javax.inject.Inject
 
 /**
  * Created by esh1n on 3/16/18.
  */
 
-class WeatherActivity : BaseToolbarActivity() {
+class WeatherActivity : BaseToolbarActivity(), AppView {
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
@@ -100,6 +104,23 @@ class WeatherActivity : BaseToolbarActivity() {
             val isInRootFragment = it.backStackEntryCount == 0
             this.showHomeAsUpButton(!isInRootFragment)
         }
+    }
+
+    override fun attachBaseContext(base: Context) {
+        super.attachBaseContext(applySelectedAppLanguage(base))
+    }
+
+    override fun applySelectedAppLanguage(context: Context): Context {
+        val app = context.applicationContext as? WeatherApp
+        app?.let {
+            val locale = it.getLocaleBlocking()
+            val newConfig = Configuration(context.resources.configuration)
+            Locale.setDefault(locale)
+            newConfig.setLocale(locale)
+            return context.createConfigurationContext(newConfig)
+        }
+        return context
+
     }
 
 

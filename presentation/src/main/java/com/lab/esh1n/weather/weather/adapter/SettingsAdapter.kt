@@ -9,6 +9,7 @@ import com.lab.esh1n.weather.R
 import com.lab.esh1n.weather.weather.model.HeaderSettingModel
 import com.lab.esh1n.weather.weather.model.SettingsModel
 import com.lab.esh1n.weather.weather.model.TextSettingModel
+import com.lab.esh1n.weather.weather.viewmodel.SettingsViewModel
 
 
 class SettingsAdapter(private val settingsClick: (SettingsModel) -> Unit) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -84,8 +85,16 @@ class SettingsAdapter(private val settingsClick: (SettingsModel) -> Unit) : Recy
         }
 
         fun populate(setting: TextSettingModel) {
-            txtTitle?.text = setting.title
+            txtTitle?.setText(getStringResByTitleKey(setting.title))
             txtValue?.text = setting.value
+        }
+
+        private fun getStringResByTitleKey(key: String): Int {
+            return if (key == SettingsViewModel.KEY_LANGUAGE) {
+                R.string.text_settings_language
+            } else {
+                R.string.app_name
+            }
         }
     }
 
@@ -93,8 +102,14 @@ class SettingsAdapter(private val settingsClick: (SettingsModel) -> Unit) : Recy
         var title: TextView? = itemView.findViewById(R.id.tv_header)
 
         fun populate(header: HeaderSettingModel) {
-            title?.let {
-                it.text = header.title
+            title?.setText(getStringResByTitleKey(header.title))
+        }
+
+        private fun getStringResByTitleKey(key: String): Int {
+            return if (key == SettingsViewModel.KEY_MAIN_HEADER) {
+                R.string.text_settings_header
+            } else {
+                R.string.app_name
             }
         }
     }

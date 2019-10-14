@@ -1,12 +1,13 @@
 package com.lab.esh1n.weather.domain.weather.weather
 
-import android.content.SharedPreferences
 import com.esh1n.utils_android.DateBuilder
 import com.lab.esh1n.data.api.APIService
+import com.lab.esh1n.data.api.response.ForecastResponse
 import com.lab.esh1n.data.api.response.WeatherResponse
 import com.lab.esh1n.data.cache.WeatherDB
 import com.lab.esh1n.data.cache.dao.PlaceDAO
 import com.lab.esh1n.data.cache.dao.WeatherDAO
+import com.lab.esh1n.data.cache.entity.AppPrefs
 import com.lab.esh1n.data.cache.entity.WeatherEntry
 import com.lab.esh1n.data.cache.entity.WeatherWithPlace
 import com.lab.esh1n.weather.domain.BuildConfig
@@ -20,23 +21,18 @@ import io.reactivex.functions.Function
 import java.util.*
 
 
-class WeatherRepository constructor(private val api: APIService, database: WeatherDB, private val preferences: SharedPreferences) {
+class WeatherRepository constructor(private val api: APIService, database: WeatherDB, private val appPrefs: AppPrefs) {
     private val weatherDAO: WeatherDAO = database.weatherDAO()
     private val placeDAO: PlaceDAO = database.placeDAO()
 
-    companion object {
-        const val UNITS = "metric"
-    }
-
     private fun fetchAndSaveWeather(id: Int): Completable {
-        return api.getWeatherAsync(BuildConfig.APP_ID, id, UNITS)
+        return fetchWeatherAsync(id)
                 .map { WeatherResponseMapper(id).map(it) }
                 .flatMapCompletable { weatherEntry -> weatherDAO.saveWeatherCompletable(weatherEntry) }
     }
 
-
     fun fetchAndSaveForecast(id: Int): Completable {
-        return api.getWeatherAsync(BuildConfig.APP_ID, id, UNITS)
+        return fetchWeatherAsync(id)
                 .map { WeatherResponseMapper(id).map(it) }
                 .zipWith(fetchForecastIfNeeded(id),
                         BiFunction<WeatherEntry, List<WeatherEntry>, List<WeatherEntry>> { currentWeatherEntry, forecastWeathers ->
@@ -45,6 +41,20 @@ class WeatherRepository constructor(private val api: APIService, database: Weath
                             allWeathers
                         }).flatMapCompletable { allWeathers ->
                     weatherDAO.saveWeathersCompletable(allWeathers)
+                }
+    }
+
+    private fun fetchWeatherAsync(id: Int): Single<WeatherResponse> {
+        return appPrefs.getLangAndUnitsSingle()
+                .flatMap {
+                    api.getWeatherAsync(BuildConfig.APP_ID, id, it.first, it.second)
+                }
+    }
+
+    private fun fetchForecastAsync(id: Int): Single<ForecastResponse> {
+        return appPrefs.getLangAndUnitsSingle()
+                .flatMap {
+                    api.getForecastAsync(BuildConfig.APP_ID, id, it.first, it.second)
                 }
     }
 
@@ -59,7 +69,7 @@ class WeatherRepository constructor(private val api: APIService, database: Weath
                     if (exist) {
                         Single.just(listOf())
                     } else {
-                        api.getForecastAsync(BuildConfig.APP_ID, id, UNITS)
+                        fetchForecastAsync(id)
                                 .map { forecast ->
                                     ForecastWeatherMapper(id).map(forecast.list)
                                 }
@@ -120,12 +130,7 @@ class WeatherRepository constructor(private val api: APIService, database: Weath
 
     //
     private fun zipCurrentWeatherWithPlaceId(id: Int): Single<Pair<Int, WeatherResponse>> {
-        val request = api.getWeatherAsync(BuildConfig.APP_ID, id, UNITS)
-        return Single.zip(Single.just(id), request, BiFunction<Int, WeatherResponse, Pair<Int, WeatherResponse>> { placeId, forecast ->
-            Pair(placeId, forecast)
-        });
-
+        return Single.zip(Single.just(id), fetchWeatherAsync(id), BiFunction<Int, WeatherResponse, Pair<Int, WeatherResponse>>
+        { placeId, forecast -> Pair(placeId, forecast) })
     }
-
-
 }

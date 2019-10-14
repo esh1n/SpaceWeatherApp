@@ -15,10 +15,12 @@ interface APIService {
     @GET("/data/2.5/weather")
     fun getWeatherAsync(@Query("APPID") appId: String,
                         @Query("id") id: Int,
+                        @Query("lang") lang: String,
                         @Query("units") units: String): Single<WeatherResponse>
 
     @GET("/data/2.5/forecast")
     fun getForecastAsync(@Query("APPID") appId: String,
                          @Query("id") id: Int,
+                         @Query("lang") lang: String,
                          @Query("units") units: String): Single<ForecastResponse>
 }
