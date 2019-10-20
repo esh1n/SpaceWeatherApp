@@ -2,12 +2,17 @@ package com.lab.esh1n.weather.weather.adapter
 
 
 import android.util.Log
+import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.esh1n.utils_android.ui.ScrollStateHolder
 import com.esh1n.utils_android.ui.inflate
+import com.github.rubensousa.gravitysnaphelper.GravitySnapHelper
 import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdView
@@ -22,14 +27,16 @@ import com.lab.esh1n.weather.weather.model.WeatherBackgroundUtil.Companion.prepa
 import com.lab.esh1n.weather.weather.model.WeatherModel
 
 
-class CurrentWeatherAdapter(private val cityDayForecastClick: (WeatherModel) -> Unit) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class CurrentWeatherAdapter(private val cityDayForecastClick: (WeatherModel) -> Unit, private val scrollStateHolder: ScrollStateHolder) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private var weathers: List<WeatherModel>? = null
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
             TYPE_HEADER -> {
                 val view = parent.inflate(R.layout.item_header_current_weather)
-                VHHeader(view)
+                val vh = VHHeader(view, scrollStateHolder)
+                vh.onCreated()
+                vh
             }
             TYPE_ITEM -> {
                 val view = parent.inflate(R.layout.item_day_overrall_weather)
@@ -117,7 +124,22 @@ class CurrentWeatherAdapter(private val cityDayForecastClick: (WeatherModel) -> 
         }
     }
 
-    internal inner class VHHeader(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
+    override fun onViewRecycled(holder: RecyclerView.ViewHolder) {
+        super.onViewRecycled(holder)
+        if (holder is VHHeader) {
+            holder.onRecycled()
+        }
+    }
+
+
+    override fun onViewDetachedFromWindow(holder: RecyclerView.ViewHolder) {
+        super.onViewDetachedFromWindow(holder)
+        if (holder is VHHeader) {
+            holder.onDetachedFromWindow()
+        }
+    }
+
+    internal inner class VHHeader(itemView: View, private val scrollStateHolder: ScrollStateHolder) : RecyclerView.ViewHolder(itemView), View.OnClickListener, ScrollStateHolder.ScrollStateKeyProvider {
 
         override fun onClick(v: View?) {
             val weatherModel = weathers?.get(adapterPosition)
@@ -127,20 +149,74 @@ class CurrentWeatherAdapter(private val cityDayForecastClick: (WeatherModel) -> 
         }
 
         var binding: ItemHeaderCurrentWeatherBinding? = DataBindingUtil.bind(itemView)
+        private val layoutManager = LinearLayoutManager(
+                itemView.context,
+                RecyclerView.HORIZONTAL, false
+        )
+        private val adapter = HourWeatherAdapter()
+        private val snapHelper = GravitySnapHelper(Gravity.START)
+        private var currentItem: WeatherModel? = null
 
         init {
             itemView.setOnClickListener(this)
         }
 
         fun populate(weatherModel: CurrentWeatherModel) {
+            currentItem = weatherModel
             binding?.let {
                 it.weather = weatherModel
                 val backgroundModel = WeatherBackgroundModel(weatherModel.iconId, weatherModel.isDay, weatherModel.hour24Format, weatherModel.cloudiness, weatherModel.rain, weatherModel.snow)
                 it.viewContent.background = prepareWeatherGradient(it.root.context, backgroundModel)
                 it.executePendingBindings()
+                adapter.setItems(weatherModel.hourWeatherEvents)
+                scrollStateHolder.restoreScrollState(it.rvHourWeathers, this)
             }
         }
+
+        override fun getScrollStateKey(): String? = currentItem?.humanDate
+
+        fun onCreated() {
+            binding?.let {
+                it.rvHourWeathers.adapter = adapter
+                it.rvHourWeathers.layoutManager = layoutManager
+                it.rvHourWeathers.addItemDecoration(DividerItemDecoration(it.root.context, DividerItemDecoration.HORIZONTAL))
+                it.rvHourWeathers.setHasFixedSize(true)
+                it.rvHourWeathers.itemAnimator?.changeDuration = 0
+                snapHelper.attachToRecyclerView(it.rvHourWeathers)
+                scrollStateHolder.setupRecyclerView(it.rvHourWeathers, this)
+            }
+        }
+
+
+        fun onRecycled() {
+            binding?.let {
+                scrollStateHolder.saveScrollState(it.rvHourWeathers, this)
+            }
+            currentItem = null
+        }
+
+        /**
+         * If we fast scroll while this ViewHolder's RecyclerView is still settling the scroll,
+         * the view will be detached and won't be snapped correctly
+         *
+         * To fix that, we snap again without smooth scrolling.
+         */
+        fun onDetachedFromWindow() {
+            binding?.let { b ->
+                scrollStateHolder.saveScrollState(b.rvHourWeathers, this)
+                if (b.rvHourWeathers.scrollState != RecyclerView.SCROLL_STATE_IDLE) {
+                    snapHelper.findSnapView(layoutManager)?.let {
+                        val snapDistance = snapHelper.calculateDistanceToFinalSnap(layoutManager, it)
+                        if (snapDistance!![0] != 0 || snapDistance[1] != 0) {
+                            b.rvHourWeathers.scrollBy(snapDistance[0], snapDistance[1])
+                        }
+                    }
+                }
+            }
+
+        }
     }
+
 
     inner class AdViewHolder internal constructor(view: View) : RecyclerView.ViewHolder(view) {
         private var adView: AdView? = null

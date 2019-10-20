@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="@dimen/margin_small">
+
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_hour"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:textColor="@android:color/white"
+        tools:text="now" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/iv_hour_weather"
+        android:layout_width="@dimen/size_hour_weather"
+        android:layout_height="@dimen/size_hour_weather"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/margin_small"
+        android:src="@color/bottom_menu_active" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_temperature"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/margin_small"
+        android:textColor="@android:color/white"
+        tools:text="+13C" />
+
+</LinearLayout>

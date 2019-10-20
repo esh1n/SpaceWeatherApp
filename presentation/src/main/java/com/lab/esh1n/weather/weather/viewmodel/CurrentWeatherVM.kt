@@ -79,7 +79,6 @@ constructor(private val loadCurrentWeatherUseCase: LoadCurrentWeatherUseCase, pr
     }
 
     fun initAdMob() {
-
         MobileAds.initialize(getApplication(), OnInitializationCompleteListener { status ->
             initAdEvent.postValue(Resource.success(true))
         })

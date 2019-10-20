@@ -23,6 +23,7 @@ class UILocalizerImpl(private val iLocaleProvider: () -> Locale?) : UiLocalizer 
     override fun localizeTemperature(temperature: Temperature): String {
         val symbols = DecimalFormatSymbols(getLocale())
         val nf = DecimalFormat("##.#", symbols)
+        //TODO convert temperature to appropriate units if needed
         return nf.format(temperature.value)
     }
 }

@@ -18,7 +18,7 @@ class CurrentWeatherModel(
         val isDay: Boolean,
         tempMin: Int,
         tempMax: Int,
-        val hour24Format: Int, val hourWeatherEvents: List<HourWeather>) : WeatherModel(humanDate, iconId, tempMin, tempMax)
+        val hour24Format: Int, val hourWeatherEvents: List<HourWeatherModel>) : WeatherModel(humanDate, iconId, tempMin, tempMax)
 
 class DayWeatherModel(val dayDate: String,
                       humanDate: String,
@@ -26,4 +26,4 @@ class DayWeatherModel(val dayDate: String,
                       tempMin: Int,
                       tempMax: Int) : WeatherModel(humanDate, iconId, tempMin, tempMax)
 
-class HourWeather(val time: String, val iconId: String, val description: String)
+class HourWeatherModel(val time: String, val iconId: String, val description: String)

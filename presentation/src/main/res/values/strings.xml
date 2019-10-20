@@ -18,6 +18,7 @@
 
 
     <string name="text_temperature_celsius">%d\u2103</string>
+    <string name="text_temperature_celsius_str_value">%s\u2103</string>
     <string name="text_temperature_range_celsius">from %d u2103 to %d \u2103</string>
     <string name="text_temperature_no_range_celsius">It\'s all day around %d \u2103</string>
     <string name="text_temperature_range">Temperature range</string>

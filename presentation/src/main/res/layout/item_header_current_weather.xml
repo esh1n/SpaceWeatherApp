@@ -30,10 +30,10 @@
                 app:convertPathToIcon="@{weather.iconId}" />
 
             <TextView
-                android:layout_marginStart="@dimen/margin_smallest"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:layout_marginStart="@dimen/margin_smallest"
                 android:textSize="@dimen/f46"
                 android:textStyle="bold"
                 app:temperatureCelsius="@{weather.tempMax}"
@@ -57,9 +57,16 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="@dimen/margin_smallest"
-            android:textColor="@color/gray_bottom_menu"
             app:lastUpdateTime="@{weather.humanDate}"
+            app:txtColor="@{weather.isDay}"
             tools:text="Last update time" />
+
+        <com.esh1n.utils_android.ui.OrientationAwareRecyclerView
+            android:id="@+id/rv_hour_weathers"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:listitem="@layout/item_hour_weather" />
     </LinearLayout>
 
 

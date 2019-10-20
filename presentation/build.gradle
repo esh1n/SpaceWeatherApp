@@ -74,6 +74,8 @@ dependencies {
     implementation rootProject.ext.androidxCompat.appcompat
     implementation rootProject.ext.androidxCompat.material
 
+    implementation rootProject.ext.snapHelper
+
     //lifecycle
     implementation rootProject.ext.lifecycle.runtime
     implementation rootProject.ext.lifecycle.viewmodel

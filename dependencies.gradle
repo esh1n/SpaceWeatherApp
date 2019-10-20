@@ -17,6 +17,9 @@ ext {
             appcompat     : "androidx.appcompat:appcompat:${androidxCompatVersion}",
     ]
 
+    snapHelperVer = "2.1.0"
+    snapHelper = "com.github.rubensousa:gravitysnaphelper:$snapHelperVer"
+
     //RxJava
     rxJava = "2.2.8"
     rxJava2 = "io.reactivex.rxjava2:rxjava:${rxJava}"

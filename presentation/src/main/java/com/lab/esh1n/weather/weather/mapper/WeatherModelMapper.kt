@@ -1,6 +1,5 @@
 package com.lab.esh1n.weather.weather.mapper
 
-import android.util.Log
 import com.esh1n.utils_android.DateBuilder
 import com.lab.esh1n.data.cache.entity.WeatherWithPlace
 import com.lab.esh1n.weather.weather.model.CurrentWeatherModel
@@ -30,7 +29,6 @@ class WeatherModelMapper(private val uiLocalizer: UiLocalizer) {
             dayToForecast.remove(firstDay)
             val currentWeatherModel = mapCurrentWeatherModel(firstDayForecasts
                     ?: arrayListOf(), timezone)
-            Log.d("CurrentP", "!!!END---------------------------------------")
             val resultWeatherModel = mutableListOf<WeatherModel>()
             resultWeatherModel.add(currentWeatherModel)
             resultWeatherModel.addAll(mapOtherDay(dayToForecast, timezone, dateMapper))
@@ -67,7 +65,10 @@ class WeatherModelMapper(private val uiLocalizer: UiLocalizer) {
         val dayHourDateMapper = uiLocalizer.provideDateMapper(timezone, DateFormat.DAY_HOUR)
         val dateHourMapper = uiLocalizer.provideDateMapper(timezone, DateFormat.HOUR)
 
-        val hourWeathers = HourWeatherEventMapper(dateHourMapper).map(source)
+        val hourWeathers = HourWeatherEventMapper(dateHourMapper
+        ) { valueFromDb ->
+            uiLocalizer.localizeTemperature(Temperature(valueFromDb))
+        }.map(source)
         return CurrentWeatherModel(
                 placeName = now.placeName,
                 description = now.description,

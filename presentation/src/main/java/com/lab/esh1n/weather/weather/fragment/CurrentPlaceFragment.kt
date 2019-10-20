@@ -10,6 +10,7 @@ import com.esh1n.core_android.ui.addFragmentToStack
 import com.esh1n.core_android.ui.fragment.BaseVMFragment
 import com.esh1n.core_android.ui.setTitle
 import com.esh1n.core_android.ui.viewmodel.BaseObserver
+import com.esh1n.utils_android.ui.ScrollStateHolder
 import com.esh1n.utils_android.ui.SnackbarBuilder
 import com.esh1n.utils_android.ui.setVisibleOrGone
 import com.lab.esh1n.weather.R
@@ -37,6 +38,8 @@ class CurrentPlaceFragment : BaseVMFragment<CurrentWeatherVM>() {
 
     private var title: String? = null
 
+    private lateinit var scrollStateHolder: ScrollStateHolder
+
 
     override fun setupView(rootView: View, savedInstanceState: Bundle?) {
         super.setupView(rootView, savedInstanceState)
@@ -45,7 +48,8 @@ class CurrentPlaceFragment : BaseVMFragment<CurrentWeatherVM>() {
             it.swipeRefreshLayout.setOnRefreshListener {
                 viewModel.refresh()
             }
-            adapter = CurrentWeatherAdapter(this::onWeatherClicked)
+            scrollStateHolder = ScrollStateHolder(savedInstanceState)
+            adapter = CurrentWeatherAdapter(this::onWeatherClicked, scrollStateHolder)
             it.listWeathers.layoutManager = LinearLayoutManager(requireActivity())
             it.listWeathers.addItemDecoration(
                     DividerItemDecoration(
