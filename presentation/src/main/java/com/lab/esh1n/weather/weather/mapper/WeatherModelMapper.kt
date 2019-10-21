@@ -2,6 +2,8 @@ package com.lab.esh1n.weather.weather.mapper
 
 import com.esh1n.utils_android.DateBuilder
 import com.lab.esh1n.data.cache.entity.WeatherWithPlace
+import com.lab.esh1n.weather.R
+import com.lab.esh1n.weather.utils.StringResValueProperty
 import com.lab.esh1n.weather.weather.model.*
 import java.text.DecimalFormat
 import java.util.*
@@ -93,20 +95,22 @@ class WeatherModelMapper(private val uiLocalizer: UiLocalizer) {
         ) { valueFromDb ->
             uiLocalizer.localizeTemperature(Temperature(valueFromDb))
         }.map(twoDayWeathers).toMutableList()
-        val sunsetDate = DateBuilder(now.epochDateMills, timezone).setHour(19).setMinute(35).build()
+        val sunsetDate = DateBuilder(now.epochDateMills, timezone).setHour(18).setMinute(35).build()
         val sunriseDate = DateBuilder(now.epochDateMills, timezone).nextDay().setHour(5).setMinute(23).build()
-        insertItem(isDay, dateHourMapper, "sunset", sunsetDate, twoDayWeathers, hourWeathers)
-        insertItem(isDay, dateHourMapper, "sunrise", sunriseDate, twoDayWeathers, hourWeathers)
-        hourWeathers.add(0, HeaderHourWeatherModel(isDay, "Current", now.pressure, now.windDegree, now.humidity))
+        insertItem(isDay, dateHourMapper, R.string.text_sunset, "sunset", sunsetDate, hourWeathers)
+        insertItem(isDay, dateHourMapper, R.string.text_sunrise, "sunrise", sunriseDate, hourWeathers)
+        hourWeathers.add(0, HeaderHourWeatherModel(isDay, now.pressure, now.windDegree, now.humidity, now.epochDateMills))
         return hourWeathers
     }
 
 
-    private fun insertItem(isDay: Boolean, dateHourMapper: UiDateMapper, description: String, date: Date, listToSeek: MutableList<WeatherWithPlace>, listToAdd: MutableList<HourWeatherModel>) {
-        val position = listToSeek.indexOfFirst { weather -> weather.epochDateMills.after(date) }
+    private fun insertItem(isDay: Boolean, dateHourMapper: UiDateMapper, name: Int, iconId: String, date: Date, list: MutableList<HourWeatherModel>) {
+        val position = list.indexOfFirst { weather ->
+            weather.date.after(date)
+        }
         if (position != -1) {
-            val item = SimpleHourWeatherModel(isDay, dateHourMapper.map(date), description, description)
-            listToAdd.add(position, item)
+            val item = SimpleHourWeatherModel(isDay, dateHourMapper.map(date), iconId, StringResValueProperty(name), date)
+            list.add(position, item)
         }
     }
 

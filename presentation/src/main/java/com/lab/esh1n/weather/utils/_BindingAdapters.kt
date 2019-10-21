@@ -54,6 +54,13 @@ fun setFloatAsString(tv: TextView, value: Float?) {
     }
 }
 
+@BindingAdapter("valueProperty")
+fun setFloatAsString(tv: TextView, value: ValueProperty?) {
+    value?.let {
+        tv.text = value.convertProperty(tv.context)
+    }
+}
+
 @BindingAdapter("convertPathToIcon")
 fun getWeatherIconRes(tv: ImageView, iconId: String?) {
     iconId?.let {

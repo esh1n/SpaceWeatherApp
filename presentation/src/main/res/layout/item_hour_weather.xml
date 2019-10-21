@@ -34,7 +34,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="@dimen/margin_small"
-        android:text="@{weather.description}"
+        app:valueProperty="@{weather.value}"
         app:txtColor="@{weather.isDay}"
         tools:text="+13C" />
 

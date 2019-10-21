@@ -1,5 +1,8 @@
 package com.lab.esh1n.weather.weather.model
 
+import com.lab.esh1n.weather.utils.ValueProperty
+import java.util.*
+
 sealed class WeatherModel(val humanDate: String,
                           val iconId: String,
                           val tempMin: Int,
@@ -26,6 +29,6 @@ class DayWeatherModel(val dayDate: String,
                       tempMin: Int,
                       tempMax: Int) : WeatherModel(humanDate, iconId, tempMin, tempMax)
 
-sealed class HourWeatherModel(val time: String)
-class HeaderHourWeatherModel(val isDay: Boolean, time: String, val pressure: Int, val wind: Int, val humidity: Int) : HourWeatherModel(time)
-class SimpleHourWeatherModel(val isDay: Boolean, time: String, val iconId: String, val description: String) : HourWeatherModel(time)
+sealed class HourWeatherModel(val date: Date)
+class HeaderHourWeatherModel(val isDay: Boolean, val pressure: Int, val wind: Int, val humidity: Int, date: Date) : HourWeatherModel(date)
+class SimpleHourWeatherModel(val isDay: Boolean, val time: String, val iconId: String, val value: ValueProperty, date: Date) : HourWeatherModel(date)
