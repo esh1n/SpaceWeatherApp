@@ -22,10 +22,10 @@ class WeatherModelMapper(private val uiLocalizer: UiLocalizer) {
             val firstDay = DateBuilder(firstWeather.epochDateMills).getDay()
             val dateMapper = uiLocalizer.provideDateMapper(timezone, DateFormat.MONTH_DAY)
             val dayToForecast = createDayMap(source)
-            val firstDayForecasts = dayToForecast[firstDay]
+            val firstDayForecast = dayToForecast[firstDay]
             dayToForecast.remove(firstDay)
-            val currentWeatherModel = mapCurrentWeatherModel(firstDayForecasts
-                    ?: arrayListOf(), timezone)
+            val currentWeatherModel = mapCurrentWeatherModel(firstDayForecast
+                    ?: arrayListOf(), dayToForecast[firstDay + 1] ?: arrayListOf(), timezone)
             val resultWeatherModel = mutableListOf<WeatherModel>()
             resultWeatherModel.add(currentWeatherModel)
             resultWeatherModel.addAll(mapOtherDay(dayToForecast, timezone, dateMapper))
@@ -54,22 +54,15 @@ class WeatherModelMapper(private val uiLocalizer: UiLocalizer) {
         }.values
     }
 
-    private fun mapCurrentWeatherModel(source: MutableList<WeatherWithPlace>, timezone: String): CurrentWeatherModel {
+    private fun mapCurrentWeatherModel(firstDay: MutableList<WeatherWithPlace>, secondDay: MutableList<WeatherWithPlace>, timezone: String): CurrentWeatherModel {
         val nowInMills = Date().time
-        val now = source.minBy { abs(it.epochDateMills.time - nowInMills) } ?: source[0]
-        source.remove(now)
+        val now = firstDay.minBy { abs(it.epochDateMills.time - nowInMills) } ?: firstDay[0]
+        firstDay.remove(now)
 
-        val isDay = isDay(now.iconId)
 
         val dayHourDateMapper = uiLocalizer.provideDateMapper(timezone, DateFormat.DAY_HOUR)
-        val dateHourMapper = uiLocalizer.provideDateMapper(timezone, DateFormat.HOUR)
 
-
-        val hourWeathers = HourWeatherEventMapper(isDay, dateHourMapper
-        ) { valueFromDb ->
-            uiLocalizer.localizeTemperature(Temperature(valueFromDb))
-        }.map(source).toMutableList()
-        hourWeathers.add(0, HeaderHourWeatherModel(isDay, "Current", now.pressure, now.windDegree, now.humidity))
+        val hourWeathers = mapHourWeathers(timezone, firstDay, secondDay, now)
         return CurrentWeatherModel(
                 placeName = now.placeName,
                 description = now.description,
@@ -82,9 +75,39 @@ class WeatherModelMapper(private val uiLocalizer: UiLocalizer) {
                 cloudiness = now.cloudiness,
                 rain = now.rain,
                 hour24Format = DateBuilder(now.epochDateMills, timezone).getHour24Format(),
-                isDay = isDay,
+                isDay = isDay(now.iconId),
                 hourWeatherEvents = hourWeathers
         )
+    }
+
+    private fun mapHourWeathers(timezone: String, firstDay: MutableList<WeatherWithPlace>, secondDay: MutableList<WeatherWithPlace>, now: WeatherWithPlace): List<HourWeatherModel> {
+        val dateHourMapper = uiLocalizer.provideDateMapper(timezone, DateFormat.HOUR)
+        val isDay = isDay(now.iconId)
+        val twoDayWeathers = firstDay.apply {
+            addAll(secondDay)
+        }
+        //TODO get rid of isDay, move it to adapter
+        //TODO make temperature default from dao
+
+        val hourWeathers = HourWeatherEventMapper(isDay, dateHourMapper
+        ) { valueFromDb ->
+            uiLocalizer.localizeTemperature(Temperature(valueFromDb))
+        }.map(twoDayWeathers).toMutableList()
+        val sunsetDate = DateBuilder(now.epochDateMills, timezone).setHour(19).setMinute(35).build()
+        val sunriseDate = DateBuilder(now.epochDateMills, timezone).nextDay().setHour(5).setMinute(23).build()
+        insertItem(isDay, dateHourMapper, "sunset", sunsetDate, twoDayWeathers, hourWeathers)
+        insertItem(isDay, dateHourMapper, "sunrise", sunriseDate, twoDayWeathers, hourWeathers)
+        hourWeathers.add(0, HeaderHourWeatherModel(isDay, "Current", now.pressure, now.windDegree, now.humidity))
+        return hourWeathers
+    }
+
+
+    private fun insertItem(isDay: Boolean, dateHourMapper: UiDateMapper, description: String, date: Date, listToSeek: MutableList<WeatherWithPlace>, listToAdd: MutableList<HourWeatherModel>) {
+        val position = listToSeek.indexOfFirst { weather -> weather.epochDateMills.after(date) }
+        if (position != -1) {
+            val item = SimpleHourWeatherModel(isDay, dateHourMapper.map(date), description, description)
+            listToAdd.add(position, item)
+        }
     }
 
     private fun createDayMap(source: List<WeatherWithPlace>): HashMap<Int, MutableList<WeatherWithPlace>> {

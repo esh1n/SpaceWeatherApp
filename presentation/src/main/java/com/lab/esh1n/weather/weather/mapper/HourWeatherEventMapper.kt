@@ -7,7 +7,6 @@ import com.lab.esh1n.weather.weather.model.SimpleHourWeatherModel
 
 class HourWeatherEventMapper(val isDay: Boolean, private val dateMapper: UiDateMapper, private val tempMapper: (Double) -> String) : Mapper<WeatherWithPlace, HourWeatherModel>() {
 
-
     override fun map(source: WeatherWithPlace): SimpleHourWeatherModel {
         val time = dateMapper.map(source.epochDateMills)
         //TODO fix to load Temperature class from dao

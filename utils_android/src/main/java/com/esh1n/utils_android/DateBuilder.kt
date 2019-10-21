@@ -113,6 +113,16 @@ class DateBuilder {
         return this
     }
 
+    fun setMinute(minute: Int): DateBuilder {
+        calendar!!.set(Calendar.MINUTE, minute)
+        return this
+    }
+
+    fun setHour(hourOfDay: Int): DateBuilder {
+        calendar!!.set(Calendar.HOUR_OF_DAY, hourOfDay)
+        return this
+    }
+
     fun previousDay(): DateBuilder {
         calendar!!.add(Calendar.DAY_OF_MONTH, -1)
         return this
