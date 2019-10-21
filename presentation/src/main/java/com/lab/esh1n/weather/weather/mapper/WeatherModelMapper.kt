@@ -2,10 +2,7 @@ package com.lab.esh1n.weather.weather.mapper
 
 import com.esh1n.utils_android.DateBuilder
 import com.lab.esh1n.data.cache.entity.WeatherWithPlace
-import com.lab.esh1n.weather.weather.model.CurrentWeatherModel
-import com.lab.esh1n.weather.weather.model.DayWeatherModel
-import com.lab.esh1n.weather.weather.model.Temperature
-import com.lab.esh1n.weather.weather.model.WeatherModel
+import com.lab.esh1n.weather.weather.model.*
 import java.text.DecimalFormat
 import java.util.*
 import kotlin.collections.HashMap
@@ -62,13 +59,17 @@ class WeatherModelMapper(private val uiLocalizer: UiLocalizer) {
         val now = source.minBy { abs(it.epochDateMills.time - nowInMills) } ?: source[0]
         source.remove(now)
 
+        val isDay = isDay(now.iconId)
+
         val dayHourDateMapper = uiLocalizer.provideDateMapper(timezone, DateFormat.DAY_HOUR)
         val dateHourMapper = uiLocalizer.provideDateMapper(timezone, DateFormat.HOUR)
 
-        val hourWeathers = HourWeatherEventMapper(dateHourMapper
+
+        val hourWeathers = HourWeatherEventMapper(isDay, dateHourMapper
         ) { valueFromDb ->
             uiLocalizer.localizeTemperature(Temperature(valueFromDb))
-        }.map(source)
+        }.map(source).toMutableList()
+        hourWeathers.add(0, HeaderHourWeatherModel(isDay, "Current", now.pressure, now.windDegree, now.humidity))
         return CurrentWeatherModel(
                 placeName = now.placeName,
                 description = now.description,
@@ -81,7 +82,7 @@ class WeatherModelMapper(private val uiLocalizer: UiLocalizer) {
                 cloudiness = now.cloudiness,
                 rain = now.rain,
                 hour24Format = DateBuilder(now.epochDateMills, timezone).getHour24Format(),
-                isDay = isDay(now.iconId),
+                isDay = isDay,
                 hourWeatherEvents = hourWeathers
         )
     }

@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <LinearLayout
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:orientation="vertical"
@@ -12,13 +15,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:textColor="@android:color/white"
+        android:text="@{weather.time}"
+        app:txtColor="@{weather.isDay}"
         tools:text="now" />
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/iv_hour_weather"
         android:layout_width="@dimen/size_hour_weather"
         android:layout_height="@dimen/size_hour_weather"
+        app:convertPathToIcon="@{weather.iconId}"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="@dimen/margin_small"
         android:src="@color/bottom_menu_active" />
@@ -29,7 +34,16 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="@dimen/margin_small"
-        android:textColor="@android:color/white"
+        android:text="@{weather.description}"
+        app:txtColor="@{weather.isDay}"
         tools:text="+13C" />
 
 </LinearLayout>
+
+    <data>
+
+        <variable
+            name="weather"
+            type="com.lab.esh1n.weather.weather.model.SimpleHourWeatherModel" />
+    </data>
+</layout>

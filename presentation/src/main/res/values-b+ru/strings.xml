@@ -40,6 +40,10 @@
     <string name="text_settings_language">Язык</string>
 
 
+    <string name="wind_metric">%d м/с</string>
+    <string name="pressure_pa" translatable="false">%d гПа</string>
+
+
     <string-array name="choose_place_actions">
         <item>Set Primary</item>
         <item>Rename</item>

@@ -25,7 +25,7 @@
 
     <dimen name="icon_size_small">16dp</dimen>
     <dimen name="icon_size">48dp</dimen>
-    <dimen name="image_size_avatar_big">70dp</dimen>
+    <dimen name="image_size_avatar_big">60dp</dimen>
     <dimen name="font_size_max">36sp</dimen>
     <dimen name="place_current_weather_icon_size">40dp</dimen>
     <dimen name="dots_options_icon_size">25dp</dimen>
@@ -35,5 +35,6 @@
     <dimen name="overall_day_height">100dp</dimen>
     <dimen name="margin_big">24dp</dimen>
     <dimen name="size_hour_weather">45dp</dimen>
+    <dimen name="small_weather_icon_size">25dp</dimen>
 
 </resources>

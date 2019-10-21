@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingStart="@dimen/margin_small"
+        android:paddingTop="@dimen/margin_small"
+        android:paddingEnd="@dimen/margin_medium"
+        android:paddingBottom="@dimen/margin_small">
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="@dimen/small_weather_icon_size"
+                android:layout_height="@dimen/small_weather_icon_size"
+                android:scaleType="centerInside"
+                android:src="@drawable/ic_wind" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_wind"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginStart="@dimen/margin_smallest"
+                android:gravity="center_vertical"
+                app:txtColor="@{header.isDay}"
+                app:wind="@{header.wind}"
+                tools:text="wind" />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_medium"
+            android:orientation="horizontal">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="@dimen/small_weather_icon_size"
+                android:layout_height="@dimen/small_weather_icon_size"
+                android:scaleType="centerInside"
+                android:src="@drawable/ic_pressure" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_pressure"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginStart="@dimen/margin_smallest"
+                android:gravity="center_vertical"
+                app:pressure="@{header.pressure}"
+                app:txtColor="@{header.isDay}"
+                tools:text="pressure" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_medium"
+            android:orientation="horizontal">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="@dimen/small_weather_icon_size"
+                android:layout_height="@dimen/small_weather_icon_size"
+                android:scaleType="centerInside"
+                android:src="@drawable/ic_humidity" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_humidity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginStart="@dimen/margin_smallest"
+                android:gravity="center_vertical"
+                app:humidity="@{header.humidity}"
+                app:txtColor="@{header.isDay}"
+                tools:text="humidity" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <data>
+
+        <variable
+            name="header"
+            type="com.lab.esh1n.weather.weather.model.HeaderHourWeatherModel" />
+    </data>
+</layout>

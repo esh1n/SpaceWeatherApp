@@ -46,7 +46,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="@dimen/margin_smallest"
             android:text="@{weather.description}"
             android:textSize="@dimen/f20"
             app:txtColor="@{weather.isDay}"
@@ -62,6 +61,7 @@
             tools:text="Last update time" />
 
         <com.esh1n.utils_android.ui.OrientationAwareRecyclerView
+            android:layout_marginTop="@dimen/margin_smallest"
             android:id="@+id/rv_hour_weathers"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
