@@ -5,8 +5,8 @@ import com.lab.esh1n.data.api.response.ForecastItemResponse
 import com.lab.esh1n.data.cache.entity.WeatherEntry
 import java.util.*
 
-class ForecastWeatherMapper(val placeId: Int) : Mapper<ForecastItemResponse, WeatherEntry>() {
-    private val dateConverter = EpochDateMapper()
+class ForecastWeatherMapper(val placeId: Int, val dateMapper: EpochDateMapper) : Mapper<ForecastItemResponse, WeatherEntry>() {
+
 
     override fun map(source: ForecastItemResponse): WeatherEntry {
         return WeatherEntry(
@@ -20,7 +20,7 @@ class ForecastWeatherMapper(val placeId: Int) : Mapper<ForecastItemResponse, Wea
                 windDegree = source.wind?.deg ?: 0.0,
                 pressure = source.main?.pressure ?: 0F,
                 humidity = source.main?.humidity ?: 0F,
-                date = dateConverter.map(source.dt ?: Date().time),
+                date = dateMapper.map(source.dt ?: Date().time),
                 dateTxt = source.dtTxt ?: "",
                 snow = source.snow?.snow3h ?: 0f,
                 rain = source.rain?.rain3h ?: 0f,

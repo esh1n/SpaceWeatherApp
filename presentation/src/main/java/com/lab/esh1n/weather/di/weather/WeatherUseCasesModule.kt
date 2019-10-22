@@ -1,7 +1,7 @@
 package com.lab.esh1n.weather.di.weather
 
 import com.esh1n.core_android.error.ErrorsHandler
-import com.lab.esh1n.data.cache.entity.AppPrefs
+import com.lab.esh1n.data.cache.AppPrefs
 import com.lab.esh1n.weather.domain.weather.places.PlacesRepository
 import com.lab.esh1n.weather.domain.weather.places.usecase.*
 import com.lab.esh1n.weather.domain.weather.settings.LoadSettingsUseCase

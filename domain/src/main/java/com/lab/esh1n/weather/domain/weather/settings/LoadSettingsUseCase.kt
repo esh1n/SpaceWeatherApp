@@ -2,7 +2,7 @@ package com.lab.esh1n.weather.domain.weather.settings
 
 import com.esh1n.core_android.error.ErrorsHandler
 import com.esh1n.core_android.ui.viewmodel.Resource
-import com.lab.esh1n.data.cache.entity.AppPrefs
+import com.lab.esh1n.data.cache.AppPrefs
 import com.lab.esh1n.weather.domain.weather.UseCase
 import io.reactivex.Single
 

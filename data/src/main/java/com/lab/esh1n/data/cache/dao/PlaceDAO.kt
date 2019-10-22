@@ -31,6 +31,9 @@ abstract class PlaceDAO {
     @Query("UPDATE place SET isCurrent = 0")
     abstract fun deselectCurrentPlace()
 
+    @Query("UPDATE place SET sunrise = :sunrise,sunset = :sunset WHERE id =:id")
+    abstract fun updateSunsetSunrise(id: Int, sunrise: Date, sunset: Date)
+
     @Query("SELECT id from place")
     abstract fun getAllPlacesIds(): Single<List<Int>>
 
@@ -42,6 +45,5 @@ abstract class PlaceDAO {
 
     @Query("SELECT EXISTS(SELECT 1 FROM place WHERE isCurrent = 1)")
     abstract fun checkIfCurrentPlaceExist(): Single<Boolean>
-
 
 }

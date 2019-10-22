@@ -2,8 +2,8 @@ package com.lab.esh1n.weather.di.module
 
 import android.app.Application
 import android.content.SharedPreferences
+import com.lab.esh1n.data.cache.AppPrefs
 import com.lab.esh1n.data.cache.WeatherDB
-import com.lab.esh1n.data.cache.entity.AppPrefs
 import com.lab.esh1n.weather.weather.mapper.UILocalizerImpl
 import com.lab.esh1n.weather.weather.mapper.UiLocalizer
 import dagger.Module

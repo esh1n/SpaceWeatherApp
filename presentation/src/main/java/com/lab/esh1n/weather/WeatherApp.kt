@@ -4,7 +4,7 @@ import android.app.Activity
 import android.app.Application
 import android.app.Service
 import android.content.Context
-import com.lab.esh1n.data.cache.entity.AppPrefs
+import com.lab.esh1n.data.cache.AppPrefs
 import com.lab.esh1n.weather.di.component.AppComponent
 import com.lab.esh1n.weather.di.component.DaggerAppComponent
 import com.lab.esh1n.weather.di.component.WorkerComponent

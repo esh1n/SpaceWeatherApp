@@ -5,5 +5,7 @@ data class CityResponse(
         val coord: CoordResponse? = null,
         val timezone: Int? = null,
         val name: String? = null,
-        val id: Int? = null
+        val id: Int? = null,
+        val sunrise: Long? = null,
+        val sunset: Long? = null
 )

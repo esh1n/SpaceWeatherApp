@@ -2,12 +2,14 @@ package com.lab.esh1n.weather.domain.weather.places
 
 import com.esh1n.utils_android.DateBuilder
 import com.lab.esh1n.data.api.APIService
+import com.lab.esh1n.data.cache.AppPrefs
 import com.lab.esh1n.data.cache.WeatherDB
-import com.lab.esh1n.data.cache.entity.AppPrefs
 import com.lab.esh1n.data.cache.entity.PlaceEntry
 import com.lab.esh1n.data.cache.entity.PlaceWithCurrentWeatherEntry
 import com.lab.esh1n.weather.domain.BuildConfig
+import com.lab.esh1n.weather.domain.weather.weather.mapper.EpochDateMapper
 import com.lab.esh1n.weather.domain.weather.weather.mapper.ForecastWeatherMapper
+import com.lab.esh1n.weather.domain.weather.weather.mapper.PlaceMapper
 import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.Single
@@ -37,9 +39,16 @@ class PlacesRepository constructor(private val apiService: APIService, db: Weath
                 }
                 .map { response ->
                     val id = response.city!!.id!!
-                    ForecastWeatherMapper(id).map(response.list)
+                    val dateConverter = EpochDateMapper()
+                    val updatePlaceModel = PlaceMapper(dateConverter).map(response.city!!)
+                    val weathers = ForecastWeatherMapper(id, dateConverter).map(response.list)
+                    return@map Pair(updatePlaceModel, weathers)
                 }
-                .flatMapCompletable { weathers -> weatherDAO.saveWeathersCompletable(weathers) }
+                .flatMapCompletable { placeAndWeathers ->
+                    val updatePlaceEntry = placeAndWeathers.first
+                    placeDAO.updateSunsetSunrise(updatePlaceEntry.id, updatePlaceEntry.sunrise, updatePlaceEntry.sunset)
+                    weatherDAO.saveWeathersCompletable(placeAndWeathers.second)
+                }
     }
 
     fun updateCurrentPlacesForecast(): Completable {
@@ -56,9 +65,16 @@ class PlacesRepository constructor(private val apiService: APIService, db: Weath
                         }
                         .map { response ->
                             val id = response.city!!.id!!
-                            ForecastWeatherMapper(id).map(response.list)
+                            val dateConverter = EpochDateMapper()
+                            val updatePlaceModel = PlaceMapper(dateConverter).map(response.city!!)
+                            val weathers = ForecastWeatherMapper(id, dateConverter).map(response.list)
+                            return@map Pair(updatePlaceModel, weathers)
                         }
-                        .flatMapCompletable { weathers -> weatherDAO.saveWeathersCompletable(weathers) }
+                        .flatMapCompletable { placeAndWeathers ->
+                            val updatePlaceEntry = placeAndWeathers.first
+                            placeDAO.updateSunsetSunrise(updatePlaceEntry.id, updatePlaceEntry.sunrise, updatePlaceEntry.sunset)
+                            weatherDAO.saveWeathersCompletable(placeAndWeathers.second)
+                        }
                 )
     }
 
@@ -69,16 +85,17 @@ class PlacesRepository constructor(private val apiService: APIService, db: Weath
     }
 
     fun prePopulatePlaces(): Completable {
+        val now = Date().time
         val PREPOPULATE_PLACES = listOf(
-                PlaceEntry(472045, "Воронеж", "Europe/Moscow", true),
-                PlaceEntry(6455259, "Париж", "Europe/Prague", false),
-                PlaceEntry(524901, "Москва", "Europe/Moscow", false),
-                PlaceEntry(694423, "Севастополь", "Europe/Moscow", false),
-                PlaceEntry(498817, "Ленинград", "Europe/Moscow", false),
-                PlaceEntry(6356055, "Барса", "Europe/Prague", false),
-                PlaceEntry(3164603, "Венеция", "Europe/Prague", false),
-                PlaceEntry(3067696, "Прага", "Europe/Prague", false),
-                PlaceEntry(745044, "Стамбул", "Europe/Moscow", false)
+                PlaceEntry(472045, "Воронеж", "Europe/Moscow", true, now, now),
+                PlaceEntry(6455259, "Париж", "Europe/Prague", false, now, now),
+                PlaceEntry(524901, "Москва", "Europe/Moscow", false, now, now),
+                PlaceEntry(694423, "Севастополь", "Europe/Moscow", false, now, now),
+                PlaceEntry(498817, "Ленинград", "Europe/Moscow", false, now, now),
+                PlaceEntry(6356055, "Барса", "Europe/Prague", false, now, now),
+                PlaceEntry(3164603, "Венеция", "Europe/Prague", false, now, now),
+                PlaceEntry(3067696, "Прага", "Europe/Prague", false, now, now),
+                PlaceEntry(745044, "Стамбул", "Europe/Moscow", false, now, now)
 
         )
         //   val PREPOPULATE_WEATHER = listOf(WeatherEntry(524901, Date(), "", 12.1, 10.1, 18.1, "01d", "clear sky", 120.0, 12.0, 12f, 12f))
@@ -90,4 +107,5 @@ class PlacesRepository constructor(private val apiService: APIService, db: Weath
             placeDAO.updateCurrentPlace(id)
         }
     }
+
 }

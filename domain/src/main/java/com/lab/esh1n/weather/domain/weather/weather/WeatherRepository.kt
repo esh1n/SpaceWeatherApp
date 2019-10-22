@@ -4,13 +4,14 @@ import com.esh1n.utils_android.DateBuilder
 import com.lab.esh1n.data.api.APIService
 import com.lab.esh1n.data.api.response.ForecastResponse
 import com.lab.esh1n.data.api.response.WeatherResponse
+import com.lab.esh1n.data.cache.AppPrefs
 import com.lab.esh1n.data.cache.WeatherDB
 import com.lab.esh1n.data.cache.dao.PlaceDAO
 import com.lab.esh1n.data.cache.dao.WeatherDAO
-import com.lab.esh1n.data.cache.entity.AppPrefs
 import com.lab.esh1n.data.cache.entity.WeatherEntry
 import com.lab.esh1n.data.cache.entity.WeatherWithPlace
 import com.lab.esh1n.weather.domain.BuildConfig
+import com.lab.esh1n.weather.domain.weather.weather.mapper.EpochDateMapper
 import com.lab.esh1n.weather.domain.weather.weather.mapper.ForecastWeatherMapper
 import com.lab.esh1n.weather.domain.weather.weather.mapper.WeatherResponseMapper
 import io.reactivex.Completable
@@ -62,21 +63,19 @@ class WeatherRepository constructor(private val api: APIService, database: Weath
         val fourDaysAfterNow = DateBuilder(Date()).plusDays(4).build()
         return weatherDAO
                 .checkIf4daysForecastExist(id, fourDaysAfterNow)
-                .map { count ->
-                    count != 0
-                }
+                .map { count -> count != 0 }
                 .flatMap { exist ->
                     if (exist) {
                         Single.just(listOf())
                     } else {
                         fetchForecastAsync(id)
                                 .map { forecast ->
-                                    ForecastWeatherMapper(id).map(forecast.list)
+                                    val dateMapper = EpochDateMapper()
+                                    ForecastWeatherMapper(id, dateMapper).map(forecast.list)
                                 }
                     }
                 }
     }
-
 
     fun getCurrentWeatherWithForecast(): Observable<List<WeatherWithPlace>> {
         val minus30Minutes = DateBuilder(Date()).minusMinutes(30).build()

@@ -15,7 +15,11 @@ data class PlaceEntry(
 
         var timezone: String,
 
-        var isCurrent: Boolean
+        var isCurrent: Boolean,
+
+        var sunset: Long,
+
+        var sunrise: Long
 )
 
 

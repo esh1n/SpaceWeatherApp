@@ -1,7 +1,6 @@
-package com.lab.esh1n.data.cache.entity
+package com.lab.esh1n.data.cache
 
 import android.content.SharedPreferences
-import com.lab.esh1n.data.cache.RxPrefs
 import io.reactivex.Single
 import java.util.*
 

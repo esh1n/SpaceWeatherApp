@@ -24,8 +24,10 @@ data class WeatherResponse(
 
         @field:SerializedName("clouds")
         val clouds: CloudsResponse? = null,
+
         @field:SerializedName("rain")
         val rain: RainResponse? = null,
+
         @field:SerializedName("snow")
         val snow: SnowResponse? = null,
 
@@ -33,5 +35,8 @@ data class WeatherResponse(
         val id: Int,
 
         @field:SerializedName("wind")
-        val wind: WindResponse? = null
+        val wind: WindResponse? = null,
+
+        @field:SerializedName("sys")
+        val sys: SysItem? = null
 )
