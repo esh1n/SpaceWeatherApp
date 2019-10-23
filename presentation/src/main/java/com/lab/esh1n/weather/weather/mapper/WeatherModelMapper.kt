@@ -1,6 +1,7 @@
 package com.lab.esh1n.weather.weather.mapper
 
 import com.esh1n.utils_android.DateBuilder
+import com.lab.esh1n.data.cache.entity.UpdatePlaceEntry
 import com.lab.esh1n.data.cache.entity.WeatherWithPlace
 import com.lab.esh1n.weather.R
 import com.lab.esh1n.weather.utils.StringResValueProperty
@@ -14,19 +15,20 @@ import kotlin.math.abs
 class WeatherModelMapper(private val uiLocalizer: UiLocalizer) {
 
 
-
-    fun map(source: List<WeatherWithPlace>): List<WeatherModel> {
-        if (source.isEmpty()) {
+    fun map(source: Pair<UpdatePlaceEntry, List<WeatherWithPlace>>): List<WeatherModel> {
+        if (source.second.isEmpty()) {
             return emptyList()
         } else {
-            val firstWeather = source[0]
+            val weathers = source.second
+            val sunsetSunrise = source.first
+            val firstWeather = weathers[0]
             val timezone = firstWeather.timezone
             val firstDay = DateBuilder(firstWeather.epochDateMills).getDay()
             val dateMapper = uiLocalizer.provideDateMapper(timezone, DateFormat.MONTH_DAY)
-            val dayToForecast = createDayMap(source)
+            val dayToForecast = createDayMap(weathers)
             val firstDayForecast = dayToForecast[firstDay]
             dayToForecast.remove(firstDay)
-            val currentWeatherModel = mapCurrentWeatherModel(firstDayForecast
+            val currentWeatherModel = mapCurrentWeatherModel(sunsetSunrise, firstDayForecast
                     ?: arrayListOf(), dayToForecast[firstDay + 1] ?: arrayListOf(), timezone)
             val resultWeatherModel = mutableListOf<WeatherModel>()
             resultWeatherModel.add(currentWeatherModel)
@@ -56,7 +58,7 @@ class WeatherModelMapper(private val uiLocalizer: UiLocalizer) {
         }.values
     }
 
-    private fun mapCurrentWeatherModel(firstDay: MutableList<WeatherWithPlace>, secondDay: MutableList<WeatherWithPlace>, timezone: String): CurrentWeatherModel {
+    private fun mapCurrentWeatherModel(sunsetSunrise: UpdatePlaceEntry, firstDay: MutableList<WeatherWithPlace>, secondDay: MutableList<WeatherWithPlace>, timezone: String): CurrentWeatherModel {
         val nowInMills = Date().time
         val now = firstDay.minBy { abs(it.epochDateMills.time - nowInMills) } ?: firstDay[0]
         firstDay.remove(now)
@@ -64,7 +66,7 @@ class WeatherModelMapper(private val uiLocalizer: UiLocalizer) {
 
         val dayHourDateMapper = uiLocalizer.provideDateMapper(timezone, DateFormat.DAY_HOUR)
 
-        val hourWeathers = mapHourWeathers(timezone, firstDay, secondDay, now)
+        val hourWeathers = mapHourWeathers(timezone, sunsetSunrise.sunset, sunsetSunrise.sunrise, firstDay, secondDay, now)
         return CurrentWeatherModel(
                 placeName = now.placeName,
                 description = now.description,
@@ -82,7 +84,7 @@ class WeatherModelMapper(private val uiLocalizer: UiLocalizer) {
         )
     }
 
-    private fun mapHourWeathers(timezone: String, firstDay: MutableList<WeatherWithPlace>, secondDay: MutableList<WeatherWithPlace>, now: WeatherWithPlace): List<HourWeatherModel> {
+    private fun mapHourWeathers(timezone: String, sunsetDate: Date, sunriseDate: Date, firstDay: MutableList<WeatherWithPlace>, secondDay: MutableList<WeatherWithPlace>, now: WeatherWithPlace): List<HourWeatherModel> {
         val dateHourMapper = uiLocalizer.provideDateMapper(timezone, DateFormat.HOUR)
         val isDay = isDay(now.iconId)
         val twoDayWeathers = firstDay.apply {
@@ -95,8 +97,6 @@ class WeatherModelMapper(private val uiLocalizer: UiLocalizer) {
         ) { valueFromDb ->
             uiLocalizer.localizeTemperature(Temperature(valueFromDb))
         }.map(twoDayWeathers).toMutableList()
-        val sunsetDate = DateBuilder(now.epochDateMills, timezone).setHour(18).setMinute(35).build()
-        val sunriseDate = DateBuilder(now.epochDateMills, timezone).nextDay().setHour(5).setMinute(23).build()
         insertItem(isDay, dateHourMapper, R.string.text_sunset, "sunset", sunsetDate, hourWeathers)
         insertItem(isDay, dateHourMapper, R.string.text_sunrise, "sunrise", sunriseDate, hourWeathers)
         hourWeathers.add(0, HeaderHourWeatherModel(isDay, now.pressure, now.windDegree, now.humidity, now.epochDateMills))

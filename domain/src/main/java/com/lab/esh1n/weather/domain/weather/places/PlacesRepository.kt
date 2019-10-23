@@ -39,9 +39,8 @@ class PlacesRepository constructor(private val apiService: APIService, db: Weath
                 }
                 .map { response ->
                     val id = response.city!!.id!!
-                    val dateConverter = EpochDateMapper()
-                    val updatePlaceModel = PlaceMapper(dateConverter).map(response.city!!)
-                    val weathers = ForecastWeatherMapper(id, dateConverter).map(response.list)
+                    val updatePlaceModel = PlaceMapper().map(response.city!!)
+                    val weathers = ForecastWeatherMapper(id).map(response.list)
                     return@map Pair(updatePlaceModel, weathers)
                 }
                 .flatMapCompletable { placeAndWeathers ->
@@ -66,8 +65,8 @@ class PlacesRepository constructor(private val apiService: APIService, db: Weath
                         .map { response ->
                             val id = response.city!!.id!!
                             val dateConverter = EpochDateMapper()
-                            val updatePlaceModel = PlaceMapper(dateConverter).map(response.city!!)
-                            val weathers = ForecastWeatherMapper(id, dateConverter).map(response.list)
+                            val updatePlaceModel = PlaceMapper().map(response.city!!)
+                            val weathers = ForecastWeatherMapper(id).map(response.list)
                             return@map Pair(updatePlaceModel, weathers)
                         }
                         .flatMapCompletable { placeAndWeathers ->

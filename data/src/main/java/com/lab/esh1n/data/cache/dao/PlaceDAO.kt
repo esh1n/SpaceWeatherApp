@@ -5,6 +5,7 @@ import androidx.room.OnConflictStrategy.IGNORE
 import com.lab.esh1n.data.cache.DateConverter
 import com.lab.esh1n.data.cache.entity.PlaceEntry
 import com.lab.esh1n.data.cache.entity.PlaceWithCurrentWeatherEntry
+import com.lab.esh1n.data.cache.entity.UpdatePlaceEntry
 import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.Single
@@ -33,6 +34,18 @@ abstract class PlaceDAO {
 
     @Query("UPDATE place SET sunrise = :sunrise,sunset = :sunset WHERE id =:id")
     abstract fun updateSunsetSunrise(id: Int, sunrise: Date, sunset: Date)
+
+    @Query("SELECT id,sunrise,sunset from place WHERE isCurrent = 1")
+    abstract fun getCurrentSunsetSunriseInfo(): Flowable<UpdatePlaceEntry>
+
+    @Transaction
+    open fun updateSunrisesAndSunset(entries: List<UpdatePlaceEntry>) {
+        entries.forEach { entry ->
+            run {
+                updateSunsetSunrise(entry.id, entry.sunrise, entry.sunset)
+            }
+        }
+    }
 
     @Query("SELECT id from place")
     abstract fun getAllPlacesIds(): Single<List<Int>>

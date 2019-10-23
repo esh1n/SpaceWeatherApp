@@ -42,11 +42,11 @@ abstract class WeatherDAO {
     @Transaction
     open fun updateCurrentWeathers(weathers: List<WeatherEntry>) {
         weathers.forEach {
-            updateCurrentWeather(it)
+            saveCurrentAndDeleteOldWeather(it)
         }
     }
 
-    open fun updateCurrentWeather(weather: WeatherEntry) {
+    open fun saveCurrentAndDeleteOldWeather(weather: WeatherEntry) {
         saveWeather(weather)
         val dateInMills = weather.date.time
         deletePreviousEntries(dateInMills, weather.placeId)

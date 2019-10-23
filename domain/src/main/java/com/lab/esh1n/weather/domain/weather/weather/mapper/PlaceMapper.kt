@@ -5,8 +5,10 @@ import com.lab.esh1n.data.api.response.CityResponse
 import com.lab.esh1n.data.cache.entity.UpdatePlaceEntry
 import java.util.*
 
-class PlaceMapper(private val dateMapper: EpochDateMapper) : Mapper<CityResponse, UpdatePlaceEntry>() {
+class PlaceMapper : Mapper<CityResponse, UpdatePlaceEntry>() {
+    private val dateMapper = EpochDateMapper()
     override fun map(source: CityResponse): UpdatePlaceEntry {
+
         val now = Date().time
         return UpdatePlaceEntry(id = source.id!!,
                 sunrise = dateMapper.map(source.sunrise ?: now),
