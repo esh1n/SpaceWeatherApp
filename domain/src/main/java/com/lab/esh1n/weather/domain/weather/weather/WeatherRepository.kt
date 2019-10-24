@@ -141,7 +141,7 @@ class WeatherRepository constructor(private val api: APIService, database: Weath
             val idWithReponse = it as Pair<Int, WeatherResponse>
             PlaceMapper().map(CityResponse(id = idWithReponse.first,
                     sunrise = idWithReponse.second.sys?.sunrise ?: 0L,
-                    sunset = idWithReponse.second.sys?.sunrise ?: 0L))
+                    sunset = idWithReponse.second.sys?.sunset ?: 0L))
         }.distinctBy { it.id }
         return Pair(sunsets, weathers)
     }

@@ -86,30 +86,42 @@ class WeatherModelMapper(private val uiLocalizer: UiLocalizer) {
 
     private fun mapHourWeathers(timezone: String, sunsetDate: Date, sunriseDate: Date, firstDay: MutableList<WeatherWithPlace>, secondDay: MutableList<WeatherWithPlace>, now: WeatherWithPlace): List<HourWeatherModel> {
         val dateHourMapper = uiLocalizer.provideDateMapper(timezone, DateFormat.HOUR)
+        val dateHourAndDayMapper = uiLocalizer.provideDateMapper(timezone, DateFormat.HOUR_DAY)
         val isDay = isDay(now.iconId)
         val twoDayWeathers = firstDay.apply {
             addAll(secondDay)
-        }
+        }.filter { it.epochDateMills.after(now.epochDateMills) }
         //TODO get rid of isDay, move it to adapter
         //TODO make temperature default from dao
 
-        val hourWeathers = HourWeatherEventMapper(isDay, dateHourMapper
+        val hourWeathers = HourWeatherEventMapper(isDay, dateHourMapper, dateHourAndDayMapper
         ) { valueFromDb ->
             uiLocalizer.localizeTemperature(Temperature(valueFromDb))
         }.map(twoDayWeathers).toMutableList()
-        insertItem(isDay, dateHourMapper, R.string.text_sunset, "sunset", sunsetDate, hourWeathers)
-        insertItem(isDay, dateHourMapper, R.string.text_sunrise, "sunrise", sunriseDate, hourWeathers)
+        if (sunsetDate.after(now.epochDateMills)) {
+            insertItem(isDay, dateHourMapper, dateHourAndDayMapper, R.string.text_sunset, "sunset", sunsetDate, hourWeathers)
+        }
+        if (sunriseDate.after(now.epochDateMills)) {
+            insertItem(isDay, dateHourMapper, dateHourAndDayMapper, R.string.text_sunrise, "sunrise", sunriseDate, hourWeathers)
+        }
+        val nextDaySunrise = DateBuilder(sunriseDate).plusDays(1).build()
+        insertItem(isDay, dateHourMapper, dateHourAndDayMapper, R.string.text_sunrise, "sunrise", nextDaySunrise, hourWeathers)
+        val nextDaySunset = DateBuilder(sunsetDate).plusDays(1).build()
+        insertItem(isDay, dateHourMapper, dateHourAndDayMapper, R.string.text_sunset, "sunset", nextDaySunset, hourWeathers)
+
         hourWeathers.add(0, HeaderHourWeatherModel(isDay, now.pressure, now.windDegree, now.humidity, now.epochDateMills))
         return hourWeathers
     }
 
 
-    private fun insertItem(isDay: Boolean, dateHourMapper: UiDateMapper, name: Int, iconId: String, date: Date, list: MutableList<HourWeatherModel>) {
+    private fun insertItem(isDay: Boolean, dateHourMapper: UiDateMapper, dateHourDayMapper: UiDateMapper, name: Int, iconId: String, date: Date, list: MutableList<HourWeatherModel>) {
         val position = list.indexOfFirst { weather ->
             weather.date.after(date)
         }
         if (position != -1) {
-            val item = SimpleHourWeatherModel(isDay, dateHourMapper.map(date), iconId, StringResValueProperty(name), date)
+            val isToday = DateBuilder(date).isSameDay(Date())
+            val dateMapper = if (isToday) dateHourMapper else dateHourDayMapper
+            val item = SimpleHourWeatherModel(isDay, dateMapper.map(date), iconId, StringResValueProperty(name), date)
             list.add(position, item)
         }
     }
@@ -118,7 +130,6 @@ class WeatherModelMapper(private val uiLocalizer: UiLocalizer) {
         val dayToForecast: HashMap<Int, MutableList<WeatherWithPlace>> = HashMap()
         source.forEach { weather ->
             val day = DateBuilder(weather.epochDateMills).getDay()
-
             if (dayToForecast.containsKey(day)) {
                 dayToForecast[day]!!.add(weather)
             } else {

@@ -142,4 +142,17 @@ class DateBuilder {
         calendar!!.add(Calendar.MONTH, 1)
         return this
     }
+
+    fun getDayOfYear(): Int {
+        return calendar?.get(Calendar.DAY_OF_YEAR) ?: 0
+    }
+
+    fun getYear(): Int {
+        return calendar?.get(Calendar.YEAR) ?: 0
+    }
+
+    fun isSameDay(date: Date): Boolean {
+        val dateBuilder = DateBuilder(date)
+        return getDayOfYear() == dateBuilder.getDayOfYear() && getYear() == dateBuilder.getYear()
+    }
 }
