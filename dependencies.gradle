@@ -7,7 +7,7 @@ ext {
 
     //androidx
     androidxCompatVersion = "1.1.0-rc01"
-    androidxMaterialVersion = "1.1.0-alpha07"
+    androidxMaterialVersion = "1.1.0-alpha10"
 
     supportLibraryVersion = '28.0.0'
     androidxCompat = [
@@ -16,6 +16,10 @@ ext {
             cardView      : "androidx.cardview:cardview:${androidxCompatVersion}",
             appcompat     : "androidx.appcompat:appcompat:${androidxCompatVersion}",
     ]
+
+
+    viewpagerVersion = "1.0.0-rc01"
+    viewpager = "androidx.viewpager2:viewpager2:$viewpagerVersion"
 
     snapHelperVer = "2.1.0"
     snapHelper = "com.github.rubensousa:gravitysnaphelper:$snapHelperVer"

@@ -87,7 +87,8 @@ class PlacesRepository constructor(private val apiService: APIService, db: Weath
         val now = Date().time
         val PREPOPULATE_PLACES = listOf(
                 PlaceEntry(472045, "Воронеж", "Europe/Moscow", true, now, now),
-                PlaceEntry(6455259, "Париж", "Europe/Prague", false, now, now),
+                PlaceEntry(765876, "Люблин", "Europe/Prague", false, now, now),
+                // PlaceEntry(6455259, "Париж", "Europe/Prague", false, now, now),
                 PlaceEntry(524901, "Москва", "Europe/Moscow", false, now, now),
                 PlaceEntry(694423, "Севастополь", "Europe/Moscow", false, now, now),
                 PlaceEntry(498817, "Ленинград", "Europe/Moscow", false, now, now),
@@ -95,6 +96,7 @@ class PlacesRepository constructor(private val apiService: APIService, db: Weath
                 PlaceEntry(3164603, "Венеция", "Europe/Prague", false, now, now),
                 PlaceEntry(3067696, "Прага", "Europe/Prague", false, now, now),
                 PlaceEntry(745044, "Стамбул", "Europe/Moscow", false, now, now)
+
 
         )
         //   val PREPOPULATE_WEATHER = listOf(WeatherEntry(524901, Date(), "", 12.1, 10.1, 18.1, "01d", "clear sky", 120.0, 12.0, 12f, 12f))
