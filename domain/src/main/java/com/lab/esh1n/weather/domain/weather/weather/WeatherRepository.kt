@@ -22,6 +22,7 @@ import io.reactivex.Single
 import io.reactivex.functions.BiFunction
 import io.reactivex.functions.Function
 import java.util.*
+import kotlin.collections.HashMap
 
 
 class WeatherRepository constructor(private val api: APIService, database: WeatherDB, private val appPrefs: AppPrefs) {
@@ -150,5 +151,16 @@ class WeatherRepository constructor(private val api: APIService, database: Weath
     private fun zipCurrentWeatherWithPlaceId(id: Int): Single<Pair<Int, WeatherResponse>> {
         return Single.zip(Single.just(id), fetchWeatherAsync(id), BiFunction<Int, WeatherResponse, Pair<Int, WeatherResponse>>
         { placeId, forecast -> Pair(placeId, forecast) })
+    }
+
+    fun getAvailableDaysForPlace(placeId:Int): Single<List<Date>> {
+        val almostNow = Date()
+        return weatherDAO
+                .getAllWeathersForCity(placeId,almostNow)
+                .map { weathers->
+                    val dates = HashMap<Int,Date>()
+                    weathers.forEach {  }
+                    val day = DateBuilder(weathers)
+                }
     }
 }

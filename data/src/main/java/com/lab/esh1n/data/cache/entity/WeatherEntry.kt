@@ -26,28 +26,17 @@ open class WeatherEntry(
 
         @ColumnInfo(name = COLUMN_WEATHER_DATE)
         var date: Date,
-
         @ColumnInfo(name = COLUMN_WEATHER_DATE_TXT)
         var dateTxt: String,
-
         var dateSeconds: Long,
-
         var temperature: Double,
-
         var temperatureMin: Double,
-
         var temperatureMax: Double,
-
         var iconId: String,
-
         var description: String,
-
         var windSpeed: Double,
-
         var windDegree: Double,
-
         var pressure: Float,
-
         var humidity: Float,
         val snow: Float,
         val cloudiness: Int,
