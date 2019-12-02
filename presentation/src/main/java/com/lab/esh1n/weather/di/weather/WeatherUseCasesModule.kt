@@ -9,6 +9,7 @@ import com.lab.esh1n.weather.domain.weather.weather.WeatherRepository
 import com.lab.esh1n.weather.domain.weather.weather.usecases.FetchAndSaveCurrentPlaceWeatherUseCase
 import com.lab.esh1n.weather.domain.weather.weather.usecases.LoadCurrentWeatherSingleUseCase
 import com.lab.esh1n.weather.domain.weather.weather.usecases.LoadCurrentWeatherUseCase
+import com.lab.esh1n.weather.domain.weather.weather.usecases.LoadPlaceAvailableForecastDaysUseCase
 import dagger.Module
 import dagger.Provides
 
@@ -61,5 +62,10 @@ class WeatherUseCasesModule {
     @Provides
     fun provideCheckIsDataInitialized(placesRepository: PlacesRepository, errorsHandler: ErrorsHandler): CheckDataInitializedUseCase {
         return CheckDataInitializedUseCase(placesRepository, errorsHandler)
+    }
+
+    @Provides
+    fun provideDaysLoader(weatherRepository: WeatherRepository, errorsHandler: ErrorsHandler): LoadPlaceAvailableForecastDaysUseCase {
+        return LoadPlaceAvailableForecastDaysUseCase(weatherRepository, errorsHandler)
     }
 }

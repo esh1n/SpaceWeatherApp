@@ -9,11 +9,11 @@ import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.lab.esh1n.weather.R
 import com.lab.esh1n.weather.weather.adapter.FragmentAdapter
-import com.lab.esh1n.weather.weather.viewmodel.EmptyVM
+import com.lab.esh1n.weather.weather.viewmodel.ForecastWeekVM
 
-class ForecastFragment : BaseVMFragment<EmptyVM>() {
+class ForecastFragment : BaseVMFragment<ForecastWeekVM>() {
 
-    override val viewModelClass = EmptyVM::class.java
+    override val viewModelClass = ForecastWeekVM::class.java
 
     override val layoutResource: Int = R.layout.fragment_forecast
 

@@ -10,7 +10,7 @@ import java.util.*
 class LoadPlaceAvailableForecastDaysUseCase(private val weatherRepository: WeatherRepository,
                                             errorsHandler: ErrorsHandler) :UseCase<Single<Resource<List<Date>>>,Int>(errorsHandler) {
     override fun perform(args: Int): Single<Resource<List<Date>>> {
-        return weatherRepository.getAvailableDaysForPlace()
+        return weatherRepository.getAvailableDaysForPlace(args)
                 .map { days -> Resource.success(days) }
                 .onErrorReturn { error ->
                     Resource.error(errorsHandler.handle(error))
