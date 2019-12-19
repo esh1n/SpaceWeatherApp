@@ -2,7 +2,7 @@ package com.lab.esh1n.weather.weather.viewmodel
 
 import android.app.Application
 import com.esh1n.core_android.rx.applyAndroidSchedulers
-import com.esh1n.core_android.ui.viewmodel.BaseViewModel
+import com.esh1n.core_android.ui.viewmodel.BaseAndroidViewModel
 import com.esh1n.core_android.ui.viewmodel.Resource
 import com.esh1n.core_android.ui.viewmodel.SingleLiveEvent
 import com.lab.esh1n.data.cache.AppPrefs
@@ -13,7 +13,7 @@ import com.lab.esh1n.weather.weather.model.TextSettingModel
 import java.util.*
 import javax.inject.Inject
 
-class SettingsViewModel @Inject constructor(private val loadSettingsUseCase: LoadSettingsUseCase, application: Application) : BaseViewModel(application) {
+class SettingsViewModel @Inject constructor(private val loadSettingsUseCase: LoadSettingsUseCase, application: Application) : BaseAndroidViewModel(application) {
 
 
     val settings = SingleLiveEvent<Resource<List<SettingsModel>>>()

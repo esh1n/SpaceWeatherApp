@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.work.WorkManager
 import com.esh1n.core_android.rx.SchedulersFacade
 import com.esh1n.core_android.rx.applyAndroidSchedulers
-import com.esh1n.core_android.ui.viewmodel.BaseViewModel
+import com.esh1n.core_android.ui.viewmodel.BaseAndroidViewModel
 import com.esh1n.core_android.ui.viewmodel.Resource
 import com.esh1n.core_android.ui.viewmodel.SingleLiveEvent
 import com.lab.esh1n.data.cache.entity.WeatherWithPlace
@@ -22,7 +22,7 @@ class AllPlacesVM @Inject constructor(private val loadPlacesUseCase: GetAllPlace
                                       private val loadCurrentPlaceUseCase: LoadCurrentWeatherSingleUseCase,
                                       private var updateCurrentPlaceUseCase: UpdateCurrentPlaceUseCase,
                                       private val workManager: WorkManager, application: Application,
-                                      private val uiLocalizer: UiLocalizer) : BaseViewModel(application) {
+                                      private val uiLocalizer: UiLocalizer) : BaseAndroidViewModel(application) {
 
     val updateCurrentPlaceOperation = SingleLiveEvent<Resource<WeatherWithPlace>>()
 
