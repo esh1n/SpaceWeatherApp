@@ -59,4 +59,7 @@ abstract class PlaceDAO {
     @Query("SELECT EXISTS(SELECT 1 FROM place WHERE isCurrent = 1)")
     abstract fun checkIfCurrentPlaceExist(): Single<Boolean>
 
+    @Query("SELECT id FROM place WHERE isCurrent = 1")
+    abstract fun loadCurrentPlaceId(): Single<Int>
+
 }

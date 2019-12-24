@@ -34,15 +34,21 @@ constructor(private val loadCurrentWeatherUseCase: LoadCurrentWeatherUseCase,
 
     val refreshOperation = SingleLiveEvent<Resource<Unit>>()
     val initAdEvent = SingleLiveEvent<Resource<Boolean>>()
-    private val weatherLiveData = MutableLiveData<Resource<List<WeatherModel>>>()
+    private val weatherLiveData = MutableLiveData<Resource<Pair<Int, List<WeatherModel>>>>()
     private val cityWeatherModelMapper = WeatherModelMapper(uiLocalizer)
+
+    private val placeIdData = MutableLiveData(0)
 
     //TODO move this periodic sync to success login event
 
     fun getWeatherLiveData() = weatherLiveData
 
-    fun mapWeatherDataResource(arg: Resource<Pair<UpdatePlaceEntry, List<WeatherWithPlace>>>): Resource<List<WeatherModel>> {
-        return Resource.map(arg, cityWeatherModelMapper::map);
+    fun mapWeatherDataResource(arg: Resource<Pair<UpdatePlaceEntry, List<WeatherWithPlace>>>): Resource<Pair<Int, List<WeatherModel>>> {
+        return Resource.map(arg) {
+            val placeId = it.first.id
+            val weatherModels = cityWeatherModelMapper.map(it)
+            return@map Pair(placeId, weatherModels)
+        };
     }
 
     fun loadWeather() {
@@ -52,15 +58,11 @@ constructor(private val loadCurrentWeatherUseCase: LoadCurrentWeatherUseCase,
 //                        .doOnSubscribe { _ ->
 //                            weatherLiveData.postValue(Resource.loading())
 //                        }
-                .map {
-                    return@map mapWeatherDataResource(it)
-                }
-                .defaultIfEmpty(
-                        Resource.ended()
-                )
+                .map { return@map mapWeatherDataResource(it) }
+                .defaultIfEmpty(Resource.ended())
                 .compose(SchedulersFacade.applySchedulersObservable())
-                .subscribe { models ->
-                    weatherLiveData.postValue(models)
+                .subscribe { placeAndWeathers ->
+                    weatherLiveData.postValue(placeAndWeathers)
                 }.disposeOnDestroy()
     }
 

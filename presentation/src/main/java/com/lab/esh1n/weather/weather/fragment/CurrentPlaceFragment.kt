@@ -42,6 +42,8 @@ class CurrentPlaceFragment : BaseVMFragment<CurrentWeatherVM>() {
 
     private lateinit var scrollStateHolder: ScrollStateHolder
 
+    private var placeId: Int? = null
+
 
     override fun setupView(rootView: View, savedInstanceState: Bundle?) {
         super.setupView(rootView, savedInstanceState)
@@ -67,7 +69,10 @@ class CurrentPlaceFragment : BaseVMFragment<CurrentWeatherVM>() {
 
 
     private fun onWeatherClicked(weatherModel: WeatherModel) {
-        parentFragment?.fragmentManager.addFragmentToStack(ForecastFragment.newInstance())
+        placeId?.let {
+            parentFragment?.fragmentManager.addFragmentToStack(ForecastFragment.newInstance(it))
+        }
+
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -87,7 +92,7 @@ class CurrentPlaceFragment : BaseVMFragment<CurrentWeatherVM>() {
     }
 
     private fun observeWeather() {
-        viewModel.getWeatherLiveData().observe(this, object : BaseObserver<List<WeatherModel>>() {
+        viewModel.getWeatherLiveData().observe(this, object : BaseObserver<Pair<Int, List<WeatherModel>>>() {
             override fun onError(error: ErrorModel?) {
                 SnackbarBuilder.buildErrorSnack(view!!, error?.message ?: "").show()
             }
@@ -97,13 +102,15 @@ class CurrentPlaceFragment : BaseVMFragment<CurrentWeatherVM>() {
                 showProgress(progress)
             }
 
-            override fun onData(data: List<WeatherModel>?) {
-                val isEmpty = data?.isEmpty() ?: true
+            override fun onData(data: Pair<Int, List<WeatherModel>>?) {
+                val weathers = data?.second
+                val isEmpty = weathers?.isEmpty() ?: true
                 binding?.tvNoWeather?.setVisibleOrGone(isEmpty)
-                val placeName = getPlaceName(data)
+                val placeName = getPlaceName(weathers)
                 setTitle(placeName)
                 title = placeName
-                adapter.swapWeathers(data.orEmpty())
+                adapter.swapWeathers(weathers.orEmpty())
+                placeId = data?.first
             }
         })
         viewModel.refreshOperation.observe(this, object : BaseObserver<Unit>() {

@@ -5,8 +5,9 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView.NO_ID
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.lab.esh1n.weather.weather.fragment.ARG_POSITION
-import com.lab.esh1n.weather.weather.fragment.PositionFragment
+import com.lab.esh1n.weather.weather.fragment.ARG_TITLE
+import com.lab.esh1n.weather.weather.fragment.DayForecastFragment
+import com.lab.esh1n.weather.weather.model.ForecastDayModel
 
 
 /**
@@ -14,20 +15,20 @@ import com.lab.esh1n.weather.weather.fragment.PositionFragment
  */
 class FragmentAdapter(activity: FragmentActivity) : FragmentStateAdapter(activity) {
 
-    var items: List<Int>
+    var items: List<ForecastDayModel>
         set(value) {
             mutableItems = value.toMutableList()
             notifyDataSetChanged()
         }
         get() = mutableItems
 
-    private var mutableItems = mutableListOf<Int>()
+    private var mutableItems = mutableListOf<ForecastDayModel>()
 
     override fun createFragment(position: Int): Fragment {
-        return PositionFragment::class.java.newInstance()
+        return DayForecastFragment::class.java.newInstance()
                 .apply {
                     arguments = Bundle().apply {
-                        putInt(ARG_POSITION, items[position])
+                        putString(ARG_TITLE, items[position].dayDescription)
                     }
                 }
     }
@@ -39,7 +40,7 @@ class FragmentAdapter(activity: FragmentActivity) : FragmentStateAdapter(activit
      */
     override fun getItemId(position: Int): Long {
         if (position < 0) return NO_ID
-        return items[position].toLong()
+        return items[position].dayDate.time
     }
 
     /**
@@ -48,7 +49,7 @@ class FragmentAdapter(activity: FragmentActivity) : FragmentStateAdapter(activit
      * @see FragmentStateAdapter.containsItem
      */
     override fun containsItem(itemId: Long): Boolean {
-        return items.contains(itemId.toInt())
+        return items.find { it.dayDate.time == itemId } != null
     }
 
     /**
@@ -61,9 +62,10 @@ class FragmentAdapter(activity: FragmentActivity) : FragmentStateAdapter(activit
      *
      * @param position position of item to add
      */
-    fun addAfter(position: Int) {
+
+    fun addAfter(dayModel: ForecastDayModel, position: Int) {
         val size = mutableItems.size
-        if (size == 0 || position == size) mutableItems.add(size) else mutableItems.add(position + 1, size)
+        if (size == 0 || position == size) mutableItems.add(dayModel) else mutableItems.add(position + 1, dayModel)
         notifyItemInserted(position)
     }
 

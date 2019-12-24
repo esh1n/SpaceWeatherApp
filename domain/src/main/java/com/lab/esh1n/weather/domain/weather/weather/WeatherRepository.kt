@@ -152,12 +152,14 @@ class WeatherRepository constructor(private val api: APIService, database: Weath
         { placeId, forecast -> Pair(placeId, forecast) })
     }
 
-    fun getAvailableDaysForPlace(placeId:Int): Single<List<Date>> {
+    fun getAvailableDaysForPlace(placeId: Int): Single<Pair<String, List<Date>>> {
         val almostNow = Date()
         return weatherDAO
                 .getAllWeathersForCity(placeId,almostNow)
                 .map { weathers->
-                    return@map weathers.distinctBy { DateBuilder(it.epochDateMills).getDay() }.map { it.epochDateMills }
+                    val timeZone = if (weathers.isNullOrEmpty()) "Europe/Moscow" else weathers[0].timezone
+                    val dates = weathers.distinctBy { DateBuilder(it.epochDateMills).getDay() }.map { it.epochDateMills }
+                    return@map Pair(timeZone, dates)
                 }
     }
 }

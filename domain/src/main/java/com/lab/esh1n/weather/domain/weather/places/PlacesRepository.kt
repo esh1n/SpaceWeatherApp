@@ -109,4 +109,8 @@ class PlacesRepository constructor(private val apiService: APIService, db: Weath
         }
     }
 
+    fun loadCurrentPlaceId(): Single<Int> {
+        return placeDAO.loadCurrentPlaceId()
+    }
+
 }

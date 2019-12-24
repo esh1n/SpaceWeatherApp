@@ -92,7 +92,7 @@ class AllPlacesFragment : BaseVMFragment<AllPlacesVM>() {
     private val iPlaceClickable = object : PlacesAdapter.IPlaceClickable {
         override fun onPlaceClick(placeWeather: PlaceModel) {
             Crashlytics.log(Log.DEBUG, "tag", "opened forecast for${placeWeather.name}")
-            parentFragment?.fragmentManager.addFragmentToStack(ForecastFragment.newInstance())
+            parentFragment?.fragmentManager.addFragmentToStack(ForecastFragment.newInstance(placeWeather.id))
 
         }
 

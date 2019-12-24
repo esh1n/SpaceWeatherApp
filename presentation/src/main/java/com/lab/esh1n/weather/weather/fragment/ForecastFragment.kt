@@ -7,6 +7,7 @@ import androidx.viewpager2.widget.ViewPager2
 import com.esh1n.core_android.error.ErrorModel
 import com.esh1n.core_android.ui.fragment.BaseVMFragment
 import com.esh1n.core_android.ui.viewmodel.BaseObserver
+import com.esh1n.utils_android.ui.SnackbarBuilder
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.lab.esh1n.weather.R
@@ -27,7 +28,10 @@ class ForecastFragment : BaseVMFragment<ForecastWeekVM>() {
     private lateinit var adapter: FragmentAdapter
 
     companion object {
-        fun newInstance() = ForecastFragment()
+        private const val PLACE_ID = "PLACE_ID"
+        fun newInstance(placeId: Int) = ForecastFragment().apply {
+            arguments = Bundle().apply { putInt(PLACE_ID, placeId) }
+        }
     }
 
     override fun setupView(rootView: View, savedInstanceState: Bundle?) {
@@ -45,28 +49,37 @@ class ForecastFragment : BaseVMFragment<ForecastWeekVM>() {
         viewPager?.adapter = adapter
     }
 
+    private fun getPlaceId(): Int? {
+        return arguments?.getInt(PLACE_ID)
+    }
+
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel.availableDays.observe(viewLifecycleOwner, object : BaseObserver<List<ForecastDayModel>>() {
             override fun onData(data: List<ForecastDayModel>?) {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+                data?.let {
+                    populateByDays(data)
+                }
             }
 
             override fun onError(error: ErrorModel?) {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+                SnackbarBuilder.buildErrorSnack(requireView(), error?.message ?: "").show()
             }
 
         })
-        viewModel.loadAvailableDays()
+        getPlaceId()?.let { placeId ->
+            viewModel.loadAvailableDays(placeId)
+        }
+
     }
 
-    fun populateByDays(items: List<Int>) {
+    fun populateByDays(items: List<ForecastDayModel>) {
         adapter.items = items
         if (tabs != null && viewPager != null) {
             Log.d("TABS", "init tabs")
             TabLayoutMediator(tabs!!, viewPager!!,
                     TabLayoutMediator.TabConfigurationStrategy { tab, position ->
-                        tab.text = "TAB ${items[position]}"
+                        tab.text = items[position].dayDescription
                     }).attach()
         }
     }

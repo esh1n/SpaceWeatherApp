@@ -29,7 +29,7 @@
     <string name="ticker_text">Тикер</string>
     <string name="error_loading_weather">Ох, ошибочка вышла…</string>
     <string name="hint_refresh">Пожалуйста обновите данные %s</string>
-    <string name="menu_current_place">Текуший</string>
+    <string name="menu_current_place">Текущее место</string>
     <string name="menu_destinations_on_earth">Все места</string>
     <string name="menu_settings">Настройки</string>
     <string name="text_no_places">Не добавлено мест</string>
