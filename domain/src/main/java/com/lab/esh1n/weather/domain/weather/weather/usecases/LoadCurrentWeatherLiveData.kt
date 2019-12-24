@@ -14,10 +14,9 @@ class LoadCurrentWeatherUseCase(private val weatherRepository: WeatherRepository
         UseCase<Observable<Resource<Pair<UpdatePlaceEntry, List<WeatherWithPlace>>>>, Unit>(errorsHandler) {
 
     override fun perform(args: Unit): Observable<Resource<Pair<UpdatePlaceEntry, List<WeatherWithPlace>>>> {
-        return weatherRepository
-                .getCurrentWeatherWithForecast()
-                .zipWith(weatherRepository.getCurrentPlaceSunsetAndSunrise()
-                        , BiFunction<List<WeatherWithPlace>, UpdatePlaceEntry, Pair<UpdatePlaceEntry, List<WeatherWithPlace>>> { weathers, sunset ->
+        return Observable.combineLatest(weatherRepository
+                .getCurrentWeatherWithForecast(), weatherRepository.getCurrentPlaceSunsetAndSunrise(),
+                BiFunction<List<WeatherWithPlace>, UpdatePlaceEntry, Pair<UpdatePlaceEntry, List<WeatherWithPlace>>> { weathers, sunset ->
                     return@BiFunction Pair(sunset, weathers)
                 })
                 .map { users -> Resource.success(users) }

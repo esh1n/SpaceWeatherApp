@@ -16,8 +16,6 @@ import com.lab.esh1n.weather.utils.NotificationUtil
 import com.lab.esh1n.weather.weather.mapper.UiLocalizer
 import com.lab.esh1n.weather.weather.mapper.WeatherModelMapper
 import com.lab.esh1n.weather.weather.model.WeatherModel
-import io.reactivex.schedulers.Schedulers
-import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 /**
@@ -54,7 +52,7 @@ constructor(private val loadCurrentWeatherUseCase: LoadCurrentWeatherUseCase,
     fun loadWeather() {
         //think about if no results how not to show progress
         loadCurrentWeatherUseCase.perform(Unit)
-                .throttleFirst(500, TimeUnit.MILLISECONDS, Schedulers.computation())
+                //    .throttleLast(500, TimeUnit.MILLISECONDS, Schedulers.computation())
 //                        .doOnSubscribe { _ ->
 //                            weatherLiveData.postValue(Resource.loading())
 //                        }
