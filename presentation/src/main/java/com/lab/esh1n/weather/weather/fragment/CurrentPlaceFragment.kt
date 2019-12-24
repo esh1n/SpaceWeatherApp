@@ -13,6 +13,8 @@ import com.esh1n.core_android.ui.viewmodel.BaseObserver
 import com.esh1n.utils_android.ui.ScrollStateHolder
 import com.esh1n.utils_android.ui.SnackbarBuilder
 import com.esh1n.utils_android.ui.setVisibleOrGone
+import com.google.android.gms.ads.MobileAds
+import com.google.android.gms.ads.initialization.OnInitializationCompleteListener
 import com.lab.esh1n.weather.R
 import com.lab.esh1n.weather.databinding.FragmentCurrentPlaceBinding
 import com.lab.esh1n.weather.weather.adapter.CurrentWeatherAdapter
@@ -70,20 +72,11 @@ class CurrentPlaceFragment : BaseVMFragment<CurrentWeatherVM>() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel.initAdEvent.observe(viewLifecycleOwner, object : BaseObserver<Boolean>() {
-            override fun onError(error: ErrorModel?) {
-
-            }
-
-            override fun onData(data: Boolean?) {
-                data?.let {
-
-                }
-            }
-        })
         observeWeather()
         viewModel.loadWeather()
-        viewModel.initAdMob()
+        MobileAds.initialize(requireActivity().getApplication(), OnInitializationCompleteListener { status ->
+            //initAdEvent.postValue(Resource.success(true))
+        })
     }
 
     private fun getPlaceName(data: List<WeatherModel>?): String {
@@ -94,7 +87,7 @@ class CurrentPlaceFragment : BaseVMFragment<CurrentWeatherVM>() {
     }
 
     private fun observeWeather() {
-        viewModel.weatherLiveData.observe(this, object : BaseObserver<List<WeatherModel>>() {
+        viewModel.getWeatherLiveData().observe(this, object : BaseObserver<List<WeatherModel>>() {
             override fun onError(error: ErrorModel?) {
                 SnackbarBuilder.buildErrorSnack(view!!, error?.message ?: "").show()
             }

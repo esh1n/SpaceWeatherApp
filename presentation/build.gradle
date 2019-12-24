@@ -107,6 +107,20 @@ dependencies {
     implementation rootProject.ext.firebase.analytics
     implementation rootProject.ext.firebase.crashlytics
     implementation rootProject.ext.firebase.ads
+
+    // Testing
+    def truthVersion = "1.0"
+    def mockKVersion = "1.9.3"
+
+    testImplementation 'junit:junit:4.12'
+    testImplementation  "com.google.truth:truth:${truthVersion}"
+    testImplementation  "io.mockk:mockk:${mockKVersion}"
+    testImplementation  'androidx.arch.core:core-testing:2.1.0'
+
+    def androidx_test_version = "1.2.0"
+    androidTestImplementation "androidx.test:runner:$androidx_test_version"
+    androidTestImplementation "androidx.test:core-ktx:$androidx_test_version"
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 }
 repositories {
     mavenCentral()

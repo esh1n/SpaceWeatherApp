@@ -16,6 +16,7 @@ data class Resource<T>(val status: Status, val data: T?, val errorModel: ErrorMo
             return Resource(Status.SUCCESS, Unit, null)
         }
 
+        @JvmStatic
         fun <T> success(data: T?): Resource<T> {
             return Resource(Status.SUCCESS, data, null)
         }
