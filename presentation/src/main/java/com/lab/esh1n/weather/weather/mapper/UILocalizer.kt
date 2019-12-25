@@ -10,12 +10,12 @@ import java.util.*
 
 class UILocalizerImpl(private val iLocaleProvider: () -> Locale?) : UiLocalizer {
 
-    private fun getDateFormat(dateFormat: DateFormat): SimpleDateFormat {
-        return dateFormat.getSimpleDateFormat(getLocale()).get()!!
+    private fun getDateFormat(dateFormat: DateFormat, timezone: String): SimpleDateFormat {
+        return dateFormat.getSimpleDateFormat(getLocale(), timezone).get()!!
     }
 
     override fun provideDateMapper(timezone: String, dateFormat: DateFormat): UiDateMapper {
-        return UiDateMapper(timezone, getDateFormat(dateFormat))
+        return UiDateMapper(getDateFormat(dateFormat, timezone))
     }
 
     override fun getLocale(): Locale {

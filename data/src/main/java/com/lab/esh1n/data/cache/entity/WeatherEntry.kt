@@ -17,7 +17,7 @@ import java.util.*
         foreignKeys = [ForeignKey(entity = PlaceEntry::class,
                 parentColumns = arrayOf(WeatherTableContract.COLUMN_PLACE_ID),
                 childColumns = arrayOf(COLUMN_WEATHER_PLACE_ID), onDelete = CASCADE)],
-        indices = arrayOf(Index(value = [COLUMN_WEATHER_PLACE_ID])))
+        indices = [Index(value = [COLUMN_WEATHER_PLACE_ID])])
 
 open class WeatherEntry(
 

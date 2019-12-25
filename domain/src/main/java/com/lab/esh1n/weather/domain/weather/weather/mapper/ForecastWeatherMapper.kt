@@ -7,7 +7,7 @@ import java.util.*
 
 class ForecastWeatherMapper(val placeId: Int) : Mapper<ForecastItemResponse, WeatherEntry>() {
 
-    val dateConverter = EpochDateMapper()
+    private val dateConverter = EpochDateMapper()
     override fun map(source: ForecastItemResponse): WeatherEntry {
         return WeatherEntry(
                 placeId = placeId,

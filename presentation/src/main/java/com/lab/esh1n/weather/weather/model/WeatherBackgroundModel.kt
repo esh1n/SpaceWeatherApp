@@ -51,6 +51,7 @@ class WeatherBackgroundUtil {
             return gd
         }
 
+
         fun addColorSaturation(color: Int, maxValue: Int): Int {
             val red = Color.red(color)
             val green = Color.green(color)
@@ -65,5 +66,11 @@ class WeatherBackgroundUtil {
         fun getColorForTime(isDay: Boolean): Int {
             return if (isDay) Color.BLACK else Color.WHITE
         }
+    }
+
+    enum class WeatherCode(val code: Int) {
+        CLEAR(1), FEW_CLOUDS(2), SCATTERED_CLOUDS(3),
+        BROKEN_CLOUDS(4), SHOWER_RAIN(9), RAIN(10), THUNDERSTORM(11),
+        SNOW(13), MIST(50)
     }
 }
