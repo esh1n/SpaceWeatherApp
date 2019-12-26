@@ -80,8 +80,8 @@ class WeatherModelMapper(private val uiLocalizer: UiLocalizer) {
                 placeName = now.placeName,
                 description = now.description,
                 humanDate = dayHourDateMapper.map(now.epochDateMills),
-                tempMax = now.temperatureMax.toInt(),
-                tempMin = now.temperatureMin.toInt(),
+                tempMax = now.temperatureMax.roundToInt(),
+                tempMin = now.temperatureMin.roundToInt(),
                 iconId = now.iconId,
                 snow = now.snow,
                 cloudiness = now.cloudiness,
@@ -155,14 +155,25 @@ class WeatherModelMapper(private val uiLocalizer: UiLocalizer) {
 
     private fun calculateWeatherIconAndDescription(weathers: List<WeatherWithPlace>): Pair<String, String> {
         if (weathers.isEmpty()) {
-            return Pair("01d", "Сlear sky")
+            return Pair("01d", "n/a")
         }
         val iconsIds: List<Int> = weathers.map { Integer.parseInt(it.iconId.substring(0, 2)) }
         val mostOccasionsIcon = iconsIds.groupingBy { it }.eachCount().maxBy { it.value }?.key ?: 1
+        val iconDay = getIconCode(mostOccasionsIcon, true)
+        val weatherItem = weathers.find { it.iconId == iconDay }
+        return if (weatherItem != null) {
+            Pair(iconDay, weatherItem.description)
+        } else {
+            val iconNight = getIconCode(mostOccasionsIcon, false)
+            val description = weathers.find { it.iconId == iconNight }?.description ?: "n/a"
+            Pair(iconNight, description)
+        }
+    }
+
+    private fun getIconCode(value: Int, isDay: Boolean): String {
         val formatter = DecimalFormat("00")
-        val icon = "${formatter.format(mostOccasionsIcon)}d"
-        val description = weathers.find { it.iconId == icon }?.description ?: "Clear sky"
-        return Pair(icon, description)
+        val dayOrNightChar = if (isDay) 'd' else 'n'
+        return "${formatter.format(value)}$dayOrNightChar"
     }
 
     companion object {

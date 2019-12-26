@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="text_weather_notification_title">%s</string>
-    <string name="text_weather_description">%s\u2103 в %s\nИзмерено в: %s </string>
+    <string name="text_weather_description">%s\u2103 в г. %s\nв: %s </string>
 </resources>

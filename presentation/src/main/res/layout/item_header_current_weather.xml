@@ -26,7 +26,7 @@
                 android:layout_marginStart="@dimen/margin_medium"
                 android:contentDescription="@string/app_name"
                 android:scaleType="centerCrop"
-                android:src="@drawable/ic_status_01d"
+                android:src="@drawable/ic_status_01d_2"
                 app:convertPathToIcon="@{weather.iconId}" />
 
             <TextView

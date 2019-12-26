@@ -90,7 +90,7 @@
             android:gravity="center"
             android:orientation="vertical"
             android:scaleType="centerCrop"
-            android:src="@drawable/ic_status_01d"
+            android:src="@drawable/ic_status_01d_2"
             app:convertPathToIcon="@{weather.iconId}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
