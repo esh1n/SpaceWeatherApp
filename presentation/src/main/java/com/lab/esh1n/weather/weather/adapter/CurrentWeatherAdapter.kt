@@ -230,11 +230,16 @@ class CurrentWeatherAdapter(private val cityDayForecastClick: (WeatherModel) -> 
             adView?.adListener = object : AdListener() {
                 override fun onAdLoaded() {
                     Log.d(CurrentPlaceFragment.TAG, "onAdLoaded")
+                    Log.d("AdTest", " onAdLoaded")
+                    adView?.tag = true;
+
                     // Code to be executed when an ad finishes loading.
                 }
 
                 override fun onAdFailedToLoad(errorCode: Int) {
+                    Log.d("AdTest", " onAdFailedToLoad")
                     Log.d(CurrentPlaceFragment.TAG, "onAdFailedToLoad")
+                    adView?.tag = false; // Set tag false if loading failed
                     // Code to be executed when an ad request fails.
                 }
 
@@ -260,8 +265,20 @@ class CurrentWeatherAdapter(private val cityDayForecastClick: (WeatherModel) -> 
                     // to the app after tapping on an ad.
                 }
             }
-            val adRequest = AdRequest.Builder().build()
-            adView?.loadAd(adRequest)
+
+            adView?.let {
+                val loaded = it.tag != null && it.tag is Boolean && it.tag as Boolean
+                Log.d("AdTest", "loaded $loaded ")
+                if (!loaded) {
+                    Log.d("AdTest", " try load")
+                    val adRequest = AdRequest.Builder().build()
+                    it.loadAd(adRequest)
+                } else {
+                    Log.d("AdTest", " skip load")
+                }
+            }
+
+
         }
     }
 

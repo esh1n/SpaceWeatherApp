@@ -52,7 +52,7 @@ ext {
             reactivestreams: "androidx.lifecycle:lifecycle-reactivestreams:${lifecycleVersion}",
     ]
 
-    constraintLayoutVesrion ="2.0.0-beta2"
+    constraintLayoutVesrion ="2.0.0-beta4"
     constraintLayout = [
             libCL  : "androidx.constraintlayout:constraintlayout:${constraintLayoutVesrion}",
             solver : "androidx.constraintlayout:constraintlayout-solver:${constraintLayoutVesrion}",

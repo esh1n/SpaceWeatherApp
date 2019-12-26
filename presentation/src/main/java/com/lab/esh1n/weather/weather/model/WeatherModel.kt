@@ -5,29 +5,30 @@ import java.util.*
 
 sealed class WeatherModel(val humanDate: String,
                           val iconId: String,
+                          val tempMax: Int,
                           val tempMin: Int,
-                          val tempMax: Int
+                          val description: String
 )
 
 class CurrentWeatherModel(
-        val description: String,
+        description: String,
         humanDate: String,
         iconId: String,
-        currentTemperature: String,
         val placeName: String,
         val snow: Int,
         val cloudiness: Int,
         val rain: Int,
         val isDay: Boolean,
-        tempMin: Int,
         tempMax: Int,
-        val hour24Format: Int, val hourWeatherEvents: List<HourWeatherModel>) : WeatherModel(humanDate, iconId, tempMin, tempMax)
+        tempMin: Int,
+        val hour24Format: Int, val hourWeatherEvents: List<HourWeatherModel>) : WeatherModel(humanDate = humanDate, iconId = iconId, tempMax = tempMax, tempMin = tempMin, description = description)
 
 class DayWeatherModel(val dayDate: String,
                       humanDate: String,
                       iconId: String,
+                      tempMax: Int,
                       tempMin: Int,
-                      tempMax: Int) : WeatherModel(humanDate, iconId, tempMin, tempMax)
+                      description: String) : WeatherModel(humanDate = humanDate, iconId = iconId, tempMax = tempMax, tempMin = tempMin, description = description)
 
 sealed class HourWeatherModel(val date: Date)
 class HeaderHourWeatherModel(val isDay: Boolean, val pressure: Int, val wind: Int, val humidity: Int, date: Date) : HourWeatherModel(date)

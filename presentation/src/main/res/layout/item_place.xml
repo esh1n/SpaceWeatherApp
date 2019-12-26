@@ -12,11 +12,14 @@
 
     <LinearLayout
         android:id="@+id/root_container"
-        android:layout_height="@dimen/overall_day_height"
+        android:layout_height="wrap_content"
         android:layout_width="match_parent"
         android:background="@android:color/holo_blue_light"
         android:orientation="vertical"
-        android:padding="@dimen/margin_medium">
+        android:paddingStart="@dimen/margin_medium"
+        android:paddingTop="@dimen/margin_smallest"
+        android:paddingEnd="@dimen/margin_medium"
+        android:paddingBottom="@dimen/margin_smallest">
 
         <RelativeLayout
             android:layout_width="match_parent"

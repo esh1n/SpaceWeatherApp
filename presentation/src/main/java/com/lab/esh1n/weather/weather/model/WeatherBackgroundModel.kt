@@ -39,18 +39,19 @@ class WeatherBackgroundUtil {
             }
         }
 
-        fun prepareWeatherGradient(context: Context, weatherBackgroundModel: WeatherBackgroundModel): GradientDrawable {
+        fun prepareWeatherGradient(context: Context
+                                   , weatherBackgroundModel: WeatherBackgroundModel): GradientDrawable {
             val colorsPackAndRainValue = getGradientBackgroundColors(weatherBackgroundModel)
             val rainValue = colorsPackAndRainValue.second
             val colors = context.resources.getStringArray(colorsPackAndRainValue.first)
-            val colorStart: Int = addColorSaturation(Color.parseColor(colors[0]), rainValue)
-            val colorMiddle: Int = addColorSaturation(Color.parseColor(colors[1]), rainValue)
-            val colorEnd: Int = addColorSaturation(Color.parseColor(colors[2]), rainValue)
+            // val colorStart: Int = addColorSaturation(Color.parseColor(colors[0]), rainValue)
+            val colorStart: Int = Color.parseColor(colors[0])
+            val colorMiddle: Int = Color.parseColor(colors[1])
+            val colorEnd: Int = Color.parseColor(colors[2])
             val gd = GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, intArrayOf(colorStart, colorMiddle, colorEnd))
             gd.cornerRadius = 0f
             return gd
         }
-
 
         fun addColorSaturation(color: Int, maxValue: Int): Int {
             val red = Color.red(color)
