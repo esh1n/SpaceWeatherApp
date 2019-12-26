@@ -20,7 +20,7 @@ enum class DateFormat(val format: String) {
             return getDateFormat(this.format, locale, timeZone)
         }
     },
-    DAY_HOUR("d MMM HH:mm") {
+    DAY_HOUR("HH:mm d MMM") {
         override fun getSimpleDateFormat(locale: Locale, timeZone: String): ThreadLocal<SimpleDateFormat> {
             return getDateFormat(this.format, locale, timeZone)
         }

@@ -25,7 +25,8 @@ class WeatherModelMapper(private val uiLocalizer: UiLocalizer) {
             val firstWeather = weathers[0]
             val timezone = firstWeather.timezone
             val firstDay = DateBuilder(firstWeather.epochDateMills, timezone).getDay()
-            val dayToForecast = createDayMap(weathers, timezone)
+            //TODO count first day weathers separately from other weathers
+            val dayToForecast = createDayMap(firstDay, weathers, timezone)
             val firstDayForecast = dayToForecast[firstDay]
             dayToForecast.remove(firstDay)
             val currentWeatherModel = mapCurrentWeatherModel(sunsetSunrise, firstDayForecast
@@ -107,47 +108,46 @@ class WeatherModelMapper(private val uiLocalizer: UiLocalizer) {
             uiLocalizer.localizeTemperature(Temperature(valueFromDb))
         }.map(twoDayWeathers).toMutableList()
         if (sunsetDate.after(now.epochDateMills)) {
-            insertItem(isDay, dateHourMapper, dateHourAndDayMapper, R.string.text_sunset, "sunset", sunsetDate, hourWeathers)
+            insertItem(timezone, isDay, dateHourMapper, dateHourAndDayMapper, R.string.text_sunset, "sunset", sunsetDate, hourWeathers)
         }
         if (sunriseDate.after(now.epochDateMills)) {
-            insertItem(isDay, dateHourMapper, dateHourAndDayMapper, R.string.text_sunrise, "sunrise", sunriseDate, hourWeathers)
+            insertItem(timezone, isDay, dateHourMapper, dateHourAndDayMapper, R.string.text_sunrise, "sunrise", sunriseDate, hourWeathers)
         }
-        val nextDaySunrise = DateBuilder(sunriseDate).plusDays(1).build()
-        insertItem(isDay, dateHourMapper, dateHourAndDayMapper, R.string.text_sunrise, "sunrise", nextDaySunrise, hourWeathers)
-        val nextDaySunset = DateBuilder(sunsetDate).plusDays(1).build()
-        insertItem(isDay, dateHourMapper, dateHourAndDayMapper, R.string.text_sunset, "sunset", nextDaySunset, hourWeathers)
+        val nextDaySunrise = DateBuilder(sunriseDate, timezone).plusDays(1).build()
+        insertItem(timezone, isDay, dateHourMapper, dateHourAndDayMapper, R.string.text_sunrise, "sunrise", nextDaySunrise, hourWeathers)
+        val nextDaySunset = DateBuilder(sunsetDate, timezone).plusDays(1).build()
+        insertItem(timezone, isDay, dateHourMapper, dateHourAndDayMapper, R.string.text_sunset, "sunset", nextDaySunset, hourWeathers)
 
         hourWeathers.add(0, HeaderHourWeatherModel(isDay, now.pressure, now.windDegree, now.humidity, now.epochDateMills))
         return hourWeathers
     }
 
 
-    private fun insertItem(isDay: Boolean, dateHourMapper: UiDateMapper, dateHourDayMapper: UiDateMapper, name: Int, iconId: String, date: Date, list: MutableList<HourWeatherModel>) {
+    private fun insertItem(timezone: String, isDay: Boolean, dateHourMapper: UiDateMapper, dateHourDayMapper: UiDateMapper, name: Int, iconId: String, date: Date, list: MutableList<HourWeatherModel>) {
         val position = list.indexOfFirst { weather ->
             weather.date.after(date)
         }
         if (position != -1) {
-            val isToday = DateBuilder(date).isSameDay(Date())
+            val isToday = DateBuilder(date, timezone).isSameDay(Date())
             val dateMapper = if (isToday) dateHourMapper else dateHourDayMapper
             val item = SimpleHourWeatherModel(isDay, dateMapper.map(date), iconId, StringResValueProperty(name), date)
             list.add(position, item)
         }
     }
 
-    private fun createDayMap(source: List<WeatherWithPlace>, timezone: String): HashMap<Int, MutableList<WeatherWithPlace>> {
+    private fun createDayMap(firstDay: Int, source: List<WeatherWithPlace>, timezone: String): HashMap<Int, MutableList<WeatherWithPlace>> {
         val dayToForecast: HashMap<Int, MutableList<WeatherWithPlace>> = HashMap()
         source.forEach { weather ->
-            //TODO include next night hours
             val dateBuilder = DateBuilder(weather.epochDateMills, timezone)
             val hour = dateBuilder.getHour24Format()
             val isNightOfPreviousDay = hour <= END_NIGHT_HOUR;
             val day = dateBuilder.getDay()
-            val shiftedDay = if (isNightOfPreviousDay) day - 1 else day
+            val finalDay = if (day != firstDay && isNightOfPreviousDay) day - 1 else day
 
-            if (dayToForecast.containsKey(shiftedDay)) {
-                dayToForecast[shiftedDay]!!.add(weather)
+            if (dayToForecast.containsKey(finalDay)) {
+                dayToForecast[finalDay]!!.add(weather)
             } else {
-                dayToForecast[shiftedDay] = mutableListOf(weather)
+                dayToForecast[finalDay] = mutableListOf(weather)
             }
         }
         return dayToForecast
