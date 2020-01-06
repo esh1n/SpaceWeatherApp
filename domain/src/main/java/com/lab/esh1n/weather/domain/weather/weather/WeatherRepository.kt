@@ -52,7 +52,7 @@ class WeatherRepository constructor(private val api: APIService, database: Weath
     private fun fetchWeatherAsync(id: Int): Single<WeatherResponse> {
         return appPrefs.getLangAndUnitsSingle()
                 .flatMap {
-                    api.getWeatherAsync(BuildConfig.APP_ID, id, it.first, it.second)
+                    api.getWeatherAsync(BuildConfig.APP_ID, id, it.first, it.second.name)
                 }
     }
 
@@ -60,7 +60,7 @@ class WeatherRepository constructor(private val api: APIService, database: Weath
         return appPrefs
                 .getLangAndUnitsSingle()
                 .flatMap {
-                    api.getForecastAsync(BuildConfig.APP_ID, id, it.first, it.second)
+                    api.getForecastAsync(BuildConfig.APP_ID, id, it.first, it.second.name)
                 }
     }
 

@@ -21,14 +21,14 @@
         android:background="@android:color/white">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/list_places"
+            android:id="@+id/recycler_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:listitem="@layout/item_place" />
 
         <TextView
-            android:id="@+id/tv_no_places"
+            android:id="@+id/tv_no_items"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"

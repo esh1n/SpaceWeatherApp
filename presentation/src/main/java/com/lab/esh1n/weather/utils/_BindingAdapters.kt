@@ -23,13 +23,6 @@ fun setPressure(tv: TextView, pressure: Int?) {
     }
 }
 
-@BindingAdapter("wind")
-fun setWind(tv: TextView, wind: Int?) {
-    wind?.let {
-        val temp = tv.context.getString(R.string.wind_metric, it)
-        tv.text = temp
-    }
-}
 
 @BindingAdapter("humidity")
 fun setHumidity(tv: TextView, humidity: Int?) {
@@ -64,7 +57,7 @@ fun setFloatAsString(tv: TextView, value: ValueProperty?) {
 @BindingAdapter("convertPathToIcon")
 fun getWeatherIconRes(tv: ImageView, iconId: String?) {
     iconId?.let {
-        val preparedIconId = tv.context.getImage(iconId, "ic_")
+        val preparedIconId = tv.context.getWeatherStatusImage(iconId)
         tv.setImageResource(preparedIconId)
     }
 }
@@ -92,8 +85,13 @@ fun setTemperatureRange(tv: TextView, tempMin: Int?, tempMax: Int?) {
     }
 }
 
-fun Context.getImage(iconId: String, prefix: String = ""): Int {
+fun Context.getWeatherStatusImage(iconId: String, prefix: String = "ic_"): Int {
     val res = "${prefix}status_$iconId"
+    return resources.getIdentifier(res, "drawable", packageName)
+}
+
+fun Context.getResourceImage(iconId: String, prefix: String = "ic_"): Int {
+    val res = "${prefix}$iconId"
     return resources.getIdentifier(res, "drawable", packageName)
 }
 

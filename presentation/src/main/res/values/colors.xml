@@ -18,6 +18,8 @@
     <color name="bg_white">#FEFEFE</color>
 
 
+    <color name="sub_item_title_text_gray">#D6D6D6</color>
+
     <string-array name="clear_sky">
         <item>#00c0f5</item>
         <item>#00d4fa</item>

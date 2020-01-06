@@ -1,6 +1,7 @@
 package com.lab.esh1n.weather.weather.mapper
 
 import com.esh1n.utils_android.DateBuilder
+import com.lab.esh1n.data.cache.AppPrefs
 import com.lab.esh1n.data.cache.entity.UpdatePlaceEntry
 import com.lab.esh1n.data.cache.entity.WeatherWithPlace
 import com.lab.esh1n.weather.R
@@ -13,7 +14,7 @@ import kotlin.math.abs
 import kotlin.math.roundToInt
 
 
-class WeatherModelMapper(private val uiLocalizer: UiLocalizer) {
+class WeatherModelMapper(private val uiLocalizer: UiLocalizer, private val prefs: AppPrefs) {
 
 
     fun map(source: Pair<UpdatePlaceEntry, List<WeatherWithPlace>>): List<WeatherModel> {
@@ -118,7 +119,8 @@ class WeatherModelMapper(private val uiLocalizer: UiLocalizer) {
         val nextDaySunset = DateBuilder(sunsetDate, timezone).plusDays(1).build()
         insertItem(timezone, isDay, dateHourMapper, dateHourAndDayMapper, R.string.text_sunset, "sunset", nextDaySunset, hourWeathers)
 
-        hourWeathers.add(0, HeaderHourWeatherModel(isDay, now.pressure, now.windDegree, now.humidity, now.epochDateMills))
+        val localixedWind = uiLocalizer.localizeWind(Wind(now.windSpeed.toDouble(), prefs.getUnits()))
+        hourWeathers.add(0, HeaderHourWeatherModel(isDay, now.pressure, localixedWind, now.humidity, now.epochDateMills))
         return hourWeathers
     }
 

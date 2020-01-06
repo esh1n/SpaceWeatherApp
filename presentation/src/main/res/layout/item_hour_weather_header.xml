@@ -32,7 +32,7 @@
                 android:layout_marginStart="@dimen/margin_smallest"
                 android:gravity="center_vertical"
                 app:txtColor="@{header.isDay}"
-                app:wind="@{header.wind}"
+                app:valueProperty="@{header.wind}"
                 tools:text="wind" />
         </LinearLayout>
 

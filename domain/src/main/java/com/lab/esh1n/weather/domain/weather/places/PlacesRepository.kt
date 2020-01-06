@@ -35,7 +35,7 @@ class PlacesRepository constructor(private val apiService: APIService, db: Weath
                 .flattenAsObservable { it }
                 .flatMapSingle { id ->
                     val unitsAndLang = appPrefs.getLangAndUnits()
-                    apiService.getForecastAsync(BuildConfig.APP_ID, id, unitsAndLang.first, unitsAndLang.second)
+                    apiService.getForecastAsync(BuildConfig.APP_ID, id, unitsAndLang.first, unitsAndLang.second.name)
                 }
                 .map { response ->
                     val id = response.city!!.id!!
@@ -79,7 +79,7 @@ class PlacesRepository constructor(private val apiService: APIService, db: Weath
 
     private fun getIdUnitAndLang(): Single<Triple<Int, String, String>> {
         return Single.zip(placeDAO.getCurrentCityId(), appPrefs.getLangAndUnitsSingle(), BiFunction { id, unitsAndLang ->
-            return@BiFunction Triple(id, unitsAndLang.first, unitsAndLang.second)
+            return@BiFunction Triple(id, unitsAndLang.first, unitsAndLang.second.name)
         })
     }
 

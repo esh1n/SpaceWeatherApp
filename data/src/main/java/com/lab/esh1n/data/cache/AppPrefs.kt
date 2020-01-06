@@ -15,21 +15,22 @@ class AppPrefs(sharedPreferences: SharedPreferences) : RxPrefs(sharedPreferences
         return Locale.forLanguageTag(getString(KEY_LOCALE, DEFAULT_LOCALE))
     }
 
-    fun getUnits(): String {
-        return getString(KEY_UNITS, Units.metric.name)
+    fun getUnits(): Units {
+        return Units.valueOf(getString(KEY_UNITS, Units.metric.name))
     }
 
-    fun getLangAndUnits(): Pair<String, String> {
+    fun getLangAndUnits(): Pair<String, Units> {
         return Pair(getCurrentLocale().language, getUnits())
     }
 
-    fun getLangAndUnitsSingle(): Single<Pair<String, String>> {
+    fun getLangAndUnitsSingle(): Single<Pair<String, Units>> {
         return Single.fromCallable {
             Pair(getCurrentLocale().language, getUnits())
         }
     }
 
     enum class Units {
+        //TODO make special method for server values
         metric, imperial
     }
 }

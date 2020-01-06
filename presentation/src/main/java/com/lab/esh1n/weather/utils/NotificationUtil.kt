@@ -36,7 +36,7 @@ class NotificationUtil {
                     }
 
 
-            val drawableResourceId = context.getImage(weatherNotification.iconId, "ic_")
+            val drawableResourceId = context.getWeatherStatusImage(weatherNotification.iconId)
             return NotificationCompat.Builder(context, prepareChannelId(context))
                     .setContentTitle(weatherNotification.title)
                     .setStyle(NotificationCompat.BigTextStyle().bigText(weatherNotification.text))
