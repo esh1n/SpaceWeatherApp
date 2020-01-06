@@ -19,6 +19,7 @@
 
     <string name="text_temperature_celsius">%d\u2103</string>
     <string name="text_temperature_celsius_str_value" translatable="false">%s\u2103</string>
+    <string name="text_temperature_fahrenheit_str_value" translatable="false">%s\u2109</string>
     <string name="text_temperature_range_celsius">from %d u2103 to %d \u2103</string>
     <string name="text_temperature_no_range_celsius">It\'s all day around %d \u2103</string>
     <string name="text_temperature_range">Temperature range</string>
@@ -41,11 +42,24 @@
     <string name="text_settings_language">Language</string>
 
 
-    <string name="wind_metric">%d m/s</string>
+    <string name="wind_metric">%s meter/sec</string>
+    <string name="wind_imperial">%s miles/hour</string>
     <string name="pressure_pa">%d hPA</string>
     <string name="humidity_percents" translatable="false">%1$d \%%</string>
     <string name="text_sunset">sunset</string>
     <string name="text_sunrise">sunrise</string>
+
+
+    <string name="title_forecast_section_humidity">Humidity</string>
+    <string name="title_forecast_section_sunset">Sunset</string>
+    <string name="title_forecast_section_pressure">Pressure</string>
+    <string name="title_forecast_section_wind">Wind</string>
+    <string name="title_forecast_section_stub">n/a</string>
+
+    <string name="title_morning">Morning</string>
+    <string name="title_day">Day</string>
+    <string name="title_evening">Evening</string>
+    <string name="title_night">Night</string>
 
 
     <string-array

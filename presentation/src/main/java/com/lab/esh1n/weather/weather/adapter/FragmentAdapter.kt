@@ -5,8 +5,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView.NO_ID
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.lab.esh1n.weather.weather.fragment.ARG_TITLE
 import com.lab.esh1n.weather.weather.fragment.DayForecastFragment
+import com.lab.esh1n.weather.weather.fragment.DayForecastFragment.Companion.ARG_PLACE_DAY_FORECAST
 import com.lab.esh1n.weather.weather.model.ForecastDayModel
 
 
@@ -28,7 +28,7 @@ class FragmentAdapter(activity: FragmentActivity) : FragmentStateAdapter(activit
         return DayForecastFragment::class.java.newInstance()
                 .apply {
                     arguments = Bundle().apply {
-                        putString(ARG_TITLE, items[position].dayDescription)
+                        putParcelable(ARG_PLACE_DAY_FORECAST, items[position])
                     }
                 }
     }

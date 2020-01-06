@@ -7,6 +7,7 @@ import com.esh1n.core_android.rx.applyAndroidSchedulers
 import com.esh1n.core_android.ui.viewmodel.BaseAndroidViewModel
 import com.esh1n.core_android.ui.viewmodel.Resource
 import com.esh1n.core_android.ui.viewmodel.SingleLiveEvent
+import com.lab.esh1n.data.cache.AppPrefs
 import com.lab.esh1n.data.cache.entity.UpdatePlaceEntry
 import com.lab.esh1n.data.cache.entity.WeatherWithPlace
 import com.lab.esh1n.weather.domain.weather.weather.usecases.FetchAndSaveCurrentPlaceWeatherUseCase
@@ -27,13 +28,14 @@ class CurrentWeatherVM
 constructor(private val loadCurrentWeatherUseCase: LoadCurrentWeatherUseCase,
             private val loadCurrentWeatherSingleUseCase: LoadCurrentWeatherSingleUseCase,
             private val fetchAndSaveWeatherUseCase: FetchAndSaveCurrentPlaceWeatherUseCase,
+            appPrefs: AppPrefs,
             private val uiLocalizer: UiLocalizer, application: Application)
     : BaseAndroidViewModel(application) {
 
     val refreshOperation = SingleLiveEvent<Resource<Unit>>()
     val initAdEvent = SingleLiveEvent<Resource<Boolean>>()
     private val weatherLiveData = MutableLiveData<Resource<Pair<Int, List<WeatherModel>>>>()
-    private val cityWeatherModelMapper = WeatherModelMapper(uiLocalizer)
+    private val cityWeatherModelMapper = WeatherModelMapper(uiLocalizer, appPrefs)
 
     private val placeIdData = MutableLiveData(0)
 

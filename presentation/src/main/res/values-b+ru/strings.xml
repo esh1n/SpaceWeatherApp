@@ -44,8 +44,20 @@
     <string name="text_sunrise">Восход</string>
 
 
-    <string name="wind_metric">%d м/с</string>
+    <string name="wind_metric">%s метр/сек</string>
+    <string name="wind_imperial">%s миль/час</string>
     <string name="pressure_pa" translatable="false">%d гПа</string>
+
+    <string name="title_forecast_section_humidity">Влажность</string>
+    <string name="title_forecast_section_sunset">Закат</string>
+    <string name="title_forecast_section_pressure">Давление</string>
+    <string name="title_forecast_section_wind">Ветер</string>
+    <string name="title_forecast_section_stub">n/a</string>
+
+    <string name="title_morning">Утро</string>
+    <string name="title_day">День</string>
+    <string name="title_evening">Вечер</string>
+    <string name="title_night">Ночь</string>
 
 
     <string-array name="choose_place_actions">

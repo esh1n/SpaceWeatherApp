@@ -1,5 +1,6 @@
 package com.lab.esh1n.weather.weather.model
 
+import com.lab.esh1n.data.cache.AppPrefs
 import java.text.DecimalFormat
 
 class Temperature(val value: Double, val units: TemperatureUnit = TemperatureUnit.C) {
@@ -20,3 +21,5 @@ class Temperature(val value: Double, val units: TemperatureUnit = TemperatureUni
 enum class TemperatureUnit {
     F, C
 }
+
+class Wind(val value: Double, val units: AppPrefs.Units = AppPrefs.Units.metric)

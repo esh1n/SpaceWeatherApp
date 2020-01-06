@@ -25,7 +25,7 @@ class AllPlacesFragment : BaseVMFragment<AllPlacesVM>() {
 
     override val viewModelClass = AllPlacesVM::class.java
 
-    override val layoutResource = R.layout.fragment_all_places
+    override val layoutResource = R.layout.fragment_recyclerview_with_progress
 
     private lateinit var adapter: PlacesAdapter
 
@@ -36,9 +36,9 @@ class AllPlacesFragment : BaseVMFragment<AllPlacesVM>() {
     override fun setupView(rootView: View, savedInstanceState: Bundle?) {
         super.setupView(rootView, savedInstanceState)
         adapter = PlacesAdapter(iPlaceClickable)
-        placeRecyclerView = rootView.findViewById(R.id.list_places)
+        placeRecyclerView = rootView.findViewById(R.id.recycler_view)
         loadingIndicator = rootView.findViewById(R.id.loading_indicator)
-        emptyView = rootView.findViewById(R.id.tv_no_places)
+        emptyView = rootView.findViewById(R.id.tv_no_items)
         placeRecyclerView?.let {
             it.layoutManager = LinearLayoutManager(requireActivity())
             it.addItemDecoration(

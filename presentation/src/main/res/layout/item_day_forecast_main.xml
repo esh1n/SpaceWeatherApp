@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_date"
+        style="@style/ForecastSubItemTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="Morning" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/iv_weather_status"
+        android:layout_width="@dimen/day_forecast_description_image_size"
+        android:layout_height="@dimen/day_forecast_description_image_size"
+        android:layout_gravity="center"
+        android:layout_marginTop="@dimen/margin_small"
+        android:scaleType="centerInside"
+        tools:src="@drawable/ic_status_01d" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_temperature"
+        style="@style/ForecastHighlightTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="@dimen/margin_small"
+        tools:text="2C" />
+
+
+</LinearLayout>
+
