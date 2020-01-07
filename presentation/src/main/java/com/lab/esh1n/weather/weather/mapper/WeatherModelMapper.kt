@@ -51,7 +51,7 @@ class WeatherModelMapper(private val uiLocalizer: UiLocalizer, private val prefs
         }
     }
 
-    private fun mapOtherDay(dayToForecast: HashMap<Int, MutableList<WeatherWithPlace>>, timezone: String, dateMapper: UiDateMapper): Collection<DayWeatherModel> {
+    private fun mapOtherDay(dayToForecast: HashMap<Int, MutableList<WeatherWithPlace>>, timezone: String, dateMapper: UiDateListMapper): Collection<DayWeatherModel> {
         return dayToForecast.mapValues { (_, values) ->
             val first = values[0]
             val dayWeathersToAnalyse = values
@@ -116,7 +116,7 @@ class WeatherModelMapper(private val uiLocalizer: UiLocalizer, private val prefs
         //TODO get rid of isDay, move it to adapter
         //TODO make temperature default from dao
 
-        val hourWeathers = HourWeatherEventMapper(isDay, dateHourMapper, dateHourAndDayMapper
+        val hourWeathers = HourWeatherEventListMapper(isDay, dateHourMapper, dateHourAndDayMapper
         ) { valueFromDb ->
             uiLocalizer.localizeTemperature(Temperature(valueFromDb))
         }.map(twoDayWeathers).toMutableList()
@@ -137,7 +137,7 @@ class WeatherModelMapper(private val uiLocalizer: UiLocalizer, private val prefs
     }
 
 
-    private fun insertItem(timezone: String, isDay: Boolean, dateHourMapper: UiDateMapper, dateHourDayMapper: UiDateMapper, name: Int, iconId: String, date: Date, list: MutableList<HourWeatherModel>) {
+    private fun insertItem(timezone: String, isDay: Boolean, dateHourMapper: UiDateListMapper, dateHourDayMapper: UiDateListMapper, name: Int, iconId: String, date: Date, list: MutableList<HourWeatherModel>) {
         val position = list.indexOfFirst { weather ->
             weather.date.after(date)
         }

@@ -54,7 +54,7 @@ class WeatherApp : Application(), HasActivityInjector,HasServiceInjector {
 
 
     fun getLocaleBlocking(): Locale {
-        return appPrefs.getCurrentLocale()
+        return appPrefs.getLocale()
     }
 
     companion object {

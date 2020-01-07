@@ -57,6 +57,11 @@ abstract class ViewModelModule {
     @ViewModelKey(ForecastWeekVM::class)
     abstract fun provideForecastVM(weatherVM: ForecastWeekVM): ViewModel
 
+    @Binds
+    @IntoMap
+    @ViewModelKey(DayForecastVM::class)
+    abstract fun provideDayForecastVM(weatherVM: DayForecastVM): ViewModel
+
     @Singleton
     @Binds
     abstract fun provideViewModelFactory(factory: ViewModelFactory): ViewModelProvider.Factory

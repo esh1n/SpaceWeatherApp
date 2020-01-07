@@ -17,12 +17,16 @@ import java.util.*
 @Dao
 @TypeConverters(DateConverter::class)
 abstract class WeatherDAO {
+    //TODO pass UTC date weathers
 
     @Query("SELECT * FROM weather INNER JOIN  place ON place.id = placeId WHERE isCurrent = 1 AND epochDateMills>=:almostNow AND epochDateMills<:plus5days  ORDER BY abs(:almostNow - epochDateMills) ASC")
     abstract fun getDetailedCurrentWeather(almostNow: Date, plus5days: Date): Flowable<List<WeatherWithPlace>>
 
     @Query("SELECT * FROM weather INNER JOIN  place ON place.id = placeId WHERE placeId =:placeId AND epochDateMills>=:almostNow ORDER BY abs(:almostNow - epochDateMills) ASC")
     abstract fun getAllWeathersForCity(placeId:Int,almostNow: Date): Single<List<WeatherWithPlace>>
+
+    @Query("SELECT * FROM weather INNER JOIN  place ON place.id = placeId WHERE placeId =:placeId AND epochDateMills>=:dayStart AND epochDateMills<=:dayEnd ORDER BY abs(:dayStart - epochDateMills) ASC")
+    abstract fun getDayWeathersForCity(placeId: Int, dayStart: Date, dayEnd: Date): Single<List<WeatherWithPlace>>
 
     @Query("SELECT DISTINCT * FROM weather INNER JOIN  place ON place.id = placeId WHERE isCurrent = 1 ORDER BY abs(:now - epochDateMills) ASC")
     abstract fun getCurrentWeather(now: Date): Flowable<WeatherWithPlace>
@@ -51,13 +55,12 @@ abstract class WeatherDAO {
 
     open fun saveCurrentAndDeleteOldWeather(weather: WeatherEntry) {
         saveWeather(weather)
-        val dateInMills = weather.date.time
-        deletePreviousEntries(dateInMills, weather.placeId)
+        deletePreviousEntries(weather.date, weather.placeId)
 
     }
 
     @Query("DELETE FROM weather WHERE placeId=:cityId AND epochDateMills<:newCurrentDate ")
-    abstract fun deletePreviousEntries(newCurrentDate: Long, cityId: Int)
+    abstract fun deletePreviousEntries(newCurrentDate: Date, cityId: Int)
 
 
     @Query("SELECT EXISTS(SELECT 1 FROM weather WHERE placeId=:id AND epochDateMills>:fourDaysAfterNow)")

@@ -5,5 +5,5 @@ import kotlinx.android.parcel.Parcelize
 import java.util.*
 
 @Parcelize
-class ForecastDayModel(val dayDescription: String, val dayDate: Date) : Parcelable {
+class ForecastDayModel(val dayDescription: String, val dayDate: Date, val placeId: Int, val timezone: String) : Parcelable {
 }

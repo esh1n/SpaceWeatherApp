@@ -14,6 +14,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import com.esh1n.utils_android.DateBuilder;
 import com.esh1n.utils_android.R;
 import com.esh1n.utils_android.ui.SnackbarBuilder;
@@ -23,9 +26,6 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 
 
 public class CalendarInputDateFilterView extends BaseFromToDateFilterView {
@@ -211,7 +211,7 @@ public class CalendarInputDateFilterView extends BaseFromToDateFilterView {
                 .withMonth(month)
                 .withDayInMonth(dayOfMonth);
         if (isFromDate) {
-            dateBuilder.withMorning();
+            dateBuilder.resetToDayStart();
         } else {
             dateBuilder.withMidnight();
         }

@@ -6,16 +6,17 @@ import com.lab.esh1n.weather.domain.weather.places.PlacesRepository
 import com.lab.esh1n.weather.domain.weather.places.usecase.*
 import com.lab.esh1n.weather.domain.weather.settings.LoadSettingsUseCase
 import com.lab.esh1n.weather.domain.weather.weather.WeatherRepository
-import com.lab.esh1n.weather.domain.weather.weather.usecases.FetchAndSaveCurrentPlaceWeatherUseCase
-import com.lab.esh1n.weather.domain.weather.weather.usecases.LoadCurrentWeatherSingleUseCase
-import com.lab.esh1n.weather.domain.weather.weather.usecases.LoadCurrentWeatherUseCase
-import com.lab.esh1n.weather.domain.weather.weather.usecases.LoadPlaceAvailableForecastDaysUseCase
+import com.lab.esh1n.weather.domain.weather.weather.usecases.*
 import dagger.Module
 import dagger.Provides
 
 @Module
 class WeatherUseCasesModule {
 
+    @Provides
+    fun provideLoadDayWeatherUseCase(weatherRepository: WeatherRepository, errorsHandler: ErrorsHandler): LoadDayWeatherUseCase {
+        return LoadDayWeatherUseCase(weatherRepository, errorsHandler)
+    }
 
     @Provides
     fun provideFetchAndSaveCurrentPlaceWeatherUseCase(weatherRepository: WeatherRepository, errorsHandler: ErrorsHandler): FetchAndSaveCurrentPlaceWeatherUseCase {

@@ -27,7 +27,7 @@ class WeatherWithPlace(
 
         var description: String,
 
-        var windSpeed: Float,
+        var windSpeed: Double,
 
         var windDegree: Int,
 

@@ -7,9 +7,9 @@ import com.lab.esh1n.data.cache.WeatherDB
 import com.lab.esh1n.data.cache.entity.PlaceEntry
 import com.lab.esh1n.data.cache.entity.PlaceWithCurrentWeatherEntry
 import com.lab.esh1n.weather.domain.BuildConfig
-import com.lab.esh1n.weather.domain.weather.weather.mapper.EpochDateMapper
-import com.lab.esh1n.weather.domain.weather.weather.mapper.ForecastWeatherMapper
-import com.lab.esh1n.weather.domain.weather.weather.mapper.PlaceMapper
+import com.lab.esh1n.weather.domain.weather.weather.mapper.EpochDateListMapper
+import com.lab.esh1n.weather.domain.weather.weather.mapper.ForecastWeatherListMapper
+import com.lab.esh1n.weather.domain.weather.weather.mapper.PlaceListMapper
 import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.Single
@@ -35,12 +35,12 @@ class PlacesRepository constructor(private val apiService: APIService, db: Weath
                 .flattenAsObservable { it }
                 .flatMapSingle { id ->
                     val unitsAndLang = appPrefs.getLangAndUnits()
-                    apiService.getForecastAsync(BuildConfig.APP_ID, id, unitsAndLang.first, unitsAndLang.second.name)
+                    apiService.getForecastAsync(BuildConfig.APP_ID, id, unitsAndLang.first, unitsAndLang.second)
                 }
                 .map { response ->
                     val id = response.city!!.id!!
-                    val updatePlaceModel = PlaceMapper().map(response.city!!)
-                    val weathers = ForecastWeatherMapper(id).map(response.list)
+                    val updatePlaceModel = PlaceListMapper().map(response.city!!)
+                    val weathers = ForecastWeatherListMapper(id).map(response.list)
                     return@map Pair(updatePlaceModel, weathers)
                 }
                 .flatMapCompletable { placeAndWeathers ->
@@ -64,9 +64,9 @@ class PlacesRepository constructor(private val apiService: APIService, db: Weath
                         }
                         .map { response ->
                             val id = response.city!!.id!!
-                            val dateConverter = EpochDateMapper()
-                            val updatePlaceModel = PlaceMapper().map(response.city!!)
-                            val weathers = ForecastWeatherMapper(id).map(response.list)
+                            val dateConverter = EpochDateListMapper()
+                            val updatePlaceModel = PlaceListMapper().map(response.city!!)
+                            val weathers = ForecastWeatherListMapper(id).map(response.list)
                             return@map Pair(updatePlaceModel, weathers)
                         }
                         .flatMapCompletable { placeAndWeathers ->
@@ -79,7 +79,7 @@ class PlacesRepository constructor(private val apiService: APIService, db: Weath
 
     private fun getIdUnitAndLang(): Single<Triple<Int, String, String>> {
         return Single.zip(placeDAO.getCurrentCityId(), appPrefs.getLangAndUnitsSingle(), BiFunction { id, unitsAndLang ->
-            return@BiFunction Triple(id, unitsAndLang.first, unitsAndLang.second.name)
+            return@BiFunction Triple(id, unitsAndLang.first, unitsAndLang.second)
         })
     }
 

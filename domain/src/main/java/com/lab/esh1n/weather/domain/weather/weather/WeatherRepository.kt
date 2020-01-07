@@ -13,9 +13,9 @@ import com.lab.esh1n.data.cache.entity.UpdatePlaceEntry
 import com.lab.esh1n.data.cache.entity.WeatherEntry
 import com.lab.esh1n.data.cache.entity.WeatherWithPlace
 import com.lab.esh1n.weather.domain.BuildConfig
-import com.lab.esh1n.weather.domain.weather.weather.mapper.ForecastWeatherMapper
-import com.lab.esh1n.weather.domain.weather.weather.mapper.PlaceMapper
-import com.lab.esh1n.weather.domain.weather.weather.mapper.WeatherResponseMapper
+import com.lab.esh1n.weather.domain.weather.weather.mapper.ForecastWeatherListMapper
+import com.lab.esh1n.weather.domain.weather.weather.mapper.PlaceListMapper
+import com.lab.esh1n.weather.domain.weather.weather.mapper.WeatherResponseListMapper
 import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.Single
@@ -30,13 +30,13 @@ class WeatherRepository constructor(private val api: APIService, database: Weath
 
     private fun fetchAndSaveWeather(id: Int): Completable {
         return fetchWeatherAsync(id)
-                .map { WeatherResponseMapper(id).map(it) }
+                .map { WeatherResponseListMapper(id).map(it) }
                 .flatMapCompletable { weatherEntry -> weatherDAO.saveWeatherCompletable(weatherEntry) }
     }
 
     fun fetchAndSaveForecast(id: Int): Completable {
         return fetchWeatherAsync(id)
-                .map { WeatherResponseMapper(id).map(it) }
+                .map { WeatherResponseListMapper(id).map(it) }
                 .zipWith(fetchForecastIfNeeded(id),
                         BiFunction<WeatherEntry, Pair<UpdatePlaceEntry, List<WeatherEntry>>, Pair<UpdatePlaceEntry, List<WeatherEntry>>> { currentWeatherEntry, sunsetAndForecastWeathers ->
                             val allWeathers = mutableListOf(currentWeatherEntry)
@@ -52,7 +52,7 @@ class WeatherRepository constructor(private val api: APIService, database: Weath
     private fun fetchWeatherAsync(id: Int): Single<WeatherResponse> {
         return appPrefs.getLangAndUnitsSingle()
                 .flatMap {
-                    api.getWeatherAsync(BuildConfig.APP_ID, id, it.first, it.second.name)
+                    api.getWeatherAsync(BuildConfig.APP_ID, id, it.first, it.second)
                 }
     }
 
@@ -60,7 +60,7 @@ class WeatherRepository constructor(private val api: APIService, database: Weath
         return appPrefs
                 .getLangAndUnitsSingle()
                 .flatMap {
-                    api.getForecastAsync(BuildConfig.APP_ID, id, it.first, it.second.name)
+                    api.getForecastAsync(BuildConfig.APP_ID, id, it.first, it.second)
                 }
     }
 
@@ -76,8 +76,8 @@ class WeatherRepository constructor(private val api: APIService, database: Weath
                         fetchForecastAsync(id)
                                 .map { forecast ->
 
-                                    val updatePlaceModel = PlaceMapper().map(forecast.city!!)
-                                    val weathers = ForecastWeatherMapper(id).map(forecast.list)
+                                    val updatePlaceModel = PlaceListMapper().map(forecast.city!!)
+                                    val weathers = ForecastWeatherListMapper(id).map(forecast.list)
                                     return@map Pair(updatePlaceModel, weathers)
                                 }
                     }
@@ -95,7 +95,7 @@ class WeatherRepository constructor(private val api: APIService, database: Weath
     }
 
     fun getCurrentWeatherSingle(): Single<WeatherWithPlace> {
-        val now = Date()
+        val now = DateBuilder(Date()).build()
         return weatherDAO.getCurrentWeather(now).firstOrError()
     }
 
@@ -135,11 +135,11 @@ class WeatherRepository constructor(private val api: APIService, database: Weath
     private fun mapResponsesToWeatherEntities(responses: Array<Any>): Pair<List<UpdatePlaceEntry>, List<WeatherEntry>> {
         val weathers = responses.map {
             val idWithReponse = it as Pair<Int, WeatherResponse>
-            WeatherResponseMapper(idWithReponse.first).map(idWithReponse.second)
+            WeatherResponseListMapper(idWithReponse.first).map(idWithReponse.second)
         }
         val sunsets = responses.map {
             val idWithReponse = it as Pair<Int, WeatherResponse>
-            PlaceMapper().map(CityResponse(id = idWithReponse.first,
+            PlaceListMapper().map(CityResponse(id = idWithReponse.first,
                     sunrise = idWithReponse.second.sys?.sunrise ?: 0L,
                     sunset = idWithReponse.second.sys?.sunset ?: 0L))
         }.distinctBy { it.id }
@@ -152,14 +152,23 @@ class WeatherRepository constructor(private val api: APIService, database: Weath
         { placeId, forecast -> Pair(placeId, forecast) })
     }
 
-    fun getAvailableDaysForPlace(placeId: Int): Single<Pair<String, List<Date>>> {
-        val almostNow = Date()
+    fun getAvailableDaysForPlace(placeId: Int): Single<Triple<Int, String, List<Date>>> {
+        val almostNow = DateBuilder(Date()).build()
         return weatherDAO
-                .getAllWeathersForCity(placeId,almostNow)
-                .map { weathers->
+                .getAllWeathersForCity(placeId, almostNow)
+                .map { weathers ->
                     val timeZone = if (weathers.isNullOrEmpty()) "Europe/Moscow" else weathers[0].timezone
-                    val dates = weathers.distinctBy { DateBuilder(it.epochDateMills).getDay() }.map { it.epochDateMills }
-                    return@map Pair(timeZone, dates)
+                    val dates = weathers.distinctBy {
+                        val day = DateBuilder(it.epochDateMills, timeZone).getDayOfYear()
+                        day
+                    }.map { it.epochDateMills }
+                    return@map Triple(placeId, timeZone, dates)
                 }
+    }
+
+    fun getWeathersForPlaceAtDay(placeId: Int, date: Date, timeZone: String): Single<List<WeatherWithPlace>> {
+        val dayStart = DateBuilder(date, timeZone).resetToDayStart().build()
+        val dayEnd = DateBuilder(date, timeZone).resetToDayEnd().build()
+        return weatherDAO.getDayWeathersForCity(placeId, dayStart, dayEnd)
     }
 }

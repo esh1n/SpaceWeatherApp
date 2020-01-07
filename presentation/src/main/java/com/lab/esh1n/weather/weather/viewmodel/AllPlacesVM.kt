@@ -13,7 +13,7 @@ import com.lab.esh1n.weather.domain.weather.places.usecase.GetAllPlacesUse
 import com.lab.esh1n.weather.domain.weather.places.usecase.UpdateCurrentPlaceUseCase
 import com.lab.esh1n.weather.domain.weather.weather.usecases.LoadCurrentWeatherSingleUseCase
 import com.lab.esh1n.weather.utils.NotificationUtil
-import com.lab.esh1n.weather.weather.mapper.PlaceWeatherMapper
+import com.lab.esh1n.weather.weather.mapper.PlaceWeatherListMapper
 import com.lab.esh1n.weather.weather.mapper.UiLocalizer
 import com.lab.esh1n.weather.weather.model.PlaceModel
 import javax.inject.Inject
@@ -28,7 +28,7 @@ class AllPlacesVM @Inject constructor(private val loadPlacesUseCase: GetAllPlace
 
     val allCities = MutableLiveData<Resource<List<PlaceModel>>>()
 
-    private val placeWeatherMapper = PlaceWeatherMapper(uiLocalizer)
+    private val placeWeatherMapper = PlaceWeatherListMapper(uiLocalizer)
 
     fun saveCurrentPlace(id: Int) {
         updateCurrentPlaceOperation.postValue(Resource.loading())

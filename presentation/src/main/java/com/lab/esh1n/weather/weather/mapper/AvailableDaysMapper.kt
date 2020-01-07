@@ -5,9 +5,12 @@ import java.util.*
 
 class AvailableDaysMapper(private val uiLocalizer: UiLocalizer) {
 
-    fun map(source: Pair<String, List<Date>>): List<ForecastDayModel> {
-        val dateMapper: UiDateMapper = uiLocalizer.provideDateMapper(source.first, DateFormat.DAY_OF_WEEK_SHORT)
-        return source.second.map { it -> ForecastDayModel(dayDescription = dateMapper.map(it), dayDate = it) }
+    fun map(source: Triple<Int, String, List<Date>>): List<ForecastDayModel> {
+        val placeId = source.first
+        val timezone = source.second
+        val dates = source.third
+        val dateMapper: UiDateListMapper = uiLocalizer.provideDateMapper(timezone, DateFormat.DAY_OF_WEEK_SHORT)
+        return dates.map { ForecastDayModel(dayDescription = dateMapper.map(it), dayDate = it, placeId = placeId, timezone = timezone) }
     }
 
 }

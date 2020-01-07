@@ -1,10 +1,10 @@
 package com.lab.esh1n.weather.weather.mapper
 
-import com.esh1n.core_android.map.TwoWayMapper
+import com.esh1n.core_android.map.TwoWayListMapper
 import java.text.SimpleDateFormat
 import java.util.*
 
-class UiDateMapper(private val format: SimpleDateFormat) : TwoWayMapper<Date, String>() {
+class UiDateListMapper(private val format: SimpleDateFormat) : TwoWayListMapper<Date, String>() {
 
     override fun map(source: Date): String {
         return format.format(source)

@@ -27,7 +27,7 @@ class CacheModule {
     @Provides
     @Singleton
     fun provideUiLocalizer(prefs: AppPrefs): UiLocalizer {
-        return UILocalizerImpl(prefs::getCurrentLocale)
+        return UILocalizerImpl(prefs)
     }
 
 

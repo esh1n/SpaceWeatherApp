@@ -31,4 +31,7 @@ interface FragmentsModule {
     @ContributesAndroidInjector()
     fun buildSplashFragment(): SplashFragment
 
+    @ContributesAndroidInjector()
+    fun buildDayForecastFragment(): DayForecastFragment
+
 }

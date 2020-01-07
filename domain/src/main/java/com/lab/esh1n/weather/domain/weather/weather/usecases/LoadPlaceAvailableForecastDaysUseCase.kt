@@ -8,10 +8,12 @@ import io.reactivex.Single
 import java.util.*
 
 class LoadPlaceAvailableForecastDaysUseCase(private val weatherRepository: WeatherRepository,
-                                            errorsHandler: ErrorsHandler) : UseCase<Single<Resource<Pair<String, List<Date>>>>, Int>(errorsHandler) {
-    override fun perform(args: Int): Single<Resource<Pair<String, List<Date>>>> {
+                                            errorsHandler: ErrorsHandler) : UseCase<Single<Resource<Triple<Int, String, List<Date>>>>, Int>(errorsHandler) {
+    override fun perform(args: Int): Single<Resource<Triple<Int, String, List<Date>>>> {
         return weatherRepository.getAvailableDaysForPlace(args)
-                .map { days -> Resource.success(days) }
+                .map { days ->
+                    Resource.success(days)
+                }
                 .onErrorReturn { error ->
                     Resource.error(errorsHandler.handle(error))
                 }

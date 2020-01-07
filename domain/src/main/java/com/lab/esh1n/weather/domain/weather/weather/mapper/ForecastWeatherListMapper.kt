@@ -1,14 +1,14 @@
 package com.lab.esh1n.weather.domain.weather.weather.mapper
 
-import com.esh1n.core_android.map.Mapper
-import com.lab.esh1n.data.api.response.WeatherResponse
+import com.esh1n.core_android.map.ListMapper
+import com.lab.esh1n.data.api.response.ForecastItemResponse
 import com.lab.esh1n.data.cache.entity.WeatherEntry
+import java.util.*
 
-class WeatherResponseMapper(private val placeId: Int) : Mapper<WeatherResponse, WeatherEntry>() {
+class ForecastWeatherListMapper(val placeId: Int) : ListMapper<ForecastItemResponse, WeatherEntry>() {
 
-    private val dateConverter = EpochDateMapper()
-
-    override fun map(source: WeatherResponse): WeatherEntry {
+    private val dateConverter = EpochDateListMapper()
+    override fun map(source: ForecastItemResponse): WeatherEntry {
         return WeatherEntry(
                 placeId = placeId,
                 temperature = source.main?.temp ?: 0.0,
@@ -20,13 +20,12 @@ class WeatherResponseMapper(private val placeId: Int) : Mapper<WeatherResponse, 
                 windDegree = source.wind?.deg ?: 0.0,
                 pressure = source.main?.pressure ?: 0F,
                 humidity = source.main?.humidity ?: 0F,
-                date = dateConverter.map(source.dt),
-                dateTxt = "Current",
-                snow = source.snow?.snow3h ?: source.snow?.snow1h ?: 0f,
-                rain = source.rain?.rain3h ?: source.rain?.rain1h ?: 0f,
+                date = dateConverter.map(source.dt ?: Date().time),
+                dateTxt = source.dtTxt ?: "",
+                snow = source.snow?.snow3h ?: 0f,
+                rain = source.rain?.rain3h ?: 0f,
                 cloudiness = source.clouds?.all ?: 0,
-                dateSeconds = source.dt
+                dateSeconds = source.dt ?: 0
         )
     }
-
 }

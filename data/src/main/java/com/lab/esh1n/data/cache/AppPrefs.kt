@@ -4,33 +4,38 @@ import android.content.SharedPreferences
 import io.reactivex.Single
 import java.util.*
 
-class AppPrefs(sharedPreferences: SharedPreferences) : RxPrefs(sharedPreferences) {
-    companion object {
-        const val KEY_LOCALE = "Locale"
-        const val KEY_UNITS = "Units"
-        const val DEFAULT_LOCALE = "ru-RU"
-    }
+class AppPrefs(sharedPreferences: SharedPreferences) : RxPrefs(sharedPreferences), IPrefsProvider {
 
-    fun getCurrentLocale(): Locale {
+
+    //TODO save current timezone and use it in calls to DB
+    override fun getLocale(): Locale {
         return Locale.forLanguageTag(getString(KEY_LOCALE, DEFAULT_LOCALE))
     }
 
-    fun getUnits(): Units {
-        return Units.valueOf(getString(KEY_UNITS, Units.metric.name))
+    override fun getTemperatureUnits(): TemperatureUnit {
+        return TemperatureUnit.valueOf(getString(KEY_TEMPERATURE_UNITS, DEFAULT_TEMPERATURE_UNITS))
     }
 
-    fun getLangAndUnits(): Pair<String, Units> {
-        return Pair(getCurrentLocale().language, getUnits())
+    override fun getUnits(): Units {
+        return Units.valueOf(getString(KEY_UNITS, DEFAULT_UNITS))
     }
 
-    fun getLangAndUnitsSingle(): Single<Pair<String, Units>> {
+    fun getLangAndUnits(): Pair<String, String> {
+        return Pair(getLocale().language, getUnits().serverValue)
+    }
+
+    fun getLangAndUnitsSingle(): Single<Pair<String, String>> {
         return Single.fromCallable {
-            Pair(getCurrentLocale().language, getUnits())
+            Pair(getLocale().language, getUnits().serverValue)
         }
     }
 
-    enum class Units {
-        //TODO make special method for server values
-        metric, imperial
+    companion object {
+        const val KEY_LOCALE = "Locale"
+        const val KEY_UNITS = "Units"
+        const val KEY_TEMPERATURE_UNITS = "TemperatureUnits"
+        const val DEFAULT_LOCALE = "ru-RU"
+        val DEFAULT_UNITS = Units.METRIC.name
+        val DEFAULT_TEMPERATURE_UNITS = TemperatureUnit.C.name
     }
 }

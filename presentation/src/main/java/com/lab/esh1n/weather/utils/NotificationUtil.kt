@@ -19,7 +19,7 @@ import com.lab.esh1n.data.cache.entity.WeatherWithPlace
 import com.lab.esh1n.weather.R
 import com.lab.esh1n.weather.weather.WeatherActivity
 import com.lab.esh1n.weather.weather.mapper.DateFormat
-import com.lab.esh1n.weather.weather.mapper.UiDateMapper
+import com.lab.esh1n.weather.weather.mapper.UiDateListMapper
 import com.lab.esh1n.weather.weather.mapper.UiLocalizer
 import com.lab.esh1n.weather.weather.model.Temperature
 
@@ -69,15 +69,16 @@ class NotificationUtil {
             return channelId
         }
 
-        private fun mapResultToWeatherNotification(result: Resource<WeatherWithPlace>, ctx: Context, dateMapper: UiDateMapper): WeatherNotification {
+        private fun mapResultToWeatherNotification(result: Resource<WeatherWithPlace>, ctx: Context, dateMapper: UiDateListMapper, temperatureMapper: (Temperature) -> OneValueProperty): WeatherNotification {
 
             when (result.status) {
                 Resource.Status.SUCCESS -> {
                     val weather = result.data!!
                     val title = ctx.getString(R.string.text_weather_notification_title, weather.description)
                     val middleTemperature = Temperature.middleTemperature(weather.temperatureMin, weather.temperatureMax)
+                    val localizedTemperature: String = temperatureMapper(middleTemperature).convertProperty(ctx)
                     val weatherDate = dateMapper.map(weather.epochDateMills)
-                    val message = ctx.getString(R.string.text_weather_description, middleTemperature.getHumanReadable(), weather.placeName, weatherDate)
+                    val message = ctx.getString(R.string.text_weather_description, localizedTemperature, weather.placeName, weatherDate)
                     return WeatherNotification(title, message, weather.iconId, title)
                 }
 
@@ -95,7 +96,10 @@ class NotificationUtil {
             val localizedContext = context.getLocalizedContext(uiLocalizer.getLocale())
             val dateMapper = uiLocalizer.provideDateMapper(result.data?.timezone
                     ?: "UTC", DateFormat.HOUR)
-            val weatherNotification = mapResultToWeatherNotification(result, localizedContext, dateMapper)
+            val temperatureMapper: (Temperature) -> OneValueProperty = { temperatureInCelsius ->
+                uiLocalizer.localizeTemperature(temperatureInCelsius)
+            }
+            val weatherNotification = mapResultToWeatherNotification(result, localizedContext, dateMapper, temperatureMapper)
             with(NotificationManagerCompat.from(localizedContext)) {
                 // notificationId is a unique int for each notification that you must define
                 notify(CURRENT_WEATHER_NOTIFICATION_ID, buildNotification(localizedContext, weatherNotification))

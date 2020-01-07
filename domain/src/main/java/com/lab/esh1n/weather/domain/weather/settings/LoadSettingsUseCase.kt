@@ -6,11 +6,11 @@ import com.lab.esh1n.data.cache.AppPrefs
 import com.lab.esh1n.weather.domain.weather.UseCase
 import io.reactivex.Single
 
-class LoadSettingsUseCase(private val prefs: AppPrefs, errorHander: ErrorsHandler) : UseCase<Single<Resource<HashMap<String, Any>>>, Unit>(errorHander) {
+class LoadSettingsUseCase(private val prefs: AppPrefs, errorHandler: ErrorsHandler) : UseCase<Single<Resource<HashMap<String, Any>>>, Unit>(errorHandler) {
     override fun perform(args: Unit): Single<Resource<HashMap<String, Any>>> {
         return Single.fromCallable {
             val hashMap = HashMap<String, Any>()
-            hashMap.put(AppPrefs.KEY_LOCALE, prefs.getCurrentLocale())
+            hashMap[AppPrefs.KEY_LOCALE] = prefs.getLocale()
             return@fromCallable hashMap
         }.map { Resource.success(it) }
                 .onErrorReturn { error ->
