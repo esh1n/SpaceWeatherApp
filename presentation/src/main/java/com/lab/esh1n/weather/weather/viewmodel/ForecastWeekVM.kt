@@ -4,6 +4,7 @@ import com.esh1n.core_android.rx.SchedulersFacade
 import com.esh1n.core_android.ui.BaseVM
 import com.esh1n.core_android.ui.viewmodel.Resource
 import com.esh1n.core_android.ui.viewmodel.SingleLiveEvent
+import com.lab.esh1n.weather.domain.weather.weather.usecases.Args
 import com.lab.esh1n.weather.domain.weather.weather.usecases.LoadPlaceAvailableForecastDaysUseCase
 import com.lab.esh1n.weather.weather.mapper.AvailableDaysMapper
 import com.lab.esh1n.weather.weather.mapper.UiLocalizer
@@ -12,12 +13,12 @@ import javax.inject.Inject
 
 class ForecastWeekVM @Inject constructor(private val loadForecastUseCase: LoadPlaceAvailableForecastDaysUseCase, uiLocalizer: UiLocalizer) : BaseVM() {
 
-    val availableDays = SingleLiveEvent<Resource<List<ForecastDayModel>>>()
+    val availableDays = SingleLiveEvent<Resource<Pair<Int, List<ForecastDayModel>>>>()
     private val availableDaysMapper = AvailableDaysMapper(uiLocalizer)
 
-    fun loadAvailableDays(placeId: Int) {
+    fun loadAvailableDays(placeId: Int, selectedDate: Int) {
         loadForecastUseCase
-                .perform(placeId)
+                .perform(Args(placeId, selectedDate))
                 .map { availableDays -> Resource.map(availableDays, availableDaysMapper::map) }
                 .compose(SchedulersFacade.applySchedulersSingle())
                 .subscribe { models -> availableDays.postValue(models) }

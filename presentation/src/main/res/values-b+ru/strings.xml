@@ -58,6 +58,7 @@
     <string name="title_day">День</string>
     <string name="title_evening">Вечер</string>
     <string name="title_night">Ночь</string>
+    <string name="error_empty_day_module">Не получается получить день.Обновите экран</string>
 
 
     <string-array name="choose_place_actions">

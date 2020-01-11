@@ -60,6 +60,7 @@
     <string name="title_day">Day</string>
     <string name="title_evening">Evening</string>
     <string name="title_night">Night</string>
+    <string name="error_empty_day_module">No day data. Please refresh</string>
 
 
     <string-array

@@ -44,7 +44,7 @@ object SnackbarBuilder {
             Color.BLACK,
             Color.BLACK,
             Color.RED,
-            8000,
+                1000,
             null
         )
     }

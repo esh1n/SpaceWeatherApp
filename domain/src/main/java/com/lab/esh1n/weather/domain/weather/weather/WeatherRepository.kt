@@ -167,8 +167,8 @@ class WeatherRepository constructor(private val api: APIService, database: Weath
     }
 
     fun getWeathersForPlaceAtDay(placeId: Int, date: Date, timeZone: String): Single<List<WeatherWithPlace>> {
-        val dayStart = DateBuilder(date, timeZone).resetToDayStart().build()
-        val dayEnd = DateBuilder(date, timeZone).resetToDayEnd().build()
+        val dayStart = DateBuilder(date, timeZone).endOfNight().build()
+        val dayEnd = DateBuilder(date, timeZone).nextDay().endOfNight().build()
         return weatherDAO.getDayWeathersForCity(placeId, dayStart, dayEnd)
     }
 }

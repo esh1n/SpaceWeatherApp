@@ -19,6 +19,7 @@ import com.lab.esh1n.weather.R
 import com.lab.esh1n.weather.databinding.FragmentCurrentPlaceBinding
 import com.lab.esh1n.weather.weather.adapter.CurrentWeatherAdapter
 import com.lab.esh1n.weather.weather.model.CurrentWeatherModel
+import com.lab.esh1n.weather.weather.model.DayWeatherModel
 import com.lab.esh1n.weather.weather.model.WeatherModel
 import com.lab.esh1n.weather.weather.viewmodel.CurrentWeatherVM
 
@@ -70,7 +71,8 @@ class CurrentPlaceFragment : BaseVMFragment<CurrentWeatherVM>() {
 
     private fun onWeatherClicked(weatherModel: WeatherModel) {
         placeId?.let {
-            parentFragment?.fragmentManager.addFragmentToStack(ForecastFragment.newInstance(it))
+            val dateOfYear = (weatherModel as DayWeatherModel).dayOFTheYear
+            parentFragment?.fragmentManager.addFragmentToStack(ForecastFragment.newInstance(it, dateOfYear))
         }
 
     }

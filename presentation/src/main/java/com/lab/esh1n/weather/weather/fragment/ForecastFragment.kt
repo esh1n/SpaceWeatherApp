@@ -11,7 +11,7 @@ import com.esh1n.utils_android.ui.SnackbarBuilder
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.lab.esh1n.weather.R
-import com.lab.esh1n.weather.weather.adapter.FragmentAdapter
+import com.lab.esh1n.weather.weather.adapter.DayForecastFragmentAdapter
 import com.lab.esh1n.weather.weather.model.ForecastDayModel
 import com.lab.esh1n.weather.weather.viewmodel.ForecastWeekVM
 
@@ -25,12 +25,16 @@ class ForecastFragment : BaseVMFragment<ForecastWeekVM>() {
 
     private var tabs: TabLayout? = null
 
-    private lateinit var adapter: FragmentAdapter
+    private lateinit var adapterDayForecast: DayForecastFragmentAdapter
 
     companion object {
         private const val PLACE_ID = "PLACE_ID"
-        fun newInstance(placeId: Int) = ForecastFragment().apply {
-            arguments = Bundle().apply { putInt(PLACE_ID, placeId) }
+        private const val SELECTED_DAY = "SELECTED_DAY"
+        fun newInstance(placeId: Int, selectedDay: Int = 0) = ForecastFragment().apply {
+            arguments = Bundle().apply {
+                putInt(PLACE_ID, placeId)
+                putInt(SELECTED_DAY, selectedDay)
+            }
         }
     }
 
@@ -39,26 +43,30 @@ class ForecastFragment : BaseVMFragment<ForecastWeekVM>() {
         viewPager = rootView.findViewById(R.id.viewpager)
         tabs = rootView.findViewById(R.id.tabs)
 
-        adapter = FragmentAdapter(requireActivity())
+        adapterDayForecast = DayForecastFragmentAdapter(requireActivity())
 
         viewPager?.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
                 Log.d("OnPageChangeCallback", "Page selected: $position")
             }
         })
-        viewPager?.adapter = adapter
+        viewPager?.adapter = adapterDayForecast
     }
 
     private fun getPlaceId(): Int? {
         return arguments?.getInt(PLACE_ID)
     }
 
+    private fun getSelectedDay(): Int {
+        return arguments?.getInt(SELECTED_DAY, 0) ?: 0
+    }
+
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel.availableDays.observe(viewLifecycleOwner, object : BaseObserver<List<ForecastDayModel>>() {
-            override fun onData(data: List<ForecastDayModel>?) {
+        viewModel.availableDays.observe(viewLifecycleOwner, object : BaseObserver<Pair<Int, List<ForecastDayModel>>>() {
+            override fun onData(data: Pair<Int, List<ForecastDayModel>>?) {
                 data?.let {
-                    populateByDays(data)
+                    populateByDays(data.first, data.second)
                 }
             }
 
@@ -68,13 +76,13 @@ class ForecastFragment : BaseVMFragment<ForecastWeekVM>() {
 
         })
         getPlaceId()?.let { placeId ->
-            viewModel.loadAvailableDays(placeId)
+            viewModel.loadAvailableDays(placeId, getSelectedDay())
         }
 
     }
 
-    fun populateByDays(items: List<ForecastDayModel>) {
-        adapter.items = items
+    fun populateByDays(selectedDayIndex: Int, items: List<ForecastDayModel>) {
+        adapterDayForecast.items = items
         if (tabs != null && viewPager != null) {
             Log.d("TABS", "init tabs")
             TabLayoutMediator(tabs!!, viewPager!!,
@@ -82,5 +90,9 @@ class ForecastFragment : BaseVMFragment<ForecastWeekVM>() {
                         tab.text = items[position].dayDescription
                     }).attach()
         }
+        if (selectedDayIndex >= 0) {
+            viewPager?.currentItem = selectedDayIndex
+        }
+
     }
 }

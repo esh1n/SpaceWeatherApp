@@ -2,6 +2,7 @@ package com.lab.esh1n.weather.weather.fragment
 
 import android.os.Bundle
 import android.view.View
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -62,13 +63,25 @@ class DayForecastFragment : BaseVMFragment<DayForecastVM>() {
 
         })
         val dayModel = arguments?.getParcelable<ForecastDayModel>(ARG_PLACE_DAY_FORECAST)
-        viewModel.loadDayForecastSections(PlaceDayArgs(dayDate = dayModel?.dayDate, placeId = dayModel?.placeId, timezone = dayModel?.timezone))
+        if (dayModel != null) {
+            viewModel.loadDayForecastSections(PlaceDayArgs(dayDate = dayModel.dayDate, placeId = dayModel.placeId, timezone = dayModel.timezone))
+        } else {
+            SnackbarBuilder.buildErrorSnack(requireView(), getString(R.string.error_empty_day_module)).show()
+        }
 
 
     }
 
     companion object {
         const val ARG_PLACE_DAY_FORECAST = "ARG_PLACE_DAY_FORECAST"
+        fun newInstance(day: ForecastDayModel): Fragment {
+            return DayForecastFragment().apply {
+                arguments = Bundle().apply {
+                    putParcelable(ARG_PLACE_DAY_FORECAST, day)
+                }
+            }
+        }
+
     }
 
     override val viewModelClass = DayForecastVM::class.java

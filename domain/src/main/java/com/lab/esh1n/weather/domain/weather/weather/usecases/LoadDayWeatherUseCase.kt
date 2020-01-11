@@ -2,7 +2,6 @@ package com.lab.esh1n.weather.domain.weather.weather.usecases
 
 import com.esh1n.core_android.error.ErrorsHandler
 import com.esh1n.core_android.ui.viewmodel.Resource
-import com.esh1n.utils_android.DateBuilder
 import com.lab.esh1n.data.cache.entity.WeatherWithPlace
 import com.lab.esh1n.weather.domain.weather.UseCase
 import com.lab.esh1n.weather.domain.weather.weather.WeatherRepository
@@ -20,9 +19,5 @@ class LoadDayWeatherUseCase(private val weatherRepository: WeatherRepository, er
 
 }
 
-class PlaceDayArgs(placeId: Int?, dayDate: Date?, timezone: String?) {
-    val placeId: Int = placeId ?: 472045
-    val dayDate = dayDate ?: DateBuilder(Date()).build()
-    val timezone = timezone ?: "Europe/Moscow"
-
+class PlaceDayArgs(val placeId: Int, val dayDate: Date, val timezone: String) {
 }

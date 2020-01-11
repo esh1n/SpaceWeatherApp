@@ -7,7 +7,6 @@ import com.lab.esh1n.data.cache.entity.WeatherWithPlace
 import com.lab.esh1n.weather.R
 import com.lab.esh1n.weather.utils.StringResValueProperty
 import com.lab.esh1n.weather.weather.model.*
-import java.text.DecimalFormat
 import java.util.*
 import kotlin.collections.LinkedHashMap
 import kotlin.math.abs
@@ -65,19 +64,19 @@ class WeatherModelMapper(private val uiLocalizer: UiLocalizer, private val prefs
                         val nightHour = hourOfDay in START_NIGHT_HOUR..24 || hourOfDay in 0..END_NIGHT_HOUR
                         nightHour
                     }
-            val averageTempDay: Double = dayWeathersToAnalyse.map { it.temperatureMax }.average()
-            val averageTempNight: Double = nightWeathersToAnalyse.map { it.temperatureMin }.average()
-            val roundedAverageTempDay = if (averageTempDay.isNaN()) 0 else averageTempDay.roundToInt()
-            val roundedAverageTempNight = if (averageTempNight.isNaN()) 0 else averageTempNight.roundToInt()
-            val averageIconAndDescription = calculateWeatherIconAndDescription(values)
+            val roundedAverageTempDay = AverageWeatherUtil.averageInt(dayWeathersToAnalyse.map { it.temperatureMax })
+            val roundedAverageTempNight = AverageWeatherUtil.averageInt(nightWeathersToAnalyse.map { it.temperatureMin })
+            val averageIconAndDescription = AverageWeatherUtil.calculateWeatherIconAndDescription(values)
             val dateOfWeekMapper = uiLocalizer.provideDateMapper(timezone, DateFormat.DAY_OF_WEEK)
             val dayOfWeek = dateOfWeekMapper.map(first.epochDateMills)
+            val dayOfYear = DateBuilder(first.epochDateMills, timezone).getDayOfYear()
             DayWeatherModel(dayDate = dateMapper.map(first.epochDateMills),
                     humanDate = dayOfWeek,
                     tempMax = roundedAverageTempDay,
                     tempMin = roundedAverageTempNight,
                     iconId = averageIconAndDescription.first,
-                    description = averageIconAndDescription.second)
+                    description = averageIconAndDescription.second,
+                    dayOFTheYear = dayOfYear)
         }.values
     }
 
@@ -167,28 +166,7 @@ class WeatherModelMapper(private val uiLocalizer: UiLocalizer, private val prefs
         return dayToForecast
     }
 
-    private fun calculateWeatherIconAndDescription(weathers: List<WeatherWithPlace>): Pair<String, String> {
-        if (weathers.isEmpty()) {
-            return Pair("01d", "n/a")
-        }
-        val iconsIds: List<Int> = weathers.map { Integer.parseInt(it.iconId.substring(0, 2)) }
-        val mostOccasionsIcon = iconsIds.groupingBy { it }.eachCount().maxBy { it.value }?.key ?: 1
-        val iconDay = getIconCode(mostOccasionsIcon, true)
-        val weatherItem = weathers.find { it.iconId == iconDay }
-        return if (weatherItem != null) {
-            Pair(iconDay, weatherItem.description)
-        } else {
-            val iconNight = getIconCode(mostOccasionsIcon, false)
-            val description = weathers.find { it.iconId == iconNight }?.description ?: "n/a"
-            Pair(iconNight, description)
-        }
-    }
 
-    private fun getIconCode(value: Int, isDay: Boolean): String {
-        val formatter = DecimalFormat("00")
-        val dayOrNightChar = if (isDay) 'd' else 'n'
-        return "${formatter.format(value)}$dayOrNightChar"
-    }
 
     companion object {
         fun isDay(iconId: String): Boolean {

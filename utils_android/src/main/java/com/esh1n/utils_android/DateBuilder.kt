@@ -46,6 +46,13 @@ class DateBuilder {
         return this
     }
 
+    fun endOfNight(): DateBuilder {
+        calendar!!.set(Calendar.HOUR_OF_DAY, 4)
+        calendar!!.set(Calendar.MINUTE, 0)
+        calendar!!.set(Calendar.SECOND, 0)
+        return this
+    }
+
     fun withHourOfDay(hourOfDay: Int): DateBuilder {
         calendar!!.set(Calendar.HOUR_OF_DAY, hourOfDay)
         calendar!!.set(Calendar.SECOND, 0)
@@ -161,5 +168,9 @@ class DateBuilder {
     fun isSameDay(date: Date): Boolean {
         val dateBuilder = DateBuilder(date)
         return getDayOfYear() == dateBuilder.getDayOfYear() && getYear() == dateBuilder.getYear()
+    }
+
+    fun isSameDay(dayOfTheYear: Int): Boolean {
+        return getDayOfYear() == dayOfTheYear
     }
 }

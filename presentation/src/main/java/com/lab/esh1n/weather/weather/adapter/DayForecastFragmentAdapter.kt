@@ -1,19 +1,17 @@
 package com.lab.esh1n.weather.weather.adapter
 
-import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView.NO_ID
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.lab.esh1n.weather.weather.fragment.DayForecastFragment
-import com.lab.esh1n.weather.weather.fragment.DayForecastFragment.Companion.ARG_PLACE_DAY_FORECAST
 import com.lab.esh1n.weather.weather.model.ForecastDayModel
 
 
 /**
  * Adapter for fragments
  */
-class FragmentAdapter(activity: FragmentActivity) : FragmentStateAdapter(activity) {
+class DayForecastFragmentAdapter(activity: FragmentActivity) : FragmentStateAdapter(activity) {
 
     var items: List<ForecastDayModel>
         set(value) {
@@ -25,12 +23,7 @@ class FragmentAdapter(activity: FragmentActivity) : FragmentStateAdapter(activit
     private var mutableItems = mutableListOf<ForecastDayModel>()
 
     override fun createFragment(position: Int): Fragment {
-        return DayForecastFragment::class.java.newInstance()
-                .apply {
-                    arguments = Bundle().apply {
-                        putParcelable(ARG_PLACE_DAY_FORECAST, items[position])
-                    }
-                }
+        return DayForecastFragment.newInstance(items[position])
     }
 
     /**
