@@ -29,7 +29,7 @@ class WeatherWithPlace(
 
         var windSpeed: Double,
 
-        var windDegree: Int,
+        var windDegree: Double,
 
         var pressure: Int,
 

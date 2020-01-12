@@ -15,13 +15,13 @@ import androidx.core.app.NotificationManagerCompat
 import com.crashlytics.android.Crashlytics
 import com.esh1n.core_android.ui.viewmodel.Resource
 import com.esh1n.utils_android.ui.getLocalizedContext
+import com.lab.esh1n.data.cache.entity.Temperature
 import com.lab.esh1n.data.cache.entity.WeatherWithPlace
 import com.lab.esh1n.weather.R
 import com.lab.esh1n.weather.weather.WeatherActivity
 import com.lab.esh1n.weather.weather.mapper.DateFormat
 import com.lab.esh1n.weather.weather.mapper.UiDateListMapper
 import com.lab.esh1n.weather.weather.mapper.UiLocalizer
-import com.lab.esh1n.weather.weather.model.Temperature
 
 class NotificationUtil {
     companion object {

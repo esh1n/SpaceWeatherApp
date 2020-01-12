@@ -62,6 +62,16 @@
     <string name="title_night">Night</string>
     <string name="error_empty_day_module">No day data. Please refresh</string>
 
+    <string name="text_direction_NORTH">NORTH</string>
+    <string name="text_direction_NORTH_EAST">NORTH EAST</string>
+    <string name="text_direction_EAST">EAST</string>
+    <string name="text_direction_SOUTH_EAST">SOUTH EAST</string>
+    <string name="text_direction_SOUTH">SOUTH</string>
+    <string name="text_direction_SOUTH_WEST">SOUTH_WEST</string>
+    <string name="text_direction_WEST">WEST</string>
+    <string name="text_direction_SOUTH_NORTH_WEST">NORTH WEST</string>
+    <string name="text_not_defined">n/a</string>
+
 
     <string-array
         name="choose_place_actions">

@@ -33,5 +33,5 @@ class DayWeatherModel(val dayDate: String,
                       val dayOFTheYear: Int) : WeatherModel(humanDate = humanDate, iconId = iconId, tempMax = tempMax, tempMin = tempMin, description = description)
 
 sealed class HourWeatherModel(val date: Date)
-class HeaderHourWeatherModel(val isDay: Boolean, val pressure: Int, val wind: OneValueProperty, val humidity: Int, date: Date) : HourWeatherModel(date)
+class HeaderHourWeatherModel(val isDay: Boolean, val pressure: Int, val windSpeed: OneValueProperty, val humidity: Int, date: Date) : HourWeatherModel(date)
 class SimpleHourWeatherModel(val isDay: Boolean, val time: String, val iconId: String, val value: ValueProperty, date: Date) : HourWeatherModel(date)

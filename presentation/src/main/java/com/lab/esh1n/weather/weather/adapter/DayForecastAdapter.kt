@@ -171,13 +171,14 @@ class DayForecastAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             return object : ForecastDaytimesAdapter<DayWindForecastModel>() {
                 override fun provideVHolder(view: View): VHItem<DayWindForecastModel> {
                     return object : VHItem<DayWindForecastModel>(view) {
-                        override fun bindContent(itemView: View, item: DayWindForecastModel) {
+                        override fun bindContent(itemView: View, wind: DayWindForecastModel) {
                             val ivStatus = itemView.findViewById<AppCompatImageView>(R.id.iv_wind)
-                            val src = itemView.context.getResourceImage(item.iconId)
+                            val src = itemView.context.getResourceImage(wind.iconId)
                             ivStatus.setImageResource(src)
-                            val wind = item.wind.convertProperty(itemView.context)
-                            val tvTemperature = itemView.findViewById<AppCompatTextView>(R.id.tv_wind_value)
-                            tvTemperature.text = wind
+                            val tvWindSpeed = itemView.findViewById<AppCompatTextView>(R.id.tv_wind_value)
+                            tvWindSpeed.text = wind.windSpeed.convertProperty(itemView.context)
+                            val windDirection = itemView.findViewById<AppCompatTextView>(R.id.tv_wind_direction)
+                            windDirection.text = wind.windDirecton.convertProperty(itemView.context)
                         }
 
                     }
@@ -270,4 +271,4 @@ public enum class DayForecastSection(val index: Int, val titleStringRes: Int, va
 
 sealed class DaytimeForecastModel(val dayTime: Int)
 class DayOverallForecastModel(dayTime: Int, val iconId: String, val temperature: OneValueProperty) : DaytimeForecastModel(dayTime)
-class DayWindForecastModel(dayTime: Int, val iconId: String, val wind: OneValueProperty) : DaytimeForecastModel(dayTime)
+class DayWindForecastModel(dayTime: Int, val iconId: String, val windSpeed: OneValueProperty, val windDirecton: StringResValueProperty) : DaytimeForecastModel(dayTime)

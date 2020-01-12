@@ -4,14 +4,15 @@ import com.esh1n.core_android.map.Mapper
 import com.esh1n.utils_android.DateBuilder
 import com.lab.esh1n.data.cache.TemperatureUnit
 import com.lab.esh1n.data.cache.Units
+import com.lab.esh1n.data.cache.entity.Temperature
 import com.lab.esh1n.data.cache.entity.WeatherWithPlace
+import com.lab.esh1n.data.cache.entity.WindDegree
+import com.lab.esh1n.data.cache.entity.WindSpeed
 import com.lab.esh1n.weather.R
 import com.lab.esh1n.weather.weather.adapter.DayForecastSection
 import com.lab.esh1n.weather.weather.adapter.DayOverallForecastModel
 import com.lab.esh1n.weather.weather.adapter.DayWindForecastModel
 import com.lab.esh1n.weather.weather.adapter.DaytimeForecastModel
-import com.lab.esh1n.weather.weather.model.Temperature
-import com.lab.esh1n.weather.weather.model.Wind
 
 class DayForecastSectionsMapper(private val uiLocalizer: UiLocalizer) : Mapper<List<WeatherWithPlace>, List<Pair<DayForecastSection, List<DaytimeForecastModel>>>>() {
     override fun map(source: List<WeatherWithPlace>): List<Pair<DayForecastSection, List<DaytimeForecastModel>>> {
@@ -47,8 +48,10 @@ class DayForecastSectionsMapper(private val uiLocalizer: UiLocalizer) : Mapper<L
         val windItems = arrayListOf<DayWindForecastModel>()
         morningDayEveningNight.forEachIndexed { index, list ->
             val averageSpeed = AverageWeatherUtil.average(list.map { it.windSpeed })
+            val averageWindDirection = AverageWeatherUtil.averageWindDirection(list.map { WindDegree(it.windDegree) })
             windItems.add(DayWindForecastModel(dayTime = titles[index], iconId = "wind",
-                    wind = uiLocalizer.localizeWind(Wind(averageSpeed, Units.METRIC))))
+                    windSpeed = uiLocalizer.localizeWindSpeed(WindSpeed(averageSpeed, Units.METRIC)),
+                    windDirecton = uiLocalizer.localizaWindDirection(averageWindDirection)))
         }
         return Pair(DayForecastSection.WIND, windItems)
     }

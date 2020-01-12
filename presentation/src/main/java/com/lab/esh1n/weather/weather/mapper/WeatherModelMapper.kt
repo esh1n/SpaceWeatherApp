@@ -2,8 +2,10 @@ package com.lab.esh1n.weather.weather.mapper
 
 import com.esh1n.utils_android.DateBuilder
 import com.lab.esh1n.data.cache.AppPrefs
+import com.lab.esh1n.data.cache.entity.Temperature
 import com.lab.esh1n.data.cache.entity.UpdatePlaceEntry
 import com.lab.esh1n.data.cache.entity.WeatherWithPlace
+import com.lab.esh1n.data.cache.entity.WindSpeed
 import com.lab.esh1n.weather.R
 import com.lab.esh1n.weather.utils.StringResValueProperty
 import com.lab.esh1n.weather.weather.model.*
@@ -130,7 +132,7 @@ class WeatherModelMapper(private val uiLocalizer: UiLocalizer, private val prefs
         val nextDaySunset = DateBuilder(sunsetDate, timezone).plusDays(1).build()
         insertItem(timezone, isDay, dateHourMapper, dateHourAndDayMapper, R.string.text_sunset, "sunset", nextDaySunset, hourWeathers)
 
-        val localixedWind = uiLocalizer.localizeWind(Wind(now.windSpeed.toDouble(), prefs.getUnits()))
+        val localixedWind = uiLocalizer.localizeWindSpeed(WindSpeed(now.windSpeed.toDouble(), prefs.getUnits()))
         hourWeathers.add(0, HeaderHourWeatherModel(isDay, now.pressure, localixedWind, now.humidity, now.epochDateMills))
         return hourWeathers
     }

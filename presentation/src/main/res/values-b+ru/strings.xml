@@ -60,6 +60,16 @@
     <string name="title_night">Ночь</string>
     <string name="error_empty_day_module">Не получается получить день.Обновите экран</string>
 
+    <string name="text_direction_NORTH">СЕВЕР</string>
+    <string name="text_direction_NORTH_EAST">СЕВ-ВОСТ</string>
+    <string name="text_direction_EAST">ВОСТ</string>
+    <string name="text_direction_SOUTH_EAST">ЮГ_ВОСТ</string>
+    <string name="text_direction_SOUTH">ЮЖНЫЙ</string>
+    <string name="text_direction_SOUTH_WEST">ЮГ-ЗАПАД</string>
+    <string name="text_direction_WEST">ЗАПАД</string>
+    <string name="text_direction_SOUTH_NORTH_WEST">СЕВ-ЗАПАД</string>
+    <string name="text_not_defined">n/a</string>
+
 
     <string-array name="choose_place_actions">
         <item>Set Primary</item>

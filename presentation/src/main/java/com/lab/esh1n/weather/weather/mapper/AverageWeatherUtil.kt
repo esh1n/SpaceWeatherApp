@@ -1,6 +1,8 @@
 package com.lab.esh1n.weather.weather.mapper
 
 import com.lab.esh1n.data.cache.entity.WeatherWithPlace
+import com.lab.esh1n.data.cache.entity.WindDegree
+import com.lab.esh1n.data.cache.entity.WindDirection
 import java.text.DecimalFormat
 import kotlin.math.roundToInt
 
@@ -20,6 +22,13 @@ object AverageWeatherUtil {
             val description = weathers.find { it.iconId == iconNight }?.description ?: "n/a"
             Pair(iconNight, description)
         }
+    }
+
+    fun averageWindDirection(degrees: List<WindDegree>): WindDirection {
+        val directions = degrees.map { it.direction }
+        val mostOccasionsDirection = directions.groupingBy { it }.eachCount().maxBy { it.value }?.key
+                ?: WindDirection.N_A
+        return mostOccasionsDirection
     }
 
     fun averageInt(items: List<Double>): Int {

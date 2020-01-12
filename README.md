@@ -2,7 +2,7 @@
 
 This application provides an ability to get latest weather in Saint Petersburg.
 
-Weather contains info about temperature, wind, humidity and ect.
+Weather contains info about temperature, windSpeed, humidity and ect.
 
 Weather are synced by Workmanager with 5 minute interval. It's also possible to use pull-to-refresh feature.
 
