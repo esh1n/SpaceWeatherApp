@@ -34,7 +34,7 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="@dimen/margin_small"
             android:scaleType="centerInside"
-            tools:src="@drawable/ic_status_01d" />
+            android:src="@drawable/ic_wind_direction" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_wind_direction"

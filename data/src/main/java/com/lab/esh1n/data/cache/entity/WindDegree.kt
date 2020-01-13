@@ -11,6 +11,6 @@ class WindDegree(val degree: Double) {
     }
 }
 
-enum class WindDirection {
-    NORTH, NORTH_EAST, EAST, SOUTH_EAST, SOUTH, SOUTH_WEST, WEST, NORTH_WEST, N_A
+enum class WindDirection(val degree: Float) {
+    NORTH(0f), NORTH_EAST(45f), EAST(90f), SOUTH_EAST(135f), SOUTH(180f), SOUTH_WEST(225f), WEST(270f), NORTH_WEST(315f), N_A(0f)
 }

@@ -48,10 +48,12 @@ class DayForecastSectionsMapper(private val uiLocalizer: UiLocalizer) : Mapper<L
         val windItems = arrayListOf<DayWindForecastModel>()
         morningDayEveningNight.forEachIndexed { index, list ->
             val averageSpeed = AverageWeatherUtil.average(list.map { it.windSpeed })
-            val averageWindDirection = AverageWeatherUtil.averageWindDirection(list.map { WindDegree(it.windDegree) })
+            val windDegrees = list.map { WindDegree(it.windDegree) }
+            val averageWindDirection = AverageWeatherUtil.averageWindDirection(windDegrees)
+            val averageWindDegree = AverageWeatherUtil.average(windDegrees.map { it.degree })
             windItems.add(DayWindForecastModel(dayTime = titles[index], iconId = "wind",
                     windSpeed = uiLocalizer.localizeWindSpeed(WindSpeed(averageSpeed, Units.METRIC)),
-                    windDirecton = uiLocalizer.localizaWindDirection(averageWindDirection)))
+                    windDirecton = uiLocalizer.localizaWindDirection(averageWindDirection), windDegree = averageWindDirection.degree))
         }
         return Pair(DayForecastSection.WIND, windItems)
     }
