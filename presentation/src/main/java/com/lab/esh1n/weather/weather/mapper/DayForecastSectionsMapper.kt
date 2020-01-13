@@ -15,7 +15,7 @@ import com.lab.esh1n.weather.weather.adapter.DayWindForecastModel
 import com.lab.esh1n.weather.weather.adapter.DaytimeForecastModel
 
 class DayForecastSectionsMapper(private val uiLocalizer: UiLocalizer) : Mapper<List<WeatherWithPlace>, List<Pair<DayForecastSection, List<DaytimeForecastModel>>>>() {
-    override fun map(source: List<WeatherWithPlace>): List<Pair<DayForecastSection, List<DaytimeForecastModel>>> {
+    override fun map(source: List<WeatherWithPlace>): List<Pair<DayForecastSection, List<out DaytimeForecastModel>>> {
         val firstWeather = source[0]
         val timezone = firstWeather.timezone
         val morning = source.filter {
@@ -50,10 +50,11 @@ class DayForecastSectionsMapper(private val uiLocalizer: UiLocalizer) : Mapper<L
             val averageSpeed = AverageWeatherUtil.average(list.map { it.windSpeed })
             val windDegrees = list.map { WindDegree(it.windDegree) }
             val averageWindDirection = AverageWeatherUtil.averageWindDirection(windDegrees)
-            val averageWindDegree = AverageWeatherUtil.average(windDegrees.map { it.degree })
+            val degreesWithAverageDirection = windDegrees.filter { it.direction == averageWindDirection }.map { it.degree }
+            val averageWindDegree = AverageWeatherUtil.average(degreesWithAverageDirection)
             windItems.add(DayWindForecastModel(dayTime = titles[index], iconId = "wind",
                     windSpeed = uiLocalizer.localizeWindSpeed(WindSpeed(averageSpeed, Units.METRIC)),
-                    windDirecton = uiLocalizer.localizaWindDirection(averageWindDirection), windDegree = averageWindDirection.degree))
+                    windDirecton = uiLocalizer.localizaWindDirection(averageWindDirection), windDegree = averageWindDegree.toFloat()))
         }
         return Pair(DayForecastSection.WIND, windItems)
     }

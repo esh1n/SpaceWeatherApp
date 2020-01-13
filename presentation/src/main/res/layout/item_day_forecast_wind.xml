@@ -21,33 +21,33 @@
         android:layout_marginTop="@dimen/margin_small"
         tools:text="2C" />
 
-    <LinearLayout
-        android:layout_gravity="center_horizontal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="@dimen/day_forecast_wind_direction_background_image_size"
+        android:layout_height="@dimen/day_forecast_wind_direction_background_image_size"
+        android:background="@drawable/ic_compass">
 
         <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="@dimen/day_forecast_wind_direction_image_size"
             android:id="@+id/iv_wind"
-            android:layout_width="@dimen/day_forecast_description_image_size"
-            android:layout_height="@dimen/day_forecast_description_image_size"
-            android:layout_gravity="center_horizontal"
+            android:layout_height="@dimen/day_forecast_wind_direction_image_size"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center"
             android:layout_marginTop="@dimen/margin_small"
-            android:scaleType="centerInside"
+            android:scaleType="fitCenter"
             android:src="@drawable/ic_wind_direction" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tv_wind_direction"
-            style="@style/ForecastSubItemTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="@dimen/margin_small"
-            android:gravity="center"
-            tools:text="SW" />
+    </RelativeLayout>
 
 
-    </LinearLayout>
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_wind_direction"
+        style="@style/ForecastSubItemTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/margin_small"
+        android:gravity="center"
+        tools:text="SW" />
 
 
 </LinearLayout>

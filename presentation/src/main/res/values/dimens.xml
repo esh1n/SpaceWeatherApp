@@ -32,6 +32,8 @@
 
 
     <dimen name="day_forecast_description_image_size">40dp</dimen>
+    <dimen name="day_forecast_wind_direction_image_size">45dp</dimen>
+    <dimen name="day_forecast_wind_direction_background_image_size">100dp</dimen>
     <dimen name="overall_day_height">100dp</dimen>
     <dimen name="margin_big">24dp</dimen>
     <dimen name="size_hour_weather">45dp</dimen>
