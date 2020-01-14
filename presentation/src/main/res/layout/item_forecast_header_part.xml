@@ -9,7 +9,7 @@
         android:id="@+id/iv_weather_status"
         android:layout_width="@dimen/day_forecast_description_image_size"
         android:layout_height="@dimen/day_forecast_description_image_size"
-        android:scaleType="center"
+        android:scaleType="centerInside"
         tools:src="@drawable/ic_status_01d" />
 
     <androidx.appcompat.widget.AppCompatTextView

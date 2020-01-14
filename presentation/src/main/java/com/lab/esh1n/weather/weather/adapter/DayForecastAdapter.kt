@@ -32,6 +32,15 @@ class DayForecastAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                 DayForecastSection.MAIN.index -> {
                     MainSectionViewHolder(view)
                 }
+                DayForecastSection.WIND.index -> {
+                    WindSectionViewHolder(view)
+                }
+                DayForecastSection.HUMIDITY.index -> {
+                    HumiditySectionViewHolder(view)
+                }
+                DayForecastSection.PRESSURE.index -> {
+                    PressureSectionViewHolder(view)
+                }
                 else ->
                     WindSectionViewHolder(view)
             }
@@ -47,6 +56,10 @@ class DayForecastAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                 holder.populate(weathers.first, weathers.second as List<DayOverallForecastModel>)
             } else if (holder is WindSectionViewHolder) {
                 holder.populate(weathers.first, weathers.second as List<DayWindForecastModel>)
+            } else if (holder is HumiditySectionViewHolder) {
+                holder.populate(weathers.first, weathers.second as List<DayHumidityForecastModel>)
+            } else if (holder is PressureSectionViewHolder) {
+                holder.populate(weathers.first, weathers.second as List<DayPressureForecastModel>)
             }
         }
 
@@ -179,13 +192,55 @@ class DayForecastAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                             val tvWindSpeed = itemView.findViewById<AppCompatTextView>(R.id.tv_wind_value)
                             tvWindSpeed.text = item.windSpeed.convertProperty(itemView.context)
                             val windDirection = itemView.findViewById<AppCompatTextView>(R.id.tv_wind_direction)
-                            windDirection.text = item.windDirecton.convertProperty(itemView.context)
+                            windDirection.text = item.windDirection.convertProperty(itemView.context)
                         }
 
                     }
                 }
 
                 override fun getItemViewId() = R.layout.item_day_forecast_wind
+
+            }
+        }
+
+    }
+
+    class HumiditySectionViewHolder(itemView: View) : VHSectionItem<DayHumidityForecastModel>(itemView) {
+
+        override fun provideForecastAdapter(): ForecastDaytimesAdapter<DayHumidityForecastModel> {
+            return object : ForecastDaytimesAdapter<DayHumidityForecastModel>() {
+                override fun provideVHolder(view: View): VHItem<DayHumidityForecastModel> {
+                    return object : VHItem<DayHumidityForecastModel>(view) {
+                        override fun bindContent(itemView: View, item: DayHumidityForecastModel) {
+                            val humidityValue = itemView.findViewById<AppCompatTextView>(R.id.tv_humidity_value)
+                            humidityValue.text = item.humidity.convertProperty(itemView.context)
+                        }
+
+                    }
+                }
+
+                override fun getItemViewId() = R.layout.item_day_forecast_humidity
+
+            }
+        }
+
+    }
+
+    class PressureSectionViewHolder(itemView: View) : VHSectionItem<DayPressureForecastModel>(itemView) {
+
+        override fun provideForecastAdapter(): ForecastDaytimesAdapter<DayPressureForecastModel> {
+            return object : ForecastDaytimesAdapter<DayPressureForecastModel>() {
+                override fun provideVHolder(view: View): VHItem<DayPressureForecastModel> {
+                    return object : VHItem<DayPressureForecastModel>(view) {
+                        override fun bindContent(itemView: View, item: DayPressureForecastModel) {
+                            val windDirection = itemView.findViewById<AppCompatTextView>(R.id.tv_pressure_value)
+                            windDirection.text = item.pressure.convertProperty(itemView.context)
+                        }
+
+                    }
+                }
+
+                override fun getItemViewId() = R.layout.item_day_forecast_pressure
 
             }
         }
@@ -270,6 +325,8 @@ public enum class DayForecastSection(val index: Int, val titleStringRes: Int, va
     AD(6, R.string.title_forecast_section_stub, "sunset")
 }
 
-sealed class DaytimeForecastModel(val dayTime: Int)
-class DayOverallForecastModel(dayTime: Int, val iconId: String, val temperature: OneValueProperty) : DaytimeForecastModel(dayTime)
-class DayWindForecastModel(dayTime: Int, val iconId: String, val windSpeed: OneValueProperty, val windDirecton: StringResValueProperty, val windDegree: Float) : DaytimeForecastModel(dayTime)
+sealed class DaytimeForecastModel(val dayTime: StringResValueProperty)
+class DayOverallForecastModel(dayTime: StringResValueProperty, val iconId: String, val temperature: OneValueProperty) : DaytimeForecastModel(dayTime)
+class DayWindForecastModel(dayTime: StringResValueProperty, val iconId: String, val windSpeed: OneValueProperty, val windDirection: StringResValueProperty, val windDegree: Float) : DaytimeForecastModel(dayTime)
+class DayHumidityForecastModel(val humidity: OneValueProperty, dayTime: StringResValueProperty) : DaytimeForecastModel(dayTime)
+class DayPressureForecastModel(val pressure: OneValueProperty, dayTime: StringResValueProperty) : DaytimeForecastModel(dayTime)

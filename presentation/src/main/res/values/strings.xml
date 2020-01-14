@@ -44,8 +44,8 @@
 
     <string name="wind_metric">%s meter/sec</string>
     <string name="wind_imperial">%s miles/hour</string>
-    <string name="pressure_pa">%d hPA</string>
-    <string name="humidity_percents" translatable="false">%1$d \%%</string>
+    <string name="pressure_pa">%s hPA</string>
+    <string name="humidity_percents" translatable="false">%1$s \%%</string>
     <string name="text_sunset">sunset</string>
     <string name="text_sunrise">sunrise</string>
 

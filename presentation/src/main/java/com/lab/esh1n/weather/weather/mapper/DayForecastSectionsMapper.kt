@@ -9,10 +9,9 @@ import com.lab.esh1n.data.cache.entity.WeatherWithPlace
 import com.lab.esh1n.data.cache.entity.WindDegree
 import com.lab.esh1n.data.cache.entity.WindSpeed
 import com.lab.esh1n.weather.R
-import com.lab.esh1n.weather.weather.adapter.DayForecastSection
-import com.lab.esh1n.weather.weather.adapter.DayOverallForecastModel
-import com.lab.esh1n.weather.weather.adapter.DayWindForecastModel
-import com.lab.esh1n.weather.weather.adapter.DaytimeForecastModel
+import com.lab.esh1n.weather.utils.OneValueProperty
+import com.lab.esh1n.weather.utils.StringResValueProperty
+import com.lab.esh1n.weather.weather.adapter.*
 
 class DayForecastSectionsMapper(private val uiLocalizer: UiLocalizer) : Mapper<List<WeatherWithPlace>, List<Pair<DayForecastSection, List<DaytimeForecastModel>>>>() {
     override fun map(source: List<WeatherWithPlace>): List<Pair<DayForecastSection, List<out DaytimeForecastModel>>> {
@@ -39,7 +38,9 @@ class DayForecastSectionsMapper(private val uiLocalizer: UiLocalizer) : Mapper<L
         val morningDayEveningNight = listOf(morning, day, evening, night)
         val mainSection = prepareMainSection(titles, morningDayEveningNight)
         val windSection = prepareWindSection(titles, morningDayEveningNight)
-        return arrayListOf(mainSection, windSection)
+        val pressureSection = preparePressureSection(titles, morningDayEveningNight)
+        val humiditySection = prepareHumiditySection(titles, morningDayEveningNight)
+        return arrayListOf(mainSection, windSection, humiditySection, pressureSection)
     }
 
 
@@ -52,11 +53,35 @@ class DayForecastSectionsMapper(private val uiLocalizer: UiLocalizer) : Mapper<L
             val averageWindDirection = AverageWeatherUtil.averageWindDirection(windDegrees)
             val degreesWithAverageDirection = windDegrees.filter { it.direction == averageWindDirection }.map { it.degree }
             val averageWindDegree = AverageWeatherUtil.average(degreesWithAverageDirection)
-            windItems.add(DayWindForecastModel(dayTime = titles[index], iconId = "wind",
+            windItems.add(DayWindForecastModel(
+                    dayTime = StringResValueProperty(titles[index]), iconId = "wind",
                     windSpeed = uiLocalizer.localizeWindSpeed(WindSpeed(averageSpeed, Units.METRIC)),
-                    windDirecton = uiLocalizer.localizaWindDirection(averageWindDirection), windDegree = averageWindDegree.toFloat()))
+                    windDirection = uiLocalizer.localizaWindDirection(averageWindDirection),
+                    windDegree = averageWindDegree.toFloat()))
         }
         return Pair(DayForecastSection.WIND, windItems)
+    }
+
+    private fun prepareHumiditySection(titles: List<Int>, morningDayEveningNight: List<List<WeatherWithPlace>>): Pair<DayForecastSection, List<DayHumidityForecastModel>> {
+        val humidityItems = arrayListOf<DayHumidityForecastModel>()
+        morningDayEveningNight.forEachIndexed { index, list ->
+            val averageHumidity = AverageWeatherUtil.averageInt(list.map { it.humidity.toDouble() })
+            humidityItems.add(DayHumidityForecastModel(
+                    dayTime = StringResValueProperty(titles[index]),
+                    humidity = OneValueProperty(R.string.humidity_percents, averageHumidity.toString())))
+        }
+        return Pair(DayForecastSection.HUMIDITY, humidityItems)
+    }
+
+    private fun preparePressureSection(titles: List<Int>, morningDayEveningNight: List<List<WeatherWithPlace>>): Pair<DayForecastSection, List<DayPressureForecastModel>> {
+        val pressureItems = arrayListOf<DayPressureForecastModel>()
+        morningDayEveningNight.forEachIndexed { index, list ->
+            val averagePressure = AverageWeatherUtil.averageInt(list.map { it.pressure.toDouble() })
+            pressureItems.add(DayPressureForecastModel(
+                    dayTime = StringResValueProperty(titles[index]),
+                    pressure = OneValueProperty(R.string.pressure_pa, averagePressure.toString())))
+        }
+        return Pair(DayForecastSection.PRESSURE, pressureItems)
     }
 
     private fun prepareMainSection(titles: List<Int>, morningDayEveningNight: List<List<WeatherWithPlace>>): Pair<DayForecastSection, List<DayOverallForecastModel>> {
@@ -65,7 +90,9 @@ class DayForecastSectionsMapper(private val uiLocalizer: UiLocalizer) : Mapper<L
         morningDayEveningNight.forEachIndexed { index, list ->
             val averageIconAndDescription = AverageWeatherUtil.calculateWeatherIconAndDescription(list)
             val averageTemperature = AverageWeatherUtil.average(list.map { it.temperature })
-            mainItems.add(DayOverallForecastModel(dayTime = titles[index], iconId = averageIconAndDescription.first,
+            mainItems.add(DayOverallForecastModel(
+                    dayTime = StringResValueProperty(titles[index]),
+                    iconId = averageIconAndDescription.first,
                     temperature = uiLocalizer.localizeTemperature(Temperature(averageTemperature, TemperatureUnit.C))))
         }
         return Pair(DayForecastSection.MAIN, mainItems)

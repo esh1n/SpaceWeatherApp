@@ -24,13 +24,13 @@
 
     <style name="ForecastSubItemTextView" parent="BaseTextView">
         <item name="android:color">@color/sub_item_title_text_gray</item>
-        <item name="android:textSize">@dimen/f12</item>
+        <item name="android:textSize">@dimen/f14</item>
     </style>
 
     <style name="ForecastHighlightTextView" parent="BaseTextView">
         <item name="android:color">@android:color/black</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:textSize">@dimen/f14</item>
+        <item name="android:textSize">@dimen/f16</item>
     </style>
 
 

@@ -18,7 +18,7 @@ fun setTemperatureCelsius(tv: TextView, temperatureCelsius: Int?) {
 @BindingAdapter("pressure")
 fun setPressure(tv: TextView, pressure: Int?) {
     pressure?.let {
-        val temp = tv.context.getString(R.string.pressure_pa, it)
+        val temp = tv.context.getString(R.string.pressure_pa, it.toString())
         tv.text = temp
     }
 }
@@ -27,7 +27,7 @@ fun setPressure(tv: TextView, pressure: Int?) {
 @BindingAdapter("humidity")
 fun setHumidity(tv: TextView, humidity: Int?) {
     humidity?.let {
-        val temp = tv.context.getString(R.string.humidity_percents, it)
+        val temp = tv.context.getString(R.string.humidity_percents, it.toString())
         tv.text = temp
     }
 }

@@ -6,7 +6,6 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.esh1n.utils_android.ui.inflate
 import com.lab.esh1n.weather.R
-import com.lab.esh1n.weather.utils.StringResValueProperty
 import com.lab.esh1n.weather.utils.convertProperty
 
 abstract class ForecastDaytimesAdapter<T : DaytimeForecastModel> : RecyclerView.Adapter<ForecastDaytimesAdapter.VHItem<T>>() {
@@ -37,7 +36,7 @@ abstract class ForecastDaytimesAdapter<T : DaytimeForecastModel> : RecyclerView.
         private val tvTitle: TextView? = view.findViewById(R.id.tv_date)
 
         fun bind(item: T) {
-            val title = StringResValueProperty(item.dayTime).convertProperty(itemView.context)
+            val title = item.dayTime.convertProperty(itemView.context)
             tvTitle?.text = title
             bindContent(itemView, item)
         }
