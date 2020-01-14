@@ -4,10 +4,15 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:background="@color/bg_white"
+    android:paddingStart="@dimen/margin_small"
+    android:paddingTop="@dimen/margin_smallest"
+    android:paddingEnd="@dimen/margin_small"
+    android:paddingBottom="@dimen/margin_smallest"
     android:orientation="vertical">
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tv_date"
+        android:layout_gravity="center"
         style="@style/ForecastSubItemTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

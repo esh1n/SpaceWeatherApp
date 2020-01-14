@@ -2,11 +2,16 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
+    android:paddingStart="@dimen/margin_small"
+    android:paddingTop="@dimen/margin_smallest"
+    android:paddingEnd="@dimen/margin_small"
+    android:paddingBottom="@dimen/margin_smallest"
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tv_date"
+        android:layout_gravity="center"
         style="@style/ForecastSubItemTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -23,6 +28,7 @@
 
 
     <RelativeLayout
+        android:layout_marginTop="@dimen/margin_smallest"
         android:layout_width="@dimen/day_forecast_wind_direction_background_image_size"
         android:layout_height="@dimen/day_forecast_wind_direction_background_image_size"
         android:background="@drawable/ic_compass">
