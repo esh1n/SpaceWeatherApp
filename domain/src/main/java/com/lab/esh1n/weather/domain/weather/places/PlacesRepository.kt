@@ -1,5 +1,7 @@
 package com.lab.esh1n.weather.domain.weather.places
 
+import androidx.paging.PagedList
+import androidx.paging.toObservable
 import com.esh1n.utils_android.DateBuilder
 import com.lab.esh1n.data.api.APIService
 import com.lab.esh1n.data.cache.AppPrefs
@@ -21,9 +23,9 @@ class PlacesRepository constructor(private val apiService: APIService, db: Weath
     private val weatherDAO = db.weatherDAO()
 
 
-    fun getAllPlaces(): Observable<List<PlaceWithCurrentWeatherEntry>> {
+    fun getAllPlaces(): Observable<PagedList<PlaceWithCurrentWeatherEntry>> {
         val now = Date()
-        return placeDAO.getAllPlacesWithCurrentWeather(now).toObservable()
+        return placeDAO.getAllPlacesWithCurrentWeather(now).toObservable(pageSize = 20)
     }
 
     fun checkIfCurrentPlaceExist(): Single<Boolean> {

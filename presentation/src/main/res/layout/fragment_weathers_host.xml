@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:orientation="vertical"></FrameLayout>
+        android:orientation="vertical" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
 
@@ -22,6 +22,6 @@
         android:background="@drawable/bg_bottom_bar"
         app:itemIconTint="@color/bottom_menu_state"
         app:itemTextColor="@color/bottom_menu_state"
-        design:menu="@menu/bottom_nav_items"></com.google.android.material.bottomnavigation.BottomNavigationView>
+        design:menu="@menu/bottom_nav_items" />
 
 </LinearLayout>

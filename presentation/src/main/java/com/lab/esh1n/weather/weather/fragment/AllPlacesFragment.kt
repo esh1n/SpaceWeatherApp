@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.TextView
+import androidx.paging.PagedList
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -15,10 +16,10 @@ import com.esh1n.core_android.ui.viewmodel.BaseObserver
 import com.esh1n.utils_android.ui.DialogUtil
 import com.esh1n.utils_android.ui.SnackbarBuilder
 import com.esh1n.utils_android.ui.setVisibleOrGone
+import com.lab.esh1n.data.cache.entity.PlaceWithCurrentWeatherEntry
 import com.lab.esh1n.data.cache.entity.WeatherWithPlace
 import com.lab.esh1n.weather.R
 import com.lab.esh1n.weather.weather.adapter.PlacesAdapter
-import com.lab.esh1n.weather.weather.model.PlaceModel
 import com.lab.esh1n.weather.weather.viewmodel.AllPlacesVM
 
 class AllPlacesFragment : BaseVMFragment<AllPlacesVM>() {
@@ -35,7 +36,7 @@ class AllPlacesFragment : BaseVMFragment<AllPlacesVM>() {
 
     override fun setupView(rootView: View, savedInstanceState: Bundle?) {
         super.setupView(rootView, savedInstanceState)
-        adapter = PlacesAdapter(iPlaceClickable)
+        adapter = PlacesAdapter(iPlaceClickable, viewModel::placeWeatherMapper)
         placeRecyclerView = rootView.findViewById(R.id.recycler_view)
         loadingIndicator = rootView.findViewById(R.id.loading_indicator)
         emptyView = rootView.findViewById(R.id.tv_no_items)
@@ -55,15 +56,15 @@ class AllPlacesFragment : BaseVMFragment<AllPlacesVM>() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel.allCities.observe(this, object : BaseObserver<List<PlaceModel>>() {
+        viewModel.allCities.observe(this, object : BaseObserver<PagedList<PlaceWithCurrentWeatherEntry>>() {
             override fun onError(error: ErrorModel?) {
                 SnackbarBuilder.buildSnack(view!!, error?.message ?: "").show()
             }
 
-            override fun onData(data: List<PlaceModel>?) {
+            override fun onData(data: PagedList<PlaceWithCurrentWeatherEntry>?) {
                 val isEmpty = data?.isEmpty() ?: true
                 emptyView!!.setVisibleOrGone(isEmpty)
-                adapter.swapCities(data.orEmpty())
+                adapter.submitList(data)
             }
 
         })
@@ -90,18 +91,18 @@ class AllPlacesFragment : BaseVMFragment<AllPlacesVM>() {
 
 
     private val iPlaceClickable = object : PlacesAdapter.IPlaceClickable {
-        override fun onPlaceClick(placeWeather: PlaceModel) {
-            Crashlytics.log(Log.DEBUG, "tag", "opened forecast for${placeWeather.name}")
-            parentFragment?.fragmentManager.addFragmentToStack(ForecastFragment.newInstance(placeWeather.id))
+        override fun onPlaceClick(placeId: Int) {
+            Crashlytics.log(Log.DEBUG, "tag", "opened forecast for${placeId}")
+            parentFragment?.fragmentManager.addFragmentToStack(ForecastFragment.newInstance(placeId))
 
         }
 
-        override fun onPlaceOptions(placeWeather: PlaceModel) {
+        override fun onPlaceOptions(placeId: Int) {
             DialogUtil.buildListDialog(requireActivity(),
                     getString(R.string.text_choose_action),
                     R.array.choose_place_actions) { result ->
                 if (result == 0) {
-                    viewModel.saveCurrentPlace(placeWeather.id)
+                    viewModel.saveCurrentPlace(placeId)
                 }
             }.show()
         }

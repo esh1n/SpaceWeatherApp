@@ -3,19 +3,21 @@ package com.lab.esh1n.weather.weather.adapter
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.esh1n.utils_android.ui.inflate
+import com.lab.esh1n.data.cache.entity.PlaceWithCurrentWeatherEntry
 import com.lab.esh1n.weather.R
 import com.lab.esh1n.weather.databinding.ItemPlaceBinding
 import com.lab.esh1n.weather.weather.model.PlaceModel
 import com.lab.esh1n.weather.weather.model.WeatherBackgroundUtil.Companion.prepareWeatherGradient
+import kotlin.reflect.KProperty0
 
 
-class PlacesAdapter(private val mClickHandler: IPlaceClickable) :
-        RecyclerView.Adapter<PlacesAdapter.ViewHolder>() {
+class PlacesAdapter(private val mClickHandler: IPlaceClickable, private val placeWeatherMapper: KProperty0<(PlaceWithCurrentWeatherEntry) -> PlaceModel>) :
+        PagedListAdapter<PlaceWithCurrentWeatherEntry, PlacesAdapter.ViewHolder>(DIFF_CALLBACK) {
 
-    private var places: List<PlaceModel>? = null
 
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
@@ -24,51 +26,11 @@ class PlacesAdapter(private val mClickHandler: IPlaceClickable) :
     }
 
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
-        val place = places?.get(position)
+        val place = getItem(position)
         if (place != null) {
-            viewHolder.bindTo(place)
+            viewHolder.bindTo(placeWeatherMapper.get().invoke(place))
         } else {
             viewHolder.clear()
-        }
-    }
-
-    override fun getItemCount(): Int {
-        return places?.size ?: 0
-    }
-
-    fun swapCities(newTags: List<PlaceModel>) {
-        if (places == null) {
-            this.places = newTags
-            notifyDataSetChanged()
-        } else {
-            val result = DiffUtil.calculateDiff(DiffCallback(places!!, newTags))
-            places = newTags
-            result.dispatchUpdatesTo(this)
-        }
-    }
-
-
-    private inner class DiffCallback(private val oldBrands: List<PlaceModel>, private val newBrands: List<PlaceModel>) :
-            DiffUtil.Callback() {
-
-        override fun getOldListSize(): Int {
-            return oldBrands.size
-        }
-
-        override fun getNewListSize(): Int {
-            return newBrands.size
-        }
-
-        override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-            val cityName = oldBrands[oldItemPosition].name
-            val cityName1 = newBrands[newItemPosition].name
-            return cityName == cityName1
-        }
-
-        override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-            val oldBrand = oldBrands[oldItemPosition]
-            val newBrand = newBrands[newItemPosition]
-            return oldBrand == newBrand
         }
     }
 
@@ -83,7 +45,7 @@ class PlacesAdapter(private val mClickHandler: IPlaceClickable) :
 
         override fun onClick(v: View) {
             val adapterPosition = adapterPosition
-            val placeModel = places?.get(adapterPosition)
+            val placeModel = getItem(adapterPosition)?.id
             placeModel?.let {
                 if (v.id == R.id.iv_place_actions) {
                     mClickHandler.onPlaceOptions(it)
@@ -110,7 +72,20 @@ class PlacesAdapter(private val mClickHandler: IPlaceClickable) :
     }
 
     interface IPlaceClickable {
-        fun onPlaceClick(placeWeather: PlaceModel)
-        fun onPlaceOptions(placeWeather: PlaceModel)
+        fun onPlaceClick(placeId: Int)
+        fun onPlaceOptions(placeId: Int)
+    }
+
+    companion object {
+
+        val DIFF_CALLBACK: DiffUtil.ItemCallback<PlaceWithCurrentWeatherEntry> = object : DiffUtil.ItemCallback<PlaceWithCurrentWeatherEntry>() {
+            override fun areItemsTheSame(oldItem: PlaceWithCurrentWeatherEntry, newItem: PlaceWithCurrentWeatherEntry): Boolean {
+                return oldItem.id == newItem.id
+            }
+
+            override fun areContentsTheSame(oldItem: PlaceWithCurrentWeatherEntry, newItem: PlaceWithCurrentWeatherEntry): Boolean {
+                return oldItem == newItem
+            }
+        }
     }
 }

@@ -2,12 +2,14 @@ package com.lab.esh1n.weather.weather.viewmodel
 
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
+import androidx.paging.PagedList
 import androidx.work.WorkManager
 import com.esh1n.core_android.rx.SchedulersFacade
 import com.esh1n.core_android.rx.applyAndroidSchedulers
 import com.esh1n.core_android.ui.viewmodel.BaseAndroidViewModel
 import com.esh1n.core_android.ui.viewmodel.Resource
 import com.esh1n.core_android.ui.viewmodel.SingleLiveEvent
+import com.lab.esh1n.data.cache.entity.PlaceWithCurrentWeatherEntry
 import com.lab.esh1n.data.cache.entity.WeatherWithPlace
 import com.lab.esh1n.weather.domain.weather.places.usecase.GetAllPlacesUse
 import com.lab.esh1n.weather.domain.weather.places.usecase.UpdateCurrentPlaceUseCase
@@ -26,9 +28,9 @@ class AllPlacesVM @Inject constructor(private val loadPlacesUseCase: GetAllPlace
 
     val updateCurrentPlaceOperation = SingleLiveEvent<Resource<WeatherWithPlace>>()
 
-    val allCities = MutableLiveData<Resource<List<PlaceModel>>>()
+    val allCities = MutableLiveData<Resource<PagedList<PlaceWithCurrentWeatherEntry>>>()
 
-    private val placeWeatherMapper = PlaceWeatherListMapper(uiLocalizer)
+    val placeWeatherMapper: (PlaceWithCurrentWeatherEntry) -> PlaceModel = PlaceWeatherListMapper(uiLocalizer)::map
 
     fun saveCurrentPlace(id: Int) {
         updateCurrentPlaceOperation.postValue(Resource.loading())
@@ -51,13 +53,13 @@ class AllPlacesVM @Inject constructor(private val loadPlacesUseCase: GetAllPlace
                         .disposeOnDestroy()
     }
 
+
     fun loadPlaces() {
         //think about if no results how not to show progress
         loadPlacesUseCase.perform(Unit)
                 .doOnSubscribe { _ ->
                     allCities.postValue(Resource.loading())
                 }
-                .map { return@map Resource.map(it, placeWeatherMapper::map) }
                 .compose(SchedulersFacade.applySchedulersObservable())
                 .subscribe { models ->
                     allCities.postValue(models)

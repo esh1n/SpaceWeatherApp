@@ -37,6 +37,12 @@ dependencies {
     api rootProject.ext.retrofit.gsonConverter
     api rootProject.ext.gson
 
+    def paging_version = "2.1.1"
+
+    api "androidx.paging:paging-runtime-ktx:$paging_version"
+
+    api "androidx.paging:paging-rxjava2-ktx:$paging_version"
+
     implementation  "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
 }

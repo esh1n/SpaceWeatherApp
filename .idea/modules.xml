@@ -2,6 +2,12 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/Serg-StudioProjects-SpaceWeatherApp.iml" filepath="$PROJECT_DIR$/Serg-StudioProjects-SpaceWeatherApp.iml" />
+      <module fileurl="file://$PROJECT_DIR$/data/Serg-StudioProjects-SpaceWeatherApp-data.iml" filepath="$PROJECT_DIR$/data/Serg-StudioProjects-SpaceWeatherApp-data.iml" />
+      <module fileurl="file://$PROJECT_DIR$/domain/Serg-StudioProjects-SpaceWeatherApp-domain.iml" filepath="$PROJECT_DIR$/domain/Serg-StudioProjects-SpaceWeatherApp-domain.iml" />
+      <module fileurl="file://$PROJECT_DIR$/mvvm_rx_live/Serg-StudioProjects-SpaceWeatherApp-mvvm_rx_live.iml" filepath="$PROJECT_DIR$/mvvm_rx_live/Serg-StudioProjects-SpaceWeatherApp-mvvm_rx_live.iml" />
+      <module fileurl="file://$PROJECT_DIR$/presentation/Serg-StudioProjects-SpaceWeatherApp-presentation.iml" filepath="$PROJECT_DIR$/presentation/Serg-StudioProjects-SpaceWeatherApp-presentation.iml" />
+      <module fileurl="file://$PROJECT_DIR$/utils_android/Serg-StudioProjects-SpaceWeatherApp-utils_android.iml" filepath="$PROJECT_DIR$/utils_android/Serg-StudioProjects-SpaceWeatherApp-utils_android.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/SpaceWeatherApp.iml" filepath="$PROJECT_DIR$/.idea/SpaceWeatherApp.iml" />
       <module fileurl="file://$PROJECT_DIR$/data/SpaceWeatherApp-data.iml" filepath="$PROJECT_DIR$/data/SpaceWeatherApp-data.iml" />
       <module fileurl="file://$PROJECT_DIR$/domain/SpaceWeatherApp-domain.iml" filepath="$PROJECT_DIR$/domain/SpaceWeatherApp-domain.iml" />

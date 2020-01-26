@@ -66,5 +66,4 @@ fun AppCompatActivity.setABTitle(title: CharSequence?) {
     if (!title.isNullOrBlank()) {
         supportActionBar?.title = title
     }
-
 }

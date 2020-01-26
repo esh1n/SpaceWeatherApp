@@ -1,5 +1,6 @@
 package com.lab.esh1n.data.cache.dao
 
+import androidx.paging.DataSource
 import androidx.room.*
 import androidx.room.OnConflictStrategy.IGNORE
 import com.lab.esh1n.data.cache.DateConverter
@@ -21,7 +22,8 @@ abstract class PlaceDAO {
     abstract fun getPlaceIdByName(placeName: String): Single<Int>
 
     @Query("SELECT id,placeName,iconId,temperatureMax,epochDateMills,timezone,dateTxt,rain,cloudiness,snow  FROM place  INNER JOIN weather w ON place.id = w.placeId AND w.epochDateMills = (SELECT epochDateMills FROM weather innerW WHERE  innerW.placeId = w.placeId ORDER BY abs(:now - epochDateMills) ASC LIMIT 1)")
-    abstract fun getAllPlacesWithCurrentWeather(now: Date): Flowable<List<PlaceWithCurrentWeatherEntry>>
+    abstract fun getAllPlacesWithCurrentWeather(now: Date): DataSource.Factory<Int, PlaceWithCurrentWeatherEntry>
+
 
     @Query("SELECT id from place WHERE isCurrent = 1")
     abstract fun getCurrentCityId(): Single<Int>
