@@ -22,7 +22,7 @@ import com.lab.esh1n.weather.databinding.ItemHeaderCurrentWeatherBinding
 import com.lab.esh1n.weather.weather.fragment.CurrentPlaceFragment
 import com.lab.esh1n.weather.weather.model.CurrentWeatherModel
 import com.lab.esh1n.weather.weather.model.DayWeatherModel
-import com.lab.esh1n.weather.weather.model.WeatherBackgroundModel
+import com.lab.esh1n.weather.weather.model.SimpleBackgroundModel
 import com.lab.esh1n.weather.weather.model.WeatherBackgroundUtil.Companion.prepareWeatherGradient
 import com.lab.esh1n.weather.weather.model.WeatherModel
 
@@ -165,7 +165,7 @@ class CurrentWeatherAdapter(private val cityDayForecastClick: (WeatherModel) -> 
             currentItem = weatherModel
             binding?.let {
                 it.weather = weatherModel
-                val backgroundModel = WeatherBackgroundModel(weatherModel.iconId, weatherModel.isDay, weatherModel.hour24Format, weatherModel.cloudiness, weatherModel.rain, weatherModel.snow)
+                val backgroundModel = SimpleBackgroundModel(weatherModel.iconId, weatherModel.isDay, weatherModel.hour24Format, weatherModel.cloudiness, weatherModel.rain, weatherModel.snow)
                 it.viewContent.background = prepareWeatherGradient(it.root.context, backgroundModel)
                 it.executePendingBindings()
                 adapter.setItems(weatherModel.hourWeatherEvents)

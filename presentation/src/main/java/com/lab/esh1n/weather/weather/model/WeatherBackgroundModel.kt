@@ -5,10 +5,13 @@ import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
 import com.lab.esh1n.weather.R
 
-class WeatherBackgroundModel(val code: String, val isDay: Boolean, val hourOfDay: Int, val clouds: Int, val rain: Int, val snow: Int)
+sealed class WeatherBackgroundModel(val code: String, val isDay: Boolean, val hourOfDay: Int, val clouds: Int, val rain: Int, val snow: Int)
+class NoDataBackgroundModel(isDay: Boolean) : WeatherBackgroundModel("00d", isDay, 0, 0, 0, 0)
+class SimpleBackgroundModel(code: String, isDay: Boolean, hourOfDay: Int, clouds: Int, rain: Int, snow: Int)
+    : WeatherBackgroundModel(code, isDay, hourOfDay, clouds, rain, snow)
 
 class WeatherBackgroundUtil {
-    //TODO выдели основные погодные типы - облачно - днем и ночью, дождь - днем и ночью, снег - днем и ночью, чистые небеса - днем и ночью и сделай для них фоны
+    //TODO нагенери картинок на все weather code и вставь их, пока не сделаешь кастомное вью по 1)типу -коду, снег с дождем или переменная облачность 2) кол-ву снега, дождя, ОБЛАЧНОСТИ, времени суток
     companion object {
         private fun getGradientBackgroundColors(weatherModel: WeatherBackgroundModel): Pair<Int, Int> {
             val color = getGradientBackgroundColor(weatherModel)
@@ -18,6 +21,9 @@ class WeatherBackgroundUtil {
 
         private fun getGradientBackgroundColor(weatherModel: WeatherBackgroundModel): Int {
             if (weatherModel.isDay) {
+                if (weatherModel is NoDataBackgroundModel) {
+                    return R.array.no_data_sky_day
+                }
                 return if (weatherModel.clouds == 0 && weatherModel.rain == 0 && weatherModel.snow == 0) {
                     R.array.clear_sky
                 } else {
@@ -30,6 +36,9 @@ class WeatherBackgroundUtil {
                 }
 
             } else {
+                if (weatherModel is NoDataBackgroundModel) {
+                    return R.array.no_data_sky_night
+                }
                 return if (weatherModel.clouds == 0 && weatherModel.rain == 0 || weatherModel.snow == 0) {
                     R.array.night_clear_sky
                 } else {

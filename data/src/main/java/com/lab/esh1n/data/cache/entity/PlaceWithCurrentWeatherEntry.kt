@@ -6,12 +6,12 @@ import java.util.*
 
 data class PlaceWithCurrentWeatherEntry(val id: Int,
                                         val placeName: String,
-                                        val iconId: String,
+                                        val iconId: String?,
                                         val timezone: String,
-                                        val dateTxt: String,
+                                        val dateTxt: String?,
                                         @ColumnInfo(name = WeatherTableContract.COLUMN_WEATHER_DATE)
-                                        val date: Date,
-                                        val snow: Int,
-                                        val cloudiness: Int,
-                                        val rain: Int,
-                                        val temperatureMax: Int)
+                                        val date: Date?,
+                                        val snow: Int?,
+                                        val cloudiness: Int?,
+                                        val rain: Int?,
+                                        val temperatureMax: Int?)

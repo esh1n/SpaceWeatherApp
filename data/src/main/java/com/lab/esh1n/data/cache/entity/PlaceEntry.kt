@@ -17,6 +17,8 @@ data class PlaceEntry(
 
         var isCurrent: Boolean,
 
+        var isLiked: Boolean,
+
         var sunset: Long,
 
         var sunrise: Long

@@ -9,10 +9,13 @@ import com.lab.esh1n.weather.weather.model.WeatherBackgroundUtil
 
 @BindingAdapter("temperatureCelsius")
 fun setTemperatureCelsius(tv: TextView, temperatureCelsius: Int?) {
-    temperatureCelsius?.let {
-        val temp = tv.context.getString(R.string.text_temperature_celsius, it)
-        tv.text = temp
+    val tempToShow = if (temperatureCelsius == null) {
+        tv.context.getString(R.string.text_not_defined)
+    } else {
+        tv.context.getString(R.string.text_temperature_celsius, temperatureCelsius)
     }
+    tv.text = tempToShow
+
 }
 
 @BindingAdapter("pressure")

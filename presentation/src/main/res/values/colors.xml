@@ -50,4 +50,16 @@
         <item>#2f3494</item>
     </string-array>
 
+    <string-array name="no_data_sky_day">
+        <item>#ffffff</item>
+        <item>#ffffff</item>
+        <item>#ffffff</item>
+    </string-array>
+
+    <string-array name="no_data_sky_night">
+        <item>#002f5e</item>
+        <item>#D6D6D6</item>
+        <item>#03080d</item>
+    </string-array>
+
 </resources>

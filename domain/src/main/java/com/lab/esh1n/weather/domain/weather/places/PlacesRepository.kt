@@ -33,7 +33,7 @@ class PlacesRepository constructor(private val apiService: APIService, db: Weath
     }
 
     fun fetchAndSaveAllPlacesForecast(): Completable {
-        return placeDAO.getAllPlacesIds()
+        return placeDAO.getPlaceIdsToSync()
                 .flattenAsObservable { it }
                 .flatMapSingle { id ->
                     val unitsAndLang = appPrefs.getLangAndUnits()
@@ -88,16 +88,16 @@ class PlacesRepository constructor(private val apiService: APIService, db: Weath
     fun prePopulatePlaces(): Completable {
         val now = Date().time
         val PREPOPULATE_PLACES = listOf(
-                PlaceEntry(472045, "Воронеж", "Europe/Moscow", true, now, now),
-                PlaceEntry(765876, "Люблин", "Europe/Prague", false, now, now),
+                PlaceEntry(472045, "Воронеж", "Europe/Moscow", true, true, now, now),
+                PlaceEntry(765876, "Люблин", "Europe/Prague", false, false, now, now),
                 // PlaceEntry(6455259, "Париж", "Europe/Prague", false, now, now),
-                PlaceEntry(524901, "Москва", "Europe/Moscow", false, now, now),
-                PlaceEntry(694423, "Севастополь", "Europe/Moscow", false, now, now),
-                PlaceEntry(498817, "Ленинград", "Europe/Moscow", false, now, now),
-                PlaceEntry(6356055, "Барса", "Europe/Prague", false, now, now),
-                PlaceEntry(3164603, "Венеция", "Europe/Prague", false, now, now),
-                PlaceEntry(3067696, "Прага", "Europe/Prague", false, now, now),
-                PlaceEntry(745044, "Стамбул", "Europe/Moscow", false, now, now)
+                PlaceEntry(524901, "Москва", "Europe/Moscow", false, true, now, now),
+                PlaceEntry(694423, "Севастополь", "Europe/Moscow", false, true, now, now),
+                PlaceEntry(498817, "Ленинград", "Europe/Moscow", false, true, now, now),
+                PlaceEntry(6356055, "Барса", "Europe/Prague", false, true, now, now),
+                PlaceEntry(3164603, "Венеция", "Europe/Prague", false, false, now, now),
+                PlaceEntry(3067696, "Прага", "Europe/Prague", false, true, now, now),
+                PlaceEntry(745044, "Стамбул", "Europe/Moscow", false, true, now, now)
 
 
         )

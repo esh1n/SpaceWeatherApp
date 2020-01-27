@@ -68,7 +68,7 @@
     <string name="text_direction_SOUTH_WEST">ЮГ-ЗАПАД</string>
     <string name="text_direction_WEST">ЗАПАД</string>
     <string name="text_direction_SOUTH_NORTH_WEST">СЕВ-ЗАПАД</string>
-    <string name="text_not_defined">n/a</string>
+    <string name="text_not_defined">н/з</string>
 
 
     <string-array name="choose_place_actions">
