@@ -91,6 +91,7 @@ class WeatherModelMapper(private val uiLocalizer: UiLocalizer, private val prefs
         // currentTemperature = Temperature.middleTemperature(now.temperatureMin, now.temperatureMax).getHumanReadable(),
         val hourWeathers = mapHourWeathers(timezone, sunsetSunrise.sunset, sunsetSunrise.sunrise, firstDay, secondDay
                 ?: arrayListOf(), now)
+        val dayOfTheYear = DateBuilder(now.epochDateMills, timezone).getDayOfYear()
         return CurrentWeatherModel(
                 placeName = now.placeName,
                 description = now.description,
@@ -103,7 +104,8 @@ class WeatherModelMapper(private val uiLocalizer: UiLocalizer, private val prefs
                 rain = now.rain,
                 hour24Format = DateBuilder(now.epochDateMills, timezone).getHour24Format(),
                 isDay = isDay(now.iconId),
-                hourWeatherEvents = hourWeathers
+                hourWeatherEvents = hourWeathers,
+                dayOfTheYear = dayOfTheYear
         )
     }
 

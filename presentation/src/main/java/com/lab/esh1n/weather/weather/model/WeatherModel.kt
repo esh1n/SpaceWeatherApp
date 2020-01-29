@@ -8,8 +8,8 @@ sealed class WeatherModel(val humanDate: String,
                           val iconId: String,
                           val tempMax: Int,
                           val tempMin: Int,
-                          val description: String
-)
+                          val description: String,
+                          val dayOFTheYear: Int)
 
 class CurrentWeatherModel(
         description: String,
@@ -22,7 +22,9 @@ class CurrentWeatherModel(
         val isDay: Boolean,
         tempMax: Int,
         tempMin: Int,
-        val hour24Format: Int, val hourWeatherEvents: List<HourWeatherModel>) : WeatherModel(humanDate = humanDate, iconId = iconId, tempMax = tempMax, tempMin = tempMin, description = description)
+        val hour24Format: Int,
+        val hourWeatherEvents: List<HourWeatherModel>,
+        dayOfTheYear: Int) : WeatherModel(humanDate = humanDate, iconId = iconId, tempMax = tempMax, tempMin = tempMin, description = description, dayOFTheYear = dayOfTheYear)
 
 class DayWeatherModel(val dayDate: String,
                       humanDate: String,
@@ -30,7 +32,7 @@ class DayWeatherModel(val dayDate: String,
                       tempMax: Int,
                       tempMin: Int,
                       description: String,
-                      val dayOFTheYear: Int) : WeatherModel(humanDate = humanDate, iconId = iconId, tempMax = tempMax, tempMin = tempMin, description = description)
+                      dayOFTheYear: Int) : WeatherModel(humanDate = humanDate, iconId = iconId, tempMax = tempMax, tempMin = tempMin, description = description, dayOFTheYear = dayOFTheYear)
 
 sealed class HourWeatherModel(val date: Date)
 class HeaderHourWeatherModel(val isDay: Boolean, val pressure: Int, val windSpeed: OneValueProperty, val humidity: Int, date: Date) : HourWeatherModel(date)
