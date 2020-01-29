@@ -7,6 +7,7 @@ import java.util.*
 data class PlaceWithCurrentWeatherEntry(val id: Int,
                                         val placeName: String,
                                         val iconId: String?,
+                                        val weatherDescription: String?,
                                         val timezone: String,
                                         val dateTxt: String?,
                                         @ColumnInfo(name = WeatherTableContract.COLUMN_WEATHER_DATE)

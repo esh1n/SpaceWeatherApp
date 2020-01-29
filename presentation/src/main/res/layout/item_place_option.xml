@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="place"
+            type="com.lab.esh1n.weather.weather.model.PlaceModel" />
+    </data>
+
+    <LinearLayout
+        android:id="@+id/root_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:baselineAligned="false"
+        android:orientation="horizontal"
+        android:paddingStart="@dimen/margin_medium"
+        android:paddingTop="@dimen/margin_smallest"
+        android:paddingEnd="@dimen/margin_medium"
+        android:paddingBottom="@dimen/margin_smallest">
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_time"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="start"
+                android:text="@{place.time}"
+                android:textSize="@dimen/f18"
+                app:txtColor="@{place.weatherBackgroundModel.isDay}"
+                tools:text="16:34" />
+
+            <TextView
+                android:id="@+id/tv_place_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_smallest"
+                android:ellipsize="end"
+                android:maxWidth="100dp"
+                android:maxLines="4"
+                android:text="@{place.name}"
+                android:textSize="@dimen/f20"
+                android:textStyle="bold"
+                app:txtColor="@{place.weatherBackgroundModel.isDay}"
+                tools:text="Ленин\nград" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/middle_one_that_fills"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:paddingStart="@dimen/margin_smallest"
+            android:paddingEnd="@dimen/margin_smallest">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/iv_weather_status"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:background="@color/font_color_black"
+
+                android:scaleType="centerInside"
+                android:src="@drawable/ic_status_02d"
+                app:convertPathToIcon="@{place.iconId}" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/margin_small"
+                android:gravity="center"
+                android:text="@{place.weatherDescription}"
+                android:textColor="@color/font_color_black"
+                android:textSize="@dimen/f16"
+                tools:text="Холодный ветер с дождем усилился стократно " />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/iv_place_actions"
+                android:layout_width="@dimen/dots_options_icon_size"
+                android:layout_height="@dimen/dots_options_icon_size"
+                android:layout_gravity="end"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_three_dots" />
+
+            <TextView
+                android:id="@+id/tv_temperature"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:padding="5dp"
+                android:textSize="@dimen/f20"
+                android:textStyle="bold"
+                app:temperatureCelsius="@{place.temperature}"
+                app:txtColor="@{place.weatherBackgroundModel.isDay}"
+                tools:text="17%" />
+
+        </LinearLayout>
+    </LinearLayout>
+</layout>
+
+
+
+
+

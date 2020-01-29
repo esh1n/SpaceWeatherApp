@@ -20,6 +20,8 @@
     <dimen name="f16">16sp</dimen>
     <dimen name="f18">18sp</dimen>
     <dimen name="f20">20sp</dimen>
+    <dimen name="f24">24sp</dimen>
+    <dimen name="f42">42sp</dimen>
     <dimen name="f46">46sp</dimen>
 
 

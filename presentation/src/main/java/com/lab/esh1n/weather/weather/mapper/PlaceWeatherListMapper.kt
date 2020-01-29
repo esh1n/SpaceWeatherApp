@@ -24,7 +24,8 @@ class PlaceWeatherListMapper(private val uiLocalizer: UiLocalizer) : Mapper<Plac
                 iconId = source.iconId ?: "00d",
                 time = uiDateMapper.map(dateBuilder.build()),
                 temperature = source.temperatureMax,
-                weatherBackgroundModel = weatherBackgroundModel
+                weatherBackgroundModel = weatherBackgroundModel,
+                weatherDescription = source.weatherDescription ?: ""
         )
     }
 
