@@ -5,12 +5,22 @@ apply plugin: 'kotlin-android-extensions'
 
 
 android {
-    compileSdkVersion 28
+
+    signingConfigs {
+        production {
+            storeFile file('keystore.jks')
+            keyAlias 'android'
+            keyPassword 'beith2Oh'
+            storePassword 'beith2Oh'
+        }
+    }
+
+    compileSdkVersion 29
     defaultConfig {
         applicationId "com.lab.esh1n.weather_se"
         buildConfigField "String", "API_ENDPOINT", '"https://api.openweathermap.org"'
         minSdkVersion 21
-        targetSdkVersion 28
+        targetSdkVersion 29
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -20,6 +30,7 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.production
         }
 
         debug{
@@ -32,6 +43,9 @@ android {
        // incremental = true
     }
 
+
+
+
     compileOptions {
         targetCompatibility 1.8
         sourceCompatibility 1.8
@@ -42,15 +56,15 @@ android {
     productFlavors {
         free {
 
-            versionName "0.0.1.21"
-            setProperty("archivesBaseName", "LaunchTalks" + "-v" + versionName)
+            versionName "1.0.1"
+            setProperty("archivesBaseName", "WeatherApp" + "-v" + versionName)
         }
 
 
         paid {
-            versionName "0.0.1.21"
+            versionName "1.0.1"
             //applicationIdSuffix ".prod"
-            setProperty("archivesBaseName", "LaunchTalks" + "-v" + versionName)
+            setProperty("archivesBaseName", "WeatherApp" + "-v" + versionName)
 
         }
     }
