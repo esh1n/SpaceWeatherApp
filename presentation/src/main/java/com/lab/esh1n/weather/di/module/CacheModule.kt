@@ -1,7 +1,9 @@
 package com.lab.esh1n.weather.di.module
 
 import android.app.Application
+import android.content.Context
 import android.content.SharedPreferences
+import android.content.res.AssetManager
 import com.lab.esh1n.data.cache.AppPrefs
 import com.lab.esh1n.data.cache.WeatherDB
 import com.lab.esh1n.weather.weather.mapper.UILocalizerImpl
@@ -22,6 +24,12 @@ class CacheModule {
     @Singleton
     fun provideAppPrefs(sharedPrefs: SharedPreferences): AppPrefs {
         return AppPrefs(sharedPrefs)
+    }
+
+    @Provides
+    @Singleton
+    fun provideAssets(context: Context): AssetManager {
+        return context.assets
     }
 
     @Provides

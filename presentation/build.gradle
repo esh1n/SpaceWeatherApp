@@ -6,6 +6,14 @@ apply plugin: 'kotlin-android-extensions'
 
 android {
 
+    signingConfigs {
+        production {
+            storeFile file('keystore.jks')
+            keyAlias 'android'
+            keyPassword 'beith2Oh'
+            storePassword 'beith2Oh'
+        }
+    }
 
     compileSdkVersion 29
     defaultConfig {

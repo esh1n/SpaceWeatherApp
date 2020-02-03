@@ -1,5 +1,6 @@
 package com.lab.esh1n.weather.domain.weather.places
 
+import android.content.res.AssetManager
 import androidx.paging.PagedList
 import androidx.paging.toObservable
 import com.esh1n.utils_android.DateBuilder
@@ -18,7 +19,7 @@ import io.reactivex.Single
 import io.reactivex.functions.BiFunction
 import java.util.*
 
-class PlacesRepository constructor(private val apiService: APIService, db: WeatherDB, private val appPrefs: AppPrefs) {
+class PlacesRepository constructor(private val apiService: APIService, db: WeatherDB, private val appPrefs: AppPrefs, private val assetManager: AssetManager) {
     private val placeDAO = db.placeDAO()
     private val weatherDAO = db.weatherDAO()
 
