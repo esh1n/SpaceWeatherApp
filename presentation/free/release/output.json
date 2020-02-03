@@ -1,0 +1,19 @@
+[
+  {
+    "outputType": {
+      "type": "APK"
+    },
+    "apkData": {
+      "type": "MAIN",
+      "splits": [],
+      "versionCode": 1,
+      "versionName": "0.0.1.21",
+      "enabled": true,
+      "outputFile": "WeatherApp-v0.0.1.21-free-release.apk",
+      "fullName": "freeRelease",
+      "baseName": "free-release"
+    },
+    "path": "WeatherApp-v0.0.1.21-free-release.apk",
+    "properties": {}
+  }
+]

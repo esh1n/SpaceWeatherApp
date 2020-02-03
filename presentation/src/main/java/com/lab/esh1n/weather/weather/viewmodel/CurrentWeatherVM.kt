@@ -8,7 +8,7 @@ import com.esh1n.core_android.ui.viewmodel.BaseAndroidViewModel
 import com.esh1n.core_android.ui.viewmodel.Resource
 import com.esh1n.core_android.ui.viewmodel.SingleLiveEvent
 import com.lab.esh1n.data.cache.AppPrefs
-import com.lab.esh1n.data.cache.entity.SunsetSunrisePlaceEntry
+import com.lab.esh1n.data.cache.entity.SunsetSunriseTimezonePlaceEntry
 import com.lab.esh1n.data.cache.entity.WeatherWithPlace
 import com.lab.esh1n.weather.domain.weather.weather.usecases.FetchAndSaveCurrentPlaceWeatherUseCase
 import com.lab.esh1n.weather.domain.weather.weather.usecases.LoadCurrentWeatherSingleUseCase
@@ -43,7 +43,7 @@ constructor(private val loadCurrentWeatherUseCase: LoadCurrentWeatherUseCase,
 
     fun getWeatherLiveData() = weatherLiveData
 
-    fun mapWeatherDataResource(arg: Resource<Pair<SunsetSunrisePlaceEntry, List<WeatherWithPlace>>>): Resource<Pair<Int, List<WeatherModel>>> {
+    fun mapWeatherDataResource(arg: Resource<Pair<SunsetSunriseTimezonePlaceEntry, List<WeatherWithPlace>>>): Resource<Pair<Int, List<WeatherModel>>> {
         return Resource.map(arg) {
             val placeId = it.first.id
             val weatherModels = cityWeatherModelMapper.map(it)

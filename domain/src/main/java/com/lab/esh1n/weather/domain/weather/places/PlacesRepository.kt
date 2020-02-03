@@ -10,7 +10,6 @@ import com.lab.esh1n.data.cache.WeatherDB
 import com.lab.esh1n.data.cache.entity.PlaceEntry
 import com.lab.esh1n.data.cache.entity.PlaceWithCurrentWeatherEntry
 import com.lab.esh1n.weather.domain.BuildConfig
-import com.lab.esh1n.weather.domain.weather.weather.mapper.EpochDateListMapper
 import com.lab.esh1n.weather.domain.weather.weather.mapper.ForecastWeatherListMapper
 import com.lab.esh1n.weather.domain.weather.weather.mapper.PlaceListMapper
 import io.reactivex.Completable
@@ -48,7 +47,7 @@ class PlacesRepository constructor(private val apiService: APIService, db: Weath
                 }
                 .flatMapCompletable { placeAndWeathers ->
                     val updatePlaceEntry = placeAndWeathers.first
-                    placeDAO.updateSunsetSunrise(updatePlaceEntry.id, updatePlaceEntry.sunrise, updatePlaceEntry.sunset)
+                    placeDAO.updateSunsetSunrise(updatePlaceEntry.id, updatePlaceEntry.timezone, updatePlaceEntry.sunrise, updatePlaceEntry.sunset)
                     weatherDAO.saveWeathersCompletable(placeAndWeathers.second)
                 }
     }
@@ -67,14 +66,13 @@ class PlacesRepository constructor(private val apiService: APIService, db: Weath
                         }
                         .map { response ->
                             val id = response.city!!.id!!
-                            val dateConverter = EpochDateListMapper()
                             val updatePlaceModel = PlaceListMapper().map(response.city!!)
                             val weathers = ForecastWeatherListMapper(id).map(response.list)
                             return@map Pair(updatePlaceModel, weathers)
                         }
                         .flatMapCompletable { placeAndWeathers ->
                             val updatePlaceEntry = placeAndWeathers.first
-                            placeDAO.updateSunsetSunrise(updatePlaceEntry.id, updatePlaceEntry.sunrise, updatePlaceEntry.sunset)
+                            placeDAO.updateSunsetSunrise(updatePlaceEntry.id, updatePlaceEntry.timezone, updatePlaceEntry.sunrise, updatePlaceEntry.sunset)
                             weatherDAO.saveWeathersCompletable(placeAndWeathers.second)
                         }
                 )

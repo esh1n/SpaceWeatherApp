@@ -6,7 +6,7 @@ import androidx.room.OnConflictStrategy.IGNORE
 import com.lab.esh1n.data.cache.DateConverter
 import com.lab.esh1n.data.cache.entity.PlaceEntry
 import com.lab.esh1n.data.cache.entity.PlaceWithCurrentWeatherEntry
-import com.lab.esh1n.data.cache.entity.SunsetSunrisePlaceEntry
+import com.lab.esh1n.data.cache.entity.SunsetSunriseTimezonePlaceEntry
 import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.Single
@@ -33,17 +33,19 @@ abstract class PlaceDAO {
     @Query("UPDATE place SET isCurrent = 0")
     abstract fun deselectCurrentPlace()
 
-    @Query("UPDATE place SET sunrise = :sunrise,sunset = :sunset WHERE id =:id")
-    abstract fun updateSunsetSunrise(id: Int, sunrise: Date, sunset: Date)
+    @Query("UPDATE place SET sunrise = :sunrise,sunset = :sunset,timezone = :timezone WHERE id =:id")
+    abstract fun updateSunsetSunrise(id: Int, timezone: String, sunrise: Date, sunset: Date)
 
-    @Query("SELECT id,sunrise,sunset from place WHERE isCurrent = 1")
-    abstract fun getCurrentSunsetSunriseInfo(): Flowable<SunsetSunrisePlaceEntry>
+    @Query("SELECT id,sunrise,sunset,timezone from place WHERE isCurrent = 1")
+    abstract fun getCurrentSunsetSunriseInfo(): Flowable<SunsetSunriseTimezonePlaceEntry>
 
     @Transaction
-    open fun updateSunrisesAndSunset(entries: List<SunsetSunrisePlaceEntry>) {
-        entries.forEach { entry ->
+    open fun updateSunrisesAndSunset(entryTimezones: List<SunsetSunriseTimezonePlaceEntry>) {
+        entryTimezones.forEach { entry ->
             run {
-                updateSunsetSunrise(entry.id, entry.sunrise, entry.sunset)
+                if (entry.id >= 0) {
+                    updateSunsetSunrise(entry.id, entry.timezone, entry.sunrise, entry.sunset)
+                }
             }
         }
     }

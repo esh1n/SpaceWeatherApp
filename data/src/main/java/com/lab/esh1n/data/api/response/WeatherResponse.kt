@@ -16,6 +16,9 @@ data class WeatherResponse(
         @field:SerializedName("name")
         val name: String? = null,
 
+        @field:SerializedName("timezone")
+        val timezone: Int? = null,
+
         @field:SerializedName("cod")
         val cod: Int? = null,
 

@@ -2,7 +2,7 @@ package com.lab.esh1n.weather.weather.mapper
 
 import com.esh1n.utils_android.DateBuilder
 import com.lab.esh1n.data.cache.AppPrefs
-import com.lab.esh1n.data.cache.entity.SunsetSunrisePlaceEntry
+import com.lab.esh1n.data.cache.entity.SunsetSunriseTimezonePlaceEntry
 import com.lab.esh1n.data.cache.entity.Temperature
 import com.lab.esh1n.data.cache.entity.WeatherWithPlace
 import com.lab.esh1n.data.cache.entity.WindSpeed
@@ -18,7 +18,7 @@ import kotlin.math.roundToInt
 class WeatherModelMapper(private val uiLocalizer: UiLocalizer, private val prefs: AppPrefs) {
 
 
-    fun map(source: Pair<SunsetSunrisePlaceEntry, List<WeatherWithPlace>>): List<WeatherModel> {
+    fun map(source: Pair<SunsetSunriseTimezonePlaceEntry, List<WeatherWithPlace>>): List<WeatherModel> {
         if (source.second.isEmpty()) {
             return emptyList()
         } else {
@@ -82,14 +82,14 @@ class WeatherModelMapper(private val uiLocalizer: UiLocalizer, private val prefs
         }.values
     }
 
-    private fun mapCurrentWeatherModel(sunsetSunrise: SunsetSunrisePlaceEntry, firstDay: MutableList<WeatherWithPlace>, secondDay: MutableList<WeatherWithPlace>?, timezone: String): CurrentWeatherModel {
+    private fun mapCurrentWeatherModel(sunsetSunriseTimezone: SunsetSunriseTimezonePlaceEntry, firstDay: MutableList<WeatherWithPlace>, secondDay: MutableList<WeatherWithPlace>?, timezone: String): CurrentWeatherModel {
         val nowInMills = DateBuilder(Date(), timezone).build().time
         val now = firstDay.minBy { abs(it.epochDateMills.time - nowInMills) } ?: firstDay[0]
         firstDay.remove(now)
 
         val dayHourDateMapper = uiLocalizer.provideDateMapper(timezone, DateFormat.DAY_HOUR)
         // currentTemperature = Temperature.middleTemperature(now.temperatureMin, now.temperatureMax).getHumanReadable(),
-        val hourWeathers = mapHourWeathers(timezone, sunsetSunrise.sunset, sunsetSunrise.sunrise, firstDay, secondDay
+        val hourWeathers = mapHourWeathers(timezone, sunsetSunriseTimezone.sunset, sunsetSunriseTimezone.sunrise, firstDay, secondDay
                 ?: arrayListOf(), now)
         val dayOfTheYear = DateBuilder(now.epochDateMills, timezone).getDayOfYear()
         return CurrentWeatherModel(
