@@ -5,7 +5,7 @@ import android.app.Application
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.esh1n.core_android.ui.viewmodel.Resource
 import com.google.common.truth.Truth
-import com.lab.esh1n.data.cache.entity.SunsetSunrisePlaceEntry
+import com.lab.esh1n.data.cache.entity.SunsetSunriseTimezonePlaceEntry
 import com.lab.esh1n.data.cache.entity.WeatherWithPlace
 import com.lab.esh1n.weather.domain.weather.weather.usecases.FetchAndSaveCurrentPlaceWeatherUseCase
 import com.lab.esh1n.weather.domain.weather.weather.usecases.LoadCurrentWeatherSingleUseCase
@@ -77,7 +77,7 @@ class NewsViewModelTest {
         //Then
         verify(exactly = 1) { viewModel.mapWeatherDataResource(res) }
         verify(exactly = 1) { res.data }
-        val mapResult = WeatherModelMapper(localizer).map(Pair(SunsetSunrisePlaceEntry.createEmpty(), arrayListOf()))
+        val mapResult = WeatherModelMapper(localizer).map(Pair(SunsetSunriseTimezonePlaceEntry.createEmpty(), arrayListOf()))
         Truth.assertThat(mapResult.isNotEmpty()).isTrue()
         //Truth.assertThat(weatherModelMapper.map(any()).isEmpty()).isTrue()
         val result = viewModel.getWeatherLiveData().getOrAwaitValue()
@@ -87,8 +87,8 @@ class NewsViewModelTest {
         confirmVerified(loadCurrentWeatherUseCase)
     }
 
-    private fun createResource(): Resource<Pair<SunsetSunrisePlaceEntry, List<WeatherWithPlace>>> {
-        val placeEntry = SunsetSunrisePlaceEntry(1, Date(), Date())
+    private fun createResource(): Resource<Pair<SunsetSunriseTimezonePlaceEntry, List<WeatherWithPlace>>> {
+        val placeEntry = SunsetSunriseTimezonePlaceEntry(1, Date(), Date())
         val weatherWithPlaces: List<WeatherWithPlace> = ArrayList()
         return spyk(Resource(Resource.Status.SUCCESS, Pair(placeEntry, weatherWithPlaces), null))
     }

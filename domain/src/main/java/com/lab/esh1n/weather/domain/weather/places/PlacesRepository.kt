@@ -54,7 +54,7 @@ class PlacesRepository constructor(private val apiService: APIService, db: Weath
                 }
                 .flatMapCompletable { placeAndWeathers ->
                     val updatePlaceEntry = placeAndWeathers.first
-                    placeDAO.updateSunsetSunrise(updatePlaceEntry.id, updatePlaceEntry.sunrise, updatePlaceEntry.sunset)
+                    placeDAO.updateSunsetSunrise(updatePlaceEntry.id, updatePlaceEntry.timezone, updatePlaceEntry.sunrise, updatePlaceEntry.sunset)
                     weatherDAO.saveWeathersCompletable(placeAndWeathers.second)
                 }
     }
@@ -73,14 +73,13 @@ class PlacesRepository constructor(private val apiService: APIService, db: Weath
                         }
                         .map { response ->
                             val id = response.city!!.id!!
-                            val dateConverter = EpochDateListMapper()
                             val updatePlaceModel = PlaceListMapper().map(response.city!!)
                             val weathers = ForecastWeatherListMapper(id).map(response.list)
                             return@map Pair(updatePlaceModel, weathers)
                         }
                         .flatMapCompletable { placeAndWeathers ->
                             val updatePlaceEntry = placeAndWeathers.first
-                            placeDAO.updateSunsetSunrise(updatePlaceEntry.id, updatePlaceEntry.sunrise, updatePlaceEntry.sunset)
+                            placeDAO.updateSunsetSunrise(updatePlaceEntry.id, updatePlaceEntry.timezone, updatePlaceEntry.sunrise, updatePlaceEntry.sunset)
                             weatherDAO.saveWeathersCompletable(placeAndWeathers.second)
                         }
                 )
