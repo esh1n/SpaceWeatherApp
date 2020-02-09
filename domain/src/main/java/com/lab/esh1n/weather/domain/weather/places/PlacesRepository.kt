@@ -1,24 +1,31 @@
 package com.lab.esh1n.weather.domain.weather.places
 
+import android.content.res.AssetManager
 import androidx.paging.PagedList
 import androidx.paging.toObservable
 import com.esh1n.utils_android.DateBuilder
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import com.lab.esh1n.data.api.APIService
+import com.lab.esh1n.data.api.response.PlaceAsset
 import com.lab.esh1n.data.cache.AppPrefs
 import com.lab.esh1n.data.cache.WeatherDB
-import com.lab.esh1n.data.cache.entity.PlaceEntry
 import com.lab.esh1n.data.cache.entity.PlaceWithCurrentWeatherEntry
 import com.lab.esh1n.weather.domain.BuildConfig
+import com.lab.esh1n.weather.domain.weather.places.mapper.PlaceEntryMapper
 import com.lab.esh1n.weather.domain.weather.weather.mapper.EpochDateListMapper
 import com.lab.esh1n.weather.domain.weather.weather.mapper.ForecastWeatherListMapper
 import com.lab.esh1n.weather.domain.weather.weather.mapper.PlaceListMapper
+import getJsonFromAssets
 import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.functions.BiFunction
+import java.lang.reflect.Type
 import java.util.*
 
-class PlacesRepository constructor(private val apiService: APIService, db: WeatherDB, private val appPrefs: AppPrefs) {
+class PlacesRepository constructor(private val apiService: APIService, db: WeatherDB,
+                                   private val appPrefs: AppPrefs, private val assetManager: AssetManager) {
     private val placeDAO = db.placeDAO()
     private val weatherDAO = db.weatherDAO()
 
@@ -86,22 +93,10 @@ class PlacesRepository constructor(private val apiService: APIService, db: Weath
     }
 
     fun prePopulatePlaces(): Completable {
-        val now = Date().time
-        val PREPOPULATE_PLACES = listOf(
-                PlaceEntry(472045, "Воронеж", "Europe/Moscow", true, true, now, now),
-                PlaceEntry(765876, "Люблин", "Europe/Prague", false, false, now, now),
-                // PlaceEntry(6455259, "Париж", "Europe/Prague", false, now, now),
-                PlaceEntry(524901, "Москва", "Europe/Moscow", false, true, now, now),
-                PlaceEntry(694423, "Севастополь", "Europe/Moscow", false, true, now, now),
-                PlaceEntry(498817, "Ленинград", "Europe/Moscow", false, true, now, now),
-                PlaceEntry(6356055, "Барса", "Europe/Prague", false, true, now, now),
-                PlaceEntry(3164603, "Венеция", "Europe/Prague", false, false, now, now),
-                PlaceEntry(3067696, "Прага", "Europe/Prague", false, true, now, now),
-                PlaceEntry(745044, "Стамбул", "Europe/Moscow", false, true, now, now)
-
-
-        )
-        //   val PREPOPULATE_WEATHER = listOf(WeatherEntry(524901, Date(), "", 12.1, 10.1, 18.1, "01d", "clear sky", 120.0, 12.0, 12f, 12f))
+        val citiesJSON = assetManager.getJsonFromAssets("city.list.json")
+        val cityType: Type = object : TypeToken<List<PlaceAsset>>() {}.type
+        val places = Gson().fromJson<List<PlaceAsset>>(citiesJSON, cityType)
+        val PREPOPULATE_PLACES = PlaceEntryMapper().map(places)
         return placeDAO.insertPlaces(PREPOPULATE_PLACES)
     }
 

@@ -1,6 +1,7 @@
 package com.lab.esh1n.data.cache.entity
 
 import androidx.room.ColumnInfo
+import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.lab.esh1n.data.cache.contract.WeatherTableContract
@@ -21,7 +22,10 @@ data class PlaceEntry(
 
         var sunset: Long,
 
-        var sunrise: Long
+        var sunrise: Long,
+
+        @Embedded
+        val coordinate: Coordinate
 )
 
 

@@ -1,5 +1,6 @@
 package com.lab.esh1n.weather.di.module
 
+import android.content.res.AssetManager
 import com.lab.esh1n.data.api.APIService
 import com.lab.esh1n.data.cache.AppPrefs
 import com.lab.esh1n.data.cache.WeatherDB
@@ -21,8 +22,8 @@ class RepositoriesModule {
 
     @Provides
     @Singleton
-    fun providePlaceRepository(userSessionApiService: APIService, database: WeatherDB, appPrefs: AppPrefs): PlacesRepository {
-        return PlacesRepository(userSessionApiService, database, appPrefs)
+    fun providePlaceRepository(userSessionApiService: APIService, database: WeatherDB, appPrefs: AppPrefs, assetManager: AssetManager): PlacesRepository {
+        return PlacesRepository(userSessionApiService, database, appPrefs, assetManager)
     }
 
 }
