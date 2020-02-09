@@ -4,6 +4,7 @@ import android.content.res.AssetManager
 import androidx.paging.PagedList
 import androidx.paging.toObservable
 import com.esh1n.utils_android.DateBuilder
+import com.esh1n.utils_android.FileReader
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.lab.esh1n.data.api.APIService
@@ -13,16 +14,15 @@ import com.lab.esh1n.data.cache.WeatherDB
 import com.lab.esh1n.data.cache.entity.PlaceWithCurrentWeatherEntry
 import com.lab.esh1n.weather.domain.BuildConfig
 import com.lab.esh1n.weather.domain.weather.places.mapper.PlaceEntryMapper
-import com.lab.esh1n.weather.domain.weather.weather.mapper.EpochDateListMapper
 import com.lab.esh1n.weather.domain.weather.weather.mapper.ForecastWeatherListMapper
 import com.lab.esh1n.weather.domain.weather.weather.mapper.PlaceListMapper
-import getJsonFromAssets
 import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.functions.BiFunction
 import java.lang.reflect.Type
 import java.util.*
+
 
 class PlacesRepository constructor(private val apiService: APIService, db: WeatherDB,
                                    private val appPrefs: AppPrefs, private val assetManager: AssetManager) {
@@ -85,6 +85,7 @@ class PlacesRepository constructor(private val apiService: APIService, db: Weath
                 )
     }
 
+
     private fun getIdUnitAndLang(): Single<Triple<Int, String, String>> {
         return Single.zip(placeDAO.getCurrentCityId(), appPrefs.getLangAndUnitsSingle(), BiFunction { id, unitsAndLang ->
             return@BiFunction Triple(id, unitsAndLang.first, unitsAndLang.second)
@@ -92,7 +93,8 @@ class PlacesRepository constructor(private val apiService: APIService, db: Weath
     }
 
     fun prePopulatePlaces(): Completable {
-        val citiesJSON = assetManager.getJsonFromAssets("city.list.json")
+        val inputStream = assetManager.open("city.list.json")
+        val citiesJSON = FileReader.readFileToString(inputStream)
         val cityType: Type = object : TypeToken<List<PlaceAsset>>() {}.type
         val places = Gson().fromJson<List<PlaceAsset>>(citiesJSON, cityType)
         val PREPOPULATE_PLACES = PlaceEntryMapper().map(places)

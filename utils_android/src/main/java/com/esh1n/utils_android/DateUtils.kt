@@ -4,9 +4,6 @@ import java.util.*
 import java.util.concurrent.TimeUnit
 
 object DateUtils {
-    fun getNow(timeUnit: TimeUnit): Long {
-        return timeUnit.convert(Date().time, TimeUnit.MILLISECONDS)
-    }
 
     fun getTimezoneByOffset(secondsOffset: Int, fallbackZone: String = "Europe/Moscow"): String {
         val offset = TimeUnit.MILLISECONDS.convert(secondsOffset.toLong(), TimeUnit.SECONDS)

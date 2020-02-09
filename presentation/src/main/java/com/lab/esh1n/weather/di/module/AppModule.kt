@@ -3,7 +3,6 @@ package com.lab.esh1n.weather.di.module
 import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
-import android.content.res.AssetManager
 import android.content.res.Resources
 import androidx.work.WorkManager
 import com.crashlytics.android.Crashlytics
@@ -24,12 +23,6 @@ class AppModule {
     @Singleton
     internal fun provideContext(application: Application): Context {
         return application.applicationContext
-    }
-
-    @Provides
-    @Singleton
-    internal fun provideAssets(application: Application): AssetManager {
-        return application.assets
     }
 
     @Provides
