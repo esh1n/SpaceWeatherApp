@@ -30,14 +30,26 @@ object FileReader {
         return result.toString()
     }
 
-    private fun readFileToString2(inputStream: InputStream): String {
-        val result = ByteArrayOutputStream()
+    fun readFileToString2(inputStream: InputStream): String {
+        val buf = ByteArrayOutputStream()
         val buffer = ByteArray(1024)
         var length: Int
         while (inputStream.read(buffer).also { length = it } != -1) {
-            result.write(buffer, 0, length)
+            buf.write(buffer, 0, length)
         }
-        return result.toString("UTF-8")
+        return buf.toString("UTF-8")
+    }
+
+    fun readFileToString3(inputStream: InputStream): String {
+        val buffer = ByteArray(1024)
+        val bis = BufferedInputStream(inputStream)
+        val buf = ByteArrayOutputStream()
+        var length: Int = bis.read(buffer)
+        while (length != -1) {
+            buf.write(buffer, 0, length)
+            length = bis.read(buffer)
+        }
+        return buf.toString("UTF-8")
     }
 
     fun readFileToString(inputStream: InputStream): String {
