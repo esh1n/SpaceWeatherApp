@@ -117,10 +117,18 @@ class CurrentWeatherAdapter(private val cityDayForecastClick: (WeatherModel) -> 
         override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
             val oldBrand = oldBrands[oldItemPosition]
             val newBrand = newBrands[newItemPosition]
-            return oldBrand.humanDate == newBrand.humanDate
+            val simpleCheck = oldBrand.humanDate == newBrand.humanDate
                     && oldBrand.tempMax == newBrand.tempMax
                     && oldBrand.tempMin == newBrand.tempMin
                     && oldBrand.iconId == newBrand.iconId
+
+
+            return if (oldBrand is CurrentWeatherModel && newBrand is CurrentWeatherModel) {
+                simpleCheck && oldBrand.hourWeatherEvents == newBrand.hourWeatherEvents
+            } else {
+                simpleCheck
+            }
+
         }
     }
 

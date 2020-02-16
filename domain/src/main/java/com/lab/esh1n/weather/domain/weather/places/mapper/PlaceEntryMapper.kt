@@ -8,13 +8,12 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 class PlaceEntryMapper {
-    fun mapItem(source: PlaceAsset): PlaceEntry {
+    private fun mapItem(source: PlaceAsset): PlaceEntry {
         val defaultTimeZone = "Europe/Moscow"
         val now = Date().time
-        val name = source.name ?: ""
         val isLiked = isLiked(source.id)
         return PlaceEntry(id = source.id,
-                placeName = name,
+                placeName = source.name ?: "",
                 timezone = defaultTimeZone,
                 coordinate = mapCoordinate(source.coord),
                 sunrise = now,
@@ -23,7 +22,7 @@ class PlaceEntryMapper {
                 isCurrent = isCurrent(source.id))
     }
 
-    fun mapCoordinate(coord: CoordResponse?): Coordinate {
+    private fun mapCoordinate(coord: CoordResponse?): Coordinate {
         return if (coord == null) {
             Coordinate(0.0, 0.0)
         } else {
