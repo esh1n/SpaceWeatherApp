@@ -2,6 +2,7 @@
     <string name="app_name">Weather SE</string>
 
     <string name="error_unexpected">Something went wrong.</string>
+    <string name="text_placeholder_weather" translatable="false">Облачно с прояснениями</string>
 
     <string name="search_repository_no_results_message">Sorry, no results for your query</string>
     <string name="text_no_weather">No weather yet\nPlease, pull to refresh it</string>

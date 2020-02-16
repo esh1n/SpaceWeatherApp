@@ -166,6 +166,9 @@ class DayForecastAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                             val temperature = item.temperature.convertProperty(itemView.context)
                             val tvTemperature = itemView.findViewById<AppCompatTextView>(R.id.tv_temperature)
                             tvTemperature.text = temperature
+                            val tvDescription = itemView.findViewById<AppCompatTextView>(R.id.tv_description)
+                            tvDescription.text = item.description
+
                         }
 
                     }
@@ -326,7 +329,7 @@ public enum class DayForecastSection(val index: Int, val titleStringRes: Int, va
 }
 
 sealed class DaytimeForecastModel(val dayTime: StringResValueProperty)
-class DayOverallForecastModel(dayTime: StringResValueProperty, val iconId: String, val temperature: OneValueProperty) : DaytimeForecastModel(dayTime)
+class DayOverallForecastModel(dayTime: StringResValueProperty, val description: String, val iconId: String, val temperature: OneValueProperty) : DaytimeForecastModel(dayTime)
 class DayWindForecastModel(dayTime: StringResValueProperty, val iconId: String, val windSpeed: OneValueProperty, val windDirection: StringResValueProperty, val windDegree: Float) : DaytimeForecastModel(dayTime)
 class DayHumidityForecastModel(val humidity: OneValueProperty, dayTime: StringResValueProperty) : DaytimeForecastModel(dayTime)
 class DayPressureForecastModel(val pressure: OneValueProperty, dayTime: StringResValueProperty) : DaytimeForecastModel(dayTime)

@@ -27,6 +27,19 @@
         tools:src="@drawable/ic_status_01d" />
 
     <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_description"
+        android:layout_width="wrap_content"
+        android:gravity="center"
+        android:maxWidth="100dp"
+        android:maxLines="4"
+        android:singleLine="false"
+        style="@style/ForecastHighlightTextView"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="@dimen/margin_small"
+        tools:text="@string/text_placeholder_weather" />
+
+    <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tv_temperature"
         style="@style/ForecastHighlightTextView"
         android:layout_width="wrap_content"

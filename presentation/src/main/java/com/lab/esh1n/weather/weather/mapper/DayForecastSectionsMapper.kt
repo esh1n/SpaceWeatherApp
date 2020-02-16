@@ -90,12 +90,30 @@ class DayForecastSectionsMapper(private val uiLocalizer: UiLocalizer) : Mapper<L
         morningDayEveningNight.forEachIndexed { index, list ->
             val averageIconAndDescription = AverageWeatherUtil.calculateWeatherIconAndDescription(list)
             val averageTemperature = AverageWeatherUtil.average(list.map { it.temperature })
+            val updatedDescription = joinString(averageIconAndDescription.second.split(" "))
             mainItems.add(DayOverallForecastModel(
                     dayTime = StringResValueProperty(titles[index]),
                     iconId = averageIconAndDescription.first,
+                    description = updatedDescription,
                     temperature = uiLocalizer.localizeTemperature(Temperature(averageTemperature, TemperatureUnit.C))))
         }
         return Pair(DayForecastSection.MAIN, mainItems)
+    }
+
+    private fun joinString(items: List<String>): String {
+        if (items.isEmpty()) {
+            return ""
+        }
+        val builder = StringBuilder(items[0])
+        if (items.size != 1) {
+            val otherItems = items.subList(1, items.size)
+            otherItems.forEach {
+                val delimiter = if (it.length < 2) " " else "\n"
+                builder.append("$delimiter$it")
+            }
+        }
+
+        return builder.toString()
     }
 
 
