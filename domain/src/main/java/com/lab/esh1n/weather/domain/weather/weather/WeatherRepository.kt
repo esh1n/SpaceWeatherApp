@@ -17,6 +17,7 @@ import com.lab.esh1n.weather.domain.weather.weather.mapper.ForecastWeatherListMa
 import com.lab.esh1n.weather.domain.weather.weather.mapper.PlaceListMapper
 import com.lab.esh1n.weather.domain.weather.weather.mapper.WeatherResponseListMapper
 import io.reactivex.Completable
+import io.reactivex.Flowable
 import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.functions.BiFunction
@@ -153,10 +154,11 @@ class WeatherRepository constructor(private val api: APIService, database: Weath
         { placeId, forecast -> Pair(placeId, forecast) })
     }
 
-    fun getAvailableDaysForPlace(placeId: Int): Single<Triple<Int, String, List<Date>>> {
+    fun getAvailableDaysForPlace(placeId: Int): Flowable<Triple<Int, String, List<Date>>> {
         val almostNow = DateBuilder(Date()).build()
         return weatherDAO
                 .getAllWeathersForCity(placeId, almostNow)
+                .filter { weathers -> !weathers.isNullOrEmpty() }
                 .map { weathers ->
                     val timeZone = if (weathers.isNullOrEmpty()) "Europe/Moscow" else weathers[0].timezone
                     val dates = weathers.distinctBy {

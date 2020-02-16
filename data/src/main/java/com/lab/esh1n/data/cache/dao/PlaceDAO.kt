@@ -15,6 +15,7 @@ import java.util.*
 @Dao
 @TypeConverters(DateConverter::class)
 abstract class PlaceDAO {
+    @Transaction
     @Insert(onConflict = IGNORE)
     abstract fun insertPlaces(places: List<PlaceEntry>): Completable
 

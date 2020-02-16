@@ -22,8 +22,9 @@ abstract class WeatherDAO {
     @Query("SELECT * FROM weather INNER JOIN  place ON place.id = placeId WHERE isCurrent = 1 AND epochDateMills>=:almostNow AND epochDateMills<:plus5days  ORDER BY abs(:almostNow - epochDateMills) ASC")
     abstract fun getDetailedCurrentWeather(almostNow: Date, plus5days: Date): Flowable<List<WeatherWithPlace>>
 
+    @Transaction
     @Query("SELECT * FROM weather INNER JOIN  place ON place.id = placeId WHERE placeId =:placeId AND epochDateMills>=:almostNow ORDER BY abs(:almostNow - epochDateMills) ASC")
-    abstract fun getAllWeathersForCity(placeId:Int,almostNow: Date): Single<List<WeatherWithPlace>>
+    abstract fun getAllWeathersForCity(placeId: Int, almostNow: Date): Flowable<List<WeatherWithPlace>>
 
     @Query("SELECT * FROM weather INNER JOIN  place ON place.id = placeId WHERE placeId =:placeId AND epochDateMills>=:dayStart AND epochDateMills<=:dayEnd ORDER BY abs(:dayStart - epochDateMills) ASC")
     abstract fun getDayWeathersForCity(placeId: Int, dayStart: Date, dayEnd: Date): Single<List<WeatherWithPlace>>

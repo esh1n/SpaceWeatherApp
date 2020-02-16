@@ -39,6 +39,13 @@ constructor() {
             }
         }
 
+        fun <T> applySchedulersFlowable(): FlowableTransformer<T, T> {
+            return FlowableTransformer { upstream ->
+                upstream.subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+            }
+        }
+
         fun applySchedulersCompletable(): CompletableTransformer {
             return CompletableTransformer { upstream ->
                 upstream.subscribeOn(Schedulers.io())

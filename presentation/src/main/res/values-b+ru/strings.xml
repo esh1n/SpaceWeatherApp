@@ -72,8 +72,8 @@
 
 
     <string-array name="choose_place_actions">
-        <item>Set Primary</item>
-        <item>Rename</item>
+        <item>Сделать основным</item>
+        <item>Переименовать</item>
     </string-array>
 
 </resources>

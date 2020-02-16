@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.viewpager2.widget.ViewPager2
+import com.crashlytics.android.Crashlytics
 import com.esh1n.core_android.error.ErrorModel
 import com.esh1n.core_android.ui.fragment.BaseVMFragment
 import com.esh1n.core_android.ui.viewmodel.BaseObserver
@@ -75,15 +76,27 @@ class ForecastFragment : BaseVMFragment<ForecastWeekVM>() {
             }
 
         })
+        viewModel.fetchForecastEvent.observe(viewLifecycleOwner, object : BaseObserver<Unit>() {
+            override fun onData(data: Unit?) {
+
+            }
+
+            override fun onError(error: ErrorModel?) {
+                Crashlytics.log(error?.message)
+                SnackbarBuilder.buildErrorSnack(requireView(), error?.message ?: "").show()
+            }
+
+        })
         getPlaceId()?.let { placeId ->
             viewModel.loadAvailableDays(placeId, getSelectedDay())
+            viewModel.fetchForecastIfNeeded(placeId)
         }
 
     }
 
     fun populateByDays(selectedDayIndex: Int, items: List<ForecastDayModel>) {
-        adapterDayForecast.items = items
-        if (tabs != null && viewPager != null) {
+        adapterDayForecast.publicDays = items
+        if (tabs != null && viewPager != null && items.isNotEmpty()) {
             Log.d("TABS", "init tabs")
             TabLayoutMediator(tabs!!, viewPager!!,
                     TabLayoutMediator.TabConfigurationStrategy { tab, position ->

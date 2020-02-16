@@ -93,12 +93,18 @@ class PlacesRepository constructor(private val apiService: APIService, db: Weath
     }
 
     fun prePopulatePlaces(): Completable {
-        val inputStream = assetManager.open("city.list.json")
-        val citiesJSON = FileReader.readFileToString3(inputStream)
-        val cityType: Type = object : TypeToken<List<PlaceAsset>>() {}.type
-        val places = Gson().fromJson<List<PlaceAsset>>(citiesJSON, cityType)
-        val PREPOPULATE_PLACES = PlaceEntryMapper().map(places)
-        return placeDAO.insertPlaces(PREPOPULATE_PLACES)
+        return Single.fromCallable {
+            val inputStream = assetManager.open("city.list.json")
+            val citiesJSON = FileReader.readFileToString3(inputStream)
+            inputStream.close()
+            val cityType: Type = object : TypeToken<List<PlaceAsset>>() {}.type
+            val places = Gson().fromJson<List<PlaceAsset>>(citiesJSON, cityType)
+            return@fromCallable PlaceEntryMapper().map(places)
+        }.flatMapCompletable { placeEntries ->
+            return@flatMapCompletable placeDAO.insertPlaces(placeEntries)
+        }
+
+
     }
 
     fun updateCurrentPlace(id: Int): Completable {

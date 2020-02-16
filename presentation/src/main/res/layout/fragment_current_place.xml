@@ -45,7 +45,7 @@
                     <com.esh1n.utils_android.ui.OrientationAwareRecyclerView
                         android:id="@+id/list_weathers"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                         tools:listitem="@layout/item_day_overrall_weather" />
 

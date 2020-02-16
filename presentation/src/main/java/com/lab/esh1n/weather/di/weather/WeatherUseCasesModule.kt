@@ -29,6 +29,11 @@ class WeatherUseCasesModule {
     }
 
     @Provides
+    fun provideFetchPlaceForecastUseCase(weatherRepository: WeatherRepository, errorsHandler: ErrorsHandler): FetchPlaceForecastUseCase {
+        return FetchPlaceForecastUseCase(weatherRepository, errorsHandler)
+    }
+
+    @Provides
     fun provideLoadSettingsUseCase(prefs: AppPrefs, errorsHandler: ErrorsHandler): LoadSettingsUseCase {
         return LoadSettingsUseCase(prefs, errorsHandler)
     }
