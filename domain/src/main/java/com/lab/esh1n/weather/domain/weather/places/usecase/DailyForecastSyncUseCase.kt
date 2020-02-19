@@ -13,7 +13,8 @@ class DailyForecastSyncUseCase(private val placesRepository: PlacesRepository, e
     override fun perform(args: Unit): Single<Resource<Unit>> {
         return placesRepository
                 .updateCurrentPlacesForecast()
-                .andThen(Single.just(Resource.success()))
+                .andThen(
+                        Single.just(Resource.success()))
                 .onErrorReturn { error ->
                     Resource.error(errorsHandler.handle(error))
                 }

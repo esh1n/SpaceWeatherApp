@@ -24,7 +24,7 @@ class ErrorsHandler(private val errorDescriptionProvider: ErrorDescriptionProvid
                         ?: HttpURLConnection.HTTP_INTERNAL_ERROR)
             }
         }
-        return ErrorModel.unexpectedError(throwable.localizedMessage)
+        return ErrorModel.unexpectedError(throwable.localizedMessage ?: "")
     }
 
 }

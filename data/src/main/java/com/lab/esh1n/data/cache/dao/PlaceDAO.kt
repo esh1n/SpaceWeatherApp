@@ -2,12 +2,11 @@ package com.lab.esh1n.data.cache.dao
 
 import androidx.paging.DataSource
 import androidx.room.*
-import androidx.room.OnConflictStrategy.IGNORE
+import androidx.room.OnConflictStrategy.REPLACE
 import com.lab.esh1n.data.cache.DateConverter
 import com.lab.esh1n.data.cache.entity.PlaceEntry
 import com.lab.esh1n.data.cache.entity.PlaceWithCurrentWeatherEntry
 import com.lab.esh1n.data.cache.entity.SunsetSunriseTimezonePlaceEntry
-import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.Single
 import java.util.*
@@ -15,9 +14,10 @@ import java.util.*
 @Dao
 @TypeConverters(DateConverter::class)
 abstract class PlaceDAO {
+
     @Transaction
-    @Insert(onConflict = IGNORE)
-    abstract fun insertPlaces(places: List<PlaceEntry>): Completable
+    @Insert(onConflict = REPLACE)
+    abstract fun insertPlaces(places: List<PlaceEntry>)
 
     @Query("SELECT id from place where placeName=:placeName")
     abstract fun getPlaceIdByName(placeName: String): Single<Int>

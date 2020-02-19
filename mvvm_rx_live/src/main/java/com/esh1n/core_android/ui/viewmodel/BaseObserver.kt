@@ -6,20 +6,21 @@ import com.esh1n.core_android.error.ErrorModel
 abstract class BaseObserver<T> : Observer<Resource<T>> {
     override fun onChanged(r: Resource<T>?) {
         if (r != null) {
-            when {
-                r.status == Resource.Status.SUCCESS -> {
+            when (r.status) {
+                Resource.Status.SUCCESS -> {
                     onProgress(false)
                     onData(r.data)
                 }
-                r.status == Resource.Status.LOADING -> {
+                Resource.Status.LOADING -> {
                     onProgress(true)
                 }
-                r.status == Resource.Status.ERROR -> {
+                Resource.Status.ERROR -> {
                     onProgress(false)
                     onError(r.errorModel)
                 }
-                r.status == Resource.Status.ENDED -> {
+                Resource.Status.COMPLETED -> {
                     onProgress(false)
+                    onCompleted()
                 }
                 else -> {
                     onEmptyResourceEmission()
@@ -32,6 +33,8 @@ abstract class BaseObserver<T> : Observer<Resource<T>> {
 
     abstract fun onData(data: T?)
     open fun onEmptyResourceEmission() {}
+    open fun onCompleted() {}
+    //TODO add progressmodel instead boolean and get rid off ? in ErrorModel
     open fun onProgress(progress: Boolean) {}
     abstract fun onError(error: ErrorModel?)
 }

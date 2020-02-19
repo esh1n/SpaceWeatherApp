@@ -2,7 +2,6 @@ package com.lab.esh1n.weather.utils
 
 import androidx.lifecycle.LiveData
 import androidx.work.*
-import com.lab.esh1n.weather.weather.worker.PrePopulatePlacesWorker
 import com.lab.esh1n.weather.weather.worker.SyncAllPlacesForecastWorker
 import com.lab.esh1n.weather.weather.worker.SyncCurrentsWeatherWorker
 import java.util.concurrent.TimeUnit
@@ -31,14 +30,14 @@ fun WorkManager.startAllPlacesForecastPeriodicSync() {
     enqueueUniquePeriodicWork(SyncAllPlacesForecastWorker::class.java.name, ExistingPeriodicWorkPolicy.REPLACE, worker)
 }
 
-fun WorkManager.prepopulateDbAndStartSync() {
-    val constraints = Constraints.Builder()
-            .build()
-    val prepopulate = OneTimeWorkRequest.Builder(PrePopulatePlacesWorker::class.java)
-            .setConstraints(constraints)
-            .build()
-    enqueueUniqueWork(PREPOPULATE_WORK_ID, ExistingWorkPolicy.REPLACE, prepopulate)
-}
+//fun WorkManager.prepopulateDbAndStartSync() {
+//    val constraints = Constraints.Builder()
+//            .build()
+//    val prepopulate = OneTimeWorkRequest.Builder(PrePopulatePlacesWorker::class.java)
+//            .setConstraints(constraints)
+//            .build()
+//    enqueueUniqueWork(PREPOPULATE_WORK_ID, ExistingWorkPolicy.REPLACE, prepopulate)
+//}
 
 fun WorkManager.observePrepopulateSync(): LiveData<MutableList<WorkInfo>> {
     return getWorkInfosForUniqueWorkLiveData(PREPOPULATE_WORK_ID)

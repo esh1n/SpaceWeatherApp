@@ -30,14 +30,31 @@ class PlaceEntryMapper {
         }
     }
 
-    fun map(source: List<PlaceAsset>): List<PlaceEntry> {
-        val entries = ArrayList<PlaceEntry>()
-        source.forEach {
-            if (!it.name.isNullOrBlank() && it.name != "-") {
-                entries.add(mapItem(it))
+    fun map(source: List<PlaceAsset>, emitter: ((Float) -> Unit), stepsCount: Int = 5): List<PlaceEntry> {
+        val RESULT = ArrayList<PlaceEntry>()
+        if (source.isNotEmpty()) {
+            val step = source.size / stepsCount
+            val stepList = arrayListOf<Int>()
+            for (x in source.indices step step) {
+                stepList.add(x)
+            }
+            stepList.add(source.size - 1)
+            val realSteps = stepList.size
+            var stepIndex = 0
+            source.forEachIndexed { index, value ->
+                if (!value.name.isNullOrBlank() && value.name != "-") {
+                    RESULT.add(mapItem(value))
+                }
+                if (stepIndex < realSteps && index == stepList[stepIndex]) {
+                    val currentStepValue = stepList[stepIndex]
+                    stepIndex++
+                    val relation = currentStepValue.toFloat() / source.size
+                    emitter(relation)
+                }
+
             }
         }
-        return entries
+        return RESULT
     }
 
     private fun isLiked(placeId: Int): Boolean {

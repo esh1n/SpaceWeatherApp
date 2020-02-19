@@ -40,14 +40,22 @@ object FileReader {
         return buf.toString("UTF-8")
     }
 
-    fun readFileToString3(inputStream: InputStream): String {
-        val buffer = ByteArray(1024)
+    fun readFileToString3(inputStream: InputStream, updateCallback: (Float) -> Unit, bufferSize: Int = 8192 * 50): String {
+        var writtenSize = 0
+        val size: Int = inputStream.available()
+        if (size == 0) {
+            return ""
+        }
+        val buffer = ByteArray(bufferSize)
         val bis = BufferedInputStream(inputStream)
         val buf = ByteArrayOutputStream()
         var length: Int = bis.read(buffer)
         while (length != -1) {
             buf.write(buffer, 0, length)
             length = bis.read(buffer)
+            writtenSize += length
+            val relation: Float = writtenSize.toFloat().div(size)
+            updateCallback(relation)
         }
         return buf.toString("UTF-8")
     }

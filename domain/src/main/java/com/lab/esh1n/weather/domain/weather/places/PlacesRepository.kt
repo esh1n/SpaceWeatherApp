@@ -13,12 +13,12 @@ import com.lab.esh1n.data.cache.AppPrefs
 import com.lab.esh1n.data.cache.WeatherDB
 import com.lab.esh1n.data.cache.entity.PlaceWithCurrentWeatherEntry
 import com.lab.esh1n.weather.domain.BuildConfig
+import com.lab.esh1n.weather.domain.weather.ProgressModel
 import com.lab.esh1n.weather.domain.weather.places.mapper.PlaceEntryMapper
 import com.lab.esh1n.weather.domain.weather.weather.mapper.ForecastWeatherListMapper
 import com.lab.esh1n.weather.domain.weather.weather.mapper.PlaceListMapper
-import io.reactivex.Completable
+import io.reactivex.*
 import io.reactivex.Observable
-import io.reactivex.Single
 import io.reactivex.functions.BiFunction
 import java.lang.reflect.Type
 import java.util.*
@@ -92,20 +92,35 @@ class PlacesRepository constructor(private val apiService: APIService, db: Weath
         })
     }
 
-    fun prePopulatePlaces(): Completable {
-        return Single.fromCallable {
-            val inputStream = assetManager.open("city.list.json")
-            val citiesJSON = FileReader.readFileToString3(inputStream)
-            inputStream.close()
-            val cityType: Type = object : TypeToken<List<PlaceAsset>>() {}.type
-            val places = Gson().fromJson<List<PlaceAsset>>(citiesJSON, cityType)
-            return@fromCallable PlaceEntryMapper().map(places)
-        }.flatMapCompletable { placeEntries ->
-            return@flatMapCompletable placeDAO.insertPlaces(placeEntries)
-        }
 
+    fun prePopulatePlaces(): Flowable<ProgressModel<Unit>> =
+            Flowable.create({ emitter ->
+                val stream = assetManager.open("city.list.json")
+                val readFromAssetPart = 45
+                val citiesJSON = FileReader.readFileToString3(stream, { relation ->
+                    val percent = (readFromAssetPart * relation).toInt()
+                    emitter.onNext(ProgressModel(percent, "reading String from assets"))
+                })
 
-    }
+                val cityType: Type = object : TypeToken<List<PlaceAsset>>() {}.type
+                val places = Gson().fromJson<List<PlaceAsset>>(citiesJSON, cityType)
+                val percentAfterGSONMApping = 50
+
+                emitter.onNext(ProgressModel(percentAfterGSONMApping, "mapped string to JSON "))
+                val mappingToEntriesPart = 40
+                val placeEntries = PlaceEntryMapper()
+                        .map(places,
+                                { relation ->
+                                    val percent = (percentAfterGSONMApping + mappingToEntriesPart * relation).toInt()
+                                    emitter.onNext(ProgressModel(percent, "mapped json to entries "))
+                                })
+                emitter.onNext(ProgressModel(90, "start write to database"))
+                placeDAO.insertPlaces(placeEntries)
+                stream.close()
+                emitter.onNext(ProgressModel(100, "written to database"))
+                emitter.onComplete()
+            }, BackpressureStrategy.BUFFER)
+
 
     fun updateCurrentPlace(id: Int): Completable {
         return Completable.fromAction {

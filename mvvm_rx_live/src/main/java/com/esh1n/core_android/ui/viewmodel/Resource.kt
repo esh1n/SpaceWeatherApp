@@ -2,11 +2,12 @@ package com.esh1n.core_android.ui.viewmodel
 
 import com.esh1n.core_android.error.ErrorModel
 
+
 data class Resource<T>(val status: Status, val data: T?, val errorModel: ErrorModel?) {
 
 
     enum class Status {
-        SUCCESS, ERROR, LOADING, ENDED
+        SUCCESS, ERROR, LOADING, COMPLETED
     }
 
     companion object {
@@ -65,7 +66,7 @@ data class Resource<T>(val status: Status, val data: T?, val errorModel: ErrorMo
 
         fun <T> ended(): Resource<T> {
             return Resource(
-                    Status.ENDED,
+                    Status.COMPLETED,
                     null,
                     null
             )
