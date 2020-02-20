@@ -12,7 +12,6 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
-import com.crashlytics.android.Crashlytics
 import com.esh1n.core_android.ui.viewmodel.Resource
 import com.esh1n.utils_android.ui.getLocalizedContext
 import com.lab.esh1n.data.cache.entity.Temperature
@@ -103,7 +102,6 @@ class NotificationUtil {
             with(NotificationManagerCompat.from(localizedContext)) {
                 // notificationId is a unique int for each notification that you must define
                 notify(CURRENT_WEATHER_NOTIFICATION_ID, buildNotification(localizedContext, weatherNotification))
-                Crashlytics.log(5, TAG, "send notification ${weatherNotification.text}")
             }
         }
 

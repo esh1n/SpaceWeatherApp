@@ -1,14 +1,12 @@
 package com.lab.esh1n.weather.weather.fragment
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.TextView
 import androidx.paging.PagedList
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.crashlytics.android.Crashlytics
 import com.esh1n.core_android.error.ErrorModel
 import com.esh1n.core_android.ui.addFragmentToStack
 import com.esh1n.core_android.ui.fragment.BaseVMFragment
@@ -16,6 +14,7 @@ import com.esh1n.core_android.ui.viewmodel.BaseObserver
 import com.esh1n.utils_android.ui.DialogUtil
 import com.esh1n.utils_android.ui.SnackbarBuilder
 import com.esh1n.utils_android.ui.setVisibleOrGone
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.lab.esh1n.data.cache.entity.PlaceWithCurrentWeatherEntry
 import com.lab.esh1n.data.cache.entity.WeatherWithPlace
 import com.lab.esh1n.weather.R
@@ -92,7 +91,7 @@ class AllPlacesFragment : BaseVMFragment<AllPlacesVM>() {
 
     private val iPlaceClickable = object : PlacesAdapter.IPlaceClickable {
         override fun onPlaceClick(placeId: Int) {
-            Crashlytics.log(Log.DEBUG, "tag", "opened forecast for${placeId}")
+            FirebaseCrashlytics.getInstance().log("opened forecast for${placeId}")
             parentFragment?.fragmentManager.addFragmentToStack(ForecastFragment.newInstance(placeId))
 
         }

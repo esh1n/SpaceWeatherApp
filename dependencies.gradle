@@ -1,15 +1,14 @@
 ext {
 
-    compileSdkVersion = 28
-    buildToolsVer = "28.0.3"
+    compileSdkVersion = 29
+    buildToolsVer = "29.0.2"
     minSdkVer = 21
-    targetSdkVer = 28
+    targetSdkVer = 29
 
     //androidx
-    androidxCompatVersion = "1.1.0-rc01"
-    androidxMaterialVersion = "1.2.0-alpha04"
+    androidxCompatVersion = "1.1.0"
+    androidxMaterialVersion = "1.1.0"
 
-    supportLibraryVersion = '28.0.0'
     androidxCompat = [
             material      : "com.google.android.material:material:${androidxMaterialVersion}",
             recyclerView  : "androidx.recyclerview:recyclerview:${androidxCompatVersion}",
@@ -18,22 +17,22 @@ ext {
     ]
 
 
-    viewpagerVersion = "1.0.0-rc01"
+    viewpagerVersion = "1.0.0"
     viewpager = "androidx.viewpager2:viewpager2:$viewpagerVersion"
 
     snapHelperVer = "2.1.0"
     snapHelper = "com.github.rubensousa:gravitysnaphelper:$snapHelperVer"
 
     //RxJava
-    rxJava = "2.2.8"
+    rxJava = "2.2.17"
     rxJava2 = "io.reactivex.rxjava2:rxjava:${rxJava}"
-    workManagerVersion = "1.0.1"
-    workManagerRx =  "android.arch.work:work-rxjava2:$workManagerVersion"
+    workManagerVersion = "2.3.2"
+    workManagerRx =  "androidx.work:work-rxjava2:$workManagerVersion"
     rxAndroidVersion = "2.1.1"
     rxAndroid = "io.reactivex.rxjava2:rxandroid:${rxAndroidVersion}"
 
     //Room
-    roomVersion = "2.1.0"
+    roomVersion = "2.2.4"
     room = [
             runtime : "androidx.room:room-runtime:${roomVersion}",
             rxjava2 : "androidx.room:room-rxjava2:${roomVersion}",
@@ -42,7 +41,7 @@ ext {
     ]
 
 
-    lifecycleVersion = "2.2.0-alpha02"
+    lifecycleVersion = "2.2.0"
     lifecycle = [
             runtime        : "androidx.lifecycle:lifecycle-runtime:${lifecycleVersion}",
             viewmodel      : "androidx.lifecycle:lifecycle-viewmodel:${lifecycleVersion}",
@@ -59,26 +58,27 @@ ext {
 
     ]
 
-    retrofitVersion = "2.5.0"
+    retrofitVersion = "2.7.1"
     retrofit = [
             lib          : "com.squareup.retrofit2:retrofit:${retrofitVersion}",
             rxjava       : "com.squareup.retrofit2:adapter-rxjava2:${retrofitVersion}",
             gsonConverter: "com.squareup.retrofit2:converter-gson:${retrofitVersion}",
     ]
 
-    rxBindingsVersion = "2.1.1"
-    rxBindings = "com.jakewharton.rxbinding2:rxbinding-appcompat-v7:${rxBindingsVersion}"
+    rxBindingsVersion = "3.1.0"
+    rxBindingsCore = "com.jakewharton.rxbinding3:rxbinding-core:${rxBindingsVersion}"
+    rxBindingsAppCompat = "com.jakewharton.rxbinding3:rxbinding-appcompat:${rxBindingsVersion}"
 
-    gsonVersion = "2.8.5"
+    gsonVersion = "2.8.6"
     gson = "com.google.code.gson:gson:${gsonVersion}"
 
-    okHttpVersion = "3.13.1"
+    okHttpVersion = "4.4.0"
     okHttp = [
             lib         : "com.squareup.okhttp3:okhttp:${okHttpVersion}",
             interceptor : "com.squareup.okhttp3:logging-interceptor:${okHttpVersion}",
     ]
 
-    daggerVersion = "2.22.1"
+    daggerVersion = "2.26"
     dagger = [
             lib              : "com.google.dagger:dagger:${daggerVersion}",
             android          : "com.google.dagger:dagger-android:${daggerVersion}",
@@ -91,7 +91,7 @@ ext {
     commonsioVersion = "2.4"
     commonsio = "commons-io:commons-io:${commonsioVersion}"
 
-    glideVersion = "4.9.0"
+    glideVersion = "4.11.0"
     glide = [
             lib : "com.github.bumptech.glide:glide:${glideVersion}",
             compiler: "com.github.bumptech.glide:compiler:${glideVersion}",
@@ -99,12 +99,12 @@ ext {
     ]
 
     firebase = [
-            analytics: "com.google.firebase:firebase-analytics:17.2.0",
-            crashlytics: "com.crashlytics.sdk.android:crashlytics:2.10.1",
-            ads: "com.google.firebase:firebase-ads:18.2.0"
+            analytics: "com.google.firebase:firebase-analytics:17.2.2",
+            crashlytics: "com.google.firebase:firebase-crashlytics:17.0.0-beta01",
+            ads: "com.google.firebase:firebase-ads:18.3.0"
     ]
 
-    kotlin_version = '1.3.31'
+    kotlin_version = '1.3.61'
     kotlinVS =   "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
 

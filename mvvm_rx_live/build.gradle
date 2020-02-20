@@ -4,6 +4,10 @@ apply plugin: 'kotlin-kapt'
 
 android {
 
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8.toString()
+    }
+
     compileSdkVersion rootProject.ext["compileSdkVersion"]
 
     defaultConfig {
@@ -49,4 +53,5 @@ dependencies {
     api rootProject.ext.retrofit.lib
     api rootProject.ext.retrofit.rxjava
     api rootProject.ext.retrofit.gsonConverter
+
 }

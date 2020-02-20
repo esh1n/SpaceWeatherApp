@@ -4,23 +4,22 @@ import android.os.Bundle
 import androidx.annotation.Nullable
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.fragment.app.Fragment
 import dagger.android.AndroidInjection
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
-import dagger.android.support.HasSupportFragmentInjector
+import dagger.android.HasAndroidInjector
 import javax.inject.Inject
 
 /**
  * Created by esh1n on 3/9/18.
  */
 
-abstract class BaseDIActivity : AppCompatActivity(), HasSupportFragmentInjector {
+abstract class BaseDIActivity : AppCompatActivity(), HasAndroidInjector {
 
     abstract val contentViewResourceId: Int
 
     @Inject
-    lateinit var injector: DispatchingAndroidInjector<Fragment>
+    lateinit var injector: DispatchingAndroidInjector<Any>
 
     override fun onCreate(@Nullable savedInstanceState: Bundle?) {
         AndroidInjection.inject(this)
@@ -29,7 +28,7 @@ abstract class BaseDIActivity : AppCompatActivity(), HasSupportFragmentInjector 
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)
     }
 
-    override fun supportFragmentInjector(): AndroidInjector<Fragment>? {
+    override fun androidInjector(): AndroidInjector<Any>? {
         return injector
     }
 }

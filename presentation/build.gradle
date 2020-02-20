@@ -2,9 +2,16 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-android-extensions'
+// Add the Firebase Crashlytics plugin.
+apply plugin: 'com.google.firebase.crashlytics'
+
 
 
 android {
+
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8.toString()
+    }
 
     signingConfigs {
         production {
@@ -42,8 +49,6 @@ android {
         enabled = true
        // incremental = true
     }
-
-
 
 
     compileOptions {
@@ -84,6 +89,8 @@ dependencies {
     implementation project(':mvvm_rx_live')
     implementation project(':utils_android')
 
+    implementation rootProject.ext.firebase.crashlytics
+
     //androidx
     implementation rootProject.ext.androidxCompat.appcompat
     implementation rootProject.ext.androidxCompat.material
@@ -112,7 +119,8 @@ dependencies {
     kapt rootProject.ext.dagger.android_processor
 
     //rxBindings
-    implementation rootProject.ext.rxBindings
+    implementation rootProject.ext.rxBindingsCore
+    implementation rootProject.ext.rxBindingsAppCompat
 
     implementation  rootProject.ext.workManagerRx
 
@@ -120,13 +128,15 @@ dependencies {
 
     implementation rootProject.ext.firebase.analytics
     implementation rootProject.ext.firebase.crashlytics
+
     implementation rootProject.ext.firebase.ads
 
+
     // Testing
-    def truthVersion = "1.0"
+    def truthVersion = "1.0.1"
     def mockKVersion = "1.9.3"
 
-    testImplementation 'junit:junit:4.12'
+    testImplementation 'junit:junit:4.13'
     testImplementation  "com.google.truth:truth:${truthVersion}"
     testImplementation  "io.mockk:mockk:${mockKVersion}"
     testImplementation  'androidx.arch.core:core-testing:2.1.0'
@@ -143,6 +153,5 @@ repositories {
 }
 
 apply plugin: 'com.google.gms.google-services'
-apply plugin: 'io.fabric'
 
 

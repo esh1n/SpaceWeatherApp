@@ -5,11 +5,11 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.content.res.Resources
 import androidx.work.WorkManager
-import com.crashlytics.android.Crashlytics
 import com.esh1n.core_android.error.ErrorDescriptionProvider
 import com.esh1n.core_android.error.ErrorModel
 import com.esh1n.core_android.error.ErrorTrackerProvider
 import com.esh1n.core_android.error.ErrorsHandler
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.lab.esh1n.weather.R
 import dagger.Module
 import dagger.Provides
@@ -42,7 +42,7 @@ class AppModule {
     fun provideErrorTrackerImpl(application: Application): ErrorTrackerProvider {
         return object : ErrorTrackerProvider {
             override fun trackError(throwable: Throwable) {
-                Crashlytics.logException(throwable)
+                FirebaseCrashlytics.getInstance().recordException(throwable)
             }
         }
     }

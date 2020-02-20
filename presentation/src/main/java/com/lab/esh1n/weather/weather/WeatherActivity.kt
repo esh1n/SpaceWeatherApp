@@ -6,13 +6,13 @@ import android.os.Bundle
 import android.widget.Button
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
-import com.crashlytics.android.Crashlytics
 import com.esh1n.core_android.error.ErrorModel
 import com.esh1n.core_android.ui.activity.BaseToolbarActivity
 import com.esh1n.core_android.ui.replaceFragment
 import com.esh1n.core_android.ui.viewmodel.BaseObserver
 import com.esh1n.utils_android.ui.SnackbarBuilder
 import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.lab.esh1n.weather.R
 import com.lab.esh1n.weather.WeatherApp
 import com.lab.esh1n.weather.weather.fragment.SplashFragment
@@ -45,6 +45,7 @@ class WeatherActivity : BaseToolbarActivity(), AppView {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         firebaseAnalytics = FirebaseAnalytics.getInstance(this)
+
         viewModel.dataWasInitializedEvent.observe(this, object : BaseObserver<Boolean>() {
             override fun onError(error: ErrorModel?) {
                 SnackbarBuilder.buildErrorSnack(this@WeatherActivity, error!!.message).show()
@@ -56,11 +57,11 @@ class WeatherActivity : BaseToolbarActivity(), AppView {
                     val currentFragment = supportFragmentManager.findFragmentById(com.esh1n.core_android.R.id.container_fragment)
                     val noCurrentFragmentExist = currentFragment == null
                     if (noCurrentFragmentExist || (initialized && currentFragment !is WeatherHostFragment)) {
-                        Crashlytics.log("added new fragment on WeatherActivity")
+                        FirebaseCrashlytics.getInstance().log("added new fragment on WeatherActivity")
                         val fragment = if (initialized) WeatherHostFragment.newInstance() else SplashFragment.newInstance()
                         supportFragmentManager.replaceFragment(fragment, fragment::class.java.simpleName)
                     } else {
-                        Crashlytics.log("can not add new fragment on WeatherActivity")
+                        FirebaseCrashlytics.getInstance().log("can not add new fragment on WeatherActivity")
                     }
                 }
             }
@@ -71,6 +72,7 @@ class WeatherActivity : BaseToolbarActivity(), AppView {
         }
         viewModel.checkIfInitialized()
         initFragmentTransactionsListener()
+
     }
 
     override fun onResume() {

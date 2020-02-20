@@ -67,7 +67,7 @@ class OkHttpBuilder private constructor(endPoint: String) {
         mClientBuilder.addInterceptor { chain ->
             val request = chain.request()
             val response = chain.proceed(request)
-            if (response.code() == UNAUTHORIZED_HTTP_CODE) {
+            if (response.code == UNAUTHORIZED_HTTP_CODE) {
 
                 //rxBus.postEvent(new UnauthorizedErrorEvent());
             }
@@ -105,11 +105,6 @@ class OkHttpBuilder private constructor(endPoint: String) {
         return this
     }
 
-
-    fun withHostNameVerifier(): OkHttpBuilder {
-        mClientBuilder.hostnameVerifier { hostname, _ -> hostname.equals(mHostName, ignoreCase = true) }
-        return this
-    }
 
     fun build(): OkHttpClient {
         return mClientBuilder.build()

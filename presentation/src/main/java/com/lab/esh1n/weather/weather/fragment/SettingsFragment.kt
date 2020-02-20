@@ -1,17 +1,16 @@
 package com.lab.esh1n.weather.weather.fragment
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.crashlytics.android.Crashlytics
 import com.esh1n.core_android.error.ErrorModel
 import com.esh1n.core_android.ui.fragment.BaseVMFragment
 import com.esh1n.core_android.ui.viewmodel.BaseObserver
 import com.esh1n.utils_android.ui.SnackbarBuilder
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.lab.esh1n.weather.R
 import com.lab.esh1n.weather.weather.adapter.SettingsAdapter
 import com.lab.esh1n.weather.weather.model.SettingsModel
@@ -66,6 +65,6 @@ class SettingsFragment : BaseVMFragment<SettingsViewModel>() {
 
     override fun onStart() {
         super.onStart()
-        Crashlytics.log(Log.DEBUG, "SettingsFragment", "Settings opened")
+        FirebaseCrashlytics.getInstance().log("Settings opened")
     }
 }

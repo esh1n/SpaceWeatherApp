@@ -4,7 +4,6 @@ import android.content.Context
 import androidx.work.Data
 import androidx.work.RxWorker
 import androidx.work.WorkerParameters
-import com.crashlytics.android.Crashlytics
 import com.esh1n.core_android.ui.viewmodel.Resource
 import com.lab.esh1n.weather.WeatherApp
 import com.lab.esh1n.weather.domain.weather.weather.usecases.FetchAndSaveCurrentPlaceWeatherUseCase
@@ -37,7 +36,6 @@ class SyncCurrentsWeatherWorker(context: Context, params: WorkerParameters) :
                 }
                 .map { resource ->
                     val message = resource.errorModel?.message
-                    Crashlytics.logException(Exception(message))
                     if (resource.status == Resource.Status.ERROR) {
                         val failureResult = Data.Builder()
                                 .putString(WORKER_ERROR_DESCRIPTION, message)

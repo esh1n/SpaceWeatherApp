@@ -4,13 +4,13 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.viewpager2.widget.ViewPager2
-import com.crashlytics.android.Crashlytics
 import com.esh1n.core_android.error.ErrorModel
 import com.esh1n.core_android.ui.fragment.BaseVMFragment
 import com.esh1n.core_android.ui.viewmodel.BaseObserver
 import com.esh1n.utils_android.ui.SnackbarBuilder
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.lab.esh1n.weather.R
 import com.lab.esh1n.weather.weather.adapter.DayForecastFragmentAdapter
 import com.lab.esh1n.weather.weather.model.ForecastDayModel
@@ -82,7 +82,8 @@ class ForecastFragment : BaseVMFragment<ForecastWeekVM>() {
             }
 
             override fun onError(error: ErrorModel?) {
-                Crashlytics.log(error?.message)
+                FirebaseCrashlytics.getInstance().recordException(RuntimeException(error?.message
+                        ?: ""))
                 SnackbarBuilder.buildErrorSnack(requireView(), error?.message ?: "").show()
             }
 
