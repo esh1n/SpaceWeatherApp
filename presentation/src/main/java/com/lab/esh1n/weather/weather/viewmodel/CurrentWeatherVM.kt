@@ -7,7 +7,6 @@ import com.esh1n.core_android.rx.applyAndroidSchedulers
 import com.esh1n.core_android.ui.viewmodel.BaseAndroidViewModel
 import com.esh1n.core_android.ui.viewmodel.Resource
 import com.esh1n.core_android.ui.viewmodel.SingleLiveEvent
-import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.lab.esh1n.data.cache.AppPrefs
 import com.lab.esh1n.data.cache.entity.SunsetSunriseTimezonePlaceEntry
 import com.lab.esh1n.data.cache.entity.WeatherWithPlace
@@ -69,8 +68,7 @@ constructor(private val loadCurrentWeatherUseCase: LoadCurrentWeatherUseCase,
 
 
     fun refresh() {
-        FirebaseCrashlytics.getInstance().recordException(RuntimeException("Test refresh"))
-        FirebaseCrashlytics.getInstance().log("refreshed weathers")
+        //FirebaseCrashlytics.getInstance().recordException(RuntimeException("Test refresh"))
         fetchAndSaveWeatherUseCase.perform(Unit)
                 .flatMap { loadCurrentWeatherSingleUseCase.perform(Unit) }
                 .doOnSuccess {

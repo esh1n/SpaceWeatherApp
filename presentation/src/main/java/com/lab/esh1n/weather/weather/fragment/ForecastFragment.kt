@@ -46,12 +46,26 @@ class ForecastFragment : BaseVMFragment<ForecastWeekVM>() {
 
         adapterDayForecast = DayForecastFragmentAdapter(requireActivity())
 
-        viewPager?.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
-            override fun onPageSelected(position: Int) {
-                Log.d("OnPageChangeCallback", "Page selected: $position")
+        viewPager?.let {
+            it.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+                override fun onPageSelected(position: Int) {
+                    Log.d("OnPageChangeCallback", "Page selected: $position")
+                }
+            })
+            it.adapter = adapterDayForecast
+
+            if (tabs != null) {
+                Log.d("TABS", "init tabs")
+                TabLayoutMediator(tabs!!, it,
+                        TabLayoutMediator.TabConfigurationStrategy { tab, position ->
+                            val days = adapterDayForecast.publicDays
+                            if (position >= 0 && position < days.size) {
+                                tab.text = days[position].dayDescription
+                            }
+
+                        }).attach()
             }
-        })
-        viewPager?.adapter = adapterDayForecast
+        }
     }
 
     private fun getPlaceId(): Int? {
@@ -97,13 +111,6 @@ class ForecastFragment : BaseVMFragment<ForecastWeekVM>() {
 
     fun populateByDays(selectedDayIndex: Int, items: List<ForecastDayModel>) {
         adapterDayForecast.publicDays = items
-        if (tabs != null && viewPager != null && items.isNotEmpty()) {
-            Log.d("TABS", "init tabs")
-            TabLayoutMediator(tabs!!, viewPager!!,
-                    TabLayoutMediator.TabConfigurationStrategy { tab, position ->
-                        tab.text = items[position].dayDescription
-                    }).attach()
-        }
         if (selectedDayIndex >= 0) {
             viewPager?.currentItem = selectedDayIndex
         }
