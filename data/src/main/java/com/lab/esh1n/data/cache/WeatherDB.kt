@@ -17,7 +17,7 @@ import java.util.concurrent.Executors
 /**
  * Created by esh1n on 3/7/18.
  */
-@Database(entities = [WeatherEntry::class, PlaceEntry::class], version = 1, exportSchema = false)
+@Database(entities = [WeatherEntry::class, PlaceEntry::class], version = 2, exportSchema = false)
 @TypeConverters(DateConverter::class)
 abstract class WeatherDB : RoomDatabase() {
 

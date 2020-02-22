@@ -145,12 +145,14 @@ class WeatherHostFragment : BaseVMFragment<EmptyVM>() {
     }
 
     private fun initFragmentTransactionsListener() {
-        childFragmentManager.addOnBackStackChangedListener { this.processFragmentsSwitching() }
+        parentFragmentManager.addOnBackStackChangedListener {
+            this.processFragmentsSwitching()
+        }
     }
 
     private fun processFragmentsSwitching() {
 
-        childFragmentManager.let {
+        parentFragmentManager.let {
             val isInRootFragment = it.backStackEntryCount == 0
             //TODO move it to main activity
             //requireActivity().actionBar?.setDisplayHomeAsUpEnabled(!isInRootFragment)

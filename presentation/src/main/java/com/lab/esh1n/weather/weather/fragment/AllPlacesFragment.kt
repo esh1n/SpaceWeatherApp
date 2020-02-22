@@ -160,9 +160,9 @@ class AllPlacesFragment : BaseVMFragment<AllPlacesVM>() {
 
 
     private val iPlaceClickable = object : PlacesAdapter.IPlaceClickable {
-        override fun onPlaceClick(placeId: Int) {
+        override fun onPlaceClick(placeId: Int, placeName: String) {
             FirebaseCrashlytics.getInstance().log("opened forecast for${placeId}")
-            parentFragment?.fragmentManager.addFragmentToStack(ForecastFragment.newInstance(placeId))
+            parentFragment?.parentFragmentManager.addFragmentToStack(ForecastFragment.newInstance(placeId, placeName))
 
         }
 

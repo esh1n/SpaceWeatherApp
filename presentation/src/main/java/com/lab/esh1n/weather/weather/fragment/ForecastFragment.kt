@@ -2,10 +2,13 @@ package com.lab.esh1n.weather.weather.fragment
 
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
+import android.view.MenuInflater
 import android.view.View
 import androidx.viewpager2.widget.ViewPager2
 import com.esh1n.core_android.error.ErrorModel
 import com.esh1n.core_android.ui.fragment.BaseVMFragment
+import com.esh1n.core_android.ui.setTitle
 import com.esh1n.core_android.ui.viewmodel.BaseObserver
 import com.esh1n.utils_android.ui.SnackbarBuilder
 import com.google.android.material.tabs.TabLayout
@@ -30,13 +33,25 @@ class ForecastFragment : BaseVMFragment<ForecastWeekVM>() {
 
     companion object {
         private const val PLACE_ID = "PLACE_ID"
+        private const val PLACE_NAME = "PLACE_NAME"
         private const val SELECTED_DAY = "SELECTED_DAY"
-        fun newInstance(placeId: Int, selectedDay: Int = 0) = ForecastFragment().apply {
+        fun newInstance(placeId: Int, placeName: String, selectedDay: Int = 0) = ForecastFragment().apply {
             arguments = Bundle().apply {
                 putInt(PLACE_ID, placeId)
+                putString(PLACE_NAME, placeName)
                 putInt(SELECTED_DAY, selectedDay)
             }
         }
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        menu.clear()
     }
 
     override fun setupView(rootView: View, savedInstanceState: Bundle?) {
@@ -70,6 +85,10 @@ class ForecastFragment : BaseVMFragment<ForecastWeekVM>() {
 
     private fun getPlaceId(): Int? {
         return arguments?.getInt(PLACE_ID)
+    }
+
+    private fun getPlaceName(): String? {
+        return arguments?.getString(PLACE_NAME)
     }
 
     private fun getSelectedDay(): Int {
@@ -106,6 +125,7 @@ class ForecastFragment : BaseVMFragment<ForecastWeekVM>() {
             viewModel.loadAvailableDays(placeId, getSelectedDay())
             viewModel.fetchForecastIfNeeded(placeId)
         }
+        setTitle(getPlaceName() ?: "")
 
     }
 

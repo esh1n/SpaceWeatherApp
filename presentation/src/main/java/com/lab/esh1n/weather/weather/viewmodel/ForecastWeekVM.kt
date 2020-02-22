@@ -14,6 +14,7 @@ import javax.inject.Inject
 
 class ForecastWeekVM @Inject constructor(private val loadForecastUseCase: LoadPlaceAvailableForecastDaysUseCase, private val fetchPlaceForecast: FetchPlaceForecastUseCase, uiLocalizer: UiLocalizer) : BaseVM() {
 
+    //TODO add progress states to fragment and here
     val availableDays = SingleLiveEvent<Resource<Pair<Int, List<ForecastDayModel>>>>()
     val fetchForecastEvent = SingleLiveEvent<Resource<Unit>>()
     private val availableDaysMapper = AvailableDaysMapper(uiLocalizer)

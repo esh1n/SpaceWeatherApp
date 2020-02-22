@@ -1,7 +1,11 @@
 package com.lab.esh1n.weather.weather.model
 
+import androidx.annotation.DrawableRes
+
 data class PlaceModel(val id: Int,
                       val name: String,
+                      @DrawableRes
+                      val countryFlag: Int,
                       val weatherDescription: String,
                       val iconId: String,
                       val time: String,
@@ -15,6 +19,7 @@ data class PlaceModel(val id: Int,
 
         if (id != other.id) return false
         if (name != other.name) return false
+        if (countryFlag != other.countryFlag) return false
         if (iconId != other.iconId) return false
         if (time != other.time) return false
         if (temperature != other.temperature) return false

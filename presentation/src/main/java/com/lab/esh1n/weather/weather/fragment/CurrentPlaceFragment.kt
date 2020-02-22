@@ -71,7 +71,8 @@ class CurrentPlaceFragment : BaseVMFragment<CurrentWeatherVM>() {
     private fun onWeatherClicked(weatherModel: WeatherModel) {
         placeId?.let {
             val dateOfYear = weatherModel.dayOFTheYear
-            parentFragment?.fragmentManager.addFragmentToStack(ForecastFragment.newInstance(it, dateOfYear))
+            parentFragment?.parentFragmentManager.addFragmentToStack(ForecastFragment.newInstance(it, title
+                    ?: "", dateOfYear))
         }
 
     }
@@ -80,7 +81,7 @@ class CurrentPlaceFragment : BaseVMFragment<CurrentWeatherVM>() {
         super.onActivityCreated(savedInstanceState)
         observeWeather()
         viewModel.loadWeather()
-        MobileAds.initialize(requireActivity().getApplication(), OnInitializationCompleteListener { status ->
+        MobileAds.initialize(requireActivity().application, OnInitializationCompleteListener { status ->
             //initAdEvent.postValue(Resource.success(true))
         })
     }
@@ -89,7 +90,11 @@ class CurrentPlaceFragment : BaseVMFragment<CurrentWeatherVM>() {
         val noData = data?.isNullOrEmpty() ?: false
         return if (noData)
             getString(R.string.menu_current_place) else
-            (data!![0] as? CurrentWeatherModel)?.placeName ?: ""
+            getPlaceName(data!![0])
+    }
+
+    private fun getPlaceName(weatherModel: WeatherModel): String {
+        return (weatherModel as? CurrentWeatherModel)?.placeName ?: ""
     }
 
     private fun observeWeather() {

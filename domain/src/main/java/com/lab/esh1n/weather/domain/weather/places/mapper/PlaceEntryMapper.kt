@@ -19,6 +19,7 @@ class PlaceEntryMapper {
                 sunrise = now,
                 sunset = now,
                 isLiked = isLiked,
+                countryCode = source.country ?: "US",
                 isCurrent = isCurrent(source.id))
     }
 

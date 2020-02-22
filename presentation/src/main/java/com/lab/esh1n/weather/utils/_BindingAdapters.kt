@@ -26,6 +26,13 @@ fun setPressure(tv: TextView, pressure: Int?) {
     }
 }
 
+@BindingAdapter("iconRes")
+fun iconRes(iv: ImageView, iconId: Int?) {
+    iconId?.let {
+        iv.setImageResource(iconId)
+    }
+}
+
 
 @BindingAdapter("humidity")
 fun setHumidity(tv: TextView, humidity: Int?) {

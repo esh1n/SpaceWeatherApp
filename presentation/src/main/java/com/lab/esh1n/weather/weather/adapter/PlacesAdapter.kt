@@ -45,12 +45,12 @@ class PlacesAdapter(private val mClickHandler: IPlaceClickable, private val plac
 
         override fun onClick(v: View) {
             val adapterPosition = adapterPosition
-            val placeModel = getItem(adapterPosition)?.id
+            val placeModel = getItem(adapterPosition)
             placeModel?.let {
                 if (v.id == R.id.iv_place_actions) {
-                    mClickHandler.onPlaceOptions(it)
+                    mClickHandler.onPlaceOptions(it.id)
                 } else {
-                    mClickHandler.onPlaceClick(it)
+                    mClickHandler.onPlaceClick(it.id, it.placeName)
                 }
             }
 
@@ -72,7 +72,7 @@ class PlacesAdapter(private val mClickHandler: IPlaceClickable, private val plac
     }
 
     interface IPlaceClickable {
-        fun onPlaceClick(placeId: Int)
+        fun onPlaceClick(place: Int, placeName: String)
         fun onPlaceOptions(placeId: Int)
     }
 

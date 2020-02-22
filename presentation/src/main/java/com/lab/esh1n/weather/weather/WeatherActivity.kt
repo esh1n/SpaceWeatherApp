@@ -48,7 +48,8 @@ class WeatherActivity : BaseToolbarActivity(), AppView {
 
         viewModel.dataWasInitializedEvent.observe(this, object : BaseObserver<Boolean>() {
             override fun onError(error: ErrorModel?) {
-                SnackbarBuilder.buildErrorSnack(this@WeatherActivity, error!!.message).show()
+
+                SnackbarBuilder.showErrorSnackOrToast(this@WeatherActivity, error!!.message)
             }
 
             override fun onData(initialized: Boolean?) {

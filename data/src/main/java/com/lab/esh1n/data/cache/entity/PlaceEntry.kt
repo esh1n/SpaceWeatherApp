@@ -14,6 +14,8 @@ data class PlaceEntry(
 
         var placeName: String,
 
+        var countryCode: String,
+
         var timezone: String,
 
         var isCurrent: Boolean,

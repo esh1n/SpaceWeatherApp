@@ -4,6 +4,7 @@ import android.app.Activity
 import android.graphics.Color
 import android.view.View
 import android.widget.TextView
+import android.widget.Toast
 import com.esh1n.utils_android.R
 import com.google.android.material.snackbar.Snackbar
 
@@ -49,17 +50,14 @@ object SnackbarBuilder {
         )
     }
 
-    fun buildErrorSnack(v: Activity, message: String): Snackbar {
-        return buildSnack(
-            v.findViewById(R.id.content),
-            message,
-            "",
-            Color.BLACK,
-            Color.BLACK,
-            Color.RED,
-            8000,
-            null
-        )
+
+    fun showErrorSnackOrToast(activity: Activity, message: String) {
+        val view = activity.findViewById<View>(R.id.content)
+        if (view == null) {
+            Toast.makeText(activity, message, Toast.LENGTH_SHORT).show()
+        } else {
+            buildErrorSnack(view, message).show()
+        }
     }
 
     @JvmOverloads
