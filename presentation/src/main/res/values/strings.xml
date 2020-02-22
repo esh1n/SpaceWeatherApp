@@ -80,4 +80,7 @@
         <item>Rename</item>
     </string-array>
 
+    <string name="empty_text_search">No search results for \"%s\".</string>
+    <string name="action_search_tag">Search places</string>
+
 </resources>

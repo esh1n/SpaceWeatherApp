@@ -1,8 +1,13 @@
 package com.lab.esh1n.weather.weather.fragment
 
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import android.widget.TextView
+import androidx.annotation.StringRes
+import androidx.appcompat.widget.SearchView
 import androidx.paging.PagedList
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -15,11 +20,14 @@ import com.esh1n.utils_android.ui.DialogUtil
 import com.esh1n.utils_android.ui.SnackbarBuilder
 import com.esh1n.utils_android.ui.setVisibleOrGone
 import com.google.firebase.crashlytics.FirebaseCrashlytics
+import com.jakewharton.rxbinding3.appcompat.queryTextChanges
 import com.lab.esh1n.data.cache.entity.PlaceWithCurrentWeatherEntry
 import com.lab.esh1n.data.cache.entity.WeatherWithPlace
 import com.lab.esh1n.weather.R
 import com.lab.esh1n.weather.weather.adapter.PlacesAdapter
 import com.lab.esh1n.weather.weather.viewmodel.AllPlacesVM
+import io.reactivex.Observable
+import java.util.concurrent.TimeUnit
 
 class AllPlacesFragment : BaseVMFragment<AllPlacesVM>() {
 
@@ -32,6 +40,26 @@ class AllPlacesFragment : BaseVMFragment<AllPlacesVM>() {
     private var placeRecyclerView: RecyclerView? = null
     private var emptyView: TextView? = null
     private var loadingIndicator: View? = null
+
+    private val emptySearchTextId: Int
+        @StringRes
+        get() = R.string.empty_text_search
+
+    private var searchView: SearchView? = null
+
+    private val fullEmptySearchDescription: String
+        get() = getString(emptySearchTextId, searchView?.query)
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        menu.clear()
+        inflater.inflate(R.menu.action_search_tag, menu)
+    }
 
     override fun setupView(rootView: View, savedInstanceState: Bundle?) {
         super.setupView(rootView, savedInstanceState)
@@ -85,8 +113,50 @@ class AllPlacesFragment : BaseVMFragment<AllPlacesVM>() {
             }
 
         })
-        viewModel.loadPlaces()
+
     }
+
+    override fun onStart() {
+        super.onStart()
+        load()
+    }
+
+    private fun load() {
+        val query = searchView?.query ?: ""
+        viewModel.searchPlaces(Observable.just(query.toString()))
+    }
+
+    override fun onPrepareOptionsMenu(menu: Menu) {
+        super.onPrepareOptionsMenu(menu)
+
+        val searchItem: MenuItem? = menu.findItem(R.id.action_search_tag)
+
+        if (searchItem != null) {
+            // searchItem.expandActionView()
+            //searchItem.actionView.clearFocus()
+            searchView = searchItem.actionView as SearchView
+            searchView?.setOnQueryTextListener(null)
+            val hint = getString(queryHintResourceId())
+            searchView?.queryHint = hint
+            searchView?.onActionViewExpanded()
+            searchView?.let { sv ->
+
+
+                val searchSource = sv.queryTextChanges()
+                        .skipInitialValue()
+                        .debounce(200, TimeUnit.MILLISECONDS)
+                        .map { text -> text.toString() }
+                        .distinctUntilChanged()
+
+                viewModel.searchPlaces(searchSource)
+
+            }
+        }
+
+    }
+
+    @StringRes
+    private fun queryHintResourceId() = R.string.action_search_tag
 
 
     private val iPlaceClickable = object : PlacesAdapter.IPlaceClickable {

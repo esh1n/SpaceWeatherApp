@@ -30,9 +30,9 @@ class PlacesRepository constructor(private val apiService: APIService, db: Weath
     private val weatherDAO = db.weatherDAO()
 
 
-    fun getAllPlaces(): Observable<PagedList<PlaceWithCurrentWeatherEntry>> {
-        val now = Date()
-        return placeDAO.getAllPlacesWithCurrentWeather(now).toObservable(pageSize = 20)
+    fun searchPlaces(query: String): Observable<PagedList<PlaceWithCurrentWeatherEntry>> {
+        val now = DateBuilder(Date()).build()
+        return placeDAO.searchPlacesWithCurrentWeather(now, query).toObservable(pageSize = 20)
     }
 
     fun checkIfCurrentPlaceExist(): Single<Boolean> {

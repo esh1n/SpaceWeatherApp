@@ -22,8 +22,8 @@ abstract class PlaceDAO {
     @Query("SELECT id from place where placeName=:placeName")
     abstract fun getPlaceIdByName(placeName: String): Single<Int>
 
-    @Query("SELECT id,placeName,iconId,temperatureMax,epochDateMills,timezone,dateTxt,rain,cloudiness,snow,description as weatherDescription  FROM place  LEFT JOIN weather w ON place.id = w.placeId AND w.epochDateMills = (SELECT epochDateMills FROM weather innerW WHERE  innerW.placeId = w.placeId ORDER BY abs(:now - epochDateMills) ASC LIMIT 1) ORDER BY isLiked DESC,placeName")
-    abstract fun getAllPlacesWithCurrentWeather(now: Date): DataSource.Factory<Int, PlaceWithCurrentWeatherEntry>
+    @Query("SELECT id,placeName,iconId,temperatureMax,epochDateMills,timezone,dateTxt,rain,cloudiness,snow,description as weatherDescription  FROM place  LEFT JOIN weather w ON place.id = w.placeId AND w.epochDateMills = (SELECT epochDateMills FROM weather innerW WHERE  innerW.placeId = w.placeId ORDER BY abs(:now - epochDateMills) ASC LIMIT 1) WHERE placeName like :query ORDER BY isLiked DESC,placeName")
+    abstract fun searchPlacesWithCurrentWeather(now: Date, query: String): DataSource.Factory<Int, PlaceWithCurrentWeatherEntry>
 
     @Query("SELECT id from place WHERE isCurrent = 1")
     abstract fun getCurrentCityId(): Single<Int>

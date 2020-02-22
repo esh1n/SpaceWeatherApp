@@ -10,12 +10,10 @@ import io.reactivex.Observable
 import javax.inject.Inject
 
 class GetAllPlacesUse @Inject constructor(private val placesRepository: PlacesRepository, errorsHandler: ErrorsHandler)
-    : UseCase<Observable<Resource<PagedList<PlaceWithCurrentWeatherEntry>>>, Unit>(errorsHandler) {
-    override fun perform(args: Unit): Observable<Resource<PagedList<PlaceWithCurrentWeatherEntry>>> {
-        return placesRepository.getAllPlaces().map {
-            Resource.success(it)
-        }.onErrorReturn { error ->
-            Resource.error(errorsHandler.handle(error))
-        }
+    : UseCase<Observable<Resource<PagedList<PlaceWithCurrentWeatherEntry>>>, String>(errorsHandler) {
+    override fun perform(args: String): Observable<Resource<PagedList<PlaceWithCurrentWeatherEntry>>> {
+        return placesRepository.searchPlaces(args)
+                .map { Resource.success(it) }
+                .onErrorReturn { error -> Resource.error(errorsHandler.handle(error)) }
     }
 }
