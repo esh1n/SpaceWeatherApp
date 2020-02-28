@@ -35,6 +35,8 @@ dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
 
     api project(':utils_android')
+
+    api rootProject.ext.fragment
     implementation rootProject.ext.androidxCompat.appcompat
     implementation rootProject.ext.androidxCompat.material
 

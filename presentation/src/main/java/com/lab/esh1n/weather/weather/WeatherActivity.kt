@@ -4,8 +4,8 @@ import android.content.Context
 import android.content.res.Configuration
 import android.os.Bundle
 import android.widget.Button
+import androidx.activity.viewModels
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
 import com.esh1n.core_android.error.ErrorModel
 import com.esh1n.core_android.ui.activity.BaseToolbarActivity
 import com.esh1n.core_android.ui.replaceFragment
@@ -30,11 +30,8 @@ class WeatherActivity : BaseToolbarActivity(), AppView {
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
-    protected val viewModel: RouteVM
-            by lazy {
-                ViewModelProviders.of(this, viewModelFactory)
-                        .get(RouteVM::class.java)
-            }
+    protected val viewModel: RouteVM by viewModels { viewModelFactory }
+
 
     override val toolbarId = R.id.toolbar
     override val contentViewResourceId = R.layout.activity_main

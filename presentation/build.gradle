@@ -100,6 +100,7 @@ dependencies {
     implementation rootProject.ext.viewpager
 
     //lifecycle
+
     implementation rootProject.ext.lifecycle.runtime
     implementation rootProject.ext.lifecycle.viewmodel
     implementation rootProject.ext.lifecycle.livedata

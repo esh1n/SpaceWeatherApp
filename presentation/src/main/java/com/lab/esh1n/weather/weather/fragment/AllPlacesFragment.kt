@@ -47,6 +47,7 @@ class AllPlacesFragment : BaseVMFragment<AllPlacesVM>() {
 
     private var searchView: SearchView? = null
 
+
     private val fullEmptySearchDescription: String
         get() = getString(emptySearchTextId, searchView?.query)
 

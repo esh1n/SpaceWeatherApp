@@ -3,7 +3,6 @@ package com.esh1n.core_android.ui.fragment
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
 import javax.inject.Inject
 
 abstract class BaseVMFragment<VM : ViewModel> : BaseDIFragment() {
@@ -13,9 +12,10 @@ abstract class BaseVMFragment<VM : ViewModel> : BaseDIFragment() {
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
+
     protected val viewModel: VM
             by lazy {
-                ViewModelProviders.of(this, viewModelFactory)
+                ViewModelProvider(this, viewModelFactory)
                         .get(viewModelClass)
             }
 

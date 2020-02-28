@@ -98,7 +98,7 @@ class CurrentPlaceFragment : BaseVMFragment<CurrentWeatherVM>() {
     }
 
     private fun observeWeather() {
-        viewModel.getWeatherLiveData().observe(this, object : BaseObserver<Pair<Int, List<WeatherModel>>>() {
+        viewModel.getWeatherLiveData().observe(viewLifecycleOwner, object : BaseObserver<Pair<Int, List<WeatherModel>>>() {
             override fun onError(error: ErrorModel?) {
                 SnackbarBuilder.buildErrorSnack(view!!, error?.message ?: "").show()
             }
@@ -119,7 +119,7 @@ class CurrentPlaceFragment : BaseVMFragment<CurrentWeatherVM>() {
                 placeId = data?.first
             }
         })
-        viewModel.refreshOperation.observe(this, object : BaseObserver<Unit>() {
+        viewModel.refreshOperation.observe(viewLifecycleOwner, object : BaseObserver<Unit>() {
             override fun onData(data: Unit?) {
 
                 SnackbarBuilder.buildSnack(view!!, getString(R.string.text_weather_updated_successfully), duration = 500).show()
