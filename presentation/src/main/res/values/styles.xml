@@ -17,8 +17,13 @@
     </style>
 
     <style name="BaseTextView">
+        <item name="android:fontFamily">@font/roboto_thin</item>
         <item name="android:ellipsize">end</item>
         <item name="android:singleLine">true</item>
+    </style>
+
+    <style name="BoldBase" parent="BaseTextView">
+        <item name="android:fontFamily">@font/roboto_thin</item>
     </style>
 
 
@@ -39,7 +44,7 @@
     </style>
 
 
-    <style name="SettingsTitleTextView">
+    <style name="SettingsTitleTextView" parent="BaseTextView">
         <item name="android:textSize">@dimen/font_size_18</item>
         <item name="android:textStyle">bold</item>
     </style>
