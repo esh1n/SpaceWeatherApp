@@ -34,6 +34,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginStart="@dimen/margin_smallest"
+                android:fontFamily="@font/roboto_condensed_bold"
                 android:textSize="@dimen/f46"
                 android:textStyle="bold"
                 app:temperatureCelsius="@{weather.tempMax}"
@@ -43,6 +44,7 @@
         </LinearLayout>
 
         <TextView
+            android:fontFamily="@font/roboto_condensed_regular"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -52,6 +54,7 @@
             tools:text="Clear sky" />
 
         <TextView
+            android:fontFamily="@font/roboto_medium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
