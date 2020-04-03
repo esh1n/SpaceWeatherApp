@@ -30,6 +30,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginStart="@dimen/margin_smallest"
+                style="@style/ItemHourHeaderTextStyle"
                 android:gravity="center_vertical"
                 app:txtColor="@{header.isDay}"
                 app:valueProperty="@{header.windSpeed}"
@@ -56,6 +57,7 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginStart="@dimen/margin_smallest"
                 android:gravity="center_vertical"
+                style="@style/ItemHourHeaderTextStyle"
                 app:pressure="@{header.pressure}"
                 app:txtColor="@{header.isDay}"
                 tools:text="pressure" />
@@ -82,6 +84,7 @@
                 android:gravity="center_vertical"
                 app:humidity="@{header.humidity}"
                 app:txtColor="@{header.isDay}"
+                style="@style/ItemHourHeaderTextStyle"
                 tools:text="humidity" />
         </LinearLayout>
     </LinearLayout>

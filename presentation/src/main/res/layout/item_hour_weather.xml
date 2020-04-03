@@ -12,6 +12,7 @@
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tv_hour"
+        style="@style/HourTextStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
@@ -28,15 +29,16 @@
         android:layout_marginTop="@dimen/margin_small"
         android:src="@color/bottom_menu_active" />
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tv_temperature"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="@dimen/margin_small"
-        app:valueProperty="@{weather.value}"
-        app:txtColor="@{weather.isDay}"
-        tools:text="+13C" />
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_temperature"
+            style="@style/HourTextStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/margin_small"
+            app:txtColor="@{weather.isDay}"
+            app:valueProperty="@{weather.value}"
+            tools:text="+13C" />
 
 </LinearLayout>
 

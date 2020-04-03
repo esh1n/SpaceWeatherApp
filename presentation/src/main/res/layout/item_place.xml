@@ -27,7 +27,7 @@
 
             <TextView
                 android:id="@+id/tv_time"
-
+                style="@style/SmallThinTextStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
@@ -57,15 +57,15 @@
 
 
             <TextView
-                android:layout_width="wrap_content"
                 android:id="@+id/tv_place_name"
-                android:layout_gravity="center"
+                style="@style/PlaceBigTextStyle"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:layout_marginEnd="@dimen/margin_small"
                 android:ellipsize="end"
+                android:fontFamily="@font/roboto_mono_medium"
                 android:text="@{place.name}"
-                android:textSize="@dimen/f24"
-                android:textStyle="bold"
                 app:txtColor="@{place.weatherBackgroundModel.isDay}"
                 tools:text="Voronezh" />
 
@@ -95,11 +95,9 @@
 
             <TextView
                 android:id="@+id/tv_temperature"
+                style="@style/PlaceBigTextStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:ellipsize="end"
-                android:textSize="@dimen/f24"
-                android:textStyle="bold"
                 app:temperatureCelsius="@{place.temperature}"
                 app:txtColor="@{place.weatherBackgroundModel.isDay}"
                 tools:text="17%" />
@@ -117,10 +115,10 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginStart="@dimen/margin_small"
-                android:ellipsize="end"
+
                 android:gravity="center_vertical"
                 android:text="@{place.weatherDescription}"
-                android:textSize="@dimen/f16"
+                style="@style/PlaceLightTextStyle"
                 app:txtColor="@{place.weatherBackgroundModel.isDay}"
                 tools:text="Переменная облачность сегодня" />
         </LinearLayout>

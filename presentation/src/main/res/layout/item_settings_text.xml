@@ -9,7 +9,7 @@
 
     <TextView
         android:id="@+id/tv_title"
-        style="style/SettingsTitleTextView"
+        style="@style/SettingsTitleTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
@@ -17,7 +17,7 @@
 
     <TextView
         android:id="@+id/tv_value"
-        style="style/SettingsTextView"
+        style="@style/SettingsTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"

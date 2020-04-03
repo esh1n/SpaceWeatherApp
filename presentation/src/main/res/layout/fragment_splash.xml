@@ -18,6 +18,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:gravity="center"
+            android:fontFamily="@font/roboto_condensed_bold"
             android:textColor="@android:color/black"
             android:textSize="@dimen/f24"
             android:textStyle="bold"
