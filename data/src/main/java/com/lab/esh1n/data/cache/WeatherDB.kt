@@ -11,14 +11,14 @@ import com.lab.esh1n.data.cache.dao.PlaceDAO
 import com.lab.esh1n.data.cache.dao.WeatherDAO
 import com.lab.esh1n.data.cache.entity.PlaceEntry
 import com.lab.esh1n.data.cache.entity.WeatherEntry
+import com.lab.esh1n.data.converter.DateConverter
+import com.lab.esh1n.data.converter.TemperatureConverter
+import com.lab.esh1n.data.converter.WindDegreeConverter
+import com.lab.esh1n.data.converter.WindSpeedConverter
 import java.util.concurrent.Executors
 
-
-/**
- * Created by esh1n on 3/7/18.
- */
 @Database(entities = [WeatherEntry::class, PlaceEntry::class], version = 2, exportSchema = false)
-@TypeConverters(DateConverter::class)
+@TypeConverters(DateConverter::class, WindDegreeConverter::class, TemperatureConverter::class, WindSpeedConverter::class)
 abstract class WeatherDB : RoomDatabase() {
 
     abstract fun weatherDAO(): WeatherDAO
@@ -27,6 +27,7 @@ abstract class WeatherDB : RoomDatabase() {
 
     companion object {
         private const val NAME = "weather.db"
+
         @Volatile
         private var INSTANCE: WeatherDB? = null
 
@@ -52,7 +53,6 @@ abstract class WeatherDB : RoomDatabase() {
             }
         }
     }
-
 
 
 }

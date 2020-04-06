@@ -23,6 +23,12 @@ class Temperature(val value: Double, private val units: TemperatureUnit = Temper
         return ((fahrenheitValue - 32) * 5) / 9
     }
 
+    fun middleTemperature(maxTemp: Temperature): Temperature {
+        val middleValue = (value + maxTemp.value) / 2
+        return Temperature(middleValue)
+    }
+
+
     companion object {
         fun middleTemperature(minTemp: Double, maxTemp: Double): Temperature {
             val middleValue = (minTemp + maxTemp) / 2

@@ -8,9 +8,9 @@ import com.lab.esh1n.weather.weather.model.NoDataBackgroundModel
 import com.lab.esh1n.weather.weather.model.PlaceModel
 import com.lab.esh1n.weather.weather.model.SimpleBackgroundModel
 import java.util.*
+import kotlin.math.roundToInt
 
 class PlaceWeatherListMapper(private val uiLocalizer: UiLocalizer) : Mapper<PlaceWithCurrentWeatherEntry, PlaceModel>() {
-    //TODO refactor getting isDay
     override fun map(source: PlaceWithCurrentWeatherEntry): PlaceModel {
         val uiDateMapper = uiLocalizer.provideDateMapper(source.timezone, DateFormat.HOUR)
         val dateBuilder = DateBuilder(source.date ?: Date(), source.timezone)
@@ -24,7 +24,7 @@ class PlaceWeatherListMapper(private val uiLocalizer: UiLocalizer) : Mapper<Plac
                 id = source.id,
                 iconId = source.iconId ?: "00d",
                 time = uiDateMapper.map(dateBuilder.build()),
-                temperature = source.temperatureMax,
+                temperature = source.temperatureMax?.value?.roundToInt() ?: 0,
                 weatherBackgroundModel = weatherBackgroundModel,
                 weatherDescription = source.weatherDescription ?: "",
                 countryFlag = Country.getCountryByISO(source.countryCode).flag

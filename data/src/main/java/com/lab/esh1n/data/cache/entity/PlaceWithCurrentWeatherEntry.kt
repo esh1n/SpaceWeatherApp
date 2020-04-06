@@ -16,4 +16,4 @@ data class PlaceWithCurrentWeatherEntry(val id: Int,
                                         val snow: Int?,
                                         val cloudiness: Int?,
                                         val rain: Int?,
-                                        val temperatureMax: Int?)
+                                        val temperatureMax: Temperature?)

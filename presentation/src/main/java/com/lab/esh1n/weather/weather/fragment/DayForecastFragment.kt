@@ -10,6 +10,7 @@ import com.esh1n.core_android.error.ErrorModel
 import com.esh1n.core_android.ui.fragment.BaseVMFragment
 import com.esh1n.core_android.ui.viewmodel.BaseObserver
 import com.esh1n.utils_android.ui.SnackbarBuilder
+import com.esh1n.utils_android.ui.setVisibleOrGone
 import com.lab.esh1n.weather.R
 import com.lab.esh1n.weather.domain.weather.weather.usecases.PlaceDayArgs
 import com.lab.esh1n.weather.weather.adapter.DayForecastAdapter
@@ -40,7 +41,6 @@ class DayForecastFragment : BaseVMFragment<DayForecastVM>() {
                             DividerItemDecoration.VERTICAL
                     )
             )
-
             it.setHasFixedSize(true)
             it.adapter = adapter
         }
@@ -55,6 +55,11 @@ class DayForecastFragment : BaseVMFragment<DayForecastVM>() {
                 data?.let {
                     adapter.updateForecastData(data)
                 }
+            }
+
+            override fun onProgress(progress: Boolean) {
+                super.onProgress(progress)
+                loadingIndicator?.setVisibleOrGone(progress)
             }
 
             override fun onError(error: ErrorModel?) {

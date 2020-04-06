@@ -28,18 +28,12 @@ class CurrentWeatherVM
 constructor(private val loadCurrentWeatherUseCase: LoadCurrentWeatherUseCase,
             private val loadCurrentWeatherSingleUseCase: LoadCurrentWeatherSingleUseCase,
             private val fetchAndSaveWeatherUseCase: FetchAndSaveCurrentPlaceWeatherUseCase,
-            appPrefs: AppPrefs,
-            private val uiLocalizer: UiLocalizer, application: Application)
+            appPrefs: AppPrefs, private val uiLocalizer: UiLocalizer, application: Application)
     : BaseAndroidViewModel(application) {
 
     val refreshOperation = SingleLiveEvent<Resource<Unit>>()
-    val initAdEvent = SingleLiveEvent<Resource<Boolean>>()
     private val weatherLiveData = MutableLiveData<Resource<Pair<Int, List<WeatherModel>>>>()
     private val cityWeatherModelMapper = WeatherModelMapper(uiLocalizer, appPrefs)
-
-    private val placeIdData = MutableLiveData(0)
-
-    //TODO move this periodic sync to success login event
 
     fun getWeatherLiveData() = weatherLiveData
 

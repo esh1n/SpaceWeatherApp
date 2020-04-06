@@ -21,6 +21,7 @@ class DayForecastVM @Inject constructor(private val loadForecastUseCase: LoadDay
     fun loadDayForecastSections(placeAndDay: PlaceDayArgs) {
         loadForecastUseCase
                 .perform(placeAndDay)
+                .doOnSubscribe { sections.postValue(Resource.loading()) }
                 .map { availableDays -> Resource.map(availableDays, dayForecastMapper::map) }
                 .compose(SchedulersFacade.applySchedulersSingle())
                 .subscribe { models -> sections.postValue(models) }

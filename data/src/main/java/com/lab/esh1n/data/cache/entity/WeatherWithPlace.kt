@@ -6,30 +6,30 @@ import java.util.*
 class WeatherWithPlace(
 
         var id: Int,
-
         var placeName: String,
-
         var placeId: String,
 
         var timezone: String,
+
         var dateSeconds: Long,
+
         var epochDateMills: Date,
 
         var dateTxt: String,
 
-        var temperature: Double,
+        var temperature: Temperature,
 
-        var temperatureMin: Double,
+        var temperatureMin: Temperature,
 
-        var temperatureMax: Double,
+        var temperatureMax: Temperature,
 
         var iconId: String,
 
         var description: String,
 
-        var windSpeed: Double,
+        var windSpeed: WindSpeed,
 
-        var windDegree: Double,
+        var windDegree: WindDegree,
 
         var pressure: Int,
 

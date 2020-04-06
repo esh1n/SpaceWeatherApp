@@ -6,7 +6,6 @@ import com.lab.esh1n.data.cache.TemperatureUnit
 import com.lab.esh1n.data.cache.Units
 import com.lab.esh1n.data.cache.entity.Temperature
 import com.lab.esh1n.data.cache.entity.WeatherWithPlace
-import com.lab.esh1n.data.cache.entity.WindDegree
 import com.lab.esh1n.data.cache.entity.WindSpeed
 import com.lab.esh1n.weather.R
 import com.lab.esh1n.weather.utils.OneValueProperty
@@ -14,7 +13,7 @@ import com.lab.esh1n.weather.utils.StringResValueProperty
 import com.lab.esh1n.weather.weather.adapter.*
 
 class DayForecastSectionsMapper(private val uiLocalizer: UiLocalizer) : Mapper<List<WeatherWithPlace>, List<Pair<DayForecastSection, List<DaytimeForecastModel>>>>() {
-    override fun map(source: List<WeatherWithPlace>): List<Pair<DayForecastSection, List<out DaytimeForecastModel>>> {
+    override fun map(source: List<WeatherWithPlace>): List<Pair<DayForecastSection, List<DaytimeForecastModel>>> {
         val firstWeather = source[0]
         val timezone = firstWeather.timezone
         val morning = source.filter {
@@ -45,11 +44,10 @@ class DayForecastSectionsMapper(private val uiLocalizer: UiLocalizer) : Mapper<L
 
 
     private fun prepareWindSection(titles: List<Int>, morningDayEveningNight: List<List<WeatherWithPlace>>): Pair<DayForecastSection, List<DayWindForecastModel>> {
-        //TODO read WindFrom dao
         val windItems = arrayListOf<DayWindForecastModel>()
         morningDayEveningNight.forEachIndexed { index, list ->
-            val averageSpeed = AverageWeatherUtil.average(list.map { it.windSpeed })
-            val windDegrees = list.map { WindDegree(it.windDegree) }
+            val averageSpeed = AverageWeatherUtil.average(list.map { it.windSpeed.value })
+            val windDegrees = list.map { it.windDegree }
             val averageWindDirection = AverageWeatherUtil.averageWindDirection(windDegrees)
             val degreesWithAverageDirection = windDegrees.filter { it.direction == averageWindDirection }.map { it.degree }
             val averageWindDegree = AverageWeatherUtil.average(degreesWithAverageDirection)
@@ -85,11 +83,10 @@ class DayForecastSectionsMapper(private val uiLocalizer: UiLocalizer) : Mapper<L
     }
 
     private fun prepareMainSection(titles: List<Int>, morningDayEveningNight: List<List<WeatherWithPlace>>): Pair<DayForecastSection, List<DayOverallForecastModel>> {
-        //TODO read Temperature From dao
         val mainItems = arrayListOf<DayOverallForecastModel>()
         morningDayEveningNight.forEachIndexed { index, list ->
             val averageIconAndDescription = AverageWeatherUtil.calculateWeatherIconAndDescription(list)
-            val averageTemperature = AverageWeatherUtil.average(list.map { it.temperature })
+            val averageTemperature = AverageWeatherUtil.average(list.map { it.temperature.value })
             val updatedDescription = joinString(averageIconAndDescription.second.split(" "))
             mainItems.add(DayOverallForecastModel(
                     dayTime = StringResValueProperty(titles[index]),

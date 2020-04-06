@@ -6,27 +6,35 @@ import java.util.*
 
 class AppPrefs(sharedPreferences: SharedPreferences) : RxPrefs(sharedPreferences), IPrefsProvider {
 
-
-    //TODO save current timezone and use it in calls to DB
     override fun getLocale(): Locale {
         return Locale.forLanguageTag(getString(KEY_LOCALE, DEFAULT_LOCALE))
     }
 
-    override fun getTemperatureUnits(): TemperatureUnit {
+    override fun getAppTemperatureUnits(): TemperatureUnit {
         return TemperatureUnit.valueOf(getString(KEY_TEMPERATURE_UNITS, DEFAULT_TEMPERATURE_UNITS))
     }
 
-    override fun getUnits(): Units {
+    override fun getServerAPITemperatureUnits() = TemperatureUnit.C
+
+    override fun getAppUnits(): Units {
         return Units.valueOf(getString(KEY_UNITS, DEFAULT_UNITS))
     }
 
-    fun getLangAndUnits(): Pair<String, String> {
-        return Pair(getLocale().language, getUnits().serverValue)
+    override fun getServerAPIUnits() = Units.METRIC
+
+    fun getLanguageAndServerUnits(): Pair<String, String> {
+        return Pair(getLocale().language, getServerAPIUnits().serverValue)
     }
 
-    fun getLangAndUnitsSingle(): Single<Pair<String, String>> {
+    fun getLanguageAndServerUnitsSingle(): Single<Pair<String, String>> {
         return Single.fromCallable {
-            Pair(getLocale().language, getUnits().serverValue)
+            return@fromCallable getLanguageAndServerUnits()
+        }
+    }
+
+    fun getLanguageSingle(): Single<String> {
+        return Single.fromCallable {
+            getLocale().language
         }
     }
 

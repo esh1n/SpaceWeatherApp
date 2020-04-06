@@ -19,7 +19,6 @@ import com.lab.esh1n.weather.domain.weather.weather.mapper.ForecastWeatherListMa
 import com.lab.esh1n.weather.domain.weather.weather.mapper.PlaceListMapper
 import io.reactivex.*
 import io.reactivex.Observable
-import io.reactivex.functions.BiFunction
 import java.lang.reflect.Type
 import java.util.*
 
@@ -39,42 +38,20 @@ class PlacesRepository constructor(private val apiService: APIService, db: Weath
         return placeDAO.checkIfCurrentPlaceExist()
     }
 
-    fun fetchAndSaveAllPlacesForecast(): Completable {
-        return placeDAO.getPlaceIdsToSync()
-                .flattenAsObservable { it }
-                .flatMapSingle { id ->
-                    val unitsAndLang = appPrefs.getLangAndUnits()
-                    apiService.getForecastAsync(BuildConfig.APP_ID, id, unitsAndLang.first, unitsAndLang.second)
-                }
-                .map { response ->
-                    val id = response.city!!.id!!
-                    val updatePlaceModel = PlaceListMapper().map(response.city!!)
-                    val weathers = ForecastWeatherListMapper(id).map(response.list)
-                    return@map Pair(updatePlaceModel, weathers)
-                }
-                .flatMapCompletable { placeAndWeathers ->
-                    val updatePlaceEntry = placeAndWeathers.first
-                    placeDAO.updateSunsetSunrise(updatePlaceEntry.id, updatePlaceEntry.timezone, updatePlaceEntry.sunrise, updatePlaceEntry.sunset)
-                    weatherDAO.saveWeathersCompletable(placeAndWeathers.second)
-                }
-    }
-
     fun updateCurrentPlacesForecast(): Completable {
         val threeHoursAgo = DateBuilder(Date()).minusHours(3).build()
-
+        val lang = appPrefs.getLocale().language
+        val serverUnits = appPrefs.getServerAPIUnits()
         return weatherDAO
                 .clearOldWeathers(threeHoursAgo)
-                .andThen(getIdUnitAndLang()
-                        .flatMap { idUnitAndLang ->
-                            val id = idUnitAndLang.first
-                            val units = idUnitAndLang.second
-                            val lang = idUnitAndLang.third
-                            apiService.getForecastAsync(BuildConfig.APP_ID, id, units, lang)
+                .andThen(placeDAO.getCurrentCityId()
+                        .flatMap { id ->
+                            apiService.getForecastAsync(BuildConfig.APP_ID, id, serverUnits.serverValue, lang)
                         }
                         .map { response ->
                             val id = response.city!!.id!!
                             val updatePlaceModel = PlaceListMapper().map(response.city!!)
-                            val weathers = ForecastWeatherListMapper(id).map(response.list)
+                            val weathers = ForecastWeatherListMapper(id, serverUnits).map(response.list)
                             return@map Pair(updatePlaceModel, weathers)
                         }
                         .flatMapCompletable { placeAndWeathers ->
@@ -84,14 +61,6 @@ class PlacesRepository constructor(private val apiService: APIService, db: Weath
                         }
                 )
     }
-
-
-    private fun getIdUnitAndLang(): Single<Triple<Int, String, String>> {
-        return Single.zip(placeDAO.getCurrentCityId(), appPrefs.getLangAndUnitsSingle(), BiFunction { id, unitsAndLang ->
-            return@BiFunction Triple(id, unitsAndLang.first, unitsAndLang.second)
-        })
-    }
-
 
     fun prePopulatePlaces(): Flowable<ProgressModel<Unit>> =
             Flowable.create({ emitter ->
@@ -104,14 +73,14 @@ class PlacesRepository constructor(private val apiService: APIService, db: Weath
 
                 val cityType: Type = object : TypeToken<List<PlaceAsset>>() {}.type
                 val places = Gson().fromJson<List<PlaceAsset>>(citiesJSON, cityType)
-                val percentAfterGSONMApping = 50
+                val percentAfterGSONMapping = 50
 
-                emitter.onNext(ProgressModel(percentAfterGSONMApping, "mapped string to JSON "))
+                emitter.onNext(ProgressModel(percentAfterGSONMapping, "mapped string to JSON "))
                 val mappingToEntriesPart = 40
                 val placeEntries = PlaceEntryMapper()
                         .map(places,
                                 { relation ->
-                                    val percent = (percentAfterGSONMApping + mappingToEntriesPart * relation).toInt()
+                                    val percent = (percentAfterGSONMapping + mappingToEntriesPart * relation).toInt()
                                     emitter.onNext(ProgressModel(percent, "mapped json to entries "))
                                 })
                 emitter.onNext(ProgressModel(90, "start write to database"))
@@ -127,9 +96,4 @@ class PlacesRepository constructor(private val apiService: APIService, db: Weath
             placeDAO.updateCurrentPlace(id)
         }
     }
-
-    fun loadCurrentPlaceId(): Single<Int> {
-        return placeDAO.loadCurrentPlaceId()
-    }
-
 }

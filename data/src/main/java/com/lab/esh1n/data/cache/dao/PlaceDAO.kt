@@ -3,10 +3,10 @@ package com.lab.esh1n.data.cache.dao
 import androidx.paging.DataSource
 import androidx.room.*
 import androidx.room.OnConflictStrategy.REPLACE
-import com.lab.esh1n.data.cache.DateConverter
 import com.lab.esh1n.data.cache.entity.PlaceEntry
 import com.lab.esh1n.data.cache.entity.PlaceWithCurrentWeatherEntry
 import com.lab.esh1n.data.cache.entity.SunsetSunriseTimezonePlaceEntry
+import com.lab.esh1n.data.converter.DateConverter
 import io.reactivex.Flowable
 import io.reactivex.Single
 import java.util.*

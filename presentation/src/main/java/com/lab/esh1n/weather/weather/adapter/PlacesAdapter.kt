@@ -72,7 +72,7 @@ class PlacesAdapter(private val mClickHandler: IPlaceClickable, private val plac
     }
 
     interface IPlaceClickable {
-        fun onPlaceClick(place: Int, placeName: String)
+        fun onPlaceClick(placeId: Int, placeName: String)
         fun onPlaceOptions(placeId: Int)
     }
 

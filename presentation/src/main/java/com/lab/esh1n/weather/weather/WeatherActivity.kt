@@ -78,7 +78,6 @@ class WeatherActivity : BaseToolbarActivity(), AppView {
         logOnResumeEvent()
     }
 
-    //TODO move to own analytics holder
     private fun logRouteEvent(isDataInitialized: Boolean) {
         val bundle = Bundle()
         bundle.putString(FirebaseAnalytics.Param.ITEM_ID, "main_activity")

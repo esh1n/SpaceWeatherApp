@@ -74,7 +74,7 @@ class NotificationUtil {
                 Resource.Status.SUCCESS -> {
                     val weather = result.data!!
                     val title = ctx.getString(R.string.text_weather_notification_title, weather.description)
-                    val middleTemperature = Temperature.middleTemperature(weather.temperatureMin, weather.temperatureMax)
+                    val middleTemperature = weather.temperatureMin.middleTemperature(weather.temperatureMax)
                     val localizedTemperature: String = temperatureMapper(middleTemperature).convertProperty(ctx)
                     val weatherDate = dateMapper.map(weather.epochDateMills)
                     val message = ctx.getString(R.string.text_weather_description, localizedTemperature, weather.placeName, weatherDate)

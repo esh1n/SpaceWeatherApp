@@ -34,7 +34,6 @@ abstract class BaseObserver<T> : Observer<Resource<T>> {
     abstract fun onData(data: T?)
     open fun onEmptyResourceEmission() {}
     open fun onCompleted() {}
-    //TODO add progressmodel instead boolean and get rid off ? in ErrorModel
     open fun onProgress(progress: Boolean) {}
     abstract fun onError(error: ErrorModel?)
 }

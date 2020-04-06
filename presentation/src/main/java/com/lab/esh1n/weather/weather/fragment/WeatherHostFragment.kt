@@ -154,8 +154,6 @@ class WeatherHostFragment : BaseVMFragment<EmptyVM>() {
 
         parentFragmentManager.let {
             val isInRootFragment = it.backStackEntryCount == 0
-            //TODO move it to main activity
-            //requireActivity().actionBar?.setDisplayHomeAsUpEnabled(!isInRootFragment)
             if (isInRootFragment) {
                 updateTitleForRootFragment()
             }

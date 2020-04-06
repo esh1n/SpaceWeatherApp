@@ -46,9 +46,9 @@ class UILocalizerImpl(private val iPrefsProvider: IPrefsProvider) : UiLocalizer 
     override fun localizeTemperature(temperature: Temperature): OneValueProperty {
         val symbols = DecimalFormatSymbols(getLocale())
         val nf = DecimalFormat("##.#", symbols)
-        val convertedValue = temperature.convertTo(iPrefsProvider.getTemperatureUnits())
+        val convertedValue = temperature.convertTo(iPrefsProvider.getAppTemperatureUnits())
         val formattedValue = nf.format(convertedValue)
-        val stringRes = if (iPrefsProvider.getTemperatureUnits() == TemperatureUnit.C)
+        val stringRes = if (iPrefsProvider.getAppTemperatureUnits() == TemperatureUnit.C)
             R.string.text_temperature_celsius_str_value
         else
             R.string.text_temperature_fahrenheit_str_value
@@ -59,7 +59,7 @@ class UILocalizerImpl(private val iPrefsProvider: IPrefsProvider) : UiLocalizer 
     override fun localizeWindSpeed(windSpeed: WindSpeed): OneValueProperty {
         val symbols = DecimalFormatSymbols(getLocale())
         val nf = DecimalFormat("##.#", symbols)
-        val convertedValue = windSpeed.convertTo(iPrefsProvider.getUnits())
+        val convertedValue = windSpeed.convertTo(iPrefsProvider.getAppUnits())
         val formattedValue = nf.format(convertedValue)
         val stringRes = if (windSpeed.units == Units.METRIC)
             R.string.wind_metric

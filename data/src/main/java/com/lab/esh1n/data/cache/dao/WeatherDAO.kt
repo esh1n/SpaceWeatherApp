@@ -1,10 +1,10 @@
 package com.lab.esh1n.data.cache.dao
 
 import androidx.room.*
-import com.lab.esh1n.data.cache.DateConverter
 import com.lab.esh1n.data.cache.contract.WeatherTableContract
 import com.lab.esh1n.data.cache.entity.WeatherEntry
 import com.lab.esh1n.data.cache.entity.WeatherWithPlace
+import com.lab.esh1n.data.converter.DateConverter
 import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.Single
@@ -17,7 +17,6 @@ import java.util.*
 @Dao
 @TypeConverters(DateConverter::class)
 abstract class WeatherDAO {
-    //TODO pass UTC date weathers
 
     @Query("SELECT * FROM weather INNER JOIN  place ON place.id = placeId WHERE isCurrent = 1 AND epochDateMills>=:almostNow AND epochDateMills<:plus5days  ORDER BY abs(:almostNow - epochDateMills) ASC")
     abstract fun getDetailedCurrentWeather(almostNow: Date, plus5days: Date): Flowable<List<WeatherWithPlace>>
@@ -46,7 +45,6 @@ abstract class WeatherDAO {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     abstract fun saveWeathersCompletable(entities: List<WeatherEntry>): Completable
 
-
     @Transaction
     open fun updateCurrentWeathers(weathers: List<WeatherEntry>) {
         weathers.forEach {
@@ -57,7 +55,6 @@ abstract class WeatherDAO {
     open fun saveCurrentAndDeleteOldWeather(weather: WeatherEntry) {
         saveWeather(weather)
         deletePreviousEntries(weather.date, weather.placeId)
-
     }
 
     @Query("DELETE FROM weather WHERE placeId=:cityId AND epochDateMills<:newCurrentDate ")

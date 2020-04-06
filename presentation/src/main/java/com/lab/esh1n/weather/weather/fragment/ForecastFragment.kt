@@ -11,6 +11,7 @@ import com.esh1n.core_android.ui.fragment.BaseVMFragment
 import com.esh1n.core_android.ui.setTitle
 import com.esh1n.core_android.ui.viewmodel.BaseObserver
 import com.esh1n.utils_android.ui.SnackbarBuilder
+import com.esh1n.utils_android.ui.setVisibleOrGone
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.firebase.crashlytics.FirebaseCrashlytics
@@ -20,7 +21,7 @@ import com.lab.esh1n.weather.weather.model.ForecastDayModel
 import com.lab.esh1n.weather.weather.viewmodel.ForecastWeekVM
 
 class ForecastFragment : BaseVMFragment<ForecastWeekVM>() {
-
+    //TODO use ViewBinding here
     override val viewModelClass = ForecastWeekVM::class.java
 
     override val layoutResource: Int = R.layout.fragment_forecast
@@ -28,6 +29,9 @@ class ForecastFragment : BaseVMFragment<ForecastWeekVM>() {
     private var viewPager: ViewPager2? = null
 
     private var tabs: TabLayout? = null
+
+    private var loadingIndicator: View? = null
+
 
     private lateinit var adapterDayForecast: DayForecastFragmentAdapter
 
@@ -58,6 +62,7 @@ class ForecastFragment : BaseVMFragment<ForecastWeekVM>() {
         super.setupView(rootView, savedInstanceState)
         viewPager = rootView.findViewById(R.id.viewpager)
         tabs = rootView.findViewById(R.id.tabs)
+        loadingIndicator = rootView.findViewById(R.id.loading_indicator)
 
         adapterDayForecast = DayForecastFragmentAdapter(requireActivity())
 
@@ -102,6 +107,11 @@ class ForecastFragment : BaseVMFragment<ForecastWeekVM>() {
                 data?.let {
                     populateByDays(data.first, data.second)
                 }
+            }
+
+            override fun onProgress(progress: Boolean) {
+                super.onProgress(progress)
+                loadingIndicator?.setVisibleOrGone(progress)
             }
 
             override fun onError(error: ErrorModel?) {

@@ -1,14 +1,7 @@
 package com.lab.esh1n.data.cache.entity
 
-import kotlin.math.roundToInt
+class WindDegree(val degree: Double, val direction: WindDirection) {
 
-class WindDegree(val degree: Double) {
-    val direction: WindDirection = initWindDirection(degree)
-    private fun initWindDirection(degree: Double): WindDirection {
-        val directions = WindDirection.values()
-        val position: Int = ((degree % 360) / 45).roundToInt()
-        return directions[position % 8]
-    }
 }
 
 enum class WindDirection(val degree: Float) {
