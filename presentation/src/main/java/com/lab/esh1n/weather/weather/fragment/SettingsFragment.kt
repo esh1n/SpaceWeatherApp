@@ -32,7 +32,7 @@ class SettingsFragment : BaseVMFragment<SettingsViewModel>() {
 
     override fun setupView(rootView: View, savedInstanceState: Bundle?) {
         super.setupView(rootView, savedInstanceState)
-        settingsAdapter = SettingsAdapter(this::settingClick)
+        settingsAdapter = SettingsAdapter(requireActivity(), this::settingClick)
         settingsRecyclerView = rootView.findViewById(R.id.list_settings)
         settingsRecyclerView?.let {
             it.layoutManager = LinearLayoutManager(activity)

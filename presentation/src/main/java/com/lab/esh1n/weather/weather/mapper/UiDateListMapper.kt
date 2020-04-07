@@ -11,7 +11,7 @@ class UiDateListMapper(private val format: SimpleDateFormat) : TwoWayListMapper<
     }
 
     override fun mapInverse(source: String): Date {
-        return format.parse(source)
+        return format.parse(source) ?: Date()
     }
 
 }

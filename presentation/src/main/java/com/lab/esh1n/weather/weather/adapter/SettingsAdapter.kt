@@ -1,19 +1,23 @@
 package com.lab.esh1n.weather.weather.adapter
 
+import android.content.Context
+import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.esh1n.utils_android.ui.inflate
 import com.lab.esh1n.weather.R
+import com.lab.esh1n.weather.databinding.ItemSettingsGroupHeaderBinding
+import com.lab.esh1n.weather.databinding.ItemSettingsTextBinding
 import com.lab.esh1n.weather.weather.model.HeaderSettingModel
 import com.lab.esh1n.weather.weather.model.SettingsModel
 import com.lab.esh1n.weather.weather.model.TextSettingModel
 import com.lab.esh1n.weather.weather.viewmodel.SettingsViewModel
 
 
-class SettingsAdapter(private val settingsClick: (SettingsModel) -> Unit) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class SettingsAdapter(context: Context, private val settingsClick: (SettingsModel) -> Unit) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
+    private val inflater = LayoutInflater.from(context)
     private var settings: List<SettingsModel>? = null
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
@@ -22,8 +26,8 @@ class SettingsAdapter(private val settingsClick: (SettingsModel) -> Unit) : Recy
                 VHHeader(view)
             }
             TYPE_ITEM -> {
-                val view = parent.inflate(R.layout.item_settings_text)
-                VHItem(view)
+                val itemSettingTextBinding = ItemSettingsTextBinding.inflate(inflater, parent, false)
+                VHItem(itemSettingTextBinding)
             }
             else -> {
                 val view = parent.inflate(R.layout.item_settings_text)
@@ -69,10 +73,8 @@ class SettingsAdapter(private val settingsClick: (SettingsModel) -> Unit) : Recy
     }
 
 
-    internal inner class VHItem(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
+    internal inner class VHItem(private val binding: ItemSettingsTextBinding) : RecyclerView.ViewHolder(binding.root), View.OnClickListener {
 
-        var txtTitle: TextView? = itemView.findViewById(R.id.tv_title)
-        var txtValue: TextView? = itemView.findViewById(R.id.tv_value)
         override fun onClick(v: View?) {
             val setting = settings?.get(adapterPosition)
             setting?.let {
@@ -81,12 +83,12 @@ class SettingsAdapter(private val settingsClick: (SettingsModel) -> Unit) : Recy
         }
 
         init {
-            itemView.setOnClickListener(this)
+            binding.root.setOnClickListener(this)
         }
 
         fun populate(setting: TextSettingModel) {
-            txtTitle?.setText(getStringResByTitleKey(setting.title))
-            txtValue?.text = setting.value
+            binding.tvTitle.setText(getStringResByTitleKey(setting.title))
+            binding.tvValue.text = setting.value
         }
 
         private fun getStringResByTitleKey(key: String): Int {
@@ -99,10 +101,10 @@ class SettingsAdapter(private val settingsClick: (SettingsModel) -> Unit) : Recy
     }
 
     internal inner class VHHeader(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        var title: TextView? = itemView.findViewById(R.id.tv_header)
+        var binding: ItemSettingsGroupHeaderBinding = ItemSettingsGroupHeaderBinding.bind(itemView)
 
         fun populate(header: HeaderSettingModel) {
-            title?.setText(getStringResByTitleKey(header.title))
+            binding.tvHeader.setText(getStringResByTitleKey(header.title))
         }
 
         private fun getStringResByTitleKey(key: String): Int {

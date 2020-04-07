@@ -7,9 +7,10 @@ import androidx.fragment.app.Fragment
 import com.esh1n.core_android.ui.fragment.BaseVMFragment
 import com.esh1n.core_android.ui.setTitle
 import com.lab.esh1n.weather.R
+import com.lab.esh1n.weather.databinding.FragmentWeathersHostBinding
+import com.lab.esh1n.weather.utils.viewLifecycle
 import com.lab.esh1n.weather.weather.MainFragmentTab
 import com.lab.esh1n.weather.weather.viewmodel.EmptyVM
-import kotlinx.android.synthetic.main.fragment_weathers_host.*
 
 
 class WeatherHostFragment : BaseVMFragment<EmptyVM>() {
@@ -21,6 +22,8 @@ class WeatherHostFragment : BaseVMFragment<EmptyVM>() {
     override val layoutResource: Int = R.layout.fragment_weathers_host
 
     private var activeFragment: Fragment? = null
+
+    private var binding: FragmentWeathersHostBinding by viewLifecycle()
 
     companion object {
         private const val SELECTED_ITEM = "arg_selected_item"
@@ -49,17 +52,18 @@ class WeatherHostFragment : BaseVMFragment<EmptyVM>() {
 
     override fun setupView(rootView: View, savedInstanceState: Bundle?) {
         super.setupView(rootView, savedInstanceState)
+        binding = FragmentWeathersHostBinding.bind(rootView)
         setupBottomNavigation()
         initFragmentTransactionsListener()
         val restoredMenu = getSelectedFragmentMenuId(savedInstanceState)
-        bottom_navigation.selectedItemId = restoredMenu.itemId
+        binding.navigation.selectedItemId = restoredMenu.itemId
     }
 
 
     private fun setupBottomNavigation() {
-        bottom_navigation.menu.clear() //clear old inflated items.
-        bottom_navigation.inflateMenu(R.menu.bottom_nav_items);
-        bottom_navigation.setOnNavigationItemSelectedListener { item ->
+        binding.navigation.menu.clear() //clear old inflated items.
+        binding.navigation.inflateMenu(R.menu.bottom_nav_items);
+        binding.navigation.setOnNavigationItemSelectedListener { item ->
             selectFragment(item)
             true
         }
@@ -126,7 +130,7 @@ class WeatherHostFragment : BaseVMFragment<EmptyVM>() {
     }
 
     private fun updateBottomMenuCheckedItem(checkedFragmentId: Int) {
-        val menu = bottom_navigation.menu
+        val menu = binding.navigation.menu
         for (i in 0 until menu.size()) {
             val menuItem = menu.getItem(i)
             menuItem.isChecked = menuItem.itemId == checkedFragmentId
@@ -137,10 +141,10 @@ class WeatherHostFragment : BaseVMFragment<EmptyVM>() {
         val isSavedDataExist = savedInstance != null
         return if (isSavedDataExist) {
             selectedItem = savedInstance?.getInt(SELECTED_ITEM, 0) ?: 0
-            bottom_navigation.menu.findItem(selectedItem)
+            binding.navigation.menu.findItem(selectedItem)
         } else {
-            val checkedItem = bottom_navigation!!.selectedItemId
-            bottom_navigation.menu.findItem(checkedItem)
+            val checkedItem = binding.navigation.selectedItemId
+            binding.navigation.menu.findItem(checkedItem)
         }
     }
 
@@ -162,7 +166,7 @@ class WeatherHostFragment : BaseVMFragment<EmptyVM>() {
     }
 
     private fun updateTitleForRootFragment() {
-        val titleForRootFragment = getTitleByTab(getTabByMenu(bottom_navigation.selectedItemId))
+        val titleForRootFragment = getTitleByTab(getTabByMenu(binding.navigation.selectedItemId))
         setTitle(titleForRootFragment)
     }
 
@@ -172,7 +176,7 @@ class WeatherHostFragment : BaseVMFragment<EmptyVM>() {
     }
 
     fun setCurrentWeather() {
-        bottom_navigation.selectedItemId = R.id.menu_current_city
+        binding.navigation.selectedItemId = R.id.menu_current_city
     }
 
 

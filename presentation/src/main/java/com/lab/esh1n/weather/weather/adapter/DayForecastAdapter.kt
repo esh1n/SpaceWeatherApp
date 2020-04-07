@@ -189,7 +189,6 @@ class DayForecastAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                     return object : VHItem<DayWindForecastModel>(view) {
                         override fun bindContent(itemView: View, item: DayWindForecastModel) {
                             val imageDirection = itemView.findViewById<AppCompatImageView>(R.id.iv_wind)
-                            val src = itemView.context.getResourceImage(item.iconId)
                             //  imageDirection.setImageResource(src)
                             imageDirection.rotation = item.windDegree
                             val tvWindSpeed = itemView.findViewById<AppCompatTextView>(R.id.tv_wind_value)

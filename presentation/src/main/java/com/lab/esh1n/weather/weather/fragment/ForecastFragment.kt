@@ -12,25 +12,23 @@ import com.esh1n.core_android.ui.setTitle
 import com.esh1n.core_android.ui.viewmodel.BaseObserver
 import com.esh1n.utils_android.ui.SnackbarBuilder
 import com.esh1n.utils_android.ui.setVisibleOrGone
-import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.lab.esh1n.weather.R
+import com.lab.esh1n.weather.databinding.FragmentForecastBinding
+import com.lab.esh1n.weather.utils.viewLifecycle
 import com.lab.esh1n.weather.weather.adapter.DayForecastFragmentAdapter
 import com.lab.esh1n.weather.weather.model.ForecastDayModel
 import com.lab.esh1n.weather.weather.viewmodel.ForecastWeekVM
+import kotlinx.android.synthetic.main.fragment_forecast.*
 
 class ForecastFragment : BaseVMFragment<ForecastWeekVM>() {
-    //TODO use ViewBinding here
     override val viewModelClass = ForecastWeekVM::class.java
 
     override val layoutResource: Int = R.layout.fragment_forecast
 
-    private var viewPager: ViewPager2? = null
 
-    private var tabs: TabLayout? = null
-
-    private var loadingIndicator: View? = null
+    private var binding: FragmentForecastBinding by viewLifecycle()
 
 
     private lateinit var adapterDayForecast: DayForecastFragmentAdapter
@@ -60,13 +58,11 @@ class ForecastFragment : BaseVMFragment<ForecastWeekVM>() {
 
     override fun setupView(rootView: View, savedInstanceState: Bundle?) {
         super.setupView(rootView, savedInstanceState)
-        viewPager = rootView.findViewById(R.id.viewpager)
-        tabs = rootView.findViewById(R.id.tabs)
-        loadingIndicator = rootView.findViewById(R.id.loading_indicator)
+        binding = FragmentForecastBinding.bind(rootView)
 
         adapterDayForecast = DayForecastFragmentAdapter(requireActivity())
 
-        viewPager?.let {
+        binding.viewpager.let {
             it.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
                 override fun onPageSelected(position: Int) {
                     Log.d("OnPageChangeCallback", "Page selected: $position")
@@ -74,17 +70,15 @@ class ForecastFragment : BaseVMFragment<ForecastWeekVM>() {
             })
             it.adapter = adapterDayForecast
 
-            if (tabs != null) {
-                Log.d("TABS", "init tabs")
-                TabLayoutMediator(tabs!!, it,
-                        TabLayoutMediator.TabConfigurationStrategy { tab, position ->
-                            val days = adapterDayForecast.publicDays
-                            if (position >= 0 && position < days.size) {
-                                tab.text = days[position].dayDescription
-                            }
+            Log.d("TABS", "init tabs")
+            TabLayoutMediator(tabs!!, it,
+                    TabLayoutMediator.TabConfigurationStrategy { tab, position ->
+                        val days = adapterDayForecast.publicDays
+                        if (position >= 0 && position < days.size) {
+                            tab.text = days[position].dayDescription
+                        }
 
-                        }).attach()
-            }
+                    }).attach()
         }
     }
 
@@ -111,7 +105,7 @@ class ForecastFragment : BaseVMFragment<ForecastWeekVM>() {
 
             override fun onProgress(progress: Boolean) {
                 super.onProgress(progress)
-                loadingIndicator?.setVisibleOrGone(progress)
+                binding.loadingIndicator.setVisibleOrGone(progress)
             }
 
             override fun onError(error: ErrorModel?) {
@@ -142,7 +136,7 @@ class ForecastFragment : BaseVMFragment<ForecastWeekVM>() {
     fun populateByDays(selectedDayIndex: Int, items: List<ForecastDayModel>) {
         adapterDayForecast.publicDays = items
         if (selectedDayIndex >= 0) {
-            viewPager?.currentItem = selectedDayIndex
+            binding.viewpager.currentItem = selectedDayIndex
         }
 
     }

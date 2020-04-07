@@ -13,8 +13,6 @@ import com.esh1n.core_android.ui.viewmodel.BaseObserver
 import com.esh1n.utils_android.ui.ScrollStateHolder
 import com.esh1n.utils_android.ui.SnackbarBuilder
 import com.esh1n.utils_android.ui.setVisibleOrGone
-import com.google.android.gms.ads.MobileAds
-import com.google.android.gms.ads.initialization.OnInitializationCompleteListener
 import com.lab.esh1n.weather.R
 import com.lab.esh1n.weather.databinding.FragmentCurrentPlaceBinding
 import com.lab.esh1n.weather.weather.adapter.CurrentWeatherAdapter
@@ -81,9 +79,9 @@ class CurrentPlaceFragment : BaseVMFragment<CurrentWeatherVM>() {
         super.onActivityCreated(savedInstanceState)
         observeWeather()
         viewModel.loadWeather()
-        MobileAds.initialize(requireActivity().application, OnInitializationCompleteListener { status ->
-            //initAdEvent.postValue(Resource.success(true))
-        })
+//        MobileAds.initialize(requireActivity().application, OnInitializationCompleteListener { status ->
+//            //initAdEvent.postValue(Resource.success(true))
+//        })
     }
 
     private fun getPlaceName(data: List<WeatherModel>?): String {

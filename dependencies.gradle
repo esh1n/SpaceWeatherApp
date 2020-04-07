@@ -52,6 +52,7 @@ ext {
             extensions     : "androidx.lifecycle:lifecycle-extensions:${lifecycleVersion}",
             compiler       : "androidx.lifecycle:lifecycle-compiler:${lifecycleVersion}",
             reactivestreams: "androidx.lifecycle:lifecycle-reactivestreams:${lifecycleVersion}",
+            java8:           "androidx.lifecycle:lifecycle-common-java8:${lifecycleVersion}"
     ]
 
     constraintLayoutVesrion = "2.0.0-beta4"

@@ -39,7 +39,7 @@ class AppModule {
 
     @Provides
     @Singleton
-    fun provideErrorTrackerImpl(application: Application): ErrorTrackerProvider {
+    fun provideErrorTrackerImpl(): ErrorTrackerProvider {
         return object : ErrorTrackerProvider {
             override fun trackError(throwable: Throwable) {
                 FirebaseCrashlytics.getInstance().recordException(throwable)
@@ -55,8 +55,8 @@ class AppModule {
 
     @Provides
     @Singleton
-    fun provideWorkManager(): WorkManager {
-        return WorkManager.getInstance()
+    fun provideWorkManager(application: Application): WorkManager {
+        return WorkManager.getInstance(application)
     }
 }
 

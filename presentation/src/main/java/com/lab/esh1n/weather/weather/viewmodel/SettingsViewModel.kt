@@ -25,7 +25,7 @@ class SettingsViewModel @Inject constructor(private val loadSettingsUseCase: Loa
                         val settings = arrayListOf<SettingsModel>()
                         settings.add(HeaderSettingModel(KEY_MAIN_HEADER))
                         settings.add(TextSettingModel(KEY_LANGUAGE, (dictionary[AppPrefs.KEY_LOCALE] as Locale).displayLanguage))
-                        return@map settings
+                        settings
                     }
                 }.applyAndroidSchedulers()
                 .subscribe({ result -> settings.postValue(result) },

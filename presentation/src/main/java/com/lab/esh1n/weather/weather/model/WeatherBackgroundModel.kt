@@ -51,7 +51,6 @@ class WeatherBackgroundUtil {
         fun prepareWeatherGradient(context: Context
                                    , weatherBackgroundModel: WeatherBackgroundModel): GradientDrawable {
             val colorsPackAndRainValue = getGradientBackgroundColors(weatherBackgroundModel)
-            val rainValue = colorsPackAndRainValue.second
             val colors = context.resources.getStringArray(colorsPackAndRainValue.first)
             // val colorStart: Int = addColorSaturation(Color.parseColor(colors[0]), rainValue)
             val colorStart: Int = Color.parseColor(colors[0])

@@ -49,6 +49,9 @@ android {
         enabled = true
        // incremental = true
     }
+    viewBinding {
+        enabled = true
+    }
 
 
     compileOptions {
@@ -105,6 +108,7 @@ dependencies {
     implementation rootProject.ext.lifecycle.viewmodel
     implementation rootProject.ext.lifecycle.livedata
     implementation rootProject.ext.lifecycle.extensions
+    implementation rootProject.ext.lifecycle.java8
     kapt rootProject.ext.lifecycle.compiler
 
     //constraint layout
