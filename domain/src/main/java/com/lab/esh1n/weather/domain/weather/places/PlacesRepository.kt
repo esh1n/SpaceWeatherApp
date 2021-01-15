@@ -18,7 +18,6 @@ import com.lab.esh1n.weather.domain.weather.places.mapper.PlaceEntryMapper
 import com.lab.esh1n.weather.domain.weather.weather.mapper.ForecastWeatherListMapper
 import com.lab.esh1n.weather.domain.weather.weather.mapper.PlaceListMapper
 import io.reactivex.*
-import io.reactivex.Observable
 import java.lang.reflect.Type
 import java.util.*
 
@@ -46,7 +45,7 @@ class PlacesRepository constructor(private val apiService: APIService, db: Weath
                 .clearOldWeathers(threeHoursAgo)
                 .andThen(placeDAO.getCurrentCityId()
                         .flatMap { id ->
-                            apiService.getForecastAsync(BuildConfig.APP_ID, id, serverUnits.serverValue, lang)
+                            apiService.getForecastAsync(appId = BuildConfig.APP_ID, id = id, lang = lang, units = serverUnits.serverValue)
                         }
                         .map { response ->
                             val id = response.city!!.id!!

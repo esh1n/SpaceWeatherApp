@@ -31,7 +31,6 @@ abstract class WeatherDAO {
     @Query("SELECT DISTINCT * FROM weather INNER JOIN  place ON place.id = placeId WHERE isCurrent = 1 ORDER BY abs(:now - epochDateMills) ASC")
     abstract fun getCurrentWeather(now: Date): Flowable<WeatherWithPlace>
 
-
     @Query("DELETE FROM " + WeatherTableContract.WEATHER_TABLE_NAME)
     abstract fun clear()
 

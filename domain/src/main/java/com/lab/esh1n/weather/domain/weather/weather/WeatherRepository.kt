@@ -66,7 +66,7 @@ class WeatherRepository constructor(private val api: APIService, database: Weath
                         appPrefs
                                 .getLanguageSingle()
                                 .flatMap { language ->
-                                    api.getForecastAsync(BuildConfig.APP_ID, placeId, language, serverUnits.serverValue)
+                                    api.getForecastAsync(BuildConfig.APP_ID, placeId, lang = language, units = serverUnits.serverValue)
                                 }
                                 .map { forecast ->
                                     val updatePlaceModel = PlaceListMapper().map(forecast.city!!)

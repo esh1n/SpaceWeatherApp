@@ -22,16 +22,6 @@ class AppPrefs(sharedPreferences: SharedPreferences) : RxPrefs(sharedPreferences
 
     override fun getServerAPIUnits() = Units.METRIC
 
-    fun getLanguageAndServerUnits(): Pair<String, String> {
-        return Pair(getLocale().language, getServerAPIUnits().serverValue)
-    }
-
-    fun getLanguageAndServerUnitsSingle(): Single<Pair<String, String>> {
-        return Single.fromCallable {
-            return@fromCallable getLanguageAndServerUnits()
-        }
-    }
-
     fun getLanguageSingle(): Single<String> {
         return Single.fromCallable {
             getLocale().language

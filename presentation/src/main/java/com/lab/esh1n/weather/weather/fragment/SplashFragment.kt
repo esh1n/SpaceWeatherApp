@@ -2,7 +2,6 @@ package com.lab.esh1n.weather.weather.fragment
 
 import android.os.Bundle
 import android.os.Handler
-import android.os.Looper
 import android.view.View
 import com.esh1n.core_android.error.ErrorModel
 import com.esh1n.core_android.ui.fragment.BaseVMFragment
@@ -53,12 +52,11 @@ class SplashFragment : BaseVMFragment<SplashVM>() {
     }
 
     private fun showProgress(progressModel: ProgressModel<Unit>) {
-        Handler(Looper.getMainLooper()).post {
+        Handler().post {
             binding.pbPrepopulate.progress = progressModel.progress
             if (progressModel.description != binding.tvDescription.text.toString()) {
                 binding.tvDescription.text = progressModel.description
             }
-
         }
     }
 
