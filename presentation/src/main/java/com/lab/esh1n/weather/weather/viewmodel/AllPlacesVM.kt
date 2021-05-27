@@ -93,9 +93,6 @@ class AllPlacesVM @Inject constructor(private val loadPlacesUseCase: GetAllPlace
                 return removedExcessChar.trim { it <= ' ' }.replace(" +".toRegex(), " ")
             }
             return ""
-
         }
     }
-
-
 }

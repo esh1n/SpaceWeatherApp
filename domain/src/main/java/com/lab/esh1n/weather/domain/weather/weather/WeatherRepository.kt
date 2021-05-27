@@ -83,9 +83,7 @@ class WeatherRepository constructor(private val api: APIService, database: Weath
         return weatherDAO.getDetailedCurrentWeather(minus30Minutes, plus5Days).toObservable()
     }
 
-    fun getCurrentPlaceSunsetAndSunrise(): Observable<SunsetSunriseTimezonePlaceEntry> {
-        return placeDAO.getCurrentSunsetSunriseInfo().toObservable();
-    }
+    fun getCurrentPlaceSunsetAndSunrise() = placeDAO.getCurrentSunsetSunriseInfo().toObservable()
 
     fun getCurrentWeatherSingle(): Single<WeatherWithPlace> {
         val now = DateBuilder(Date()).build()
