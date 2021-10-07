@@ -49,17 +49,24 @@ class WeatherActivity : BaseToolbarActivity(), AppView {
                 SnackbarBuilder.showErrorSnackOrToast(this@WeatherActivity, error!!.message)
             }
 
-            override fun onData(initialized: Boolean?) {
-                initialized?.let {
+            override fun onData(data: Boolean?) {
+                data?.let { initialized ->
                     logRouteEvent(initialized)
-                    val currentFragment = supportFragmentManager.findFragmentById(com.esh1n.core_android.R.id.container_fragment)
+                    val currentFragment =
+                        supportFragmentManager.findFragmentById(com.esh1n.core_android.R.id.container_fragment)
                     val noCurrentFragmentExist = currentFragment == null
                     if (noCurrentFragmentExist || (initialized && currentFragment !is WeatherHostFragment)) {
-                        FirebaseCrashlytics.getInstance().log("added new fragment on WeatherActivity")
-                        val fragment = if (initialized) WeatherHostFragment.newInstance() else SplashFragment.newInstance()
-                        supportFragmentManager.replaceFragment(fragment, fragment::class.java.simpleName)
+                        FirebaseCrashlytics.getInstance()
+                            .log("added new fragment on WeatherActivity")
+                        val fragment =
+                            if (initialized) WeatherHostFragment.newInstance() else SplashFragment.newInstance()
+                        supportFragmentManager.replaceFragment(
+                            fragment,
+                            fragment::class.java.simpleName
+                        )
                     } else {
-                        FirebaseCrashlytics.getInstance().log("can not add new fragment on WeatherActivity")
+                        FirebaseCrashlytics.getInstance()
+                            .log("can not add new fragment on WeatherActivity")
                     }
                 }
             }

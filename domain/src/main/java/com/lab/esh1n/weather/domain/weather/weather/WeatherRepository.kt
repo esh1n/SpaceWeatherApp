@@ -110,6 +110,7 @@ class WeatherRepository constructor(private val api: APIService, database: Weath
                 }
     }
 
+    @SuppressWarnings
     private fun mapResponsesToWeatherEntities(responses: Array<Any>, serverUnits: Units): Pair<List<SunsetSunriseTimezonePlaceEntry>, List<WeatherEntry>> {
         val weathers = responses.map {
             val idWithResponse = it as Pair<Int, WeatherResponse>
@@ -119,9 +120,9 @@ class WeatherRepository constructor(private val api: APIService, database: Weath
             val idWithResponse = it as Pair<Int, WeatherResponse>
             val weather = idWithResponse.second
             PlaceListMapper().map(CityResponse(id = idWithResponse.first,
-                    sunrise = weather.sys?.sunrise ?: 0L,
-                    sunset = weather.sys?.sunset ?: 0L,
-                    timezone = weather.timezone))
+                sunrise = weather.sys?.sunrise ?: 0L,
+                sunset = weather.sys?.sunset ?: 0L,
+                timezone = weather.timezone))
         }.distinctBy { it.id }
         return Pair(sunsets, weathers)
     }

@@ -152,13 +152,9 @@ class DateBuilder @JvmOverloads constructor(initDate: Date = Date(), timeZoneID:
         return this
     }
 
-    fun getDayOfYear(): Int {
-        return calendar.get(Calendar.DAY_OF_YEAR) ?: 0
-    }
+    fun getDayOfYear() = calendar.get(Calendar.DAY_OF_YEAR)
 
-    fun getYear(): Int {
-        return calendar.get(Calendar.YEAR) ?: 0
-    }
+    fun getYear() = calendar.get(Calendar.YEAR)
 
     fun isSameDay(date: Date): Boolean {
         val dateBuilder = DateBuilder(date)

@@ -47,6 +47,7 @@ open class RxPrefs(private val sharedPreferences: SharedPreferences) : SingleVal
         return PublishSubject.create()
     }
 
+    @SuppressWarnings
     override fun <V : Any?> getValue(key: String, type: Class<V>, fallback: V): V {
         if (type == String::class.java) {
             return sharedPreferences.getString(key, fallback.toString()) as V

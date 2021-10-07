@@ -39,7 +39,7 @@ data class Resource<T>(val status: Status, val data: T?, val errorModel: ErrorMo
             return Resource(
                     Status.ERROR,
                     null,
-                    ErrorModel.unexpectedError(throwable.localizedMessage)
+                    ErrorModel.unexpectedError(throwable.localizedMessage ?: "")
             )
         }
 

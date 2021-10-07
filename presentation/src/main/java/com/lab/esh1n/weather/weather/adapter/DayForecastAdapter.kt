@@ -49,17 +49,32 @@ class DayForecastAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         }
     }
 
+    @SuppressWarnings
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if (holder !is AdViewHolder) {
-            val weathers = getItem(position) as Pair<DayForecastSection, List<out DaytimeForecastModel>>
-            if (holder is MainSectionViewHolder) {
-                holder.populate(weathers.first, weathers.second as List<DayOverallForecastModel>)
-            } else if (holder is WindSectionViewHolder) {
-                holder.populate(weathers.first, weathers.second as List<DayWindForecastModel>)
-            } else if (holder is HumiditySectionViewHolder) {
-                holder.populate(weathers.first, weathers.second as List<DayHumidityForecastModel>)
-            } else if (holder is PressureSectionViewHolder) {
-                holder.populate(weathers.first, weathers.second as List<DayPressureForecastModel>)
+            val weathers = getItem(position) as Pair<DayForecastSection, List<DaytimeForecastModel>>
+            when (holder) {
+                is MainSectionViewHolder -> {
+                    holder.populate(
+                        weathers.first,
+                        weathers.second as List<DayOverallForecastModel>
+                    )
+                }
+                is WindSectionViewHolder -> {
+                    holder.populate(weathers.first, weathers.second as List<DayWindForecastModel>)
+                }
+                is HumiditySectionViewHolder -> {
+                    holder.populate(
+                        weathers.first,
+                        weathers.second as List<DayHumidityForecastModel>
+                    )
+                }
+                is PressureSectionViewHolder -> {
+                    holder.populate(
+                        weathers.first,
+                        weathers.second as List<DayPressureForecastModel>
+                    )
+                }
             }
         }
 

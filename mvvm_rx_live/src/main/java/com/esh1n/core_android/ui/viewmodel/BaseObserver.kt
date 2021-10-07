@@ -22,9 +22,6 @@ abstract class BaseObserver<T> : Observer<Resource<T>> {
                     onProgress(false)
                     onCompleted()
                 }
-                else -> {
-                    onEmptyResourceEmission()
-                }
             }
         } else {
             onEmptyResourceEmission()

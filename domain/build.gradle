@@ -9,8 +9,6 @@ android {
     defaultConfig {
         minSdkVersion rootProject.ext["minSdkVer"]
         targetSdkVersion rootProject.ext["targetSdkVer"]
-        versionCode 1
-        versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         buildConfigField "String", "APP_ID", '"542ffd081e67f4512b705f89d2a611b2"'
     }

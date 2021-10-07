@@ -172,12 +172,9 @@ class WeatherModelMapper(private val uiLocalizer: UiLocalizer, private val prefs
         fun isDay(iconId: String): Boolean {
             return iconId.last() == 'd'
         }
-
         const val START_NIGHT_HOUR = 22
         const val END_NIGHT_HOUR = 6
         const val START_DAY_HOUR = 8
         const val END_DAY_HOUR = 21
     }
-
-
 }
