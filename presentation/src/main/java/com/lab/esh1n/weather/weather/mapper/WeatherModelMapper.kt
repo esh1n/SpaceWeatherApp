@@ -17,35 +17,42 @@ import kotlin.math.roundToInt
 class WeatherModelMapper(private val uiLocalize: UiLocalizer, private val prefs: AppPrefs) {
 
 
-    fun map(source: Pair<SunsetSunriseTimezonePlaceEntry, List<WeatherWithPlace>>): List<WeatherModel> {
-        if (source.second.isEmpty()) {
-            return emptyList()
-        } else {
-            val weathers = source.second.toMutableList()
+    fun map(
+        sunsetSunrise: SunsetSunriseTimezonePlaceEntry,
+        wi: List<WeatherWithPlace>
+    ): List<WeatherModel> {
 
-            val firstWeather = weathers[0]
-            val timezone = firstWeather.timezone
-            val dateBuilder = DateBuilder(firstWeather.epochDateMills, timezone)
-            val firstDay = dateBuilder.getDay()
-            val nextDay = dateBuilder.nextDay().getDay()
-            val firstDayForecast = getFirstDayForecast(weathers, timezone, firstDay, nextDay)
-            weathers.removeAll(firstDayForecast)
-            val dayToForecast = createDayMap(weathers, timezone)
-            dayToForecast.remove(firstDay)
+        val weathers = wi.toMutableList()
 
-            val sunsetSunrise = source.first
-            val currentWeatherModel = mapCurrentWeatherModel(sunsetSunrise, firstDayForecast.toMutableList(), dayToForecast[nextDay], timezone)
-            val resultWeatherModel = mutableListOf<WeatherModel>()
-            resultWeatherModel.add(currentWeatherModel)
-            resultWeatherModel.addAll(
+        val firstWeather = weathers[0]
+        val timezone = firstWeather.timezone
+        val dateBuilder = DateBuilder(firstWeather.epochDateMills, timezone)
+        val firstDay = dateBuilder.getDay()
+        val nextDay = dateBuilder.nextDay().getDay()
+        val firstDayForecast = getFirstDayForecast(weathers, timezone, firstDay, nextDay)
+        weathers.removeAll(firstDayForecast)
+        val dayToForecast = createDayMap(weathers, timezone)
+        dayToForecast.remove(firstDay)
+
+        val currentWeatherModel = mapCurrentWeatherModel(
+            sunsetSunrise,
+            firstDayForecast.toMutableList(),
+            dayToForecast[nextDay],
+            timezone
+        )
+
+        return mutableListOf<WeatherModel>().apply {
+            add(currentWeatherModel)
+            addAll(
                 mapOtherDay(
                     dayToForecast,
                     timezone,
                     uiLocalize.provideDateMapper(timezone, DateFormat.MONTH_DAY)
                 )
             )
-            return resultWeatherModel
+
         }
+
     }
 
     private fun getFirstDayForecast(weathers: List<WeatherWithPlace>, timezone: String, firstDay: Int, nextDay: Int): List<WeatherWithPlace> {

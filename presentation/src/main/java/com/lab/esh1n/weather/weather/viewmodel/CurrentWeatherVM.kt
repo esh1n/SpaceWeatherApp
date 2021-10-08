@@ -25,11 +25,12 @@ import javax.inject.Inject
 
 class CurrentWeatherVM
 @Inject
-constructor(private val loadCurrentWeatherUseCase: LoadCurrentWeatherUseCase,
-            private val loadCurrentWeatherSingleUseCase: LoadCurrentWeatherSingleUseCase,
-            private val fetchAndSaveWeatherUseCase: FetchAndSaveCurrentPlaceWeatherUseCase,
-            appPrefs: AppPrefs, private val uiLocalizer: UiLocalizer, application: Application)
-    : BaseAndroidViewModel(application) {
+constructor(
+    private val loadCurrentWeatherUseCase: LoadCurrentWeatherUseCase,
+    private val loadCurrentWeatherSingleUseCase: LoadCurrentWeatherSingleUseCase,
+    private val fetchAndSaveWeatherUseCase: FetchAndSaveCurrentPlaceWeatherUseCase,
+    appPrefs: AppPrefs, private val uiLocalizer: UiLocalizer, application: Application
+) : BaseAndroidViewModel(application) {
 
     val refreshOperation = SingleLiveEvent<Resource<Unit>>()
     private val weatherLiveData = MutableLiveData<Resource<Pair<Int, List<WeatherModel>>>>()
@@ -40,7 +41,12 @@ constructor(private val loadCurrentWeatherUseCase: LoadCurrentWeatherUseCase,
     fun mapWeatherDataResource(arg: Resource<Pair<SunsetSunriseTimezonePlaceEntry, List<WeatherWithPlace>>>): Resource<Pair<Int, List<WeatherModel>>> {
         return Resource.map(arg) {
             val placeId = it.first.id
-            val weatherModels = cityWeatherModelMapper.map(it)
+            val sunsetSunrise = it.first
+            val weathers = it.second
+            val weatherModels = if (weathers.isNotEmpty()) cityWeatherModelMapper.map(
+                sunsetSunrise,
+                weathers
+            ) else emptyList()
             return@map Pair(placeId, weatherModels)
         };
     }
@@ -48,35 +54,35 @@ constructor(private val loadCurrentWeatherUseCase: LoadCurrentWeatherUseCase,
     fun loadWeather() {
         //think about if no results how not to show progress
         loadCurrentWeatherUseCase.perform(Unit)
-                //    .throttleLast(500, TimeUnit.MILLISECONDS, Schedulers.computation())
+            //    .throttleLast(500, TimeUnit.MILLISECONDS, Schedulers.computation())
 //                        .doOnSubscribe { _ ->
 //                            weatherLiveData.postValue(Resource.loading())
 //                        }
-                .map { return@map mapWeatherDataResource(it) }
-                .defaultIfEmpty(Resource.ended())
-                .compose(SchedulersFacade.applySchedulersObservable())
-                .subscribe { placeAndWeathers ->
-                    weatherLiveData.postValue(placeAndWeathers)
-                }.disposeOnDestroy()
+            .map { return@map mapWeatherDataResource(it) }
+            .defaultIfEmpty(Resource.ended())
+            .compose(SchedulersFacade.applySchedulersObservable())
+            .subscribe { placeAndWeathers ->
+                weatherLiveData.postValue(placeAndWeathers)
+            }.disposeOnDestroy()
     }
 
 
     fun refresh() {
         //FirebaseCrashlytics.getInstance().recordException(RuntimeException("Test refresh"))
         fetchAndSaveWeatherUseCase.perform(Unit)
-                .flatMap { loadCurrentWeatherSingleUseCase.perform(Unit) }
-                .doOnSuccess {
-                    NotificationUtil.sendCurrentWeatherNotification(it, getApplication(), uiLocalizer)
-                }
-                .doOnSubscribe { _ ->
-                    refreshOperation.postValue(Resource.loading())
-                }.map { Resource.map(it) { Unit } }
-                .applyAndroidSchedulers()
-                .subscribe({ result -> refreshOperation.postValue(result) },
-                        {
-                            refreshOperation.postValue(Resource.error(it))
-                        })
-                .disposeOnDestroy()
+            .flatMap { loadCurrentWeatherSingleUseCase.perform(Unit) }
+            .doOnSuccess {
+                NotificationUtil.sendCurrentWeatherNotification(it, getApplication(), uiLocalizer)
+            }
+            .doOnSubscribe { _ ->
+                refreshOperation.postValue(Resource.loading())
+            }.map { Resource.map(it) { Unit } }
+            .applyAndroidSchedulers()
+            .subscribe({ result -> refreshOperation.postValue(result) },
+                {
+                    refreshOperation.postValue(Resource.error(it))
+                })
+            .disposeOnDestroy()
     }
 
 
