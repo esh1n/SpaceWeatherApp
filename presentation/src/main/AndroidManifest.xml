@@ -24,9 +24,10 @@
             android:resource="@array/preloaded_fonts" />
 
         <activity
+            android:exported="true"
             android:launchMode="singleTop"
             android:name="com.lab.esh1n.weather.weather.WeatherActivity"
-            android:screenOrientation="portrait">
+            android:screenOrientation="fullSensor">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

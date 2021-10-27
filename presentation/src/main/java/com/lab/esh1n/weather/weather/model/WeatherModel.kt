@@ -26,13 +26,22 @@ class CurrentWeatherModel(
         val hourWeatherEvents: List<HourWeatherModel>,
         dayOfTheYear: Int) : WeatherModel(humanDate = humanDate, iconId = iconId, tempMax = tempMax, tempMin = tempMin, description = description, dayOFTheYear = dayOfTheYear)
 
-class DayWeatherModel(val dayDate: String,
-                      humanDate: String,
-                      iconId: String,
-                      tempMax: Int,
-                      tempMin: Int,
-                      description: String,
-                      dayOFTheYear: Int) : WeatherModel(humanDate = humanDate, iconId = iconId, tempMax = tempMax, tempMin = tempMin, description = description, dayOFTheYear = dayOFTheYear)
+class DayWeatherModel(
+    val dayDate: String,
+    humanDate: String,
+    iconId: String,
+    tempMax: Int,
+    tempMin: Int,
+    description: String,
+    dayOfTheYear: Int
+) : WeatherModel(
+    humanDate = humanDate,
+    iconId = iconId,
+    tempMax = tempMax,
+    tempMin = tempMin,
+    description = description,
+    dayOFTheYear = dayOfTheYear
+)
 
 sealed class HourWeatherModel(val date: Date) {
     override fun equals(other: Any?): Boolean {

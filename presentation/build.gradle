@@ -22,12 +22,12 @@ android {
         }
     }
 
-    compileSdkVersion 29
+    compileSdkVersion 31
     defaultConfig {
         applicationId "com.lab.esh1n.weather_se"
         buildConfigField "String", "API_ENDPOINT", '"https://api.openweathermap.org"'
         minSdkVersion 21
-        targetSdkVersion 29
+        targetSdkVersion 31
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -141,7 +141,7 @@ dependencies {
     def truthVersion = "1.0.1"
     def mockKVersion = "1.9.3"
 
-    testImplementation 'junit:junit:4.13'
+    testImplementation 'junit:junit:4.13.2'
     testImplementation  "com.google.truth:truth:${truthVersion}"
     testImplementation  "io.mockk:mockk:${mockKVersion}"
     testImplementation  'androidx.arch.core:core-testing:2.1.0'
