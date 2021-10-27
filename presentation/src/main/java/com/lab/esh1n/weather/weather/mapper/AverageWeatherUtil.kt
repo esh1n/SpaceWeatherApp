@@ -12,7 +12,8 @@ object AverageWeatherUtil {
             return Pair("00d", "n/a")
         }
         val iconsIds: List<Int> = weathers.map { Integer.parseInt(it.iconId.substring(0, 2)) }
-        val mostOccasionsIcon = iconsIds.groupingBy { it }.eachCount().maxBy { it.value }?.key ?: 1
+        val mostOccasionsIcon =
+            iconsIds.groupingBy { it }.eachCount().maxByOrNull { it.value }?.key ?: 1
         val iconDay = getIconCode(mostOccasionsIcon, true)
         val weatherItem = weathers.find { it.iconId == iconDay }
         return if (weatherItem != null) {
@@ -26,9 +27,8 @@ object AverageWeatherUtil {
 
     fun averageWindDirection(degrees: List<WindDegree>): WindDirection {
         val directions = degrees.map { it.direction }
-        val mostOccasionsDirection = directions.groupingBy { it }.eachCount().maxBy { it.value }?.key
-                ?: WindDirection.N_A
-        return mostOccasionsDirection
+        return directions.groupingBy { it }.eachCount().maxByOrNull { it.value }?.key
+            ?: WindDirection.N_A
     }
 
     fun averageInt(items: List<Double>): Int {

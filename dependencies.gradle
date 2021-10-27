@@ -1,9 +1,9 @@
 ext {
 
-    compileSdkVersion = 29
-    buildToolsVer = "29.0.2"
+    compileSdkVersion = 30
+    buildToolsVer = "30.0.2"
     minSdkVer = 21
-    targetSdkVer = 29
+    targetSdkVer = 30
 
     //androidx
     androidxCompatVersion = "1.1.0"
@@ -82,7 +82,7 @@ ext {
             interceptor: "com.squareup.okhttp3:logging-interceptor:${okHttpVersion}",
     ]
 
-    daggerVersion = "2.26"
+    daggerVersion = "2.39.1"
     dagger = [
             lib              : "com.google.dagger:dagger:${daggerVersion}",
             android          : "com.google.dagger:dagger-android:${daggerVersion}",
@@ -107,7 +107,4 @@ ext {
             crashlytics: "com.google.firebase:firebase-crashlytics:17.0.0-beta01",
             ads        : "com.google.firebase:firebase-ads:18.3.0"
     ]
-
-
-
 }
