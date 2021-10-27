@@ -108,8 +108,6 @@ ext {
             ads        : "com.google.firebase:firebase-ads:18.3.0"
     ]
 
-    kotlin_version = '1.3.61'
-    kotlinVS = "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
 
 }

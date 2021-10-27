@@ -129,7 +129,6 @@ dependencies {
 
     implementation  rootProject.ext.workManagerRx
 
-    implementation kotlinVS
 
     implementation rootProject.ext.firebase.analytics
     implementation rootProject.ext.firebase.crashlytics

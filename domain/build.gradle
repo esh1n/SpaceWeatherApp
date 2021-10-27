@@ -25,10 +25,6 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation project(':data')
     implementation project(':mvvm_rx_live')
-    //implementation "androidx.lifecycle:lifecycle-livedata-ktx:${rootProject.ext.lifecycleComponent}"
-    implementation  rootProject.ext.kotlinVS
-
-
 }
 repositories {
     mavenCentral()

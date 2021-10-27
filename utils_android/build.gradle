@@ -27,11 +27,9 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    api "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
     implementation rootProject.ext.androidxCompat.appcompat
     implementation rootProject.ext.androidxCompat.material
 
-    implementation rootProject.ext.kotlinVS
 }
 repositories {
     mavenCentral()
