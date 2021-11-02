@@ -35,7 +35,7 @@ ext {
     rxAndroid = "io.reactivex.rxjava2:rxandroid:${rxAndroidVersion}"
 
     //Room
-    roomVersion = "2.2.4"
+    roomVersion = '2.3.0'
     room = [
             runtime : "androidx.room:room-runtime:${roomVersion}",
             rxjava2 : "androidx.room:room-rxjava2:${roomVersion}",
@@ -82,7 +82,7 @@ ext {
             interceptor: "com.squareup.okhttp3:logging-interceptor:${okHttpVersion}",
     ]
 
-    daggerVersion = "2.39.1"
+    daggerVersion = '2.40'
     dagger = [
             lib              : "com.google.dagger:dagger:${daggerVersion}",
             android          : "com.google.dagger:dagger-android:${daggerVersion}",
@@ -95,7 +95,7 @@ ext {
     commonsioVersion = "2.4"
     commonsio = "commons-io:commons-io:${commonsioVersion}"
 
-    glideVersion = "4.11.0"
+    glideVersion = '4.12.0'
     glide = [
             lib     : "com.github.bumptech.glide:glide:${glideVersion}",
             compiler: "com.github.bumptech.glide:compiler:${glideVersion}",

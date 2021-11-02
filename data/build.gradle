@@ -27,6 +27,7 @@ dependencies {
     api rootProject.ext.room.runtime
     api rootProject.ext.room.rxjava2
     api rootProject.ext.room.ktx
+    kapt "org.xerial:sqlite-jdbc:3.34.0"
     kapt rootProject.ext.room.compiler
 
     api rootProject.ext.rxJava2
