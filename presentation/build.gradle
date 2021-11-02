@@ -6,6 +6,9 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'com.google.firebase.crashlytics'
 
 
+def keystorePropertiesFile = rootProject.file("keystore.properties")
+def keystoreProperties = new Properties()
+keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 
 android {
 
@@ -15,10 +18,10 @@ android {
 
     signingConfigs {
         production {
-            storeFile file('keystore.jks')
-            keyAlias 'android'
-            keyPassword 'beith2Oh'
-            storePassword 'beith2Oh'
+            storeFile file(keystoreProperties['storeFile'])
+            keyAlias keystoreProperties['keyAlias']
+            storePassword keystoreProperties['storePassword']
+            keyPassword keystoreProperties['keyPassword']
         }
     }
 
