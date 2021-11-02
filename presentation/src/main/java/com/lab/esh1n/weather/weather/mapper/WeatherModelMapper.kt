@@ -70,7 +70,7 @@ class WeatherModelMapper(private val uiLocalize: UiLocalizer, private val prefs:
         timezone: String
     ): WeatherWithPlace {
         val nowInMills = DateBuilder(Date(), timezone).build().time
-        return firstDayForecasts.minBy { abs(it.epochDateMills.time - nowInMills) }
+        return firstDayForecasts.minByOrNull { abs(it.epochDateMills.time - nowInMills) }
             ?: firstDayForecasts[0]
     }
 
