@@ -1,12 +1,12 @@
 package com.lab.esh1n.weather.weather.mapper
 
-import com.lab.esh1n.data.cache.IPrefsProvider
-import com.lab.esh1n.data.cache.TemperatureUnit
-import com.lab.esh1n.data.cache.Units
-import com.lab.esh1n.data.cache.entity.Temperature
-import com.lab.esh1n.data.cache.entity.WindDirection
-import com.lab.esh1n.data.cache.entity.WindSpeed
 import com.lab.esh1n.weather.R
+import com.lab.esh1n.weather.data.cache.IPrefsProvider
+import com.lab.esh1n.weather.data.cache.TemperatureUnit
+import com.lab.esh1n.weather.data.cache.Units
+import com.lab.esh1n.weather.data.cache.entity.Temperature
+import com.lab.esh1n.weather.data.cache.entity.WindDirection
+import com.lab.esh1n.weather.data.cache.entity.WindSpeed
 import com.lab.esh1n.weather.utils.OneValueProperty
 import com.lab.esh1n.weather.utils.StringResValueProperty
 import java.text.DecimalFormat

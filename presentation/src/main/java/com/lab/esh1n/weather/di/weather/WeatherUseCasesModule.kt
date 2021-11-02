@@ -1,12 +1,12 @@
 package com.lab.esh1n.weather.di.weather
 
 import com.esh1n.core_android.error.ErrorsHandler
-import com.lab.esh1n.data.cache.AppPrefs
-import com.lab.esh1n.weather.domain.weather.places.PlacesRepository
-import com.lab.esh1n.weather.domain.weather.places.usecase.*
-import com.lab.esh1n.weather.domain.weather.settings.LoadSettingsUseCase
-import com.lab.esh1n.weather.domain.weather.weather.WeatherRepository
-import com.lab.esh1n.weather.domain.weather.weather.usecases.*
+import com.lab.esh1n.weather.data.cache.AppPrefs
+import com.lab.esh1n.weather.domain.places.PlacesRepository
+import com.lab.esh1n.weather.domain.places.usecase.*
+import com.lab.esh1n.weather.domain.settings.LoadSettingsUseCase
+import com.lab.esh1n.weather.domain.weather.WeatherRepository
+import com.lab.esh1n.weather.domain.weather.usecases.*
 import dagger.Module
 import dagger.Provides
 

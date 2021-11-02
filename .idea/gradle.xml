@@ -11,8 +11,6 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
-            <option value="$PROJECT_DIR$/data" />
-            <option value="$PROJECT_DIR$/domain" />
             <option value="$PROJECT_DIR$/mvvm_rx_live" />
             <option value="$PROJECT_DIR$/presentation" />
             <option value="$PROJECT_DIR$/utils_android" />

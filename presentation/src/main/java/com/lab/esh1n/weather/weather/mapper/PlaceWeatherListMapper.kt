@@ -3,7 +3,7 @@ package com.lab.esh1n.weather.weather.mapper
 import com.esh1n.core_android.map.Mapper
 import com.esh1n.utils_android.DateBuilder
 import com.esh1n.utils_android.country.Country
-import com.lab.esh1n.data.cache.entity.PlaceWithCurrentWeatherEntry
+import com.lab.esh1n.weather.data.cache.entity.PlaceWithCurrentWeatherEntry
 import com.lab.esh1n.weather.weather.model.NoDataBackgroundModel
 import com.lab.esh1n.weather.weather.model.PlaceModel
 import com.lab.esh1n.weather.weather.model.SimpleBackgroundModel

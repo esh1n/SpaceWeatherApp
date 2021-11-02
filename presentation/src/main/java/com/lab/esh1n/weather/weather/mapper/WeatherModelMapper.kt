@@ -1,11 +1,11 @@
 package com.lab.esh1n.weather.weather.mapper
 
 import com.esh1n.utils_android.DateBuilder
-import com.lab.esh1n.data.cache.AppPrefs
-import com.lab.esh1n.data.cache.entity.SunsetSunriseTimezonePlaceEntry
-import com.lab.esh1n.data.cache.entity.WeatherWithPlace
-import com.lab.esh1n.data.cache.entity.WindSpeed
 import com.lab.esh1n.weather.R
+import com.lab.esh1n.weather.data.cache.AppPrefs
+import com.lab.esh1n.weather.data.cache.entity.SunsetSunriseTimezonePlaceEntry
+import com.lab.esh1n.weather.data.cache.entity.WeatherWithPlace
+import com.lab.esh1n.weather.data.cache.entity.WindSpeed
 import com.lab.esh1n.weather.utils.StringResValueProperty
 import com.lab.esh1n.weather.weather.model.*
 import java.util.*

@@ -3,8 +3,8 @@ package com.lab.esh1n.weather.di.module
 import com.dataart.dartcard.data.retrofit.ApiServiceBuilder
 import com.esh1n.core_android.retrofit.OkHttpBuilder
 import com.esh1n.core_android.retrofit.RxErrorHandlingCallAdapterFactory
-import com.lab.esh1n.data.api.APIService
 import com.lab.esh1n.weather.BuildConfig
+import com.lab.esh1n.weather.data.api.APIService
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient

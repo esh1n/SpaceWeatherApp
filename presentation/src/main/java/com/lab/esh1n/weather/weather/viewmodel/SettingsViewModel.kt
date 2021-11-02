@@ -5,8 +5,8 @@ import com.esh1n.core_android.rx.applyAndroidSchedulers
 import com.esh1n.core_android.ui.viewmodel.BaseAndroidViewModel
 import com.esh1n.core_android.ui.viewmodel.Resource
 import com.esh1n.core_android.ui.viewmodel.SingleLiveEvent
-import com.lab.esh1n.data.cache.AppPrefs
-import com.lab.esh1n.weather.domain.weather.settings.LoadSettingsUseCase
+import com.lab.esh1n.weather.data.cache.AppPrefs
+import com.lab.esh1n.weather.domain.settings.LoadSettingsUseCase
 import com.lab.esh1n.weather.weather.model.HeaderSettingModel
 import com.lab.esh1n.weather.weather.model.SettingsModel
 import com.lab.esh1n.weather.weather.model.TextSettingModel

@@ -6,8 +6,8 @@ import androidx.work.RxWorker
 import androidx.work.WorkerParameters
 import com.esh1n.core_android.ui.viewmodel.Resource
 import com.lab.esh1n.weather.WeatherApp
-import com.lab.esh1n.weather.domain.weather.weather.usecases.FetchAndSaveCurrentPlaceWeatherUseCase
-import com.lab.esh1n.weather.domain.weather.weather.usecases.LoadCurrentWeatherSingleUseCase
+import com.lab.esh1n.weather.domain.weather.usecases.FetchAndSaveCurrentPlaceWeatherUseCase
+import com.lab.esh1n.weather.domain.weather.usecases.LoadCurrentWeatherSingleUseCase
 import com.lab.esh1n.weather.utils.NotificationUtil
 import com.lab.esh1n.weather.utils.WORKER_ERROR_DESCRIPTION
 import com.lab.esh1n.weather.weather.mapper.UiLocalizer

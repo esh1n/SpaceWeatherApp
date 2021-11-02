@@ -12,7 +12,7 @@ import com.esh1n.core_android.ui.viewmodel.BaseObserver
 import com.esh1n.utils_android.ui.SnackbarBuilder
 import com.esh1n.utils_android.ui.setVisibleOrGone
 import com.lab.esh1n.weather.R
-import com.lab.esh1n.weather.domain.weather.weather.usecases.PlaceDayArgs
+import com.lab.esh1n.weather.domain.weather.usecases.PlaceDayArgs
 import com.lab.esh1n.weather.weather.adapter.DayForecastAdapter
 import com.lab.esh1n.weather.weather.adapter.DayForecastSection
 import com.lab.esh1n.weather.weather.adapter.DaytimeForecastModel

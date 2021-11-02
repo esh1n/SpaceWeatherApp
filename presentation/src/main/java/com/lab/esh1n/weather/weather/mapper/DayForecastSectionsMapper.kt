@@ -2,12 +2,12 @@ package com.lab.esh1n.weather.weather.mapper
 
 import com.esh1n.core_android.map.Mapper
 import com.esh1n.utils_android.DateBuilder
-import com.lab.esh1n.data.cache.TemperatureUnit
-import com.lab.esh1n.data.cache.Units
-import com.lab.esh1n.data.cache.entity.Temperature
-import com.lab.esh1n.data.cache.entity.WeatherWithPlace
-import com.lab.esh1n.data.cache.entity.WindSpeed
 import com.lab.esh1n.weather.R
+import com.lab.esh1n.weather.data.cache.TemperatureUnit
+import com.lab.esh1n.weather.data.cache.Units
+import com.lab.esh1n.weather.data.cache.entity.Temperature
+import com.lab.esh1n.weather.data.cache.entity.WeatherWithPlace
+import com.lab.esh1n.weather.data.cache.entity.WindSpeed
 import com.lab.esh1n.weather.utils.OneValueProperty
 import com.lab.esh1n.weather.utils.StringResValueProperty
 import com.lab.esh1n.weather.weather.adapter.*

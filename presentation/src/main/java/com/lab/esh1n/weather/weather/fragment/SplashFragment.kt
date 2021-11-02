@@ -11,7 +11,7 @@ import com.esh1n.utils_android.ui.SnackbarBuilder
 import com.esh1n.utils_android.ui.setVisibleOrGone
 import com.lab.esh1n.weather.R
 import com.lab.esh1n.weather.databinding.FragmentSplashBinding
-import com.lab.esh1n.weather.domain.weather.ProgressModel
+import com.lab.esh1n.weather.domain.ProgressModel
 import com.lab.esh1n.weather.utils.viewLifecycle
 import com.lab.esh1n.weather.weather.viewmodel.SplashVM
 

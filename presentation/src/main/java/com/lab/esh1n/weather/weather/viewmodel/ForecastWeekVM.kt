@@ -4,9 +4,9 @@ import com.esh1n.core_android.rx.SchedulersFacade
 import com.esh1n.core_android.ui.BaseVM
 import com.esh1n.core_android.ui.viewmodel.Resource
 import com.esh1n.core_android.ui.viewmodel.SingleLiveEvent
-import com.lab.esh1n.weather.domain.weather.places.usecase.FetchPlaceForecastUseCase
-import com.lab.esh1n.weather.domain.weather.weather.usecases.Args
-import com.lab.esh1n.weather.domain.weather.weather.usecases.LoadPlaceAvailableForecastDaysUseCase
+import com.lab.esh1n.weather.domain.places.usecase.FetchPlaceForecastUseCase
+import com.lab.esh1n.weather.domain.weather.usecases.Args
+import com.lab.esh1n.weather.domain.weather.usecases.LoadPlaceAvailableForecastDaysUseCase
 import com.lab.esh1n.weather.weather.mapper.AvailableDaysMapper
 import com.lab.esh1n.weather.weather.mapper.UiLocalizer
 import com.lab.esh1n.weather.weather.model.ForecastDayModel

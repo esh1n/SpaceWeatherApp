@@ -7,8 +7,8 @@ import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.esh1n.utils_android.ui.inflate
-import com.lab.esh1n.data.cache.entity.PlaceWithCurrentWeatherEntry
 import com.lab.esh1n.weather.R
+import com.lab.esh1n.weather.data.cache.entity.PlaceWithCurrentWeatherEntry
 import com.lab.esh1n.weather.databinding.ItemPlaceBinding
 import com.lab.esh1n.weather.weather.model.PlaceModel
 import com.lab.esh1n.weather.weather.model.WeatherBackgroundUtil.Companion.prepareWeatherGradient

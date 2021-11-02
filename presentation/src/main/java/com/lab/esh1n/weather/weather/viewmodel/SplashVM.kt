@@ -9,8 +9,8 @@ import com.esh1n.core_android.ui.viewmodel.SingleLiveEvent
 import com.google.android.gms.ads.MobileAds
 import com.lab.esh1n.weather.R
 import com.lab.esh1n.weather.WeatherApp
-import com.lab.esh1n.weather.domain.weather.ProgressModel
-import com.lab.esh1n.weather.domain.weather.places.usecase.PrePopulatePlacesUseCase
+import com.lab.esh1n.weather.domain.ProgressModel
+import com.lab.esh1n.weather.domain.places.usecase.PrePopulatePlacesUseCase
 import com.lab.esh1n.weather.utils.startAllPlacesForecastPeriodicSync
 import com.lab.esh1n.weather.utils.startCurrentPlacePeriodicSync
 import javax.inject.Inject

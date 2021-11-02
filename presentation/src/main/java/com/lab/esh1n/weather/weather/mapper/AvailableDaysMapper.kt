@@ -1,6 +1,6 @@
 package com.lab.esh1n.weather.weather.mapper
 
-import com.lab.esh1n.weather.domain.weather.weather.usecases.AvailableDaysResult
+import com.lab.esh1n.weather.domain.weather.usecases.AvailableDaysResult
 import com.lab.esh1n.weather.weather.model.ForecastDayModel
 
 class AvailableDaysMapper(private val uiLocalizer: UiLocalizer) {

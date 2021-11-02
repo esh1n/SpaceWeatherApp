@@ -5,11 +5,11 @@ import android.app.Application
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.esh1n.core_android.ui.viewmodel.Resource
 import com.google.common.truth.Truth
-import com.lab.esh1n.data.cache.entity.SunsetSunriseTimezonePlaceEntry
-import com.lab.esh1n.data.cache.entity.WeatherWithPlace
-import com.lab.esh1n.weather.domain.weather.weather.usecases.FetchAndSaveCurrentPlaceWeatherUseCase
-import com.lab.esh1n.weather.domain.weather.weather.usecases.LoadCurrentWeatherSingleUseCase
-import com.lab.esh1n.weather.domain.weather.weather.usecases.LoadCurrentWeatherUseCase
+import com.lab.esh1n.weather.data.cache.entity.SunsetSunriseTimezonePlaceEntry
+import com.lab.esh1n.weather.data.cache.entity.WeatherWithPlace
+import com.lab.esh1n.weather.domain.weather.usecases.FetchAndSaveCurrentPlaceWeatherUseCase
+import com.lab.esh1n.weather.domain.weather.usecases.LoadCurrentWeatherSingleUseCase
+import com.lab.esh1n.weather.domain.weather.usecases.LoadCurrentWeatherUseCase
 import com.lab.esh1n.weather.utils.RxImmediateSchedulerRule
 import com.lab.esh1n.weather.utils.getOrAwaitValue
 import com.lab.esh1n.weather.weather.mapper.UiLocalizer

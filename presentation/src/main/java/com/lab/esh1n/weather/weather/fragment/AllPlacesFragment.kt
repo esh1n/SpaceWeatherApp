@@ -21,9 +21,9 @@ import com.esh1n.utils_android.ui.SnackbarBuilder
 import com.esh1n.utils_android.ui.setVisibleOrGone
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.jakewharton.rxbinding3.appcompat.queryTextChanges
-import com.lab.esh1n.data.cache.entity.PlaceWithCurrentWeatherEntry
-import com.lab.esh1n.data.cache.entity.WeatherWithPlace
 import com.lab.esh1n.weather.R
+import com.lab.esh1n.weather.data.cache.entity.PlaceWithCurrentWeatherEntry
+import com.lab.esh1n.weather.data.cache.entity.WeatherWithPlace
 import com.lab.esh1n.weather.weather.adapter.PlacesAdapter
 import com.lab.esh1n.weather.weather.viewmodel.AllPlacesVM
 import io.reactivex.Observable

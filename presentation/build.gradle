@@ -35,6 +35,7 @@ android {
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
+        buildConfigField "String", "APP_ID", '"542ffd081e67f4512b705f89d2a611b2"'
     }
     buildTypes {
         release {
@@ -90,8 +91,24 @@ gradle.projectsEvaluated {
 dependencies {
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation project(':data')
-    implementation project(':domain')
+
+    api rootProject.ext.room.runtime
+    api rootProject.ext.room.rxjava2
+    api rootProject.ext.room.ktx
+    kapt "org.xerial:sqlite-jdbc:3.34.0"
+    kapt rootProject.ext.room.compiler
+
+    api rootProject.ext.rxJava2
+    api rootProject.ext.retrofit.lib
+    api rootProject.ext.retrofit.rxjava
+    api rootProject.ext.retrofit.gsonConverter
+    api rootProject.ext.gson
+
+    def paging_version = '3.0.1'
+
+    api "androidx.paging:paging-runtime-ktx:$paging_version"
+
+    api "androidx.paging:paging-rxjava2-ktx:$paging_version"
     implementation project(':mvvm_rx_live')
     implementation project(':utils_android')
 

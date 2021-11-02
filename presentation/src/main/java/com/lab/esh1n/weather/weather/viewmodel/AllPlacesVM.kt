@@ -8,11 +8,11 @@ import com.esh1n.core_android.rx.applyAndroidSchedulers
 import com.esh1n.core_android.ui.viewmodel.BaseAndroidViewModel
 import com.esh1n.core_android.ui.viewmodel.Resource
 import com.esh1n.core_android.ui.viewmodel.SingleLiveEvent
-import com.lab.esh1n.data.cache.entity.PlaceWithCurrentWeatherEntry
-import com.lab.esh1n.data.cache.entity.WeatherWithPlace
-import com.lab.esh1n.weather.domain.weather.places.usecase.GetAllPlacesUse
-import com.lab.esh1n.weather.domain.weather.places.usecase.UpdateCurrentPlaceUseCase
-import com.lab.esh1n.weather.domain.weather.weather.usecases.LoadCurrentWeatherSingleUseCase
+import com.lab.esh1n.weather.data.cache.entity.PlaceWithCurrentWeatherEntry
+import com.lab.esh1n.weather.data.cache.entity.WeatherWithPlace
+import com.lab.esh1n.weather.domain.places.usecase.GetAllPlacesUse
+import com.lab.esh1n.weather.domain.places.usecase.UpdateCurrentPlaceUseCase
+import com.lab.esh1n.weather.domain.weather.usecases.LoadCurrentWeatherSingleUseCase
 import com.lab.esh1n.weather.utils.NotificationUtil
 import com.lab.esh1n.weather.weather.mapper.PlaceWeatherListMapper
 import com.lab.esh1n.weather.weather.mapper.UiLocalizer

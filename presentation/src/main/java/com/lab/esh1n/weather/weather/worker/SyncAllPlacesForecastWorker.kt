@@ -8,7 +8,7 @@ import androidx.work.WorkerParameters
 import com.esh1n.core_android.ui.viewmodel.Resource
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.lab.esh1n.weather.WeatherApp
-import com.lab.esh1n.weather.domain.weather.places.usecase.DailyForecastSyncUseCase
+import com.lab.esh1n.weather.domain.places.usecase.DailyForecastSyncUseCase
 import com.lab.esh1n.weather.utils.WORKER_ERROR_DESCRIPTION
 import io.reactivex.Single
 import javax.inject.Inject

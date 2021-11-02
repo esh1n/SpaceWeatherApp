@@ -1,1 +1,1 @@
-include 'utils_android','mvvm_rx_live',':data',':domain',':presentation'
+include 'utils_android','mvvm_rx_live',':presentation'

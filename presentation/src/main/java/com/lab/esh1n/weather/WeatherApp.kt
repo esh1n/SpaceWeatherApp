@@ -2,7 +2,7 @@ package com.lab.esh1n.weather
 
 import android.app.Application
 import android.content.Context
-import com.lab.esh1n.data.cache.AppPrefs
+import com.lab.esh1n.weather.data.cache.AppPrefs
 import com.lab.esh1n.weather.di.component.AppComponent
 import com.lab.esh1n.weather.di.component.DaggerAppComponent
 import com.lab.esh1n.weather.di.component.WorkerComponent

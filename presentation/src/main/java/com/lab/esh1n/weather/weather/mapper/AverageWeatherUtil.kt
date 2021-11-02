@@ -1,8 +1,8 @@
 package com.lab.esh1n.weather.weather.mapper
 
-import com.lab.esh1n.data.cache.entity.WeatherWithPlace
-import com.lab.esh1n.data.cache.entity.WindDegree
-import com.lab.esh1n.data.cache.entity.WindDirection
+import com.lab.esh1n.weather.data.cache.entity.WeatherWithPlace
+import com.lab.esh1n.weather.data.cache.entity.WindDegree
+import com.lab.esh1n.weather.data.cache.entity.WindDirection
 import java.text.DecimalFormat
 import kotlin.math.roundToInt
 
