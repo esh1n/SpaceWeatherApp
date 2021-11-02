@@ -6,8 +6,8 @@ ext {
     targetSdkVer = 30
 
     //androidx
-    androidxCompatVersion = "1.1.0"
-    androidxMaterialVersion = "1.1.0"
+    androidxCompatVersion = '1.3.1'
+    androidxMaterialVersion = '1.4.0'
 
     fragment_version = "1.2.2"
     fragment = "androidx.fragment:fragment-ktx:$fragment_version"
@@ -62,7 +62,7 @@ ext {
 
     ]
 
-    retrofitVersion = "2.7.1"
+    retrofitVersion = '2.9.0'
     retrofit = [
             lib          : "com.squareup.retrofit2:retrofit:${retrofitVersion}",
             rxjava       : "com.squareup.retrofit2:adapter-rxjava2:${retrofitVersion}",
