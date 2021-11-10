@@ -2,7 +2,7 @@ ext {
 
     compileSdkVersion = 30
     buildToolsVer = "30.0.2"
-    minSdkVer = 21
+    minSdkVer = 23
     targetSdkVer = 30
 
     //androidx
@@ -29,7 +29,7 @@ ext {
     //RxJava
     rxJava = "2.2.17"
     rxJava2 = "io.reactivex.rxjava2:rxjava:${rxJava}"
-    workManagerVersion = "2.3.2"
+    workManagerVersion = "2.7.0"
     workManagerRx = "androidx.work:work-rxjava2:$workManagerVersion"
     rxAndroidVersion = "2.1.1"
     rxAndroid = "io.reactivex.rxjava2:rxandroid:${rxAndroidVersion}"

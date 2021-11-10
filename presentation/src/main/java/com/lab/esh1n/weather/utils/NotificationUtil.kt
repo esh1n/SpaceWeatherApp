@@ -25,13 +25,16 @@ import com.lab.esh1n.weather.weather.mapper.UiLocalizer
 class NotificationUtil {
     companion object {
 
-        private const val TAG = "Notification"
-
         private fun buildNotification(context: Context,
                                       weatherNotification: WeatherNotification = WeatherNotification.emptyNotification(context)): Notification {
             val pendingIntent: PendingIntent =
                     Intent(context, WeatherActivity::class.java).let { notificationIntent ->
-                        PendingIntent.getActivity(context, 0, notificationIntent, 0)
+                        PendingIntent.getActivity(
+                            context,
+                            0,
+                            notificationIntent,
+                            PendingIntent.FLAG_IMMUTABLE
+                        )
                     }
 
 

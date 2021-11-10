@@ -20,7 +20,6 @@ import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.Observable
 import io.reactivex.Single
-import io.reactivex.functions.BiFunction
 import io.reactivex.functions.Function
 import java.util.*
 
@@ -32,17 +31,17 @@ class WeatherRepository constructor(private val api: APIService, database: Weath
     fun fetchAndSaveForecast(id: Int): Completable {
         val serverUnits = appPrefs.getServerAPIUnits()
         return fetchWeatherAsync(id, serverUnits)
-                .map { WeatherResponseListMapper(id, serverUnits).map(it) }
-                .zipWith(fetchForecastIfNeeded(id),
-                        BiFunction<WeatherEntry, Pair<SunsetSunriseTimezonePlaceEntry, List<WeatherEntry>>, Pair<SunsetSunriseTimezonePlaceEntry, List<WeatherEntry>>> { currentWeatherEntry, sunsetAndForecastWeathers ->
-                            val allWeathers = mutableListOf(currentWeatherEntry)
-                            allWeathers.addAll(sunsetAndForecastWeathers.second)
-                            Pair(sunsetAndForecastWeathers.first, allWeathers)
-                        }).flatMapCompletable { placeAndWeathers ->
-                    val updatePlaceEntry = placeAndWeathers.first
-                    placeDAO.updateSunrisesAndSunset(listOf(updatePlaceEntry))
-                    weatherDAO.saveWeathersCompletable(placeAndWeathers.second)
-                }
+            .map { WeatherResponseListMapper(id, serverUnits).map(it) }
+            .zipWith(fetchForecastIfNeeded(id),
+                { currentWeatherEntry, sunsetAndForecastWeathers ->
+                    val allWeathers = mutableListOf(currentWeatherEntry)
+                    allWeathers.addAll(sunsetAndForecastWeathers.second)
+                    Pair(sunsetAndForecastWeathers.first, allWeathers)
+                }).flatMapCompletable { placeAndWeathers ->
+                val updatePlaceEntry = placeAndWeathers.first
+                placeDAO.updateSunrisesAndSunset(listOf(updatePlaceEntry))
+                weatherDAO.saveWeathersCompletable(placeAndWeathers.second)
+            }
     }
 
     private fun fetchWeatherAsync(id: Int, serverUnits: Units): Single<WeatherResponse> {
@@ -83,7 +82,8 @@ class WeatherRepository constructor(private val api: APIService, database: Weath
         return weatherDAO.getDetailedCurrentWeather(minus30Minutes, plus5Days).toObservable()
     }
 
-    fun getCurrentPlaceSunsetAndSunrise() = placeDAO.getCurrentSunsetSunriseInfo().toObservable()
+    fun getCurrentPlaceSunsetAndSunrise(): Observable<SunsetSunriseTimezonePlaceEntry> =
+        placeDAO.getCurrentSunsetSunriseInfo().toObservable()
 
     fun getCurrentWeatherSingle(): Single<WeatherWithPlace> {
         val now = DateBuilder(Date()).build()
@@ -95,11 +95,11 @@ class WeatherRepository constructor(private val api: APIService, database: Weath
         return placeDAO.getPlaceIdsToSync()
                 .flatMap { ids ->
                     val requests = ids.map { zipCurrentWeatherWithPlaceId(it, serverUnits) }
-                    return@flatMap Single.zip<Pair<Int, WeatherResponse>, Pair<List<SunsetSunriseTimezonePlaceEntry>, List<WeatherEntry>>>(
-                            requests,
-                            Function {
-                                return@Function mapResponsesToWeatherEntities(it, serverUnits)
-                            }
+                    return@flatMap Single.zip(
+                        requests,
+                        Function {
+                            return@Function mapResponsesToWeatherEntities(it, serverUnits)
+                        }
                     )
 
                 }.flatMapCompletable { sunsetsAndWeatherEntries ->
@@ -129,8 +129,10 @@ class WeatherRepository constructor(private val api: APIService, database: Weath
 
     //
     private fun zipCurrentWeatherWithPlaceId(id: Int, serverUnits: Units): Single<Pair<Int, WeatherResponse>> {
-        return Single.zip(Single.just(id), fetchWeatherAsync(id, serverUnits), BiFunction<Int, WeatherResponse, Pair<Int, WeatherResponse>>
-        { placeId, forecast -> Pair(placeId, forecast) })
+        return Single.zip(
+            Single.just(id),
+            fetchWeatherAsync(id, serverUnits),
+            { placeId, forecast -> Pair(placeId, forecast) })
     }
 
     fun getAvailableDaysForPlace(placeId: Int): Flowable<Triple<Int, String, List<Date>>> {

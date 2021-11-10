@@ -3,8 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/SpaceWeatherApp.iml" filepath="$PROJECT_DIR$/.idea/modules/SpaceWeatherApp.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/data/SpaceWeatherApp.data.iml" filepath="$PROJECT_DIR$/.idea/modules/data/SpaceWeatherApp.data.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/domain/SpaceWeatherApp.domain.iml" filepath="$PROJECT_DIR$/.idea/modules/domain/SpaceWeatherApp.domain.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/mvvm_rx_live/SpaceWeatherApp.mvvm_rx_live.iml" filepath="$PROJECT_DIR$/.idea/modules/mvvm_rx_live/SpaceWeatherApp.mvvm_rx_live.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/presentation/SpaceWeatherApp.presentation.iml" filepath="$PROJECT_DIR$/.idea/modules/presentation/SpaceWeatherApp.presentation.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/utils_android/SpaceWeatherApp.utils_android.iml" filepath="$PROJECT_DIR$/.idea/modules/utils_android/SpaceWeatherApp.utils_android.iml" />

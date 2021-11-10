@@ -29,7 +29,7 @@ android {
     defaultConfig {
         applicationId "com.lab.esh1n.weather_se"
         buildConfigField "String", "API_ENDPOINT", '"https://api.openweathermap.org"'
-        minSdkVersion 21
+        minSdkVersion 23
         targetSdkVersion 31
         versionCode 1
         versionName "1.0"
