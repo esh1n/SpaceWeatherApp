@@ -5,6 +5,9 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.View
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.flowWithLifecycle
+import androidx.lifecycle.lifecycleScope
 import androidx.viewpager2.widget.ViewPager2
 import com.esh1n.core_android.error.ErrorModel
 import com.esh1n.core_android.ui.fragment.BaseVMFragment
@@ -21,6 +24,8 @@ import com.lab.esh1n.weather.weather.adapter.DayForecastFragmentAdapter
 import com.lab.esh1n.weather.weather.model.ForecastDayModel
 import com.lab.esh1n.weather.weather.viewmodel.ForecastWeekVM
 import kotlinx.android.synthetic.main.fragment_forecast.*
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 
 class ForecastFragment : BaseVMFragment<ForecastWeekVM>() {
     override val viewModelClass = ForecastWeekVM::class.java
@@ -71,14 +76,13 @@ class ForecastFragment : BaseVMFragment<ForecastWeekVM>() {
             it.adapter = adapterDayForecast
 
             Log.d("TABS", "init tabs")
-            TabLayoutMediator(tabs!!, it,
-                    TabLayoutMediator.TabConfigurationStrategy { tab, position ->
-                        val days = adapterDayForecast.publicDays
-                        if (position >= 0 && position < days.size) {
-                            tab.text = days[position].dayDescription
-                        }
+            TabLayoutMediator(tabs!!, it) { tab, position ->
+                val days = adapterDayForecast.publicDays
+                if (position >= 0 && position < days.size) {
+                    tab.text = days[position].dayDescription
+                }
 
-                    }).attach()
+            }.attach()
         }
     }
 
@@ -94,18 +98,20 @@ class ForecastFragment : BaseVMFragment<ForecastWeekVM>() {
         return arguments?.getInt(SELECTED_DAY, 0) ?: 0
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel.availableDays.observe(viewLifecycleOwner, object : BaseObserver<Pair<Int, List<ForecastDayModel>>>() {
-            override fun onData(data: Pair<Int, List<ForecastDayModel>>?) {
-                data?.let {
-                    populateByDays(data.first, data.second)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        viewModel.availableDays.observe(
+            viewLifecycleOwner,
+            object : BaseObserver<Pair<Int, List<ForecastDayModel>>>() {
+                override fun onData(data: Pair<Int, List<ForecastDayModel>>?) {
+                    data?.let {
+                        populateByDays(data.first, data.second)
+                    }
                 }
-            }
 
-            override fun onProgress(progress: Boolean) {
-                super.onProgress(progress)
-                binding.loadingIndicator.setVisibleOrGone(progress)
+                override fun onProgress(progress: Boolean) {
+                    super.onProgress(progress)
+                    binding.loadingIndicator.setVisibleOrGone(progress)
             }
 
             override fun onError(error: ErrorModel?) {
@@ -119,8 +125,12 @@ class ForecastFragment : BaseVMFragment<ForecastWeekVM>() {
             }
 
             override fun onError(error: ErrorModel?) {
-                FirebaseCrashlytics.getInstance().recordException(RuntimeException(error?.message
-                        ?: ""))
+                FirebaseCrashlytics.getInstance().recordException(
+                    RuntimeException(
+                        error?.message
+                            ?: ""
+                    )
+                )
                 SnackbarBuilder.buildErrorSnack(requireView(), error?.message ?: "").show()
             }
 
@@ -128,9 +138,19 @@ class ForecastFragment : BaseVMFragment<ForecastWeekVM>() {
         getPlaceId()?.let { placeId ->
             viewModel.loadAvailableDays(placeId, getSelectedDay())
             viewModel.fetchForecastIfNeeded(placeId)
+            viewLifecycleOwner.lifecycleScope.launch {
+                viewModel.getFavouriteStateFlow(placeId)
+                    .flowWithLifecycle(viewLifecycleOwner.lifecycle, Lifecycle.State.STARTED)
+                    .collect {
+                        switch_favourites.isChecked = it
+                    }
+            }
+            switch_favourites.setOnCheckedChangeListener { _, checked ->
+                viewModel.changeFavouriteState(placeId, checked)
+            }
         }
-        setTitle(getPlaceName() ?: "")
 
+        getPlaceName()?.let(::setTitle)
     }
 
     fun populateByDays(selectedDayIndex: Int, items: List<ForecastDayModel>) {
@@ -138,6 +158,5 @@ class ForecastFragment : BaseVMFragment<ForecastWeekVM>() {
         if (selectedDayIndex >= 0) {
             binding.viewpager.currentItem = selectedDayIndex
         }
-
     }
 }

@@ -92,17 +92,25 @@ dependencies {
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
+    //Room
     api rootProject.ext.room.runtime
     api rootProject.ext.room.rxjava2
     api rootProject.ext.room.ktx
     kapt "org.xerial:sqlite-jdbc:3.34.0"
     kapt rootProject.ext.room.compiler
 
+    //rxJava2
     api rootProject.ext.rxJava2
     api rootProject.ext.retrofit.lib
     api rootProject.ext.retrofit.rxjava
     api rootProject.ext.retrofit.gsonConverter
     api rootProject.ext.gson
+
+    // Coroutines
+    def coroutines = '1.5.2'
+    api "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines"
+    api "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines"
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.4.0"
 
     def paging_version = '3.0.1'
 

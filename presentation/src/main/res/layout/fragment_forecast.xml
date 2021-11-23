@@ -10,6 +10,16 @@
         android:background="@android:color/white"
         android:orientation="vertical">
 
+        <com.google.android.material.switchmaterial.SwitchMaterial
+            android:id="@+id/switch_favourites"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_medium"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:text="@string/text_place_add_favourite_state"
+            android:textAppearance="?textAppearanceHeadline1"
+            android:textSize="@dimen/font_size_big" />
 
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tabs"

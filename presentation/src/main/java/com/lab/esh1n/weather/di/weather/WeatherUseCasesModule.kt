@@ -59,7 +59,6 @@ class WeatherUseCasesModule {
         return UpdateCurrentPlaceUseCase(placesRepository, weatherRepository, errorsHandler)
     }
 
-
     @Provides
     fun provideLoadCurrentWeatherSingleUseCase(weatherRepository: WeatherRepository, errorsHandler: ErrorsHandler): LoadCurrentWeatherSingleUseCase {
         return LoadCurrentWeatherSingleUseCase(weatherRepository, errorsHandler)

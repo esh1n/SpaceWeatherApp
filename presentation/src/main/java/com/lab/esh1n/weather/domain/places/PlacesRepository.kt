@@ -27,6 +27,10 @@ class PlacesRepository constructor(private val apiService: APIService, db: Weath
     private val placeDAO = db.placeDAO()
     private val weatherDAO = db.weatherDAO()
 
+    fun getIsPlaceFavourite(placeId: Int) = placeDAO.getIsPlaceFavourite(placeId)
+
+    suspend fun changeFavouriteState(placeId: Int, isLiked: Boolean) =
+        placeDAO.changeFavouriteState(placeId, isLiked)
 
     fun searchPlaces(query: String): Observable<PagedList<PlaceWithCurrentWeatherEntry>> {
         val now = DateBuilder(Date()).build()

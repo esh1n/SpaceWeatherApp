@@ -74,13 +74,14 @@
     <string name="text_not_defined">n/a</string>
 
 
-    <string-array
-        name="choose_place_actions">
+    <string-array name="choose_place_actions">
         <item>Set Primary</item>
         <item>Rename</item>
     </string-array>
 
     <string name="empty_text_search">No search results for \"%s\".</string>
     <string name="action_search_tag">Search places</string>
+    <string name="text_place_add_favourite_state">Add to favourites</string>
+    <string name="text_place_remove_favourite_state">Remove from favourites</string>
 
 </resources>

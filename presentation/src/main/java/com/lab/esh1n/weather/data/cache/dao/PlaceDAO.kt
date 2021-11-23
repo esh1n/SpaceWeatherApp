@@ -9,11 +9,18 @@ import com.lab.esh1n.weather.data.cache.entity.SunsetSunriseTimezonePlaceEntry
 import com.lab.esh1n.weather.data.converter.DateConverter
 import io.reactivex.Flowable
 import io.reactivex.Single
+import kotlinx.coroutines.flow.Flow
 import java.util.*
 
 @Dao
 @TypeConverters(DateConverter::class)
 abstract class PlaceDAO {
+
+    @Query("SELECT isLiked from place WHERE id=:id")
+    abstract fun getIsPlaceFavourite(id: Int): Flow<Boolean>
+
+    @Query("UPDATE place SET isLiked = :isLiked WHERE id=:id")
+    abstract suspend fun changeFavouriteState(id: Int, isLiked: Boolean)
 
     @Transaction
     @Insert(onConflict = REPLACE)
@@ -23,7 +30,10 @@ abstract class PlaceDAO {
     abstract fun getPlaceIdByName(placeName: String): Single<Int>
 
     @Query("SELECT id,placeName,countryCode,iconId,temperatureMax,epochDateMills,timezone,dateTxt,rain,cloudiness,snow,description as weatherDescription  FROM place  LEFT JOIN weather w ON place.id = w.placeId AND w.epochDateMills = (SELECT epochDateMills FROM weather innerW WHERE  innerW.placeId = w.placeId ORDER BY abs(:now - epochDateMills) ASC LIMIT 1) WHERE placeName like :query ORDER BY isLiked DESC,placeName")
-    abstract fun searchPlacesWithCurrentWeather(now: Date, query: String): DataSource.Factory<Int, PlaceWithCurrentWeatherEntry>
+    abstract fun searchPlacesWithCurrentWeather(
+        now: Date,
+        query: String
+    ): DataSource.Factory<Int, PlaceWithCurrentWeatherEntry>
 
     @Query("SELECT id from place WHERE isCurrent = 1")
     abstract fun getCurrentCityId(): Single<Int>
