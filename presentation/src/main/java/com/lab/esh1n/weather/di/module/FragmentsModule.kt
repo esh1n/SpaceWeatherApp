@@ -23,7 +23,7 @@ interface FragmentsModule {
     fun buildWeatherHostFragment(): WeatherHostFragment
 
     @ContributesAndroidInjector()
-    fun buildAllPlaces(): AllPlacesFragment
+    fun buildAllPlaces(): SearchPlacesFragment
 
     @ContributesAndroidInjector()
     fun buildForecastFragment(): ForecastFragment

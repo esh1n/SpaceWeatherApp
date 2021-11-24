@@ -3,9 +3,8 @@ package com.lab.esh1n.weather.weather.viewmodel
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
 import androidx.paging.PagedList
-import androidx.work.WorkManager
 import com.esh1n.core_android.rx.applyAndroidSchedulers
-import com.esh1n.core_android.ui.viewmodel.BaseAndroidViewModel
+import com.esh1n.core_android.ui.viewmodel.AutoClearViewModel
 import com.esh1n.core_android.ui.viewmodel.Resource
 import com.esh1n.core_android.ui.viewmodel.SingleLiveEvent
 import com.lab.esh1n.weather.data.cache.entity.PlaceWithCurrentWeatherEntry
@@ -22,61 +21,71 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
-class AllPlacesVM @Inject constructor(private val loadPlacesUseCase: GetAllPlacesUse,
-                                      private val loadCurrentPlaceUseCase: LoadCurrentWeatherSingleUseCase,
-                                      private var updateCurrentPlaceUseCase: UpdateCurrentPlaceUseCase,
-                                      private val workManager: WorkManager, application: Application,
-                                      private val uiLocalizer: UiLocalizer) : BaseAndroidViewModel(application) {
+class AllPlacesVM @Inject constructor(
+    private val loadPlacesUseCase: GetAllPlacesUse,
+    private val loadCurrentPlaceUseCase: LoadCurrentWeatherSingleUseCase,
+    private var updateCurrentPlaceUseCase: UpdateCurrentPlaceUseCase,
+    private val application: Application,
+    private val uiLocalizer: UiLocalizer
+) : AutoClearViewModel() {
 
     val updateCurrentPlaceOperation = SingleLiveEvent<Resource<WeatherWithPlace>>()
 
     val allCities = MutableLiveData<Resource<PagedList<PlaceWithCurrentWeatherEntry>>>()
 
-    val placeWeatherMapper: (PlaceWithCurrentWeatherEntry) -> PlaceModel = PlaceWeatherListMapper(uiLocalizer)::map
+    val placeWeatherMapper: (PlaceWithCurrentWeatherEntry) -> PlaceModel =
+        PlaceWeatherListMapper(uiLocalizer)::map
 
     fun saveCurrentPlace(id: Int) {
         updateCurrentPlaceOperation.postValue(Resource.loading())
 
         updateCurrentPlaceUseCase.perform(id)
-                .flatMap {
-                    loadCurrentPlaceUseCase.perform(Unit)
-                }
-                .doOnSubscribe { _ ->
-                    updateCurrentPlaceOperation.postValue(Resource.loading())
-                }
-                .applyAndroidSchedulers()
-                .subscribe({ result ->
+            .flatMap {
+                loadCurrentPlaceUseCase.perform(Unit)
+            }
+            .doOnSubscribe { _ ->
+                updateCurrentPlaceOperation.postValue(Resource.loading())
+            }
+            .applyAndroidSchedulers()
+            .subscribe({ result ->
 
-                    NotificationUtil.sendCurrentWeatherNotification(result, getApplication(), uiLocalizer)
-                    updateCurrentPlaceOperation.postValue(result)
-                }, {
-                    updateCurrentPlaceOperation.postValue(Resource.error(it))
-                })
-                .disposeOnDestroy()
+                NotificationUtil.sendCurrentWeatherNotification(
+                    result,
+                    application,
+                    uiLocalizer
+                )
+                updateCurrentPlaceOperation.postValue(result)
+            }, {
+                updateCurrentPlaceOperation.postValue(Resource.error(it))
+            })
+            .disposeOnDestroy()
     }
 
 
     fun searchPlaces(queryEvent: Observable<String>) {
         //think about if no results how not to show progress
         queryEvent
-                .switchMap { query ->
-                    val updatedQuery = updateQuery(query)
-                    loadPlacesUseCase.perform(updatedQuery)
-                }
-                .observeOn(Schedulers.io())
-                .doOnSubscribe { _ ->
-                    allCities.postValue(Resource.loading())
-                }
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe { models ->
-                    allCities.postValue(models)
-                }
-                .disposeOnDestroy()
+            .switchMap { query ->
+                val updatedQuery = updateQuery(query)
+                loadPlacesUseCase.perform(updatedQuery)
+            }
+            .observeOn(Schedulers.io())
+            .doOnSubscribe { _ ->
+                allCities.postValue(Resource.loading())
+            }
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe { models ->
+                allCities.postValue(models)
+            }
+            .disposeOnDestroy()
     }
 
-    fun updateQuery(oldQuery: String?): String {
-        return if (oldQuery.isNullOrBlank()) {
-            "%"
+    private fun updateQuery(
+        oldQuery: String,
+        showAllResultsForEmptyState: Boolean = false
+    ): String {
+        return if (oldQuery.isBlank()) {
+            if (showAllResultsForEmptyState) "%" else oldQuery
         } else {
             val updatedForSearch = StringSearchUtil.applyDefaultSearchRules(oldQuery)
             if (updatedForSearch.isBlank()) {

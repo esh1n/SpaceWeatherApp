@@ -9,6 +9,7 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="presentation/src/main/res/layout/fragment_forecast.xml" value="0.335" />
+        <entry key="presentation/src/main/res/layout/fragment_recyclerview_with_progress.xml" value="0.18518518518518517" />
         <entry key="presentation/src/main/res/layout/item_day_overrall_weather.xml" value="0.14387031408308004" />
         <entry key="presentation/src/main/res/layout/item_place.xml" value="0.12817028985507245" />
         <entry key="presentation/src/main/res/layout/item_place_option.xml" value="0.14387031408308004" />

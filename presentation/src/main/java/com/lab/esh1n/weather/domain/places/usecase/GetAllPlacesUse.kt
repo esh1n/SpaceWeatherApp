@@ -13,7 +13,7 @@ class GetAllPlacesUse @Inject constructor(private val placesRepository: PlacesRe
     : UseCase<Observable<Resource<PagedList<PlaceWithCurrentWeatherEntry>>>, String>(errorsHandler) {
     override fun perform(args: String): Observable<Resource<PagedList<PlaceWithCurrentWeatherEntry>>> {
         return placesRepository.searchPlaces(args)
-                .map { Resource.success(it) }
+            .map { places -> Resource.success(places) }
                 .onErrorReturn { error -> Resource.error(errorsHandler.handle(error)) }
     }
 }

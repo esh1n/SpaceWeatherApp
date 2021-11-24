@@ -2,8 +2,8 @@ package com.lab.esh1n.weather.weather
 
 
 import androidx.fragment.app.Fragment
-import com.lab.esh1n.weather.weather.fragment.AllPlacesFragment
 import com.lab.esh1n.weather.weather.fragment.CurrentPlaceFragment
+import com.lab.esh1n.weather.weather.fragment.SearchPlacesFragment
 import com.lab.esh1n.weather.weather.fragment.SettingsFragment
 
 enum class MainFragmentTab(val value: Int) {
@@ -13,7 +13,7 @@ enum class MainFragmentTab(val value: Int) {
         get() {
             return when (this) {
                 CURRENT_PLACE -> CurrentPlaceFragment.newInstance()
-                ALL_PLACES -> AllPlacesFragment.newInstance()
+                ALL_PLACES -> SearchPlacesFragment.newInstance()
                 SETTINGS -> SettingsFragment.newInstance()
             }
         }

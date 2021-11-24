@@ -26,10 +26,9 @@ import com.lab.esh1n.weather.data.cache.entity.PlaceWithCurrentWeatherEntry
 import com.lab.esh1n.weather.data.cache.entity.WeatherWithPlace
 import com.lab.esh1n.weather.weather.adapter.PlacesAdapter
 import com.lab.esh1n.weather.weather.viewmodel.AllPlacesVM
-import io.reactivex.Observable
 import java.util.concurrent.TimeUnit
 
-class AllPlacesFragment : BaseVMFragment<AllPlacesVM>() {
+class SearchPlacesFragment : BaseVMFragment<AllPlacesVM>() {
 
     override val viewModelClass = AllPlacesVM::class.java
 
@@ -71,10 +70,10 @@ class AllPlacesFragment : BaseVMFragment<AllPlacesVM>() {
         placeRecyclerView?.let {
             it.layoutManager = LinearLayoutManager(requireActivity())
             it.addItemDecoration(
-                    DividerItemDecoration(
-                            requireActivity(),
-                            DividerItemDecoration.VERTICAL
-                    )
+                DividerItemDecoration(
+                    requireActivity(),
+                    DividerItemDecoration.VERTICAL
+                )
             )
 
             it.setHasFixedSize(true)
@@ -82,49 +81,47 @@ class AllPlacesFragment : BaseVMFragment<AllPlacesVM>() {
         }
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel.allCities.observe(this, object : BaseObserver<PagedList<PlaceWithCurrentWeatherEntry>>() {
-            override fun onError(error: ErrorModel?) {
-                SnackbarBuilder.buildSnack(view!!, error?.message ?: "").show()
-            }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        viewModel.allCities.observe(
+            viewLifecycleOwner,
+            object : BaseObserver<PagedList<PlaceWithCurrentWeatherEntry>>() {
+                override fun onError(error: ErrorModel?) {
+                    SnackbarBuilder.buildSnack(view, error?.message ?: "").show()
+                }
 
-            override fun onData(data: PagedList<PlaceWithCurrentWeatherEntry>?) {
-                val isEmpty = data?.isEmpty() ?: true
-                emptyView!!.setVisibleOrGone(isEmpty)
-                adapter.submitList(data)
-            }
+                override fun onData(data: PagedList<PlaceWithCurrentWeatherEntry>?) {
+                    val isEmpty = data?.isEmpty() ?: true
 
-        })
+                    emptyView?.let {
+                        it.setVisibleOrGone(isEmpty)
+                        it.text = fullEmptySearchDescription
+                    }
+                    adapter.submitList(data)
+                }
 
-        viewModel.updateCurrentPlaceOperation.observe(this, object : BaseObserver<WeatherWithPlace>() {
-            override fun onData(data: WeatherWithPlace?) {
+            })
 
-                (parentFragment as WeatherHostFragment).setCurrentWeather()
+        viewModel.updateCurrentPlaceOperation.observe(
+            this,
+            object : BaseObserver<WeatherWithPlace>() {
+                override fun onData(data: WeatherWithPlace?) {
 
-            }
+                    (parentFragment as WeatherHostFragment).setCurrentWeather()
 
-            override fun onError(error: ErrorModel?) {
-                SnackbarBuilder.buildErrorSnack(view!!, getString(R.string.error_unexpected)).show()
-            }
+                }
 
-            override fun onProgress(progress: Boolean) {
-                super.onProgress(progress)
-                loadingIndicator?.setVisibleOrGone(progress)
-            }
+                override fun onError(error: ErrorModel?) {
+                    SnackbarBuilder.buildErrorSnack(view!!, getString(R.string.error_unexpected))
+                        .show()
+                }
 
-        })
+                override fun onProgress(progress: Boolean) {
+                    super.onProgress(progress)
+                    loadingIndicator?.setVisibleOrGone(progress)
+                }
 
-    }
-
-    override fun onStart() {
-        super.onStart()
-        load()
-    }
-
-    private fun load() {
-        val query = searchView?.query ?: ""
-        viewModel.searchPlaces(Observable.just(query.toString()))
+            })
     }
 
     override fun onPrepareOptionsMenu(menu: Menu) {
@@ -133,24 +130,18 @@ class AllPlacesFragment : BaseVMFragment<AllPlacesVM>() {
         val searchItem: MenuItem? = menu.findItem(R.id.action_search_tag)
 
         if (searchItem != null) {
-            // searchItem.expandActionView()
-            //searchItem.actionView.clearFocus()
-            searchView = searchItem.actionView as SearchView
-            searchView?.setOnQueryTextListener(null)
-            val hint = getString(queryHintResourceId())
-            searchView?.queryHint = hint
-            searchView?.onActionViewExpanded()
-            searchView?.let { sv ->
-
-
-                val searchSource = sv.queryTextChanges()
-                        .skipInitialValue()
-                        .debounce(200, TimeUnit.MILLISECONDS)
-                        .map { text -> text.toString() }
-                        .distinctUntilChanged()
+            searchView = (searchItem.actionView as SearchView).apply {
+                setOnQueryTextListener(null)
+                val hint = getString(queryHintResourceId())
+                queryHint = hint
+                onActionViewExpanded()
+                val searchSource = queryTextChanges()
+                    .skipInitialValue()
+                    .debounce(200, TimeUnit.MILLISECONDS)
+                    .map { text -> text.toString() }
+                    .distinctUntilChanged()
 
                 viewModel.searchPlaces(searchSource)
-
             }
         }
 
@@ -159,27 +150,31 @@ class AllPlacesFragment : BaseVMFragment<AllPlacesVM>() {
     @StringRes
     private fun queryHintResourceId() = R.string.action_search_tag
 
-
     private val iPlaceClickable = object : PlacesAdapter.IPlaceClickable {
         override fun onPlaceClick(placeId: Int, placeName: String) {
             FirebaseCrashlytics.getInstance().log("opened forecast for${placeId}")
-            parentFragment?.parentFragmentManager.addFragmentToStack(ForecastFragment.newInstance(placeId, placeName))
-
+            parentFragment?.parentFragmentManager.addFragmentToStack(
+                ForecastFragment.newInstance(
+                    placeId,
+                    placeName
+                )
+            )
         }
 
         override fun onPlaceOptions(placeId: Int) {
-            DialogUtil.buildListDialog(requireActivity(),
-                    getString(R.string.text_choose_action),
-                    R.array.choose_place_actions) { result ->
+            DialogUtil.buildListDialog(
+                requireActivity(),
+                getString(R.string.text_choose_action),
+                R.array.choose_place_actions
+            ) { result ->
                 if (result == 0) {
                     viewModel.saveCurrentPlace(placeId)
                 }
             }.show()
         }
-
     }
 
     companion object {
-        fun newInstance() = AllPlacesFragment()
+        fun newInstance() = SearchPlacesFragment()
     }
 }
