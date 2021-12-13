@@ -40,15 +40,11 @@ class SearchPlacesFragment : BaseVMFragment<AllPlacesVM>() {
     private var emptyView: TextView? = null
     private var loadingIndicator: View? = null
 
-    private val emptySearchTextId: Int
-        @StringRes
-        get() = R.string.empty_text_search
-
     private var searchView: SearchView? = null
 
-
     private val fullEmptySearchDescription: String
-        get() = getString(emptySearchTextId, searchView?.query)
+        get() = searchView?.query?.let { getString(R.string.empty_text_search, it) }
+            ?: getString(R.string.text_please_start_searching)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -66,7 +62,9 @@ class SearchPlacesFragment : BaseVMFragment<AllPlacesVM>() {
         adapter = PlacesAdapter(iPlaceClickable, viewModel::placeWeatherMapper)
         placeRecyclerView = rootView.findViewById(R.id.recycler_view)
         loadingIndicator = rootView.findViewById(R.id.loading_indicator)
-        emptyView = rootView.findViewById(R.id.tv_no_items)
+        emptyView = rootView.findViewById<TextView>(R.id.tv_no_items).apply {
+            text = getString(R.string.search_repository_no_results_message)
+        }
         placeRecyclerView?.let {
             it.layoutManager = LinearLayoutManager(requireActivity())
             it.addItemDecoration(
@@ -106,13 +104,11 @@ class SearchPlacesFragment : BaseVMFragment<AllPlacesVM>() {
             this,
             object : BaseObserver<WeatherWithPlace>() {
                 override fun onData(data: WeatherWithPlace?) {
-
                     (parentFragment as WeatherHostFragment).setCurrentWeather()
-
                 }
 
                 override fun onError(error: ErrorModel?) {
-                    SnackbarBuilder.buildErrorSnack(view!!, getString(R.string.error_unexpected))
+                    SnackbarBuilder.buildErrorSnack(view, getString(R.string.error_unexpected))
                         .show()
                 }
 
@@ -132,8 +128,10 @@ class SearchPlacesFragment : BaseVMFragment<AllPlacesVM>() {
         if (searchItem != null) {
             searchView = (searchItem.actionView as SearchView).apply {
                 setOnQueryTextListener(null)
+                // isIconified = false
                 val hint = getString(queryHintResourceId())
                 queryHint = hint
+                searchItem.expandActionView();
                 onActionViewExpanded()
                 val searchSource = queryTextChanges()
                     .skipInitialValue()

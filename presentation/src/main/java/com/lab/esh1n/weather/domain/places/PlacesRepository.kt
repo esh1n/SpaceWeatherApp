@@ -53,8 +53,9 @@ class PlacesRepository constructor(private val apiService: APIService, db: Weath
                         }
                         .map { response ->
                             val id = response.city!!.id!!
-                            val updatePlaceModel = PlaceListMapper().map(response.city!!)
-                            val weathers = ForecastWeatherListMapper(id, serverUnits).map(response.list)
+                            val updatePlaceModel = PlaceListMapper().map(response.city)
+                            val weathers =
+                                ForecastWeatherListMapper(id, serverUnits).map(response.list)
                             return@map Pair(updatePlaceModel, weathers)
                         }
                         .flatMapCompletable { placeAndWeathers ->

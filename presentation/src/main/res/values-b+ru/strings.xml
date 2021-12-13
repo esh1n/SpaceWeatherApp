@@ -3,7 +3,7 @@
 
     <string name="error_unexpected">Что-то пошло не так.</string>
 
-    <string name="search_repository_no_results_message">Извините, нет результатов</string>
+    <string name="search_repository_no_results_message">Извините,пока нет результатов поиска</string>
     <string name="text_no_weather">Пока нет погоды\nПотяните вниз, чтобы обновить</string>
 
     <string name="error_server">Ошибка сервера</string>
@@ -81,4 +81,6 @@
     <string name="action_search_tag">Какой город найти?</string>
     <string name="text_place_add_favourite_state">Добавить в избранное</string>
     <string name="text_place_remove_favourite_state">Удалить из избранного</string>
+    <string name="text_open_search_place_screen">Open Search Places screen</string>
+    <string name="text_please_start_searching">В строке поиска пока пусто. Введите название места в поле ввода</string>
 </resources>

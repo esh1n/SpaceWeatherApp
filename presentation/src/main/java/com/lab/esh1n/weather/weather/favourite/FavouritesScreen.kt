@@ -28,6 +28,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.lab.esh1n.weather.R
 import kotlin.random.Random
 
 /**
@@ -38,64 +39,38 @@ import kotlin.random.Random
  * @param onRemoveItem (event) request an item be removed
  */
 @Composable
-fun FavouritesFlowScreen(
+fun FavouritesScreen(
     items: List<TodoItem>,
     onItemClicked: (TodoItem) -> Unit,
-    onFavIconItemChange: (TodoItem) -> Unit
+    onFavIconItemChange: (TodoItem) -> Unit,
+    onGoToSearchPlace: () -> Unit
 ) {
-    LazyColumn(contentPadding = PaddingValues(top = 8.dp)) {
-        items(items = items) { todo ->
-            TodoRow(
-                todo,
-                { onItemClicked(it) },
-                { onFavIconItemChange(it) },
-                Modifier.fillParentMaxWidth()
-            )
+    Column {
+        LazyColumn(
+            modifier = Modifier.weight(1f),
+            contentPadding = PaddingValues(top = 8.dp)
+        ) {
+            items(items = items) { todo ->
+                FavouritePlaceRow(
+                    todo,
+                    { onItemClicked(it) },
+                    { onFavIconItemChange(it) },
+                    Modifier.fillParentMaxWidth()
+                )
+            }
+        }
+        // For quick testing, a random item generator button
+        Button(
+            onClick = { onGoToSearchPlace() },
+            modifier = Modifier
+                .padding(16.dp)
+                .fillMaxWidth(),
+        ) {
+            Text(stringResource(id = R.string.text_open_search_place_screen))
         }
     }
 }
 
-/**
- * Stateless composable that displays a full-width [TodoItem].
- *
- * @param todo item to show
- * @param onItemClicked (event) notify caller that the row was clicked
- * @param modifier modifier for this element
- */
-@Composable
-fun TodoRow(
-    todo: TodoItem,
-    onItemClicked: (TodoItem) -> Unit,
-    onFavoriteIconItemClicked: (TodoItem) -> Unit,
-    modifier: Modifier = Modifier,
-    iconAlpha: Float = remember(todo.id) { randomTint() }
-) {
-    Row(
-        modifier = modifier
-            .clickable { onItemClicked(todo) }
-            .padding(horizontal = 16.dp, vertical = 8.dp),
-        horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Text(todo.task)
-        // val iconAlpha: Float = remember(todo.id) { randomTint() }
-        val favouriteIcon = if (todo.favourite) TodoFavIcon.Favourite else TodoFavIcon.UnFavourite
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            Icon(
-                imageVector = todo.icon.imageVector,
-                tint = LocalContentColor.current.copy(alpha = iconAlpha),
-                contentDescription = stringResource(id = todo.icon.contentDescription)
-            )
-            Spacer(modifier = Modifier.width(16.dp))
-            IconButton(onClick = { onFavoriteIconItemClicked(todo) }) {
-                Icon(
-                    imageVector = favouriteIcon.imageVector,
-                    contentDescription = stringResource(id = favouriteIcon.contentDescription),
-                )
-            }
-        }
-    }
-}
 
 @Composable
 fun FavouritePlaceRow(
@@ -145,6 +120,6 @@ fun PreviewTodoScreen() {
         TodoItem("Apply state", TodoIcon.Done),
         TodoItem("Build dynamic UIs", TodoIcon.Square)
     )
-    FavouritesFlowScreen(items, {}, {})
+    FavouritesScreen(items, {}, {}, {})
 }
 

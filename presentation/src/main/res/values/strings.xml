@@ -93,5 +93,7 @@
     <string name="cd_restore">Restore</string>
     <string name="cd_fav">Fav</string>
     <string name="cd_unfav">not fav</string>
+    <string name="text_open_search_place_screen">Open Search Places screen</string>
+    <string name="text_please_start_searching">В строке поиска пока пусто. Введите название места в поле ввода</string>
 
 </resources>

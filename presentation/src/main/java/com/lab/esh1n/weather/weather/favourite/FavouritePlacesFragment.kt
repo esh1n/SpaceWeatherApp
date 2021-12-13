@@ -1,9 +1,7 @@
 package com.lab.esh1n.weather.weather.favourite
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -16,6 +14,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
+import com.esh1n.core_android.ui.addFragmentToStack
+import com.lab.esh1n.weather.weather.fragment.SearchPlacesFragment
 import kotlinx.coroutines.flow.Flow
 
 
@@ -46,6 +46,21 @@ class FavouritePlacesFragment : Fragment() {
         }
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        menu.clear()
+    }
+
+    private fun openSearchPlacesScreen() {
+        parentFragmentManager.addFragmentToStack(SearchPlacesFragment.newInstance())
+    }
+
+
     @Composable
     fun FavouritesFlowScreen(
         favsFlow: Flow<List<TodoItem>>,
@@ -58,10 +73,11 @@ class FavouritePlacesFragment : Fragment() {
         }
 
         val items by favsFlowLifecycleAware.collectAsState(emptyList())
-        FavouritesFlowScreen(
+        FavouritesScreen(
             items = items,
             onItemClicked = onItemClicked,
-            onFavIconItemChange = onFavIconItemChange
+            onFavIconItemChange = onFavIconItemChange,
+            onGoToSearchPlace = ::openSearchPlacesScreen
         )
     }
 
