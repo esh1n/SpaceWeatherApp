@@ -45,7 +45,6 @@ dependencies {
     api rootProject.ext.rxJava2
     api rootProject.ext.rxAndroid
     api rootProject.ext.lifecycle.runtime
-    api rootProject.ext.lifecycle.extensions
     api rootProject.ext.lifecycle.reactivestreams
     kapt rootProject.ext.lifecycle.compiler
     api rootProject.ext.gson

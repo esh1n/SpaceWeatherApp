@@ -84,4 +84,14 @@
     <string name="text_place_add_favourite_state">Add to favourites</string>
     <string name="text_place_remove_favourite_state">Remove from favourites</string>
 
+    <string name="cd_expand">Expand</string>
+    <string name="cd_collapse">Collapse</string>
+    <string name="cd_crop_square">Crop</string>
+    <string name="cd_done">Done</string>
+    <string name="cd_event">Event</string>
+    <string name="cd_privacy">Privacy</string>
+    <string name="cd_restore">Restore</string>
+    <string name="cd_fav">Fav</string>
+    <string name="cd_unfav">not fav</string>
+
 </resources>
