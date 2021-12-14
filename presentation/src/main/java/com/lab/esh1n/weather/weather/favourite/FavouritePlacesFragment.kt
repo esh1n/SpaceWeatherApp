@@ -57,7 +57,7 @@ class FavouritePlacesFragment : Fragment() {
     }
 
     private fun openSearchPlacesScreen() {
-        parentFragmentManager.addFragmentToStack(SearchPlacesFragment.newInstance())
+        parentFragment?.parentFragmentManager.addFragmentToStack(SearchPlacesFragment.newInstance())
     }
 
 

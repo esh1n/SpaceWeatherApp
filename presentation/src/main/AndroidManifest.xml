@@ -24,6 +24,7 @@
             android:resource="@array/preloaded_fonts" />
 
         <activity
+            android:windowSoftInputMode="adjustPan"
             android:exported="true"
             android:launchMode="singleTop"
             android:name="com.lab.esh1n.weather.weather.WeatherActivity"

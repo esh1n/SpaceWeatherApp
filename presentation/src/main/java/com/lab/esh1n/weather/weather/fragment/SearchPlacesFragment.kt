@@ -43,8 +43,13 @@ class SearchPlacesFragment : BaseVMFragment<AllPlacesVM>() {
     private var searchView: SearchView? = null
 
     private val fullEmptySearchDescription: String
-        get() = searchView?.query?.let { getString(R.string.empty_text_search, it) }
-            ?: getString(R.string.text_please_start_searching)
+        get() {
+            return if (searchView?.query.isNullOrBlank()) {
+                getString(R.string.text_please_start_searching)
+            } else {
+                getString(R.string.empty_text_search, searchView?.query)
+            }
+        }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -128,7 +133,6 @@ class SearchPlacesFragment : BaseVMFragment<AllPlacesVM>() {
         if (searchItem != null) {
             searchView = (searchItem.actionView as SearchView).apply {
                 setOnQueryTextListener(null)
-                // isIconified = false
                 val hint = getString(queryHintResourceId())
                 queryHint = hint
                 searchItem.expandActionView();
@@ -151,7 +155,7 @@ class SearchPlacesFragment : BaseVMFragment<AllPlacesVM>() {
     private val iPlaceClickable = object : PlacesAdapter.IPlaceClickable {
         override fun onPlaceClick(placeId: Int, placeName: String) {
             FirebaseCrashlytics.getInstance().log("opened forecast for${placeId}")
-            parentFragment?.parentFragmentManager.addFragmentToStack(
+            parentFragmentManager.addFragmentToStack(
                 ForecastFragment.newInstance(
                     placeId,
                     placeName

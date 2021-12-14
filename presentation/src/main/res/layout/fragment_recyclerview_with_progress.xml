@@ -28,9 +28,11 @@
             tools:listitem="@layout/item_place" />
 
         <TextView
+            android:layout_width="match_parent"
+            android:gravity="center"
             android:text="@string/text_no_places"
             android:id="@+id/tv_no_items"
-            android:layout_width="wrap_content"
+            android:padding="@dimen/font_size_big"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:textSize="@dimen/font_size_big" />
