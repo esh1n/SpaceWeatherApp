@@ -4,27 +4,37 @@ import com.lab.esh1n.weather.utils.OneValueProperty
 import com.lab.esh1n.weather.utils.ValueProperty
 import java.util.*
 
-sealed class WeatherModel(val humanDate: String,
-                          val iconId: String,
-                          val tempMax: Int,
-                          val tempMin: Int,
-                          val description: String,
-                          val dayOFTheYear: Int)
+sealed class WeatherModel(
+    val humanDate: String,
+    val iconId: String,
+    val tempMax: Int,
+    val tempMin: Int,
+    val description: String,
+    val dayOfTheYear: Int
+)
 
 class CurrentWeatherModel(
-        description: String,
-        humanDate: String,
-        iconId: String,
-        val placeName: String,
-        val snow: Int,
-        val cloudiness: Int,
-        val rain: Int,
-        val isDay: Boolean,
-        tempMax: Int,
-        tempMin: Int,
-        val hour24Format: Int,
-        val hourWeatherEvents: List<HourWeatherModel>,
-        dayOfTheYear: Int) : WeatherModel(humanDate = humanDate, iconId = iconId, tempMax = tempMax, tempMin = tempMin, description = description, dayOFTheYear = dayOfTheYear)
+    description: String,
+    humanDate: String,
+    iconId: String,
+    val placeName: String,
+    val snow: Int,
+    val cloudiness: Int,
+    val rain: Int,
+    val isDay: Boolean,
+    tempMax: Int,
+    tempMin: Int,
+    val hour24Format: Int,
+    val hourWeatherEvents: List<HourWeatherModel>,
+    dayOfTheYear: Int
+) : WeatherModel(
+    humanDate = humanDate,
+    iconId = iconId,
+    tempMax = tempMax,
+    tempMin = tempMin,
+    description = description,
+    dayOfTheYear = dayOfTheYear
+)
 
 class DayWeatherModel(
     val dayDate: String,
@@ -40,7 +50,7 @@ class DayWeatherModel(
     tempMax = tempMax,
     tempMin = tempMin,
     description = description,
-    dayOFTheYear = dayOfTheYear
+    dayOfTheYear = dayOfTheYear
 )
 
 sealed class HourWeatherModel(val date: Date) {

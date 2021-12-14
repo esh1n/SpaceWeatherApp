@@ -9,7 +9,8 @@ class Temperature(val value: Double, private val units: TemperatureUnit = Temper
             value
         } else {
             val isCelsiusToFahrenheit = units == TemperatureUnit.C
-            val converter = if (isCelsiusToFahrenheit) this::convertCelsiusToFahrenheit else this::convertFahrenheitToCelsius
+            val converter =
+                if (isCelsiusToFahrenheit) ::convertCelsiusToFahrenheit else ::convertFahrenheitToCelsius
             converter(value)
         }
 

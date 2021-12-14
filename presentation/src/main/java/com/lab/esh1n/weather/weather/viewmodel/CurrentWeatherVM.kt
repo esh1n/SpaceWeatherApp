@@ -40,14 +40,12 @@ constructor(
 
     fun mapWeatherDataResource(arg: Resource<Pair<SunsetSunriseTimezonePlaceEntry, List<WeatherWithPlace>>>): Resource<Pair<Int, List<WeatherModel>>> {
         return Resource.map(arg) {
-            val placeId = it.first.id
-            val sunsetSunrise = it.first
-            val weathers = it.second
+            val (sunsetSunrise, weathers) = it
             val weatherModels = if (weathers.isNotEmpty()) cityWeatherModelMapper.map(
                 sunsetSunrise,
                 weathers
             ) else emptyList()
-            return@map Pair(placeId, weatherModels)
+            Pair(sunsetSunrise.id, weatherModels)
         };
     }
 

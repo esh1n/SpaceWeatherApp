@@ -34,15 +34,15 @@ import kotlin.random.Random
 /**
  * Stateless component that is responsible for the entire todo screen.
  *
- * @param items (state) list of [TodoItem] to display
+ * @param items (state) list of [FavouriteItem] to display
  * @param onAddItem (event) request an item be added
  * @param onRemoveItem (event) request an item be removed
  */
 @Composable
 fun FavouritesScreen(
-    items: List<TodoItem>,
-    onItemClicked: (TodoItem) -> Unit,
-    onFavIconItemChange: (TodoItem) -> Unit,
+    items: List<FavouriteItem>,
+    onItemClicked: (FavouriteItem) -> Unit,
+    onFavIconItemChange: (FavouriteItem) -> Unit,
     onGoToSearchPlace: () -> Unit
 ) {
     Column {
@@ -74,31 +74,32 @@ fun FavouritesScreen(
 
 @Composable
 fun FavouritePlaceRow(
-    todo: TodoItem,
-    onItemClicked: (TodoItem) -> Unit,
-    onFavoriteIconItemClicked: (TodoItem) -> Unit,
+    favourite: FavouriteItem,
+    onItemClicked: (FavouriteItem) -> Unit,
+    onFavoriteIconItemClicked: (FavouriteItem) -> Unit,
     modifier: Modifier = Modifier,
-    iconAlpha: Float = remember(todo.id) { randomTint() }
+    iconAlpha: Float = remember(favourite.id) { randomTint() }
 ) {
     Row(
         modifier = modifier
-            .clickable { onItemClicked(todo) }
+            .clickable { onItemClicked(favourite) }
             .padding(horizontal = 16.dp, vertical = 8.dp),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Text(todo.task)
+        Text(favourite.placeName)
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
-            Text(todo.task)
+            Text(favourite.temperature)
             Spacer(modifier = Modifier.width(8.dp))
             Icon(
-                imageVector = todo.icon.imageVector,
+                imageVector = favourite.icon.imageVector,
                 tint = LocalContentColor.current.copy(alpha = iconAlpha),
-                contentDescription = stringResource(id = todo.icon.contentDescription)
+                contentDescription = stringResource(id = favourite.icon.contentDescription)
             )
         }
-        val favouriteIcon = if (todo.favourite) TodoFavIcon.Favourite else TodoFavIcon.UnFavourite
-        IconButton(onClick = { onFavoriteIconItemClicked(todo) }) {
+        val favouriteIcon =
+            if (favourite.favourite) TodoFavIcon.Favourite else TodoFavIcon.UnFavourite
+        IconButton(onClick = { onFavoriteIconItemClicked(favourite) }) {
             Icon(
                 imageVector = favouriteIcon.imageVector,
                 contentDescription = stringResource(id = favouriteIcon.contentDescription),
@@ -115,10 +116,8 @@ private fun randomTint(): Float {
 @Composable
 fun PreviewTodoScreen() {
     val items = listOf(
-        TodoItem("Learn compose", TodoIcon.Event),
-        TodoItem("Take the codelab"),
-        TodoItem("Apply state", TodoIcon.Done),
-        TodoItem("Build dynamic UIs", TodoIcon.Square)
+        FavouriteItem("Sochi", "12%", TodoIcon.Event),
+        FavouriteItem("Voronezh", "12%", TodoIcon.Square, favourite = true),
     )
     FavouritesScreen(items, {}, {}, {})
 }

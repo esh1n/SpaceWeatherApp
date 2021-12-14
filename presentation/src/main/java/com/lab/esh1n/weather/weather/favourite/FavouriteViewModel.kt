@@ -5,22 +5,22 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
 class FavouriteViewModel : ViewModel() {
-    private val _uiState: MutableStateFlow<List<TodoItem>> = MutableStateFlow(
+    private val _uiState: MutableStateFlow<List<FavouriteItem>> = MutableStateFlow(
         listOf(
-            TodoItem("Learn compose", TodoIcon.Event),
-            TodoItem("Take the codelab", favourite = true),
-            TodoItem("Apply state", TodoIcon.Done),
-            TodoItem("Build dynamic UIs", TodoIcon.Square, favourite = true)
+            FavouriteItem("Learn compose", "12%", TodoIcon.Event),
+            FavouriteItem("Take the codelab", "12%", favourite = true),
+            FavouriteItem("Apply state", "12%", TodoIcon.Done),
+            FavouriteItem("Build dynamic UIs", "12%", TodoIcon.Square, favourite = true)
         )
     )
 
     val uiState = _uiState.asStateFlow()
 
-    fun onItemClicked(item: TodoItem) {
+    fun onItemClicked(item: FavouriteItem) {
 
     }
 
-    fun onFavIconItemChange(item: TodoItem) {
+    fun onFavIconItemChange(item: FavouriteItem) {
 
     }
 }

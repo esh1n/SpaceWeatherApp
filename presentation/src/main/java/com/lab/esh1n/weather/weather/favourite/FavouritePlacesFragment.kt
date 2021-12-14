@@ -63,9 +63,9 @@ class FavouritePlacesFragment : Fragment() {
 
     @Composable
     fun FavouritesFlowScreen(
-        favsFlow: Flow<List<TodoItem>>,
-        onItemClicked: (TodoItem) -> Unit,
-        onFavIconItemChange: (TodoItem) -> Unit
+        favsFlow: Flow<List<FavouriteItem>>,
+        onItemClicked: (FavouriteItem) -> Unit,
+        onFavIconItemChange: (FavouriteItem) -> Unit
     ) {
         val lifecycleOwner = LocalLifecycleOwner.current
         val favsFlowLifecycleAware = remember(favsFlow, lifecycleOwner) {

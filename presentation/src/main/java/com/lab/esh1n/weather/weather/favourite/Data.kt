@@ -23,8 +23,9 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import com.lab.esh1n.weather.R
 import java.util.*
 
-data class TodoItem(
-    val task: String,
+data class FavouriteItem(
+    val placeName: String,
+    val temperature: String,
     val icon: TodoIcon = TodoIcon.Default,
     val favourite: Boolean = false,
     // since the user may generate identical tasks, give them each a unique ID

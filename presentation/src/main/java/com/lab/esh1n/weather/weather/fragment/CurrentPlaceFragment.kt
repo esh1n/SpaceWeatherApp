@@ -68,7 +68,7 @@ class CurrentPlaceFragment : BaseVMFragment<CurrentWeatherVM>() {
 
     private fun onWeatherClicked(weatherModel: WeatherModel) {
         placeId?.let {
-            val dateOfYear = weatherModel.dayOFTheYear
+            val dateOfYear = weatherModel.dayOfTheYear
             parentFragment?.parentFragmentManager
                     .addFragmentToStack(ForecastFragment.newInstance(it, title ?: "", dateOfYear))
         }
