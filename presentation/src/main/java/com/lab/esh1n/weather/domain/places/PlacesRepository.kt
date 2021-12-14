@@ -18,6 +18,7 @@ import com.lab.esh1n.weather.domain.places.mapper.PlaceEntryMapper
 import com.lab.esh1n.weather.domain.weather.mapper.ForecastWeatherListMapper
 import com.lab.esh1n.weather.domain.weather.mapper.PlaceListMapper
 import io.reactivex.*
+import io.reactivex.Observable
 import java.lang.reflect.Type
 import java.util.*
 
