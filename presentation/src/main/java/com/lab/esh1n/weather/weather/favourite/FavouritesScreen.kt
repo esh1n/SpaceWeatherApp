@@ -19,30 +19,33 @@ package com.lab.esh1n.weather.weather.favourite
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.lab.esh1n.weather.R
+import com.lab.esh1n.weather.utils.getWeatherStatusImage
 import kotlin.random.Random
 
 /**
  * Stateless component that is responsible for the entire todo screen.
  *
- * @param items (state) list of [FavouriteItem] to display
+ * @param items (state) list of [FavouriteUiModel] to display
  * @param onAddItem (event) request an item be added
  * @param onRemoveItem (event) request an item be removed
  */
 @Composable
 fun FavouritesScreen(
-    items: List<FavouriteItem>,
-    onItemClicked: (FavouriteItem) -> Unit,
-    onFavIconItemChange: (FavouriteItem) -> Unit,
+    uiState: FavouritesUiState,
+    onItemClicked: (FavouriteUiModel) -> Unit,
+    onFavIconItemChange: (FavouriteUiModel) -> Unit,
     onGoToSearchPlace: () -> Unit
 ) {
     Column {
@@ -50,16 +53,17 @@ fun FavouritesScreen(
             modifier = Modifier.weight(1f),
             contentPadding = PaddingValues(top = 8.dp)
         ) {
-            items(items = items) { todo ->
+            itemsIndexed(items = uiState.favs) { index, todo ->
                 FavouritePlaceRow(
                     todo,
                     { onItemClicked(it) },
                     { onFavIconItemChange(it) },
                     Modifier.fillParentMaxWidth()
                 )
+                if (index < uiState.favs.lastIndex)
+                    Divider(color = Color.Black, thickness = 1.dp)
             }
         }
-        // For quick testing, a random item generator button
         Button(
             onClick = { onGoToSearchPlace() },
             modifier = Modifier
@@ -74,38 +78,48 @@ fun FavouritesScreen(
 
 @Composable
 fun FavouritePlaceRow(
-    favourite: FavouriteItem,
-    onItemClicked: (FavouriteItem) -> Unit,
-    onFavoriteIconItemClicked: (FavouriteItem) -> Unit,
-    modifier: Modifier = Modifier,
-    iconAlpha: Float = remember(favourite.id) { randomTint() }
+    favourite: FavouriteUiModel,
+    onItemClicked: (FavouriteUiModel) -> Unit,
+    onFavoriteIconItemClicked: (FavouriteUiModel) -> Unit,
+    modifier: Modifier = Modifier
 ) {
-    Row(
-        modifier = modifier
-            .clickable { onItemClicked(favourite) }
-            .padding(horizontal = 16.dp, vertical = 8.dp),
-        horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Text(favourite.placeName)
-        Column(horizontalAlignment = Alignment.CenterHorizontally) {
-            Text(favourite.temperature)
-            Spacer(modifier = Modifier.width(8.dp))
-            Icon(
-                imageVector = favourite.icon.imageVector,
-                tint = LocalContentColor.current.copy(alpha = iconAlpha),
-                contentDescription = stringResource(id = favourite.icon.contentDescription)
-            )
+    Column(modifier = modifier
+        .clickable { onItemClicked(favourite) }
+        .padding(horizontal = 16.dp, vertical = 8.dp),
+        horizontalAlignment = Alignment.CenterHorizontally) {
+        Row(
+            modifier = modifier,
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(favourite.name)
+            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+
+                Text(stringResource(id = R.string.text_temperature_celsius, favourite.temperature))
+                Spacer(modifier = Modifier.width(4.dp))
+                Icon(
+                    painter = painterResource(
+                        id = LocalContext.current.getWeatherStatusImage(
+                            favourite.icon
+                        )
+                    ),
+                    tint = Color.Unspecified,
+                    contentDescription = favourite.icon
+                )
+            }
+            val favouriteIcon =
+                if (favourite.favourite) TodoFavIcon.Favourite else TodoFavIcon.UnFavourite
+            IconButton(onClick = { onFavoriteIconItemClicked(favourite) }) {
+                Icon(
+                    imageVector = favouriteIcon.imageVector,
+                    contentDescription = stringResource(id = favouriteIcon.contentDescription),
+                )
+            }
         }
-        val favouriteIcon =
-            if (favourite.favourite) TodoFavIcon.Favourite else TodoFavIcon.UnFavourite
-        IconButton(onClick = { onFavoriteIconItemClicked(favourite) }) {
-            Icon(
-                imageVector = favouriteIcon.imageVector,
-                contentDescription = stringResource(id = favouriteIcon.contentDescription),
-            )
-        }
+        Spacer(modifier = Modifier.width(4.dp))
+        Text(favourite.description)
     }
+
 }
 
 private fun randomTint(): Float {
@@ -116,9 +130,9 @@ private fun randomTint(): Float {
 @Composable
 fun PreviewTodoScreen() {
     val items = listOf(
-        FavouriteItem("Sochi", "12%", TodoIcon.Event),
-        FavouriteItem("Voronezh", "12%", TodoIcon.Square, favourite = true),
+        FavouriteUiModel("Sochi", "good", 12, "00d"),
+        FavouriteUiModel("Voronezh", "good", 12, "00d", favourite = true),
     )
-    FavouritesScreen(items, {}, {}, {})
+    FavouritesScreen(FavouritesUiState(items), {}, {}, {})
 }
 

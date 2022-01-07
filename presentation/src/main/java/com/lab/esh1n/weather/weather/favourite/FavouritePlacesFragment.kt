@@ -1,5 +1,6 @@
 package com.lab.esh1n.weather.weather.favourite
 
+import android.content.Context
 import android.os.Bundle
 import android.view.*
 import androidx.compose.material.MaterialTheme
@@ -13,17 +14,28 @@ import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.flowWithLifecycle
 import com.esh1n.core_android.ui.addFragmentToStack
 import com.lab.esh1n.weather.weather.fragment.SearchPlacesFragment
+import dagger.android.support.AndroidSupportInjection
 import kotlinx.coroutines.flow.Flow
+import javax.inject.Inject
 
 
 class FavouritePlacesFragment : Fragment() {
 
+    @Inject
+    lateinit var viewModelFactory: ViewModelProvider.Factory
+
     private var composeView: ComposeView? = null
 
-    private val viewModel by viewModels<FavouriteViewModel>()
+    private val viewModel by viewModels<FavouriteVM>(factoryProducer = { viewModelFactory })
+
+    override fun onAttach(context: Context) {
+        AndroidSupportInjection.inject(this)
+        super.onAttach(context)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -63,18 +75,18 @@ class FavouritePlacesFragment : Fragment() {
 
     @Composable
     fun FavouritesFlowScreen(
-        favsFlow: Flow<List<FavouriteItem>>,
-        onItemClicked: (FavouriteItem) -> Unit,
-        onFavIconItemChange: (FavouriteItem) -> Unit
+        favsFlow: Flow<FavouritesUiState>,
+        onItemClicked: (FavouriteUiModel) -> Unit,
+        onFavIconItemChange: (FavouriteUiModel) -> Unit
     ) {
         val lifecycleOwner = LocalLifecycleOwner.current
         val favsFlowLifecycleAware = remember(favsFlow, lifecycleOwner) {
             favsFlow.flowWithLifecycle(lifecycleOwner.lifecycle, Lifecycle.State.STARTED)
         }
 
-        val items by favsFlowLifecycleAware.collectAsState(emptyList())
+        val uiState by favsFlowLifecycleAware.collectAsState(FavouritesUiState())
         FavouritesScreen(
-            items = items,
+            uiState = uiState,
             onItemClicked = onItemClicked,
             onFavIconItemChange = onFavIconItemChange,
             onGoToSearchPlace = ::openSearchPlacesScreen

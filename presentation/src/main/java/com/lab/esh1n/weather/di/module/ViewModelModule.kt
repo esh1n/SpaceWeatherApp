@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.lab.esh1n.weather.di.base.ViewModelKey
 import com.lab.esh1n.weather.di.weather.WeatherUseCasesModule
+import com.lab.esh1n.weather.weather.favourite.FavouriteVM
 import com.lab.esh1n.weather.weather.viewmodel.*
 import dagger.Binds
 import dagger.Module
@@ -24,6 +25,11 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(CurrentWeatherVM::class)
     abstract fun provideWeatherViewModel(weatherViewModel: CurrentWeatherVM): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(FavouriteVM::class)
+    abstract fun provideFavouriteViewModel(viewModel: FavouriteVM): ViewModel
 
     @Binds
     @IntoMap

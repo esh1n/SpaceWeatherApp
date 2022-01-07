@@ -18,6 +18,7 @@ fun setTemperatureCelsius(tv: TextView, temperatureCelsius: Int?) {
 
 }
 
+
 @BindingAdapter("pressure")
 fun setPressure(tv: TextView, pressure: Int?) {
     pressure?.let {
@@ -97,7 +98,8 @@ fun setTemperatureRange(tv: TextView, tempMin: Int?, tempMax: Int?) {
 
 fun Context.getWeatherStatusImage(iconId: String, prefix: String = "ic_"): Int {
     val res = "${prefix}status_$iconId"
-    return resources.getIdentifier(res, "drawable", packageName)
+    val result = resources.getIdentifier(res, "drawable", packageName)
+    return result
 }
 
 fun Context.getResourceImage(iconId: String, prefix: String = "ic_"): Int {
