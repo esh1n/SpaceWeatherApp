@@ -27,7 +27,7 @@
             android:windowSoftInputMode="adjustPan"
             android:exported="true"
             android:launchMode="singleTop"
-            android:name="com.lab.esh1n.weather.weather.WeatherActivity"
+            android:name="com.lab.esh1n.weather.weather.MainActivity"
             android:screenOrientation="fullSensor">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

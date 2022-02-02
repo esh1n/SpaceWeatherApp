@@ -2,7 +2,7 @@ package com.lab.esh1n.weather.data.cache
 
 import java.util.*
 
-interface IPrefsProvider {
+interface IPrefsInteractor {
     fun getAppUnits(): Units
     fun getServerAPIUnits(): Units
     fun getLocale(): Locale

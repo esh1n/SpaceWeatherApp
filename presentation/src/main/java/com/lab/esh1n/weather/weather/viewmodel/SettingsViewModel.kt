@@ -1,38 +1,32 @@
 package com.lab.esh1n.weather.weather.viewmodel
 
-import android.app.Application
 import com.esh1n.core_android.rx.applyAndroidSchedulers
-import com.esh1n.core_android.ui.viewmodel.BaseAndroidViewModel
-import com.esh1n.core_android.ui.viewmodel.Resource
+import com.esh1n.core_android.ui.BaseVM
 import com.esh1n.core_android.ui.viewmodel.SingleLiveEvent
 import com.lab.esh1n.weather.data.cache.AppPrefs
 import com.lab.esh1n.weather.domain.settings.LoadSettingsUseCase
 import com.lab.esh1n.weather.weather.model.HeaderSettingModel
 import com.lab.esh1n.weather.weather.model.SettingsModel
 import com.lab.esh1n.weather.weather.model.TextSettingModel
-import java.util.*
 import javax.inject.Inject
 
-class SettingsViewModel @Inject constructor(private val loadSettingsUseCase: LoadSettingsUseCase, application: Application) : BaseAndroidViewModel(application) {
+class SettingsViewModel @Inject constructor(private val loadSettingsUseCase: LoadSettingsUseCase) :
+    BaseVM() {
 
 
-    val settings = SingleLiveEvent<Resource<List<SettingsModel>>>()
+    val settings = SingleLiveEvent<List<SettingsModel>>()
 
     fun loadSettings() {
         loadSettingsUseCase.perform(Unit)
-                .map {
-                    Resource.map<HashMap<String, Any>, List<SettingsModel>>(it) { dictionary ->
-                        val settings = arrayListOf<SettingsModel>()
-                        settings.add(HeaderSettingModel(KEY_MAIN_HEADER))
-                        settings.add(TextSettingModel(KEY_LANGUAGE, (dictionary[AppPrefs.KEY_LOCALE] as Locale).displayLanguage))
-                        settings
-                    }
-                }.applyAndroidSchedulers()
-                .subscribe({ result -> settings.postValue(result) },
-                        {
-                            settings.postValue(Resource.error(it))
-                        })
-                .disposeOnDestroy()
+            .map { dictionary ->
+                arrayListOf<SettingsModel>().apply {
+                    add(HeaderSettingModel(KEY_MAIN_HEADER))
+                    val locale = dictionary[AppPrefs.KEY_LOCALE]
+                    locale?.let { add(TextSettingModel(KEY_LANGUAGE, it)) }
+                }
+            }.applyAndroidSchedulers()
+            .subscribe(settings::postValue)
+            .disposeOnDestroy()
     }
 
 

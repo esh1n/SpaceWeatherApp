@@ -17,7 +17,7 @@ import com.esh1n.utils_android.ui.getLocalizedContext
 import com.lab.esh1n.weather.R
 import com.lab.esh1n.weather.data.cache.entity.Temperature
 import com.lab.esh1n.weather.data.cache.entity.WeatherWithPlace
-import com.lab.esh1n.weather.weather.WeatherActivity
+import com.lab.esh1n.weather.weather.MainActivity
 import com.lab.esh1n.weather.weather.mapper.DateFormat
 import com.lab.esh1n.weather.weather.mapper.UiDateListMapper
 import com.lab.esh1n.weather.weather.mapper.UiLocalizer
@@ -28,14 +28,14 @@ class NotificationUtil {
         private fun buildNotification(context: Context,
                                       weatherNotification: WeatherNotification = WeatherNotification.emptyNotification(context)): Notification {
             val pendingIntent: PendingIntent =
-                    Intent(context, WeatherActivity::class.java).let { notificationIntent ->
-                        PendingIntent.getActivity(
-                            context,
-                            0,
-                            notificationIntent,
-                            PendingIntent.FLAG_IMMUTABLE
-                        )
-                    }
+                Intent(context, MainActivity::class.java).let { notificationIntent ->
+                    PendingIntent.getActivity(
+                        context,
+                        0,
+                        notificationIntent,
+                        PendingIntent.FLAG_IMMUTABLE
+                    )
+                }
 
 
             val drawableResourceId = context.getWeatherStatusImage(weatherNotification.iconId)

@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:isScrollContainer="false"
     android:orientation="vertical"
-    tools:context=".weather.WeatherActivity">
+    tools:context=".weather.MainActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
@@ -28,12 +28,5 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:orientation="vertical" />
-
-    <Button
-        android:id="@+id/bt_recreate"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="recreate"
-        android:visibility="gone" />
 
 </LinearLayout>

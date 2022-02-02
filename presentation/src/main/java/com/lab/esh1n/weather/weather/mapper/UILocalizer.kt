@@ -1,7 +1,7 @@
 package com.lab.esh1n.weather.weather.mapper
 
 import com.lab.esh1n.weather.R
-import com.lab.esh1n.weather.data.cache.IPrefsProvider
+import com.lab.esh1n.weather.data.cache.IPrefsInteractor
 import com.lab.esh1n.weather.data.cache.TemperatureUnit
 import com.lab.esh1n.weather.data.cache.Units
 import com.lab.esh1n.weather.data.cache.entity.Temperature
@@ -14,7 +14,7 @@ import java.text.DecimalFormatSymbols
 import java.text.SimpleDateFormat
 import java.util.*
 
-class UILocalizerImpl(private val iPrefsProvider: IPrefsProvider) : UiLocalizer {
+class UILocalizerImpl(private val iPrefsInteractor: IPrefsInteractor) : UiLocalizer {
 
     override fun localizaWindDirection(windDirection: WindDirection): StringResValueProperty {
         val stringsRes = when (windDirection) {
@@ -40,15 +40,15 @@ class UILocalizerImpl(private val iPrefsProvider: IPrefsProvider) : UiLocalizer 
     }
 
     override fun getLocale(): Locale {
-        return iPrefsProvider.getLocale()
+        return iPrefsInteractor.getLocale()
     }
 
     override fun localizeTemperature(temperature: Temperature): OneValueProperty {
         val symbols = DecimalFormatSymbols(getLocale())
         val nf = DecimalFormat("##.#", symbols)
-        val convertedValue = temperature.convertTo(iPrefsProvider.getAppTemperatureUnits())
+        val convertedValue = temperature.convertTo(iPrefsInteractor.getAppTemperatureUnits())
         val formattedValue = nf.format(convertedValue)
-        val stringRes = if (iPrefsProvider.getAppTemperatureUnits() == TemperatureUnit.C)
+        val stringRes = if (iPrefsInteractor.getAppTemperatureUnits() == TemperatureUnit.C)
             R.string.text_temperature_celsius_str_value
         else
             R.string.text_temperature_fahrenheit_str_value
@@ -59,7 +59,7 @@ class UILocalizerImpl(private val iPrefsProvider: IPrefsProvider) : UiLocalizer 
     override fun localizeWindSpeed(windSpeed: WindSpeed): OneValueProperty {
         val symbols = DecimalFormatSymbols(getLocale())
         val nf = DecimalFormat("##.#", symbols)
-        val convertedValue = windSpeed.convertTo(iPrefsProvider.getAppUnits())
+        val convertedValue = windSpeed.convertTo(iPrefsInteractor.getAppUnits())
         val formattedValue = nf.format(convertedValue)
         val stringRes = if (windSpeed.units == Units.METRIC)
             R.string.wind_metric

@@ -1,24 +1,20 @@
 package com.lab.esh1n.weather.weather.viewmodel
 
-import android.app.Application
 import com.esh1n.core_android.rx.applyAndroidSchedulers
-import com.esh1n.core_android.ui.viewmodel.BaseAndroidViewModel
-import com.esh1n.core_android.ui.viewmodel.Resource
+import com.esh1n.core_android.ui.BaseVM
 import com.esh1n.core_android.ui.viewmodel.SingleLiveEvent
 import com.lab.esh1n.weather.domain.places.usecase.CheckDataInitializedUseCase
 import javax.inject.Inject
 
-class RouteVM @Inject constructor(app: Application, private val checkDataInitializedUseCase: CheckDataInitializedUseCase) : BaseAndroidViewModel(app) {
+class RouteVM @Inject constructor(private val checkDataInitializedUseCase: CheckDataInitializedUseCase) :
+    BaseVM() {
 
-    var testString = ""
-    val dataWasInitializedEvent = SingleLiveEvent<Resource<Boolean>>()
+    val dataWasInitializedEvent = SingleLiveEvent<Boolean>()
 
     fun checkIfInitialized() {
-                checkDataInitializedUseCase.perform(Unit)
-                        .applyAndroidSchedulers()
-                        .subscribe { models ->
-                            testString = "opa"
-                            dataWasInitializedEvent.postValue(models)
-                        }.disposeOnDestroy()
+        checkDataInitializedUseCase.perform(Unit)
+            .applyAndroidSchedulers()
+            .subscribe(dataWasInitializedEvent::postValue)
+            .disposeOnDestroy()
     }
 }

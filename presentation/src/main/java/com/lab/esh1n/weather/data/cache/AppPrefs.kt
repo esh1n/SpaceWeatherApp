@@ -4,7 +4,8 @@ import android.content.SharedPreferences
 import io.reactivex.Single
 import java.util.*
 
-class AppPrefs(sharedPreferences: SharedPreferences) : RxPrefs(sharedPreferences), IPrefsProvider {
+class AppPrefs(sharedPreferences: SharedPreferences) : RxPrefs(sharedPreferences),
+    IPrefsInteractor {
 
     override fun getLocale(): Locale {
         return Locale.forLanguageTag(getString(KEY_LOCALE, DEFAULT_LOCALE))
