@@ -1,23 +1,20 @@
 package com.lab.esh1n.weather.data.cache.dao
 
 import androidx.paging.DataSource
-import androidx.room.*
+import androidx.room.Dao
+import androidx.room.Insert
 import androidx.room.OnConflictStrategy.REPLACE
+import androidx.room.Query
+import androidx.room.Transaction
 import com.lab.esh1n.weather.data.cache.entity.PlaceEntry
 import com.lab.esh1n.weather.data.cache.entity.PlaceWithCurrentWeatherEntry
 import com.lab.esh1n.weather.data.cache.entity.SunsetSunriseTimezonePlaceEntry
-import com.lab.esh1n.weather.data.converter.DateConverter
 import io.reactivex.Flowable
 import io.reactivex.Single
-import kotlinx.coroutines.flow.Flow
 import java.util.*
 
 @Dao
-@TypeConverters(DateConverter::class)
 abstract class PlaceDAO {
-
-    @Query("SELECT isLiked from place WHERE id=:id")
-    abstract fun getIsPlaceFavourite(id: Int): Flow<Boolean>
 
     @Query("UPDATE place SET isLiked = :isLiked WHERE id=:id")
     abstract suspend fun changeFavouriteState(id: Int, isLiked: Boolean)

@@ -12,13 +12,14 @@ import com.lab.esh1n.weather.data.api.APIService
 import com.lab.esh1n.weather.data.api.response.PlaceAsset
 import com.lab.esh1n.weather.data.cache.AppPrefs
 import com.lab.esh1n.weather.data.cache.WeatherDB
+import com.lab.esh1n.weather.data.cache.entity.FavoritePlaceEntry
 import com.lab.esh1n.weather.data.cache.entity.PlaceWithCurrentWeatherEntry
 import com.lab.esh1n.weather.domain.ProgressModel
 import com.lab.esh1n.weather.domain.places.mapper.PlaceEntryMapper
 import com.lab.esh1n.weather.domain.weather.mapper.ForecastWeatherListMapper
 import com.lab.esh1n.weather.domain.weather.mapper.PlaceListMapper
 import io.reactivex.*
-import io.reactivex.Observable
+import kotlinx.coroutines.flow.Flow
 import java.lang.reflect.Type
 import java.util.*
 
@@ -27,15 +28,19 @@ class PlacesRepository constructor(private val apiService: APIService, db: Weath
                                    private val appPrefs: AppPrefs, private val assetManager: AssetManager) {
     private val placeDAO = db.placeDAO()
     private val weatherDAO = db.weatherDAO()
+    private val favouritePlaceDAO = db.favouritePlaceDAO()
 
-    fun getIsPlaceFavourite(placeId: Int) = placeDAO.getIsPlaceFavourite(placeId)
+    fun loadFavouritePlaces(): Flow<List<FavoritePlaceEntry>> =
+        favouritePlaceDAO.loadFavouritesPlaces(DateBuilder.now())
+
+    fun getIsPlaceFavourite(placeId: Int) = favouritePlaceDAO.getIsPlaceFavourite(placeId)
 
     suspend fun changeFavouriteState(placeId: Int, isLiked: Boolean) =
         placeDAO.changeFavouriteState(placeId, isLiked)
 
     fun searchPlaces(query: String): Observable<PagedList<PlaceWithCurrentWeatherEntry>> {
-        val now = DateBuilder(Date()).build()
-        return placeDAO.searchPlacesWithCurrentWeather(now, query).toObservable(pageSize = 20)
+        return placeDAO.searchPlacesWithCurrentWeather(DateBuilder.now(), query)
+            .toObservable(pageSize = 20)
     }
 
     fun checkIfCurrentPlaceExist(): Single<Boolean> {

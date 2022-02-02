@@ -7,6 +7,7 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
+import com.lab.esh1n.weather.data.cache.dao.FavouritePlaceDao
 import com.lab.esh1n.weather.data.cache.dao.PlaceDAO
 import com.lab.esh1n.weather.data.cache.dao.WeatherDAO
 import com.lab.esh1n.weather.data.cache.entity.PlaceEntry
@@ -25,6 +26,8 @@ abstract class WeatherDB : RoomDatabase() {
 
     abstract fun placeDAO(): PlaceDAO
 
+    abstract fun favouritePlaceDAO(): FavouritePlaceDao
+
     companion object {
         private const val NAME = "weather.db"
 
@@ -32,8 +35,8 @@ abstract class WeatherDB : RoomDatabase() {
         private var INSTANCE: WeatherDB? = null
 
         fun getInstance(context: Context): WeatherDB =
-                INSTANCE ?: synchronized(this) {
-                    INSTANCE ?: buildDatabase(context).also { INSTANCE = it }
+            INSTANCE ?: synchronized(this) {
+                INSTANCE ?: buildDatabase(context).also { INSTANCE = it }
                 }
 
         private fun buildDatabase(context: Context) =

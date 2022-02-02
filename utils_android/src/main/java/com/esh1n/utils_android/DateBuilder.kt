@@ -164,4 +164,8 @@ class DateBuilder @JvmOverloads constructor(initDate: Date = Date(), timeZoneID:
     fun isSameDay(dayOfTheYear: Int): Boolean {
         return getDayOfYear() == dayOfTheYear
     }
+
+    companion object {
+        fun now() = DateBuilder().build()
+    }
 }
