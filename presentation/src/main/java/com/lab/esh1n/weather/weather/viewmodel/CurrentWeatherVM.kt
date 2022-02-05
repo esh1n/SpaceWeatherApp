@@ -1,20 +1,18 @@
 package com.lab.esh1n.weather.weather.viewmodel
 
-import android.app.Application
 import androidx.lifecycle.MutableLiveData
 import com.esh1n.core_android.rx.SchedulersFacade
 import com.esh1n.core_android.rx.applyAndroidSchedulers
-import com.esh1n.core_android.ui.viewmodel.BaseAndroidViewModel
+import com.esh1n.core_android.ui.viewmodel.AutoClearViewModel
 import com.esh1n.core_android.ui.viewmodel.Resource
 import com.esh1n.core_android.ui.viewmodel.SingleLiveEvent
-import com.lab.esh1n.weather.data.cache.AppPrefs
 import com.lab.esh1n.weather.data.cache.entity.SunsetSunriseTimezonePlaceEntry
 import com.lab.esh1n.weather.data.cache.entity.WeatherWithPlace
+import com.lab.esh1n.weather.domain.IPrefsInteractor
+import com.lab.esh1n.weather.domain.IUILocalisator
 import com.lab.esh1n.weather.domain.weather.usecases.FetchAndSaveCurrentPlaceWeatherUseCase
 import com.lab.esh1n.weather.domain.weather.usecases.LoadCurrentWeatherSingleUseCase
 import com.lab.esh1n.weather.domain.weather.usecases.LoadCurrentWeatherUseCase
-import com.lab.esh1n.weather.utils.NotificationUtil
-import com.lab.esh1n.weather.weather.mapper.UiLocalizer
 import com.lab.esh1n.weather.weather.mapper.WeatherModelMapper
 import com.lab.esh1n.weather.weather.model.WeatherModel
 import javax.inject.Inject
@@ -29,12 +27,12 @@ constructor(
     private val loadCurrentWeatherUseCase: LoadCurrentWeatherUseCase,
     private val loadCurrentWeatherSingleUseCase: LoadCurrentWeatherSingleUseCase,
     private val fetchAndSaveWeatherUseCase: FetchAndSaveCurrentPlaceWeatherUseCase,
-    appPrefs: AppPrefs, private val uiLocalizer: UiLocalizer, application: Application
-) : BaseAndroidViewModel(application) {
+    prefsInteractor: IPrefsInteractor, private val uiLocalizer: IUILocalisator
+) : AutoClearViewModel() {
 
     val refreshOperation = SingleLiveEvent<Resource<Unit>>()
     private val weatherLiveData = MutableLiveData<Resource<Pair<Int, List<WeatherModel>>>>()
-    private val cityWeatherModelMapper = WeatherModelMapper(uiLocalizer, appPrefs)
+    private val cityWeatherModelMapper = WeatherModelMapper(uiLocalizer, prefsInteractor)
 
     fun getWeatherLiveData() = weatherLiveData
 
@@ -70,7 +68,8 @@ constructor(
         fetchAndSaveWeatherUseCase.perform(Unit)
             .flatMap { loadCurrentWeatherSingleUseCase.perform(Unit) }
             .doOnSuccess {
-                NotificationUtil.sendCurrentWeatherNotification(it, getApplication(), uiLocalizer)
+                //TODO move Notification util to DI
+                //NotificationUtil.sendCurrentWeatherNotification(it, getApplication(), uiLocalizer)
             }
             .doOnSubscribe { _ ->
                 refreshOperation.postValue(Resource.loading())

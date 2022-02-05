@@ -1,11 +1,14 @@
-package com.lab.esh1n.weather.data.cache
+package com.lab.esh1n.weather.domain
 
+import io.reactivex.Single
 import java.util.*
 
 interface IPrefsInteractor {
-    fun getAppUnits(): Units
+    fun getMeasureUnits(): Units
     fun getServerAPIUnits(): Units
-    fun getLocale(): Locale
+    fun getLocale(): Single<Locale>
+    fun getLanguage(): Single<String>
+    fun getLocaleBlocking(): Locale
     fun getAppTemperatureUnits(): TemperatureUnit
     fun getServerAPITemperatureUnits(): TemperatureUnit
 }

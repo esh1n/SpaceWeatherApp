@@ -4,13 +4,15 @@ import com.esh1n.core_android.map.Mapper
 import com.esh1n.utils_android.DateBuilder
 import com.esh1n.utils_android.country.Country
 import com.lab.esh1n.weather.data.cache.entity.PlaceWithCurrentWeatherEntry
+import com.lab.esh1n.weather.domain.IUILocalisator
 import com.lab.esh1n.weather.weather.model.NoDataBackgroundModel
 import com.lab.esh1n.weather.weather.model.PlaceModel
 import com.lab.esh1n.weather.weather.model.SimpleBackgroundModel
 import java.util.*
 import kotlin.math.roundToInt
 
-class PlaceWeatherListMapper(private val uiLocalizer: UiLocalizer) : Mapper<PlaceWithCurrentWeatherEntry, PlaceModel>() {
+class PlaceWeatherListMapper(private val uiLocalizer: IUILocalisator) :
+    Mapper<PlaceWithCurrentWeatherEntry, PlaceModel>() {
     override fun map(source: PlaceWithCurrentWeatherEntry): PlaceModel {
         val uiDateMapper = uiLocalizer.provideDateMapper(source.timezone, DateFormat.HOUR)
         val dateBuilder = DateBuilder(source.date ?: Date(), source.timezone)

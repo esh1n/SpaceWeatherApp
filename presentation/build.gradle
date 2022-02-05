@@ -10,6 +10,10 @@ def keystorePropertiesFile = rootProject.file("keystore.properties")
 def keystoreProperties = new Properties()
 keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 
+def propertiesFile = rootProject.file('local.properties')
+def properties = new Properties()
+properties.load(new FileInputStream(propertiesFile))
+
 android {
 
     kotlinOptions {
@@ -35,7 +39,7 @@ android {
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
-        buildConfigField "String", "APP_ID", '"542ffd081e67f4512b705f89d2a611b2"'
+        buildConfigField "String", "APP_ID", properties.getProperty("APP_ID")
     }
     buildTypes {
         release {

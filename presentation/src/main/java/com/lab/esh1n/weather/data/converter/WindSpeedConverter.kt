@@ -1,8 +1,8 @@
 package com.lab.esh1n.weather.data.converter
 
 import androidx.room.TypeConverter
-import com.lab.esh1n.weather.data.cache.Units
 import com.lab.esh1n.weather.data.cache.entity.WindSpeed
+import com.lab.esh1n.weather.domain.Units
 
 class WindSpeedConverter {
 

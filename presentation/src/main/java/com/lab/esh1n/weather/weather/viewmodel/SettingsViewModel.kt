@@ -1,7 +1,7 @@
 package com.lab.esh1n.weather.weather.viewmodel
 
 import com.esh1n.core_android.rx.applyAndroidSchedulers
-import com.esh1n.core_android.ui.BaseVM
+import com.esh1n.core_android.ui.viewmodel.AutoClearViewModel
 import com.esh1n.core_android.ui.viewmodel.SingleLiveEvent
 import com.lab.esh1n.weather.data.cache.AppPrefs
 import com.lab.esh1n.weather.domain.settings.LoadSettingsUseCase
@@ -11,7 +11,7 @@ import com.lab.esh1n.weather.weather.model.TextSettingModel
 import javax.inject.Inject
 
 class SettingsViewModel @Inject constructor(private val loadSettingsUseCase: LoadSettingsUseCase) :
-    BaseVM() {
+    AutoClearViewModel() {
 
 
     val settings = SingleLiveEvent<List<SettingsModel>>()

@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 
-open class AutoClearViewModel : ViewModel() {
+abstract class AutoClearViewModel : ViewModel() {
     private val disposables = CompositeDisposable()
 
     override fun onCleared() {

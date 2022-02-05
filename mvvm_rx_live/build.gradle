@@ -43,6 +43,7 @@ dependencies {
     api rootProject.ext.dagger.android_support
 
     api rootProject.ext.rxJava2
+    api rootProject.ext.rxKotlin
     api rootProject.ext.rxAndroid
     api rootProject.ext.lifecycle.runtime
     api rootProject.ext.lifecycle.reactivestreams

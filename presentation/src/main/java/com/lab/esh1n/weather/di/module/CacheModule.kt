@@ -6,8 +6,9 @@ import android.content.SharedPreferences
 import android.content.res.AssetManager
 import com.lab.esh1n.weather.data.cache.AppPrefs
 import com.lab.esh1n.weather.data.cache.WeatherDB
+import com.lab.esh1n.weather.domain.IPrefsInteractor
+import com.lab.esh1n.weather.domain.IUILocalisator
 import com.lab.esh1n.weather.weather.mapper.UILocalizerImpl
-import com.lab.esh1n.weather.weather.mapper.UiLocalizer
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -22,7 +23,7 @@ class CacheModule {
 
     @Provides
     @Singleton
-    fun provideAppPrefs(sharedPrefs: SharedPreferences): AppPrefs {
+    fun provideAppPrefs(sharedPrefs: SharedPreferences): IPrefsInteractor {
         return AppPrefs(sharedPrefs)
     }
 
@@ -34,9 +35,7 @@ class CacheModule {
 
     @Provides
     @Singleton
-    fun provideUiLocalizer(prefs: AppPrefs): UiLocalizer {
+    fun provideUiLocalizer(prefs: IPrefsInteractor): IUILocalisator {
         return UILocalizerImpl(prefs)
     }
-
-
 }

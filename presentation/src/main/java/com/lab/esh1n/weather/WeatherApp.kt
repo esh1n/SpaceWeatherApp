@@ -2,10 +2,10 @@ package com.lab.esh1n.weather
 
 import android.app.Application
 import android.content.Context
-import com.lab.esh1n.weather.data.cache.AppPrefs
 import com.lab.esh1n.weather.di.component.AppComponent
 import com.lab.esh1n.weather.di.component.DaggerAppComponent
 import com.lab.esh1n.weather.di.component.WorkerComponent
+import com.lab.esh1n.weather.domain.IPrefsInteractor
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
 import java.util.*
@@ -18,14 +18,11 @@ import javax.inject.Inject
 
 class WeatherApp : Application(), HasAndroidInjector {
 
+    @Inject
+    lateinit var prefsInteractor: IPrefsInteractor
 
     @Inject
     lateinit var activityDispatchingAndroidInjector: DispatchingAndroidInjector<Any>
-
-
-    @Inject
-    lateinit var appPrefs: AppPrefs
-
 
     override fun androidInjector() = activityDispatchingAndroidInjector
 
@@ -46,10 +43,7 @@ class WeatherApp : Application(), HasAndroidInjector {
 
     }
 
-
-    fun getLocaleBlocking(): Locale {
-        return appPrefs.getLocale()
-    }
+    fun getLocale(): Locale = prefsInteractor.getLocale().blockingGet()
 
     companion object {
         fun getWorkerComponent(context: Context): WorkerComponent {

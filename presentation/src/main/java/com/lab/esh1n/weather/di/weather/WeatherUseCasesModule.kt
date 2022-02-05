@@ -1,7 +1,7 @@
 package com.lab.esh1n.weather.di.weather
 
 import com.esh1n.core_android.error.ErrorsHandler
-import com.lab.esh1n.weather.data.cache.AppPrefs
+import com.lab.esh1n.weather.domain.IPrefsInteractor
 import com.lab.esh1n.weather.domain.places.PlacesRepository
 import com.lab.esh1n.weather.domain.places.usecase.*
 import com.lab.esh1n.weather.domain.settings.LoadSettingsUseCase
@@ -34,7 +34,10 @@ class WeatherUseCasesModule {
     }
 
     @Provides
-    fun provideLoadSettingsUseCase(prefs: AppPrefs, errorsHandler: ErrorsHandler): LoadSettingsUseCase {
+    fun provideLoadSettingsUseCase(
+        prefs: IPrefsInteractor,
+        errorsHandler: ErrorsHandler
+    ): LoadSettingsUseCase {
         return LoadSettingsUseCase(prefs, errorsHandler)
     }
 

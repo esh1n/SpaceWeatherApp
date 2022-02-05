@@ -3,16 +3,18 @@ package com.lab.esh1n.weather.weather.mapper
 import com.esh1n.core_android.map.Mapper
 import com.esh1n.utils_android.DateBuilder
 import com.lab.esh1n.weather.R
-import com.lab.esh1n.weather.data.cache.TemperatureUnit
-import com.lab.esh1n.weather.data.cache.Units
 import com.lab.esh1n.weather.data.cache.entity.Temperature
 import com.lab.esh1n.weather.data.cache.entity.WeatherWithPlace
 import com.lab.esh1n.weather.data.cache.entity.WindSpeed
+import com.lab.esh1n.weather.domain.IUILocalisator
+import com.lab.esh1n.weather.domain.TemperatureUnit
+import com.lab.esh1n.weather.domain.Units
 import com.lab.esh1n.weather.utils.OneValueProperty
 import com.lab.esh1n.weather.utils.StringResValueProperty
 import com.lab.esh1n.weather.weather.adapter.*
 
-class DayForecastSectionsMapper(private val uiLocalizer: UiLocalizer) : Mapper<List<WeatherWithPlace>, List<Pair<DayForecastSection, List<DaytimeForecastModel>>>>() {
+class DayForecastSectionsMapper(private val uiLocalizer: IUILocalisator) :
+    Mapper<List<WeatherWithPlace>, List<Pair<DayForecastSection, List<DaytimeForecastModel>>>>() {
     override fun map(source: List<WeatherWithPlace>): List<Pair<DayForecastSection, List<DaytimeForecastModel>>> {
         val firstWeather = source[0]
         val timezone = firstWeather.timezone
@@ -52,10 +54,11 @@ class DayForecastSectionsMapper(private val uiLocalizer: UiLocalizer) : Mapper<L
             val degreesWithAverageDirection = windDegrees.filter { it.direction == averageWindDirection }.map { it.degree }
             val averageWindDegree = AverageWeatherUtil.average(degreesWithAverageDirection)
             windItems.add(DayWindForecastModel(
-                    dayTime = StringResValueProperty(titles[index]), iconId = "wind",
-                    windSpeed = uiLocalizer.localizeWindSpeed(WindSpeed(averageSpeed, Units.METRIC)),
-                    windDirection = uiLocalizer.localizaWindDirection(averageWindDirection),
-                    windDegree = averageWindDegree.toFloat()))
+                dayTime = StringResValueProperty(titles[index]), iconId = "wind",
+                windSpeed = uiLocalizer.localizeWindSpeed(WindSpeed(averageSpeed, Units.METRIC)),
+                windDirection = uiLocalizer.localizeWindDirection(averageWindDirection),
+                windDegree = averageWindDegree.toFloat()
+            ))
         }
         return Pair(DayForecastSection.WIND, windItems)
     }

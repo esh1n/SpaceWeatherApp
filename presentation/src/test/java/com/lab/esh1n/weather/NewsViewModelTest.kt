@@ -7,12 +7,12 @@ import com.esh1n.core_android.ui.viewmodel.Resource
 import com.google.common.truth.Truth
 import com.lab.esh1n.weather.data.cache.entity.SunsetSunriseTimezonePlaceEntry
 import com.lab.esh1n.weather.data.cache.entity.WeatherWithPlace
+import com.lab.esh1n.weather.domain.IUILocalisator
 import com.lab.esh1n.weather.domain.weather.usecases.FetchAndSaveCurrentPlaceWeatherUseCase
 import com.lab.esh1n.weather.domain.weather.usecases.LoadCurrentWeatherSingleUseCase
 import com.lab.esh1n.weather.domain.weather.usecases.LoadCurrentWeatherUseCase
 import com.lab.esh1n.weather.utils.RxImmediateSchedulerRule
 import com.lab.esh1n.weather.utils.getOrAwaitValue
-import com.lab.esh1n.weather.weather.mapper.UiLocalizer
 import com.lab.esh1n.weather.weather.mapper.WeatherModelMapper
 import com.lab.esh1n.weather.weather.model.DayWeatherModel
 import com.lab.esh1n.weather.weather.viewmodel.CurrentWeatherVM
@@ -50,7 +50,7 @@ class NewsViewModelTest {
 
 
     @MockK
-    lateinit var localizer: UiLocalizer
+    lateinit var localizer: IUILocalisator
 
 
     @Before

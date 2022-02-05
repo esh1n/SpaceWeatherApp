@@ -1,6 +1,5 @@
 package com.lab.esh1n.weather.weather.viewmodel
 
-import android.app.Application
 import androidx.lifecycle.MutableLiveData
 import androidx.paging.PagedList
 import com.esh1n.core_android.rx.applyAndroidSchedulers
@@ -9,12 +8,13 @@ import com.esh1n.core_android.ui.viewmodel.Resource
 import com.esh1n.core_android.ui.viewmodel.SingleLiveEvent
 import com.lab.esh1n.weather.data.cache.entity.PlaceWithCurrentWeatherEntry
 import com.lab.esh1n.weather.data.cache.entity.WeatherWithPlace
+import com.lab.esh1n.weather.domain.IUILocalisator
 import com.lab.esh1n.weather.domain.places.usecase.GetAllPlacesUse
 import com.lab.esh1n.weather.domain.places.usecase.UpdateCurrentPlaceUseCase
 import com.lab.esh1n.weather.domain.weather.usecases.LoadCurrentWeatherSingleUseCase
 import com.lab.esh1n.weather.utils.NotificationUtil
+import com.lab.esh1n.weather.weather.common.LocalisedContextProvider
 import com.lab.esh1n.weather.weather.mapper.PlaceWeatherListMapper
-import com.lab.esh1n.weather.weather.mapper.UiLocalizer
 import com.lab.esh1n.weather.weather.model.PlaceModel
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -25,8 +25,8 @@ class AllPlacesVM @Inject constructor(
     private val loadPlacesUseCase: GetAllPlacesUse,
     private val loadCurrentPlaceUseCase: LoadCurrentWeatherSingleUseCase,
     private var updateCurrentPlaceUseCase: UpdateCurrentPlaceUseCase,
-    private val application: Application,
-    private val uiLocalizer: UiLocalizer
+    private val localisedContextProvider: LocalisedContextProvider,
+    private val uiLocalizer: IUILocalisator
 ) : AutoClearViewModel() {
 
     val updateCurrentPlaceOperation = SingleLiveEvent<Resource<WeatherWithPlace>>()
@@ -51,7 +51,7 @@ class AllPlacesVM @Inject constructor(
 
                 NotificationUtil.sendCurrentWeatherNotification(
                     result,
-                    application,
+                    localisedContextProvider.getLocalisedContext(),
                     uiLocalizer
                 )
                 updateCurrentPlaceOperation.postValue(result)

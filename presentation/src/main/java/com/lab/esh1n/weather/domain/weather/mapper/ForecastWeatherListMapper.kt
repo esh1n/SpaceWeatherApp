@@ -2,12 +2,12 @@ package com.lab.esh1n.weather.domain.weather.mapper
 
 import com.esh1n.core_android.map.ListMapper
 import com.lab.esh1n.weather.data.api.response.ForecastItemResponse
-import com.lab.esh1n.weather.data.cache.TemperatureUnit
-import com.lab.esh1n.weather.data.cache.Units
 import com.lab.esh1n.weather.data.cache.entity.Temperature
 import com.lab.esh1n.weather.data.cache.entity.WeatherEntry
 import com.lab.esh1n.weather.data.cache.entity.WindSpeed
 import com.lab.esh1n.weather.data.converter.WindDegreeConverter
+import com.lab.esh1n.weather.domain.TemperatureUnit
+import com.lab.esh1n.weather.domain.Units
 import java.util.*
 
 class ForecastWeatherListMapper(val placeId: Int, private val unitMetric: Units) : ListMapper<ForecastItemResponse, WeatherEntry>() {

@@ -2,10 +2,11 @@ package com.lab.esh1n.weather.weather.mapper
 
 import com.esh1n.utils_android.DateBuilder
 import com.lab.esh1n.weather.R
-import com.lab.esh1n.weather.data.cache.AppPrefs
 import com.lab.esh1n.weather.data.cache.entity.SunsetSunriseTimezonePlaceEntry
 import com.lab.esh1n.weather.data.cache.entity.WeatherWithPlace
 import com.lab.esh1n.weather.data.cache.entity.WindSpeed
+import com.lab.esh1n.weather.domain.IPrefsInteractor
+import com.lab.esh1n.weather.domain.IUILocalisator
 import com.lab.esh1n.weather.utils.StringResValueProperty
 import com.lab.esh1n.weather.weather.model.*
 import java.util.*
@@ -13,7 +14,10 @@ import kotlin.math.abs
 import kotlin.math.roundToInt
 
 
-class WeatherModelMapper(private val uiLocalize: UiLocalizer, private val prefs: AppPrefs) {
+class WeatherModelMapper(
+    private val uiLocalize: IUILocalisator,
+    private val prefs: IPrefsInteractor
+) {
 
 
     fun map(
@@ -218,7 +222,7 @@ class WeatherModelMapper(private val uiLocalize: UiLocalizer, private val prefs:
         )
 
         val localizedWind =
-            uiLocalize.localizeWindSpeed(WindSpeed(now.windSpeed.value, prefs.getAppUnits()))
+            uiLocalize.localizeWindSpeed(WindSpeed(now.windSpeed.value, prefs.getMeasureUnits()))
         hourWeathers.add(
             0,
             HeaderHourWeatherModel(
