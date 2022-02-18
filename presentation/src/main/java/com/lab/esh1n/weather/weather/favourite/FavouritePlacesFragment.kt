@@ -2,21 +2,20 @@ package com.lab.esh1n.weather.weather.favourite
 
 import android.content.Context
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.ViewGroup
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.ComposeView
-import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.flowWithLifecycle
 import com.esh1n.core_android.ui.addFragmentToStack
+import com.lab.esh1n.weather.utils.withCurrentLifecycle
 import com.lab.esh1n.weather.weather.fragment.SearchPlacesFragment
 import dagger.android.support.AndroidSupportInjection
 import kotlinx.coroutines.flow.Flow
@@ -41,22 +40,20 @@ class FavouritePlacesFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
-
-        return ComposeView(requireContext()).apply {
-            setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
-            setContent {
-                MaterialTheme {
-                    FavouritesFlowScreen(
-                        favsFlow = viewModel.uiState,
-                        viewModel::onItemClicked,
-                        viewModel::onFavIconItemChange
-                    )
-                }
+    ) = ComposeView(requireContext()).apply {
+        setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
+        setContent {
+            MaterialTheme {
+                FavouritesFlowScreen(
+                    favsFlow = viewModel.uiState,
+                    viewModel::onItemClicked,
+                    viewModel::onFavIconItemChange
+                )
             }
-            composeView = this
         }
+        composeView = this
     }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -79,19 +76,15 @@ class FavouritePlacesFragment : Fragment() {
         onItemClicked: (FavouriteUiModel) -> Unit,
         onFavIconItemChange: (FavouriteUiModel) -> Unit
     ) {
-        val lifecycleOwner = LocalLifecycleOwner.current
-        val favsFlowLifecycleAware = remember(favsFlow, lifecycleOwner) {
-            favsFlow.flowWithLifecycle(lifecycleOwner.lifecycle, Lifecycle.State.STARTED)
-        }
-
-        val uiState by favsFlowLifecycleAware.collectAsState(FavouritesUiState())
+        val state = favsFlow.withCurrentLifecycle().collectAsState(FavouritesUiState())
         FavouritesScreen(
-            uiState = uiState,
+            uiState = state.value,
             onItemClicked = onItemClicked,
             onFavIconItemChange = onFavIconItemChange,
             onGoToSearchPlace = ::openSearchPlacesScreen
         )
     }
+
 
     override fun onDestroyView() {
         super.onDestroyView()
