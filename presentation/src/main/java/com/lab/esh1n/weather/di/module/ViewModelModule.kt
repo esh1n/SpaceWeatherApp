@@ -44,8 +44,8 @@ abstract class ViewModelModule {
 
     @Binds
     @IntoMap
-    @ViewModelKey(SettingsViewModel::class)
-    abstract fun provideSettingsViewModel(weatherVM: SettingsViewModel): ViewModel
+    @ViewModelKey(SettingsVM::class)
+    abstract fun provideSettingsViewModel(weatherVM: SettingsVM): ViewModel
 
     @Binds
     @IntoMap

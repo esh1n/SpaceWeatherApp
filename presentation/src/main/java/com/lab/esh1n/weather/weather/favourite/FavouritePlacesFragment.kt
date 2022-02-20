@@ -27,8 +27,6 @@ class FavouritePlacesFragment : Fragment() {
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
-    private var composeView: ComposeView? = null
-
     private val viewModel by viewModels<FavouriteVM>(factoryProducer = { viewModelFactory })
 
     override fun onAttach(context: Context) {
@@ -51,7 +49,6 @@ class FavouritePlacesFragment : Fragment() {
                 )
             }
         }
-        composeView = this
     }
 
 
@@ -83,12 +80,6 @@ class FavouritePlacesFragment : Fragment() {
             onFavIconItemChange = onFavIconItemChange,
             onGoToSearchPlace = ::openSearchPlacesScreen
         )
-    }
-
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        composeView = null
     }
 }
 

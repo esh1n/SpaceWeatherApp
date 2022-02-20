@@ -4,10 +4,10 @@ import com.lab.esh1n.weather.R
 import com.lab.esh1n.weather.data.cache.entity.Temperature
 import com.lab.esh1n.weather.data.cache.entity.WindDirection
 import com.lab.esh1n.weather.data.cache.entity.WindSpeed
-import com.lab.esh1n.weather.domain.IPrefsInteractor
 import com.lab.esh1n.weather.domain.IUILocalisator
-import com.lab.esh1n.weather.domain.TemperatureUnit
-import com.lab.esh1n.weather.domain.Units
+import com.lab.esh1n.weather.domain.prefs.IPrefsInteractor
+import com.lab.esh1n.weather.domain.prefs.TemperatureUnit
+import com.lab.esh1n.weather.domain.prefs.Units
 import com.lab.esh1n.weather.utils.OneValueProperty
 import com.lab.esh1n.weather.utils.StringResValueProperty
 import java.text.DecimalFormat

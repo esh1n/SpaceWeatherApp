@@ -13,9 +13,9 @@ import com.lab.esh1n.weather.data.api.response.PlaceAsset
 import com.lab.esh1n.weather.data.cache.WeatherDB
 import com.lab.esh1n.weather.data.cache.entity.FavoritePlaceEntry
 import com.lab.esh1n.weather.data.cache.entity.PlaceWithCurrentWeatherEntry
-import com.lab.esh1n.weather.domain.IPrefsInteractor
 import com.lab.esh1n.weather.domain.ProgressModel
 import com.lab.esh1n.weather.domain.places.mapper.PlaceEntryMapper
+import com.lab.esh1n.weather.domain.prefs.IPrefsInteractor
 import com.lab.esh1n.weather.domain.weather.mapper.ForecastWeatherListMapper
 import com.lab.esh1n.weather.domain.weather.mapper.PlaceListMapper
 import io.reactivex.*

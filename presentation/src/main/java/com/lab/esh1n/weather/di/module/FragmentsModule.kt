@@ -4,6 +4,7 @@ package com.lab.esh1n.weather.di.module
 import com.lab.esh1n.weather.di.weather.WeatherUseCasesModule
 import com.lab.esh1n.weather.weather.favourite.FavouritePlacesFragment
 import com.lab.esh1n.weather.weather.fragment.*
+import com.lab.esh1n.weather.weather.settings.SettingsFragment
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 

@@ -8,8 +8,8 @@ import com.esh1n.core_android.ui.viewmodel.Resource
 import com.esh1n.core_android.ui.viewmodel.SingleLiveEvent
 import com.lab.esh1n.weather.data.cache.entity.SunsetSunriseTimezonePlaceEntry
 import com.lab.esh1n.weather.data.cache.entity.WeatherWithPlace
-import com.lab.esh1n.weather.domain.IPrefsInteractor
 import com.lab.esh1n.weather.domain.IUILocalisator
+import com.lab.esh1n.weather.domain.prefs.IPrefsInteractor
 import com.lab.esh1n.weather.domain.weather.usecases.FetchAndSaveCurrentPlaceWeatherUseCase
 import com.lab.esh1n.weather.domain.weather.usecases.LoadCurrentWeatherSingleUseCase
 import com.lab.esh1n.weather.domain.weather.usecases.LoadCurrentWeatherUseCase

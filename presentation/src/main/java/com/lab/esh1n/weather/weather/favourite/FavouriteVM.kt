@@ -2,8 +2,8 @@ package com.lab.esh1n.weather.weather.favourite
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.lab.esh1n.weather.domain.TemperatureUnit
 import com.lab.esh1n.weather.domain.places.PlacesRepository
+import com.lab.esh1n.weather.domain.prefs.TemperatureUnit
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collect

@@ -2,7 +2,7 @@ package com.lab.esh1n.weather.data.converter
 
 import androidx.room.TypeConverter
 import com.lab.esh1n.weather.data.cache.entity.Temperature
-import com.lab.esh1n.weather.domain.TemperatureUnit
+import com.lab.esh1n.weather.domain.prefs.TemperatureUnit
 
 class TemperatureConverter {
     @TypeConverter

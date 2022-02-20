@@ -1,10 +1,8 @@
 package com.lab.esh1n.weather.di.weather
 
 import com.esh1n.core_android.error.ErrorsHandler
-import com.lab.esh1n.weather.domain.IPrefsInteractor
 import com.lab.esh1n.weather.domain.places.PlacesRepository
 import com.lab.esh1n.weather.domain.places.usecase.*
-import com.lab.esh1n.weather.domain.settings.LoadSettingsUseCase
 import com.lab.esh1n.weather.domain.weather.WeatherRepository
 import com.lab.esh1n.weather.domain.weather.usecases.*
 import dagger.Module
@@ -31,14 +29,6 @@ class WeatherUseCasesModule {
     @Provides
     fun provideFetchPlaceForecastUseCase(weatherRepository: WeatherRepository, errorsHandler: ErrorsHandler): FetchPlaceForecastUseCase {
         return FetchPlaceForecastUseCase(weatherRepository, errorsHandler)
-    }
-
-    @Provides
-    fun provideLoadSettingsUseCase(
-        prefs: IPrefsInteractor,
-        errorsHandler: ErrorsHandler
-    ): LoadSettingsUseCase {
-        return LoadSettingsUseCase(prefs, errorsHandler)
     }
 
     @Provides

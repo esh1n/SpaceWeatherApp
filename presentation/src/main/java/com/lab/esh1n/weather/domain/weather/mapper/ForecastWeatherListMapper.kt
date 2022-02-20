@@ -6,8 +6,8 @@ import com.lab.esh1n.weather.data.cache.entity.Temperature
 import com.lab.esh1n.weather.data.cache.entity.WeatherEntry
 import com.lab.esh1n.weather.data.cache.entity.WindSpeed
 import com.lab.esh1n.weather.data.converter.WindDegreeConverter
-import com.lab.esh1n.weather.domain.TemperatureUnit
-import com.lab.esh1n.weather.domain.Units
+import com.lab.esh1n.weather.domain.prefs.TemperatureUnit
+import com.lab.esh1n.weather.domain.prefs.Units
 import java.util.*
 
 class ForecastWeatherListMapper(val placeId: Int, private val unitMetric: Units) : ListMapper<ForecastItemResponse, WeatherEntry>() {

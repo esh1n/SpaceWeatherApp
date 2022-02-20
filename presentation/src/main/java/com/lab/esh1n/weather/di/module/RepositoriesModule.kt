@@ -3,8 +3,8 @@ package com.lab.esh1n.weather.di.module
 import android.content.res.AssetManager
 import com.lab.esh1n.weather.data.api.APIService
 import com.lab.esh1n.weather.data.cache.WeatherDB
-import com.lab.esh1n.weather.domain.IPrefsInteractor
 import com.lab.esh1n.weather.domain.places.PlacesRepository
+import com.lab.esh1n.weather.domain.prefs.IPrefsInteractor
 import com.lab.esh1n.weather.domain.weather.WeatherRepository
 import dagger.Module
 import dagger.Provides

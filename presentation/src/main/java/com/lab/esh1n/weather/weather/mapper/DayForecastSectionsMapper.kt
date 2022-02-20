@@ -7,8 +7,8 @@ import com.lab.esh1n.weather.data.cache.entity.Temperature
 import com.lab.esh1n.weather.data.cache.entity.WeatherWithPlace
 import com.lab.esh1n.weather.data.cache.entity.WindSpeed
 import com.lab.esh1n.weather.domain.IUILocalisator
-import com.lab.esh1n.weather.domain.TemperatureUnit
-import com.lab.esh1n.weather.domain.Units
+import com.lab.esh1n.weather.domain.prefs.TemperatureUnit
+import com.lab.esh1n.weather.domain.prefs.Units
 import com.lab.esh1n.weather.utils.OneValueProperty
 import com.lab.esh1n.weather.utils.StringResValueProperty
 import com.lab.esh1n.weather.weather.adapter.*

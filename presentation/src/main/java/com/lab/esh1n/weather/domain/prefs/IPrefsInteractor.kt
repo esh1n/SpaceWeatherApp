@@ -1,5 +1,6 @@
-package com.lab.esh1n.weather.domain
+package com.lab.esh1n.weather.domain.prefs
 
+import io.reactivex.Observable
 import io.reactivex.Single
 import java.util.*
 
@@ -11,6 +12,7 @@ interface IPrefsInteractor {
     fun getLocaleBlocking(): Locale
     fun getAppTemperatureUnits(): TemperatureUnit
     fun getServerAPITemperatureUnits(): TemperatureUnit
+    fun getUserSettingsObservable(): Observable<UserSettings>
 }
 
 enum class Units(val serverValue: String) {

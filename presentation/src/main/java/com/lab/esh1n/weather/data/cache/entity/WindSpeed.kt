@@ -1,6 +1,6 @@
 package com.lab.esh1n.weather.data.cache.entity
 
-import com.lab.esh1n.weather.domain.Units
+import com.lab.esh1n.weather.domain.prefs.Units
 
 class WindSpeed(val value: Double, val units: Units = Units.METRIC) {
     fun convertTo(appUnits: Units): Double {

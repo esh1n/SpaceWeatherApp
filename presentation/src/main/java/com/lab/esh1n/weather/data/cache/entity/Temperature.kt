@@ -1,6 +1,6 @@
 package com.lab.esh1n.weather.data.cache.entity
 
-import com.lab.esh1n.weather.domain.TemperatureUnit
+import com.lab.esh1n.weather.domain.prefs.TemperatureUnit
 
 class Temperature(val value: Double, private val units: TemperatureUnit = TemperatureUnit.C) {
 

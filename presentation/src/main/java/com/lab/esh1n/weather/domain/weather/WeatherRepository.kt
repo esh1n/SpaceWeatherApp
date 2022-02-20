@@ -11,8 +11,8 @@ import com.lab.esh1n.weather.data.cache.dao.WeatherDAO
 import com.lab.esh1n.weather.data.cache.entity.SunsetSunriseTimezonePlaceEntry
 import com.lab.esh1n.weather.data.cache.entity.WeatherEntry
 import com.lab.esh1n.weather.data.cache.entity.WeatherWithPlace
-import com.lab.esh1n.weather.domain.IPrefsInteractor
-import com.lab.esh1n.weather.domain.Units
+import com.lab.esh1n.weather.domain.prefs.IPrefsInteractor
+import com.lab.esh1n.weather.domain.prefs.Units
 import com.lab.esh1n.weather.domain.weather.mapper.ForecastWeatherListMapper
 import com.lab.esh1n.weather.domain.weather.mapper.PlaceListMapper
 import com.lab.esh1n.weather.domain.weather.mapper.WeatherResponseListMapper

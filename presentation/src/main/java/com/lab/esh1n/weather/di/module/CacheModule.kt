@@ -6,8 +6,8 @@ import android.content.SharedPreferences
 import android.content.res.AssetManager
 import com.lab.esh1n.weather.data.cache.AppPrefs
 import com.lab.esh1n.weather.data.cache.WeatherDB
-import com.lab.esh1n.weather.domain.IPrefsInteractor
 import com.lab.esh1n.weather.domain.IUILocalisator
+import com.lab.esh1n.weather.domain.prefs.IPrefsInteractor
 import com.lab.esh1n.weather.weather.mapper.UILocalizerImpl
 import dagger.Module
 import dagger.Provides

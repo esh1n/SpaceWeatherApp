@@ -5,7 +5,7 @@ import android.content.Context
 import com.lab.esh1n.weather.di.component.AppComponent
 import com.lab.esh1n.weather.di.component.DaggerAppComponent
 import com.lab.esh1n.weather.di.component.WorkerComponent
-import com.lab.esh1n.weather.domain.IPrefsInteractor
+import com.lab.esh1n.weather.domain.prefs.IPrefsInteractor
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
 import java.util.*
@@ -50,6 +50,4 @@ class WeatherApp : Application(), HasAndroidInjector {
             return (context as WeatherApp).workerComponent
         }
     }
-
-
 }
