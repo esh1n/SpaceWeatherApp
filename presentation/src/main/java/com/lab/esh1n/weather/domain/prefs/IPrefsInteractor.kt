@@ -8,7 +8,7 @@ interface IPrefsInteractor {
     fun getMeasureUnits(): Units
     fun getServerAPIUnits(): Units
     fun getLocale(): Single<Locale>
-    fun getLanguage(): Single<String>
+    fun getServerLanguage(): Single<String>
     fun getLocaleBlocking(): Locale
     fun getAppTemperatureUnits(): TemperatureUnit
     fun getServerAPITemperatureUnits(): TemperatureUnit

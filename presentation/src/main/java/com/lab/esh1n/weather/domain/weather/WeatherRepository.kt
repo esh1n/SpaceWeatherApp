@@ -48,7 +48,7 @@ class WeatherRepository constructor(
     }
 
     private fun fetchWeatherAsync(id: Int, serverUnits: Units): Single<WeatherResponse> {
-        return appPrefs.getLanguage()
+        return appPrefs.getServerLanguage()
             .flatMap { language ->
                 api.getWeatherAsync(BuildConfig.APP_ID, id, language, serverUnits.serverValue)
             }
@@ -66,7 +66,7 @@ class WeatherRepository constructor(
                     } else {
                         val serverUnits = appPrefs.getServerAPIUnits()
                         appPrefs
-                            .getLanguage()
+                            .getServerLanguage()
                                 .flatMap { language ->
                                     api.getForecastAsync(BuildConfig.APP_ID, placeId, lang = language, units = serverUnits.serverValue)
                                 }

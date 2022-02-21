@@ -5,11 +5,15 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.compose.material.MaterialTheme
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModelProvider
+import com.lab.esh1n.weather.weather.viewmodel.SettingsState
 import com.lab.esh1n.weather.weather.viewmodel.SettingsVM
 import dagger.android.support.AndroidSupportInjection
 import javax.inject.Inject
@@ -34,27 +38,21 @@ class SettingsFragment : Fragment() {
         setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
         setContent {
             MaterialTheme {
-//                FavouritesFlowScreen(
-//                    favsFlow = viewModel.uiState,
-//                    viewModel::onItemClicked,
-//                    viewModel::onFavIconItemChange
-//                )
+                UserSettingsScreen(
+                    userSettingsData = viewModel.uiState,
+                    viewModel::toggleNotificationSettings,
+                    viewModel::toggleAlertsMailing
+                )
             }
         }
     }
 
-//    @Composable
-//    fun FavouritesFlowScreen(
-//        favsFlow: Flow<FavouritesUiState>,
-//        onItemClicked: (FavouriteUiModel) -> Unit,
-//        onFavIconItemChange: (FavouriteUiModel) -> Unit
-//    ) {
-//        val state = favsFlow.withCurrentLifecycle().collectAsState(FavouritesUiState())
-//        FavouritesScreen(
-//            uiState = state.value,
-//            onItemClicked = onItemClicked,
-//            onFavIconItemChange = onFavIconItemChange,
-//            onGoToSearchPlace = ::openSearchPlacesScreen
-//        )
-//    }
+    @Composable
+    fun UserSettingsScreen(
+        userSettingsData: LiveData<SettingsState>,
+        onNotificationClicked: () -> Unit,
+        onMailingAlertClicked: () -> Unit
+    ) {
+        val state = userSettingsData.observeAsState(initial = SettingsState.empty())
+    }
 }

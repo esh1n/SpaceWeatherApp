@@ -61,9 +61,15 @@ class AppPrefs(private val sharedPreferences: SharedPreferences) : IPrefsInterac
     }
 
     private fun SharedPreferences.retrieveLocale(): Locale =
-        (getString(KEY_LOCALE, DEFAULT_LOCALE) ?: DEFAULT_LOCALE).let(Locale::forLanguageTag)
+        getLanguageTag().value.let(Locale::forLanguageTag)
 
-    override fun getLanguage(): Single<String> = getLocale().map { it.language }
+    private fun SharedPreferences.getLanguageTag(): LanguageTag {
+        val defaultTagValue = LanguageTag.Russian.value
+        val tagValue = (getString(KEY_LOCALE, defaultTagValue)) ?: defaultTagValue
+        return LanguageTag.valueOf(tagValue)
+    }
+
+    override fun getServerLanguage(): Single<String> = getLocale().map { it.language }
 
     override fun getLocaleBlocking(): Locale = sharedPreferences.retrieveLocale()
 
@@ -75,16 +81,17 @@ class AppPrefs(private val sharedPreferences: SharedPreferences) : IPrefsInterac
     override fun getServerAPITemperatureUnits() = TemperatureUnit.C
 
     override fun getUserSettingsObservable(): Observable<UserSettings> {
-        fun getUserSettings(): UserSettings {
-            val locale = getLocaleBlocking()
-            return UserSettings(
-                notificationEnabled = false,
-                autoPlaceDetection = false,
-                alertsMailing = false,
-                language = locale
-            )
-        }
+
         return getMultipleKeysSource(listOf(KEY_MEASURE_UNITS), ::getUserSettings)
+    }
+
+    private fun getUserSettings(): UserSettings {
+        return UserSettings(
+            notificationEnabled = false,
+            autoPlaceDetection = false,
+            alertsMailing = false,
+            language = sharedPreferences.getLanguageTag()
+        )
     }
 
     override fun getMeasureUnits(): Units =
@@ -117,8 +124,11 @@ class AppPrefs(private val sharedPreferences: SharedPreferences) : IPrefsInterac
         const val KEY_LOCALE = "Locale"
         const val KEY_MEASURE_UNITS = "Units"
         const val KEY_TEMPERATURE_UNITS = "TemperatureUnits"
-        const val DEFAULT_LOCALE = "ru-RU"
         val DEFAULT_MEASURE_UNITS = Units.METRIC.name
         val DEFAULT_TEMPERATURE_UNITS = TemperatureUnit.C.name
     }
+}
+
+enum class LanguageTag(val value: String) {
+    Russian("ru-RU"), English("en-EN")
 }
