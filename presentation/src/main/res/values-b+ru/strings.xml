@@ -18,7 +18,7 @@
 
 
     <string name="text_temperature_celsius">%d\u2103</string>
-    <string name="text_temperature_range_celsius">от %d u2103 до %d \u2103</string>
+    <string name="text_temperature_range_celsius">от %1$d u2103 до %1$d \u2103</string>
     <string name="text_temperature_no_range_celsius">Весь день будет %d \u2103</string>
     <string name="text_temperature_range">Диапазон температур</string>
     <string name="text_speed_suffix">m/s</string>
@@ -83,4 +83,30 @@
     <string name="text_place_remove_favourite_state">Удалить из избранного</string>
     <string name="text_open_search_place_screen">Open Search Places screen</string>
     <string name="text_please_start_searching">В строке поиска пока пусто. Введите название места в поле ввода</string>
+
+    <string name="cd_expand">Expand</string>
+    <string name="cd_collapse">Collapse</string>
+    <string name="cd_crop_square">Crop</string>
+    <string name="cd_done">Done</string>
+    <string name="cd_event">Event</string>
+    <string name="cd_privacy">Privacy</string>
+    <string name="cd_restore">Restore</string>
+    <string name="cd_fav">Fav</string>
+    <string name="cd_unfav">not fav</string>
+
+    <string name="cd_go_back">Go back to previous screen</string>
+
+    <string name="cd_notifications_enabled">Notifications enabled</string>
+    <string name="cd_notifications_disabled">Notifications disabled</string>
+    <string name="text_notifications_setting">Notifications enable</string>
+    <string name="cd_auto_place_enabled">autoplace enabled</string>
+    <string name="cd_auto_place_disabled">autoplace disabled</string>
+    <string name="text_auto_place_setting">autoplace enable</string>
+    <string name="text_open_subscription">Open subscription management</string>
+    <string name="text_subscription_setting">Manage subscription</string>
+
+    <string name="settings_options_alert_allowed">Alert about urgent events</string>
+    <string name="settings_options_alert_not_allowed">Don\'t alert at all</string>
+    <string name="settings_options_alert">Receive weather alerts?</string>
+
 </resources>

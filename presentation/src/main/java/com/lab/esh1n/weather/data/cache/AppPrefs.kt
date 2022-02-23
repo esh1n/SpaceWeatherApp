@@ -66,7 +66,7 @@ class AppPrefs(private val sharedPreferences: SharedPreferences) : IPrefsInterac
     private fun SharedPreferences.getLanguageTag(): LanguageTag {
         val defaultTagValue = LanguageTag.Russian.value
         val tagValue = (getString(KEY_LOCALE, defaultTagValue)) ?: defaultTagValue
-        return LanguageTag.valueOf(tagValue)
+        return LanguageTag.find(tagValue)
     }
 
     override fun getServerLanguage(): Single<String> = getLocale().map { it.language }
@@ -130,5 +130,10 @@ class AppPrefs(private val sharedPreferences: SharedPreferences) : IPrefsInterac
 }
 
 enum class LanguageTag(val value: String) {
-    Russian("ru-RU"), English("en-EN")
+    Russian("ru-RU"), English("en-EN");
+
+    companion object {
+        fun find(tag: String) = values().find { it.value == tag } ?: Russian
+    }
+
 }

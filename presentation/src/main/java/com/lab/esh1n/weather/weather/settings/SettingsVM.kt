@@ -12,7 +12,7 @@ class SettingsVM @Inject constructor(private val prefsInteractor: IPrefsInteract
     AutoClearViewModel() {
 
 
-    val uiState = LiveDataFactory.mutable<SettingsState>()
+    val uiState = LiveDataFactory.mutable<SettingsState>(SettingsState.empty())
 
     fun loadSettings() {
         prefsInteractor.getUserSettingsObservable()
@@ -20,24 +20,27 @@ class SettingsVM @Inject constructor(private val prefsInteractor: IPrefsInteract
                 SettingsState(
                     notificationEnabled = userSettings.notificationEnabled,
                     autoPlaceDetection = userSettings.autoPlaceDetection,
-                    alertsMailing = userSettings.alertsMailing,
+                    alertsOption = if (userSettings.alertsMailing) AlertsOption.ALLOWED else AlertsOption.NOT_ALLOWED,
                     language = userSettings.language
                 )
             }.applyAndroidSchedulers()
             .subscribeOnError({ newUserSettings -> updateState { newUserSettings } })
     }
 
-    fun toggleNotificationSettings() {
-        updateState { copy(notificationEnabled = this.notificationEnabled.not()) }
+    fun toggleNotificationSettings(notificationEnabled: Boolean) {
+        updateState { copy(notificationEnabled = notificationEnabled) }
     }
 
     fun toggleAutoPlaceDetection() {
         updateState { copy(autoPlaceDetection = this.autoPlaceDetection.not()) }
     }
 
-    fun toggleAlertsMailing() {
-        updateState { copy(alertsMailing = this.alertsMailing.not()) }
+    fun toggleAlertsMailing(option: AlertsOption) {
+        updateState { copy(alertsOption = option) }
     }
+
+    fun manageSubscription() {}
+
 
     fun setLanguage(language: LanguageTag) {
 
@@ -48,17 +51,21 @@ class SettingsVM @Inject constructor(private val prefsInteractor: IPrefsInteract
     }
 }
 
+enum class AlertsOption(val id: Int) {
+    ALLOWED(0), NOT_ALLOWED(1)
+}
+
 data class SettingsState(
     val notificationEnabled: Boolean,
     val autoPlaceDetection: Boolean,
-    val alertsMailing: Boolean,
+    val alertsOption: AlertsOption,
     val language: LanguageTag
 ) {
     companion object {
         fun empty() = SettingsState(
             notificationEnabled = false,
             autoPlaceDetection = false,
-            alertsMailing = false,
+            alertsOption = AlertsOption.ALLOWED,
             language = LanguageTag.Russian
         )
     }
