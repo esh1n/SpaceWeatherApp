@@ -19,12 +19,10 @@ import com.google.android.material.tabs.TabLayoutMediator
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.lab.esh1n.weather.R
 import com.lab.esh1n.weather.databinding.FragmentForecastBinding
-import com.lab.esh1n.weather.utils.viewLifecycle
+import com.lab.esh1n.weather.utils.autoDestroyViewDelegate
 import com.lab.esh1n.weather.weather.adapter.DayForecastFragmentAdapter
 import com.lab.esh1n.weather.weather.model.ForecastDayModel
 import com.lab.esh1n.weather.weather.viewmodel.ForecastWeekVM
-import kotlinx.android.synthetic.main.fragment_forecast.*
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 class ForecastFragment : BaseVMFragment<ForecastWeekVM>() {
@@ -33,7 +31,7 @@ class ForecastFragment : BaseVMFragment<ForecastWeekVM>() {
     override val layoutResource: Int = R.layout.fragment_forecast
 
 
-    private var binding: FragmentForecastBinding by viewLifecycle()
+    private var binding: FragmentForecastBinding by autoDestroyViewDelegate()
 
 
     private lateinit var adapterDayForecast: DayForecastFragmentAdapter
@@ -76,7 +74,7 @@ class ForecastFragment : BaseVMFragment<ForecastWeekVM>() {
             it.adapter = adapterDayForecast
 
             Log.d("TABS", "init tabs")
-            TabLayoutMediator(tabs!!, it) { tab, position ->
+            TabLayoutMediator(binding.tabs, it) { tab, position ->
                 val days = adapterDayForecast.publicDays
                 if (position >= 0 && position < days.size) {
                     tab.text = days[position].dayDescription
@@ -142,10 +140,10 @@ class ForecastFragment : BaseVMFragment<ForecastWeekVM>() {
                 viewModel.getFavouriteStateFlow(placeId)
                     .flowWithLifecycle(viewLifecycleOwner.lifecycle, Lifecycle.State.STARTED)
                     .collect {
-                        switch_favourites.isChecked = it
+                        binding.switchFavourites.isChecked = it
                     }
             }
-            switch_favourites.setOnCheckedChangeListener { _, checked ->
+            binding.switchFavourites.setOnCheckedChangeListener { _, checked ->
                 viewModel.changeFavouriteState(placeId, checked)
             }
         }

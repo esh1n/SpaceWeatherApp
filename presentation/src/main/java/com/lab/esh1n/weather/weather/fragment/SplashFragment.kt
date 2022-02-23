@@ -12,7 +12,7 @@ import com.esh1n.utils_android.ui.setVisibleOrGone
 import com.lab.esh1n.weather.R
 import com.lab.esh1n.weather.databinding.FragmentSplashBinding
 import com.lab.esh1n.weather.domain.ProgressModel
-import com.lab.esh1n.weather.utils.viewLifecycle
+import com.lab.esh1n.weather.utils.autoDestroyViewDelegate
 import com.lab.esh1n.weather.weather.viewmodel.SplashVM
 
 class SplashFragment : BaseVMFragment<SplashVM>() {
@@ -21,7 +21,7 @@ class SplashFragment : BaseVMFragment<SplashVM>() {
 
     override val layoutResource: Int = R.layout.fragment_splash
 
-    private var binding: FragmentSplashBinding by viewLifecycle()
+    private var binding: FragmentSplashBinding by autoDestroyViewDelegate()
 
     override fun setupView(rootView: View, savedInstanceState: Bundle?) {
         super.setupView(rootView, savedInstanceState)

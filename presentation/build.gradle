@@ -1,7 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
-apply plugin: 'kotlin-android-extensions'
 apply plugin: 'com.google.firebase.crashlytics'
 apply plugin: 'com.google.gms.google-services'
 
@@ -92,6 +91,9 @@ android {
 
         }
     }
+    packagingOptions {
+        resources.excludes += "DebugProbesKt.bin"
+    }
 }
 
 gradle.projectsEvaluated {
@@ -130,7 +132,7 @@ dependencies {
     implementation rootProject.ext.room.runtime
     implementation rootProject.ext.room.rxjava2
     implementation rootProject.ext.room.ktx
-    kapt "org.xerial:sqlite-jdbc:3.36.0"
+    //kapt "org.xerial:sqlite-jdbc:3.36.0"
     kapt rootProject.ext.room.compiler
 
     //rxJava2
@@ -141,7 +143,7 @@ dependencies {
     implementation rootProject.ext.gson
 
     // Coroutines
-    def coroutines = '1.5.2'
+    def coroutines = '1.6.0'
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines"
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.4.1"
@@ -200,7 +202,7 @@ dependencies {
     def androidx_test_version = "1.2.0"
     androidTestImplementation "androidx.test:runner:$androidx_test_version"
     androidTestImplementation "androidx.test:core-ktx:$androidx_test_version"
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
 
 
 }
@@ -217,6 +219,7 @@ tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
         ]
     }
 }
+
 
 
 

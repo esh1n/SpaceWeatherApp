@@ -67,7 +67,7 @@ class DayForecastFragment : BaseVMFragment<DayForecastVM>() {
             }
 
         })
-        val dayModel = arguments?.getParcelable<ForecastDayModel>(ARG_PLACE_DAY_FORECAST)
+        val dayModel = arguments?.getSerializable(ARG_PLACE_DAY_FORECAST) as? ForecastDayModel
         if (dayModel != null) {
             viewModel.loadDayForecastSections(PlaceDayArgs(dayDate = dayModel.dayDate, placeId = dayModel.placeId, timezone = dayModel.timezone))
         } else {
@@ -82,7 +82,7 @@ class DayForecastFragment : BaseVMFragment<DayForecastVM>() {
         fun newInstance(day: ForecastDayModel): Fragment {
             return DayForecastFragment().apply {
                 arguments = Bundle().apply {
-                    putParcelable(ARG_PLACE_DAY_FORECAST, day)
+                    putSerializable(ARG_PLACE_DAY_FORECAST, day)
                 }
             }
         }

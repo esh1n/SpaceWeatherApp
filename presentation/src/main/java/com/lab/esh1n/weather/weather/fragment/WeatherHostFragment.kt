@@ -8,7 +8,7 @@ import com.esh1n.core_android.ui.fragment.BaseVMFragment
 import com.esh1n.core_android.ui.setTitle
 import com.lab.esh1n.weather.R
 import com.lab.esh1n.weather.databinding.FragmentWeathersHostBinding
-import com.lab.esh1n.weather.utils.viewLifecycle
+import com.lab.esh1n.weather.utils.autoDestroyViewDelegate
 import com.lab.esh1n.weather.weather.MainFragmentTab
 import com.lab.esh1n.weather.weather.viewmodel.EmptyVM
 
@@ -23,7 +23,7 @@ class WeatherHostFragment : BaseVMFragment<EmptyVM>() {
 
     private var activeFragment: Fragment? = null
 
-    private var binding: FragmentWeathersHostBinding by viewLifecycle()
+    private var binding: FragmentWeathersHostBinding by autoDestroyViewDelegate()
 
     companion object {
         private const val SELECTED_ITEM = "arg_selected_item"
