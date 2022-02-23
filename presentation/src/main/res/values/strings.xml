@@ -96,4 +96,10 @@
     <string name="text_open_search_place_screen">Open Search Places screen</string>
     <string name="text_please_start_searching">В строке поиска пока пусто. Введите название места в поле ввода</string>
 
+    <string name="cd_go_back">Go back to previous screen</string>
+
+    <string name="cd_notifications_enabled">Notifications enabled</string>
+    <string name="cd_notifications_disabled">Notifications disabled</string>
+    <string name="text_notifications_setting">Notifications enable</string>
+
 </resources>
