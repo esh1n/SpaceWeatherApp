@@ -29,14 +29,14 @@ ext {
     viewpagerVersion = "1.0.0"
     viewpager = "androidx.viewpager2:viewpager2:$viewpagerVersion"
 
-    snapHelperVer = "2.1.0"
+    snapHelperVer = "2.2.2"
     snapHelper = "com.github.rubensousa:gravitysnaphelper:$snapHelperVer"
 
     //RxJava
     rxJava = "2.2.17"
     rxJava2 = "io.reactivex.rxjava2:rxjava:${rxJava}"
     rxKotlin =  "io.reactivex.rxjava2:rxkotlin:2.4.0"
-    workManagerVersion = "2.7.0"
+    workManagerVersion = "2.7.1"
     workManagerRx = "androidx.work:work-rxjava2:$workManagerVersion"
     rxAndroidVersion = "2.1.1"
     rxAndroid = "io.reactivex.rxjava2:rxandroid:${rxAndroidVersion}"
@@ -51,7 +51,7 @@ ext {
     ]
 
 
-    lifecycleVersion = "2.4.0"
+    lifecycleVersion = "2.4.1"
     lifecycle = [
             runtime        : "androidx.lifecycle:lifecycle-runtime:${lifecycleVersion}",
             viewmodel      : "androidx.lifecycle:lifecycle-viewmodel-ktx:${lifecycleVersion}",
@@ -80,7 +80,7 @@ ext {
     rxBindingsCore = "com.jakewharton.rxbinding3:rxbinding-core:${rxBindingsVersion}"
     rxBindingsAppCompat = "com.jakewharton.rxbinding3:rxbinding-appcompat:${rxBindingsVersion}"
 
-    gsonVersion = "2.8.6"
+    gsonVersion = "2.9.0"
     gson = "com.google.code.gson:gson:${gsonVersion}"
 
     okHttpVersion = "4.4.0"
