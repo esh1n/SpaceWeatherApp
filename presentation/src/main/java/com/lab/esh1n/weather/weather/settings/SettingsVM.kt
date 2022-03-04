@@ -3,16 +3,19 @@ package com.lab.esh1n.weather.weather.viewmodel
 import com.esh1n.core_android.common.subscribeOnError
 import com.esh1n.core_android.rx.applyAndroidSchedulers
 import com.esh1n.core_android.ui.viewmodel.AutoClearViewModel
+import com.lab.esh1n.weather.BuildConfig
 import com.lab.esh1n.weather.data.cache.LanguageTag
 import com.lab.esh1n.weather.domain.prefs.IPrefsInteractor
-import com.worka.android.app.common.livedata.LiveDataFactory
+import com.lab.esh1n.weather.weather.settings.model.Theme
+import kotlinx.coroutines.flow.MutableStateFlow
 import javax.inject.Inject
 
 class SettingsVM @Inject constructor(private val prefsInteractor: IPrefsInteractor) :
     AutoClearViewModel() {
 
 
-    val uiState = LiveDataFactory.mutable<SettingsState>(SettingsState.empty())
+    val uiState =
+        MutableStateFlow(getEmptySettingsState())//LiveDataFactory.mutable(getEmptySettingsState())
 
     fun loadSettings() {
         prefsInteractor.getUserSettingsObservable()
@@ -21,7 +24,9 @@ class SettingsVM @Inject constructor(private val prefsInteractor: IPrefsInteract
                     notificationEnabled = userSettings.notificationEnabled,
                     autoPlaceDetection = userSettings.autoPlaceDetection,
                     alertsOption = if (userSettings.alertsMailing) AlertsOption.ALLOWED else AlertsOption.NOT_ALLOWED,
-                    language = userSettings.language
+                    language = userSettings.language,
+                    themeOption = Theme.SYSTEM,
+                    getAppVersion()
                 )
             }.applyAndroidSchedulers()
             .subscribeOnError({ newUserSettings -> updateState { newUserSettings } })
@@ -39,6 +44,10 @@ class SettingsVM @Inject constructor(private val prefsInteractor: IPrefsInteract
         updateState { copy(alertsOption = option) }
     }
 
+    fun setTheme(option: Theme) {
+        updateState { copy(themeOption = option) }
+    }
+
     fun manageSubscription() {}
 
 
@@ -47,8 +56,23 @@ class SettingsVM @Inject constructor(private val prefsInteractor: IPrefsInteract
     }
 
     private fun updateState(transform: SettingsState.() -> SettingsState) {
-        uiState.value = uiState.value?.transform()
+        uiState.value = uiState.value.transform()
     }
+
+    private fun getEmptySettingsState() =
+        SettingsState(
+            notificationEnabled = false,
+            autoPlaceDetection = false,
+            alertsOption = AlertsOption.ALLOWED,
+            language = LanguageTag.Russian,
+            themeOption = Theme.SYSTEM,
+            getAppVersion()
+        )
+
+    companion object {
+        fun getAppVersion() = "${BuildConfig.VERSION_NAME}: ${BuildConfig.VERSION_NAME}"
+    }
+
 }
 
 enum class AlertsOption(val id: Int) {
@@ -59,14 +83,7 @@ data class SettingsState(
     val notificationEnabled: Boolean,
     val autoPlaceDetection: Boolean,
     val alertsOption: AlertsOption,
-    val language: LanguageTag
-) {
-    companion object {
-        fun empty() = SettingsState(
-            notificationEnabled = false,
-            autoPlaceDetection = false,
-            alertsOption = AlertsOption.ALLOWED,
-            language = LanguageTag.Russian
-        )
-    }
-}
+    val language: LanguageTag,
+    val themeOption: Theme,
+    val appVersion: String
+)

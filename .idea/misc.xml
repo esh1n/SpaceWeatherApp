@@ -16,6 +16,7 @@
         <entry key="presentation/src/main/res/layout/fragment_forecast.xml" value="0.335" />
         <entry key="presentation/src/main/res/layout/fragment_recyclerview_with_progress.xml" value="0.18518518518518517" />
         <entry key="presentation/src/main/res/layout/fragment_settings.xml" value="0.19883485309017224" />
+        <entry key="presentation/src/main/res/layout/fragment_weathers_host.xml" value="0.1" />
         <entry key="presentation/src/main/res/layout/item_day_overrall_weather.xml" value="0.14387031408308004" />
         <entry key="presentation/src/main/res/layout/item_header_current_weather.xml" value="0.18568840579710144" />
         <entry key="presentation/src/main/res/layout/item_hour_weather.xml" value="0.18568840579710144" />
