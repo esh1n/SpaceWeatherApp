@@ -22,5 +22,7 @@ object Tags {
     const val TAG_MARKETING_OPTION = "marketing_option_"
     const val TAG_THEME = "theme"
     const val TAG_SELECT_THEME = "select_theme"
+    const val TAG_SELECT_LANG = "select_lang"
     const val TAG_THEME_OPTION = "theme_"
+    const val TAG_LANG_OPTION = "lang_"
 }

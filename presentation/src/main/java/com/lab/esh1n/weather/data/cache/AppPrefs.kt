@@ -18,7 +18,10 @@ class AppPrefs(private val sharedPreferences: SharedPreferences) : IPrefsInterac
     private val gson: Gson = Gson()
 
     private val prefsObservable = Observable.create<Pair<SharedPreferences, String>> { emitter ->
-        val listener = { prefs: SharedPreferences, key: String -> emitter.onNext(prefs to key) }
+        val listener =
+            SharedPreferences.OnSharedPreferenceChangeListener { prefs: SharedPreferences, key: String ->
+                emitter.onNext(prefs to key)
+            }
         emitter.setCancellable {
             sharedPreferences.unregisterOnSharedPreferenceChangeListener(listener)
         }
@@ -43,12 +46,13 @@ class AppPrefs(private val sharedPreferences: SharedPreferences) : IPrefsInterac
 
     private fun <V : Any> getMultipleKeysSource(
         keys: List<String>,
-        keyMapper: () -> V
+        withInitialValue: Boolean = true,
+        keyMapper: () -> V,
     ): Observable<V> {
-        return prefsObservable
+        val observePrefs = prefsObservable
             .filter { (_, subjectKey) -> subjectKey in keys }
             .map { (_, _) -> keyMapper() }
-            .startWith(keyMapper())
+        return if (withInitialValue) observePrefs.startWith(keyMapper()) else observePrefs
     }
 
     private fun <V> getValue(key: String, type: Class<V>): V? {
@@ -81,8 +85,23 @@ class AppPrefs(private val sharedPreferences: SharedPreferences) : IPrefsInterac
     override fun getServerAPITemperatureUnits() = TemperatureUnit.C
 
     override fun getUserSettingsObservable(): Observable<UserSettings> {
+        return getMultipleKeysSource(
+            keys = listOf(KEY_MEASURE_UNITS),
+            keyMapper = ::getUserSettings
+        )
+    }
 
-        return getMultipleKeysSource(listOf(KEY_MEASURE_UNITS), ::getUserSettings)
+    override fun getUserSelectedLanguageUpdates(): Observable<LanguageTag> {
+        return getMultipleKeysSource(
+            listOf(KEY_LOCALE),
+            false
+        ) { sharedPreferences.getLanguageTag() }
+    }
+
+    override fun updateLanguage(tag: LanguageTag): Completable {
+        return Single.fromCallable {
+            sharedPreferences.edit(true, { putString(KEY_LOCALE, tag.value) })
+        }.ignoreElement()
     }
 
     private fun getUserSettings(): UserSettings {
@@ -101,7 +120,9 @@ class AppPrefs(private val sharedPreferences: SharedPreferences) : IPrefsInterac
     override fun getServerAPIUnits() = Units.METRIC
 
     private fun SharedPreferences.save(action: SharedPreferences.Editor.() -> Unit) =
-        Completable.fromAction { edit(true, action) }
+        Completable.fromAction {
+            edit(true, action)
+        }
 
     private fun <T> SharedPreferences.getMaybe(supplier: SharedPreferences.() -> T?) =
         Maybe.fromCallable<T> {

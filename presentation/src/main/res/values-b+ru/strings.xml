@@ -96,26 +96,26 @@
 
     <string name="cd_go_back">Go back to previous screen</string>
 
-    <string name="cd_notifications_enabled">Notifications enabled</string>
-    <string name="cd_notifications_disabled">Notifications disabled</string>
-    <string name="text_notifications_setting">Notifications enable</string>
-    <string name="cd_auto_place_enabled">autoplace enabled</string>
-    <string name="cd_auto_place_disabled">autoplace disabled</string>
-    <string name="text_auto_place_setting">autoplace enable</string>
-    <string name="text_open_subscription">Open subscription management</string>
-    <string name="text_subscription_setting">Manage subscription</string>
+    <string name="cd_notifications_enabled">Разрешить уведомления</string>
+    <string name="cd_notifications_disabled">Отключить уведомления</string>
+    <string name="text_notifications_setting">Разрешить уведомления?</string>
+    <string name="cd_auto_place_enabled">Автолокация</string>
+    <string name="cd_auto_place_disabled">Автолокация выключена</string>
+    <string name="text_auto_place_setting">Автолокация включена</string>
+    <string name="text_open_subscription">Открыть управление подпиской</string>
+    <string name="text_subscription_setting">Управлять подпиской</string>
 
-    <string name="settings_options_alert_allowed">Alert about urgent events</string>
-    <string name="settings_options_alert_not_allowed">Don\'t alert at all</string>
-    <string name="settings_options_alert">Receive weather alerts?</string>
-    <string name="settings_options_theme">Theme</string>
+    <string name="settings_options_alert_allowed">Оповещать об экстремальном </string>
+    <string name="settings_options_alert_not_allowed">Не оповещать</string>
+    <string name="settings_options_alert">Получать оповещения о погоде?</string>
+    <string name="settings_options_theme">Тема</string>
+    <string name="settings_options_lang">Язык</string>
 
-    <string name="theme_system">System</string>
-    <string name="theme_light">Light</string>
-    <string name="theme_dark">Theme dark</string>
-
-
-    <string name="cd_select_theme">Select theme</string>
-    <string name="setting_app_version">App version</string>
+    <string name="theme_system">Как в системе</string>
+    <string name="theme_light">Светлая</string>
+    <string name="theme_dark">Темная</string>
+    <string name="cd_select_theme">Выберите тему</string>
+    <string name="cd_select_lang">Выберите язык</string>
+    <string name="setting_app_version">Версия приложения</string>
 
 </resources>

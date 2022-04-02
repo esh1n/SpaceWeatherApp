@@ -1,5 +1,7 @@
 package com.lab.esh1n.weather.domain.prefs
 
+import com.lab.esh1n.weather.data.cache.LanguageTag
+import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.Single
 import java.util.*
@@ -13,6 +15,8 @@ interface IPrefsInteractor {
     fun getAppTemperatureUnits(): TemperatureUnit
     fun getServerAPITemperatureUnits(): TemperatureUnit
     fun getUserSettingsObservable(): Observable<UserSettings>
+    fun getUserSelectedLanguageUpdates(): Observable<LanguageTag>
+    fun updateLanguage(tag: LanguageTag): Completable
 }
 
 enum class Units(val serverValue: String) {

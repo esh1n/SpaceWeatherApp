@@ -1,4 +1,4 @@
-package com.lab.esh1n.weather.weather.viewmodel
+package com.lab.esh1n.weather.weather.settings
 
 import com.esh1n.core_android.common.subscribeOnError
 import com.esh1n.core_android.rx.applyAndroidSchedulers
@@ -13,11 +13,14 @@ import javax.inject.Inject
 class SettingsVM @Inject constructor(private val prefsInteractor: IPrefsInteractor) :
     AutoClearViewModel() {
 
+    init {
+        loadSettings()
+    }
 
     val uiState =
         MutableStateFlow(getEmptySettingsState())//LiveDataFactory.mutable(getEmptySettingsState())
 
-    fun loadSettings() {
+    private fun loadSettings() {
         prefsInteractor.getUserSettingsObservable()
             .map { userSettings ->
                 SettingsState(
@@ -28,7 +31,8 @@ class SettingsVM @Inject constructor(private val prefsInteractor: IPrefsInteract
                     themeOption = Theme.SYSTEM,
                     getAppVersion()
                 )
-            }.applyAndroidSchedulers()
+            }
+            .applyAndroidSchedulers()
             .subscribeOnError({ newUserSettings -> updateState { newUserSettings } })
     }
 
@@ -51,8 +55,12 @@ class SettingsVM @Inject constructor(private val prefsInteractor: IPrefsInteract
     fun manageSubscription() {}
 
 
-    fun setLanguage(language: LanguageTag) {
-
+    fun setLanguage(languageTag: LanguageTag) {
+        prefsInteractor.updateLanguage(languageTag)
+            .applyAndroidSchedulers()
+            .subscribeOnError({
+                updateState { copy(language = languageTag) }
+            })
     }
 
     private fun updateState(transform: SettingsState.() -> SettingsState) {
@@ -70,7 +78,7 @@ class SettingsVM @Inject constructor(private val prefsInteractor: IPrefsInteract
         )
 
     companion object {
-        fun getAppVersion() = "${BuildConfig.VERSION_NAME}: ${BuildConfig.VERSION_NAME}"
+        fun getAppVersion() = "${BuildConfig.VERSION_NAME}: ${BuildConfig.VERSION_CODE}"
     }
 
 }

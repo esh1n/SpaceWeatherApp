@@ -9,7 +9,6 @@ import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
-import com.lab.esh1n.weather.weather.viewmodel.SettingsVM
 import dagger.android.support.AndroidSupportInjection
 import javax.inject.Inject
 

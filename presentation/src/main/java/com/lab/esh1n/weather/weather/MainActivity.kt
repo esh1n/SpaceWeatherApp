@@ -7,8 +7,6 @@ import androidx.lifecycle.ViewModelProvider
 import com.esh1n.core_android.ui.activity.BaseToolbarActivity
 import com.esh1n.core_android.ui.replaceFragment
 import com.esh1n.utils_android.ui.ContextUtil.getLocalizedContext
-import com.google.firebase.analytics.FirebaseAnalytics
-import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.lab.esh1n.weather.R
 import com.lab.esh1n.weather.WeatherApp
 import com.lab.esh1n.weather.weather.fragment.SplashFragment
@@ -25,42 +23,39 @@ class MainActivity : BaseToolbarActivity() {
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
-    private val viewModel: RouteVM by viewModels { viewModelFactory }
+    private val routeVM: RouteVM by viewModels { viewModelFactory }
+
+    private val languageChangeVM: LanguageChangeVM by viewModels { viewModelFactory }
 
     override val toolbarId = R.id.toolbar
     override val contentViewResourceId = R.layout.activity_main
     override val isDisplayHomeAsUpEnabled = false
 
-    private lateinit var firebaseAnalytics: FirebaseAnalytics
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        firebaseAnalytics = FirebaseAnalytics.getInstance(this)
 
-        viewModel.dataWasInitializedEvent.observe(this) { initialized ->
+        languageChangeVM.langChangeEffect.observe(this, ::recreate)
+        routeVM.dataWasInitializedEvent.observe(this) { initialized ->
             val currentFragment =
                 supportFragmentManager.findFragmentById(com.esh1n.core_android.R.id.container_fragment)
             val noCurrentFragmentExist = currentFragment == null
             if (noCurrentFragmentExist || (initialized && currentFragment !is WeatherHostFragment)) {
-                FirebaseCrashlytics.getInstance().log("added new fragment on WeatherActivity")
                 val fragment =
                     if (initialized) WeatherHostFragment.newInstance() else SplashFragment.newInstance()
                 supportFragmentManager.replaceFragment(
                     fragment,
                     fragment::class.java.simpleName
                 )
-            } else {
-                FirebaseCrashlytics.getInstance().log("can not add new fragment on WeatherActivity")
             }
         }
 
-        viewModel.checkIfInitialized()
+        routeVM.checkIfInitialized()
         initFragmentTransactionsListener()
 
     }
 
     private fun initFragmentTransactionsListener() {
-        supportFragmentManager.addOnBackStackChangedListener { this.processFragmentsSwitching() }
+        supportFragmentManager.addOnBackStackChangedListener { processFragmentsSwitching() }
     }
 
     private fun processFragmentsSwitching() {
@@ -75,7 +70,7 @@ class MainActivity : BaseToolbarActivity() {
     }
 
     private fun applySelectedAppLanguage(context: Context): Context {
-        //refactor to use like here https://stackoverflow.com/a/70301479
+        //TODO refactor to use like here https://stackoverflow.com/a/70301479
         val locale = (context.applicationContext as WeatherApp).getLocale()
         return getLocalizedContext(context, locale)
     }

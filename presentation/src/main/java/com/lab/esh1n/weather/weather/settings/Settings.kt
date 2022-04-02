@@ -8,7 +8,6 @@ import androidx.compose.foundation.selection.toggleable
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.KeyboardArrowRight
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -20,20 +19,17 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.stateDescription
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.lab.esh1n.weather.BuildConfig
 import com.lab.esh1n.weather.R
+import com.lab.esh1n.weather.data.cache.LanguageTag
 import com.lab.esh1n.weather.weather.settings.Tags.TAG_CHECK_ITEM
 import com.lab.esh1n.weather.weather.settings.Tags.TAG_MARKETING_OPTION
+import com.lab.esh1n.weather.weather.settings.Tags.TAG_SELECT_LANG
 import com.lab.esh1n.weather.weather.settings.Tags.TAG_SELECT_THEME
 import com.lab.esh1n.weather.weather.settings.Tags.TAG_THEME
 import com.lab.esh1n.weather.weather.settings.Tags.TAG_THEME_OPTION
 import com.lab.esh1n.weather.weather.settings.Tags.TAG_TOGGLE_ITEM
 import com.lab.esh1n.weather.weather.settings.model.Theme
-import com.lab.esh1n.weather.weather.viewmodel.AlertsOption
-import com.lab.esh1n.weather.weather.viewmodel.SettingsState
-import com.lab.esh1n.weather.weather.viewmodel.SettingsVM
 
 @Composable
 fun Settings(viewModel: SettingsVM = viewModel()) {
@@ -45,6 +41,7 @@ fun Settings(viewModel: SettingsVM = viewModel()) {
             onAutoPlaceToggled = viewModel::toggleAutoPlaceDetection,
             onManageSubscription = viewModel::manageSubscription,
             onToggleAlertsMailing = viewModel::toggleAlertsMailing,
+            onSetLanguage = viewModel::setLanguage,
             onSetTheme = viewModel::setTheme
         )
     }
@@ -57,27 +54,28 @@ fun UserSettingsScreen(
     onAutoPlaceToggled: () -> Unit,
     onManageSubscription: () -> Unit,
     onToggleAlertsMailing: (AlertsOption) -> Unit,
+    onSetLanguage: (LanguageTag) -> Unit,
     onSetTheme: (Theme) -> Unit,
     modifier: Modifier = Modifier,
 ) {
 
     Column(modifier = modifier.verticalScroll(rememberScrollState())) {
-        TopAppBar(
-            backgroundColor = MaterialTheme.colors.surface,
-            contentPadding = PaddingValues(start = 12.dp)
-        ) {
-            Icon(
-                tint = MaterialTheme.colors.onSurface,
-                imageVector = Icons.Default.ArrowBack,
-                contentDescription = stringResource(id = R.string.cd_go_back)
-            )
-            Spacer(modifier = Modifier.width(16.dp))
-            Text(
-                text = stringResource(id = R.string.menu_settings),
-                fontSize = 18.sp,
-                color = MaterialTheme.colors.onSurface
-            )
-        }
+//        TopAppBar(
+//            backgroundColor = MaterialTheme.colors.surface,
+//            contentPadding = PaddingValues(start = 12.dp)
+//        ) {
+//            Icon(
+//                tint = MaterialTheme.colors.onSurface,
+//                imageVector = Icons.Default.ArrowBack,
+//                contentDescription = stringResource(id = R.string.cd_go_back)
+//            )
+//            Spacer(modifier = Modifier.width(16.dp))
+//            Text(
+//                text = stringResource(id = R.string.menu_settings),
+//                fontSize = 18.sp,
+//                color = MaterialTheme.colors.onSurface
+//            )
+//        }
         NotificationSettings(
             modifier = Modifier.fillMaxWidth(),
             title = stringResource(id = R.string.text_notifications_setting),
@@ -104,13 +102,18 @@ fun UserSettingsScreen(
             onOptionSelected = onToggleAlertsMailing
         )
         Divider()
+        LanguageSettingItem(
+            modifier = Modifier.fillMaxWidth(),
+            selectedLanguage = state.language,
+            onLanguageSelected = onSetLanguage
+        )
         ThemeSettingItem(
             modifier = Modifier.fillMaxWidth(),
             selectedTheme = state.themeOption,
             onThemeSelected = onSetTheme
         )
         SectionSpacer(modifier = Modifier.fillMaxWidth())
-        AppVersionSettingItem(appVersion = "${BuildConfig.VERSION_CODE}")
+        AppVersionSettingItem(appVersion = state.appVersion)
     }
 }
 
@@ -118,6 +121,56 @@ fun UserSettingsScreen(
 fun SettingItem(modifier: Modifier = Modifier, content: @Composable () -> Unit) {
     Surface(modifier = modifier.heightIn(min = 56.dp)) {
         content()
+    }
+}
+
+@Composable
+fun LanguageSettingItem(
+    modifier: Modifier = Modifier,
+    selectedLanguage: LanguageTag,
+    onLanguageSelected: (selectedLanguage: LanguageTag) -> Unit
+) {
+    SettingItem(modifier = modifier) {
+        var expanded by remember { mutableStateOf(false) }
+        Row(
+            modifier = Modifier
+                .clickable(
+                    onClickLabel = stringResource(id = R.string.cd_select_theme)
+                ) {
+                    expanded = !expanded
+                }
+                .padding(16.dp)
+                .testTag(TAG_SELECT_LANG),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                modifier = Modifier.weight(1f),
+                text = stringResource(id = R.string.settings_options_lang)
+            )
+            Text(
+                modifier = Modifier.testTag(TAG_THEME),
+                text = selectedLanguage.name
+            )
+        }
+        DropdownMenu(
+            expanded = expanded,
+            onDismissRequest = {
+                expanded = false
+            },
+            offset = DpOffset(16.dp, 0.dp)
+        ) {
+            LanguageTag.values().forEach { lang ->
+                val langLabel = lang.name
+                DropdownMenuItem(
+                    modifier = Modifier.testTag(TAG_THEME_OPTION + langLabel),
+                    onClick = {
+                        onLanguageSelected(lang)
+                        expanded = false
+                    }) {
+                    Text(text = langLabel)
+                }
+            }
+        }
     }
 }
 

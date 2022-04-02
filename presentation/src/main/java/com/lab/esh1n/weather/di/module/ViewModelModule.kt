@@ -5,7 +5,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.lab.esh1n.weather.di.base.ViewModelKey
 import com.lab.esh1n.weather.di.weather.WeatherUseCasesModule
+import com.lab.esh1n.weather.weather.LanguageChangeVM
 import com.lab.esh1n.weather.weather.favourite.FavouriteVM
+import com.lab.esh1n.weather.weather.settings.SettingsVM
 import com.lab.esh1n.weather.weather.viewmodel.*
 import dagger.Binds
 import dagger.Module
@@ -20,6 +22,11 @@ import javax.inject.Singleton
 @Module(includes = [WeatherUseCasesModule::class])
 abstract class ViewModelModule {
 
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(LanguageChangeVM::class)
+    abstract fun provideAppSettingsViewModel(weatherViewModel: LanguageChangeVM): ViewModel
 
     @Binds
     @IntoMap
