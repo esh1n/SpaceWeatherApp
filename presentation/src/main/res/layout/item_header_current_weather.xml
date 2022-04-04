@@ -77,7 +77,7 @@
 
         <variable
             name="weather"
-            type="com.lab.esh1n.weather.weather.model.CurrentWeatherModel" />
+            type="com.lab.esh1n.weather.presentation.model.CurrentWeatherModel" />
     </data>
 
 </layout>

@@ -8,14 +8,12 @@ import com.google.common.truth.Truth
 import com.lab.esh1n.weather.data.cache.entity.SunsetSunriseTimezonePlaceEntry
 import com.lab.esh1n.weather.data.cache.entity.WeatherWithPlace
 import com.lab.esh1n.weather.domain.IUILocalisator
-import com.lab.esh1n.weather.domain.weather.usecases.FetchAndSaveCurrentPlaceWeatherUseCase
 import com.lab.esh1n.weather.domain.weather.usecases.LoadCurrentWeatherSingleUseCase
 import com.lab.esh1n.weather.domain.weather.usecases.LoadCurrentWeatherUseCase
+import com.lab.esh1n.weather.presentation.mapper.WeatherModelMapper
+import com.lab.esh1n.weather.presentation.model.DayWeatherModel
+import com.lab.esh1n.weather.presentation.viewmodel.CurrentWeatherVM
 import com.lab.esh1n.weather.utils.RxImmediateSchedulerRule
-import com.lab.esh1n.weather.utils.getOrAwaitValue
-import com.lab.esh1n.weather.weather.mapper.WeatherModelMapper
-import com.lab.esh1n.weather.weather.model.DayWeatherModel
-import com.lab.esh1n.weather.weather.viewmodel.CurrentWeatherVM
 import io.mockk.*
 import io.mockk.impl.annotations.MockK
 import io.reactivex.Observable
@@ -67,7 +65,9 @@ class NewsViewModelTest {
         // Given
         val res = createResource()
         val resourceObservable = Observable.just(res)
-        every { anyConstructed<WeatherModelMapper>().map(any()) } returns arrayListOf(DayWeatherModel("day", "weather", "weather", 14, 14))
+        every { anyConstructed<WeatherModelMapper>().map(any()) } returns arrayListOf(
+            DayWeatherModel("day", "weather", "weather", 14, 14)
+        )
 
         every { loadCurrentWeatherUseCase.perform(Unit) } returns resourceObservable
 
@@ -77,7 +77,12 @@ class NewsViewModelTest {
         //Then
         verify(exactly = 1) { viewModel.mapWeatherDataResource(res) }
         verify(exactly = 1) { res.data }
-        val mapResult = WeatherModelMapper(localizer).map(Pair(SunsetSunriseTimezonePlaceEntry.createEmpty(), arrayListOf()))
+        val mapResult = WeatherModelMapper(localizer).map(
+            Pair(
+                SunsetSunriseTimezonePlaceEntry.createEmpty(),
+                arrayListOf()
+            )
+        )
         Truth.assertThat(mapResult.isNotEmpty()).isTrue()
         //Truth.assertThat(weatherModelMapper.map(any()).isEmpty()).isTrue()
         val result = viewModel.getWeatherLiveData().getOrAwaitValue()

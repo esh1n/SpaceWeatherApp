@@ -7,7 +7,7 @@
 
         <variable
             name="weather"
-            type="com.lab.esh1n.weather.weather.model.DayWeatherModel" />
+            type="com.lab.esh1n.weather.presentation.model.DayWeatherModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

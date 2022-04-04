@@ -5,7 +5,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import com.lab.esh1n.weather.R
-import com.lab.esh1n.weather.weather.model.WeatherBackgroundUtil
+import com.lab.esh1n.weather.presentation.model.WeatherBackgroundUtil
 
 @BindingAdapter("temperatureCelsius")
 fun setTemperatureCelsius(tv: TextView, temperatureCelsius: Int?) {

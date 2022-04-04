@@ -93,6 +93,6 @@
 
         <variable
             name="header"
-            type="com.lab.esh1n.weather.weather.model.HeaderHourWeatherModel" />
+            type="com.lab.esh1n.weather.presentation.model.HeaderHourWeatherModel" />
     </data>
 </layout>

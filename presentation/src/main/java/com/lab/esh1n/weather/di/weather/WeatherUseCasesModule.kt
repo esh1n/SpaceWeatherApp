@@ -4,7 +4,9 @@ import com.esh1n.core_android.error.ErrorsHandler
 import com.lab.esh1n.weather.domain.places.PlacesRepository
 import com.lab.esh1n.weather.domain.places.usecase.*
 import com.lab.esh1n.weather.domain.weather.WeatherRepository
-import com.lab.esh1n.weather.domain.weather.usecases.*
+import com.lab.esh1n.weather.domain.weather.usecases.LoadCurrentWeatherSingleUseCase
+import com.lab.esh1n.weather.domain.weather.usecases.LoadDayWeatherUseCase
+import com.lab.esh1n.weather.domain.weather.usecases.LoadPlaceAvailableForecastDaysUseCase
 import dagger.Module
 import dagger.Provides
 
@@ -16,10 +18,6 @@ class WeatherUseCasesModule {
         return LoadDayWeatherUseCase(weatherRepository, errorsHandler)
     }
 
-    @Provides
-    fun provideFetchAndSaveCurrentPlaceWeatherUseCase(weatherRepository: WeatherRepository, errorsHandler: ErrorsHandler): FetchAndSaveCurrentPlaceWeatherUseCase {
-        return FetchAndSaveCurrentPlaceWeatherUseCase(weatherRepository, errorsHandler)
-    }
 
     @Provides
     fun provideFetchAndSaveAllPlacesForecastUseCase(placesRepository: PlacesRepository, errorsHandler: ErrorsHandler): DailyForecastSyncUseCase {
@@ -36,12 +34,6 @@ class WeatherUseCasesModule {
         return PrePopulatePlacesUseCase(placesRepository, errorsHandler)
     }
 
-
-    @Provides
-    fun provideLoadCurrentWeatherLiveDataUseCase(weatherRepository: WeatherRepository, errorsHandler: ErrorsHandler): LoadCurrentWeatherUseCase {
-        return LoadCurrentWeatherUseCase(weatherRepository, errorsHandler)
-    }
-
     @Provides
     fun provideLoadAllPlacesUseCase(placesRepository: PlacesRepository, errorsHandler: ErrorsHandler): GetAllPlacesUse {
         return GetAllPlacesUse(placesRepository, errorsHandler)
@@ -53,8 +45,8 @@ class WeatherUseCasesModule {
     }
 
     @Provides
-    fun provideLoadCurrentWeatherSingleUseCase(weatherRepository: WeatherRepository, errorsHandler: ErrorsHandler): LoadCurrentWeatherSingleUseCase {
-        return LoadCurrentWeatherSingleUseCase(weatherRepository, errorsHandler)
+    fun provideLoadCurrentWeatherSingleUseCase(weatherRepository: WeatherRepository): LoadCurrentWeatherSingleUseCase {
+        return LoadCurrentWeatherSingleUseCase(weatherRepository)
     }
 
     @Provides

@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:isScrollContainer="false"
     android:orientation="vertical"
-    tools:context=".weather.MainActivity">
+    tools:context=".presentation.MainActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"

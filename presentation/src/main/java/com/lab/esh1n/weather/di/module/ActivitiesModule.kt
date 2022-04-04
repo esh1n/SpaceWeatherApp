@@ -1,6 +1,6 @@
 package com.lab.esh1n.weather.di.module
 
-import com.lab.esh1n.weather.weather.MainActivity
+import com.lab.esh1n.weather.presentation.MainActivity
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 

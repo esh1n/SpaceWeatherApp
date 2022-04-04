@@ -3,7 +3,10 @@ package com.esh1n.core_android.common
 import retrofit2.HttpException
 import java.net.HttpURLConnection
 
-sealed class Error(open val e: Throwable) : Exception()
+sealed class Error(open val e: Throwable) : Exception() {
+    override val message: String
+        get() = super.message ?: ""
+}
 
 data class ApiError(val description: String?, override val e: Throwable) : Error(e)
 data class NetworkError(override val e: Throwable) : Error(e)

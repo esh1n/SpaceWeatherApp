@@ -12,14 +12,13 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
-import com.esh1n.core_android.ui.viewmodel.Resource
 import com.lab.esh1n.weather.R
 import com.lab.esh1n.weather.data.cache.entity.Temperature
 import com.lab.esh1n.weather.data.cache.entity.WeatherWithPlace
 import com.lab.esh1n.weather.domain.IUILocalisator
-import com.lab.esh1n.weather.weather.MainActivity
-import com.lab.esh1n.weather.weather.mapper.DateFormat
-import com.lab.esh1n.weather.weather.mapper.UiDateListMapper
+import com.lab.esh1n.weather.presentation.MainActivity
+import com.lab.esh1n.weather.presentation.mapper.DateFormat
+import com.lab.esh1n.weather.presentation.mapper.UiDateListMapper
 
 object NotificationUtil {
 
@@ -78,59 +77,68 @@ object NotificationUtil {
     }
 
     private fun mapResultToWeatherNotification(
-        result: Resource<WeatherWithPlace>,
+        weather: WeatherWithPlace,
         ctx: Context,
         dateMapper: UiDateListMapper,
         temperatureMapper: (Temperature) -> OneValueProperty
     ): WeatherNotification {
+        val title =
+            ctx.getString(R.string.text_weather_notification_title, weather.description)
+        val middleTemperature =
+            weather.temperatureMin.middleTemperature(weather.temperatureMax)
+        val localizedTemperature: String =
+            temperatureMapper(middleTemperature).convertProperty(ctx)
+        val weatherDate = dateMapper.map(weather.epochDateMills)
+        val message = ctx.getString(
+            R.string.text_weather_description,
+            localizedTemperature,
+            weather.placeName,
+            weatherDate
+        )
+        return WeatherNotification(title, message, weather.iconId, title)
 
-        when (result.status) {
-            Resource.Status.SUCCESS -> {
-                val weather = result.data ?: return WeatherNotification.emptyNotification(ctx)
-                val title =
-                    ctx.getString(R.string.text_weather_notification_title, weather.description)
-                val middleTemperature =
-                    weather.temperatureMin.middleTemperature(weather.temperatureMax)
-                val localizedTemperature: String =
-                    temperatureMapper(middleTemperature).convertProperty(ctx)
-                val weatherDate = dateMapper.map(weather.epochDateMills)
-                val message = ctx.getString(
-                    R.string.text_weather_description,
-                    localizedTemperature,
-                    weather.placeName,
-                    weatherDate
-                )
-                return WeatherNotification(title, message, weather.iconId, title)
-            }
-
-            Resource.Status.ERROR -> {
-                val title = ctx.getString(R.string.error_loading_weather)
-                val message = ctx.getString(R.string.hint_refresh, result.errorModel?.message)
-                return WeatherNotification(title, message, ticker = title)
-            }
-
-            else -> return WeatherNotification.emptyNotification(ctx)
-        }
     }
 
+
     fun sendCurrentWeatherNotification(
-        result: Resource<WeatherWithPlace>,
+        weatherWithPlace: WeatherWithPlace,
         localizedContext: Context,
         uiLocalizer: IUILocalisator
     ) {
         val dateMapper = uiLocalizer.provideDateMapper(
-            result.data?.timezone
+            weatherWithPlace.timezone
                 ?: "UTC", DateFormat.HOUR
         )
         val temperatureMapper: (Temperature) -> OneValueProperty = { temperatureInCelsius ->
             uiLocalizer.localizeTemperature(temperatureInCelsius)
         }
         val weatherNotification = mapResultToWeatherNotification(
-            result,
+            weatherWithPlace,
             localizedContext,
             dateMapper,
             temperatureMapper
         )
+        sendNotification(localizedContext, weatherNotification)
+
+
+    }
+
+    fun sendFailureWeatherNotification(
+        localizedContext: Context,
+        errorMessage: String?
+    ) {
+        val title = localizedContext.getString(R.string.error_loading_weather)
+        val message = localizedContext.getString(R.string.hint_refresh, errorMessage)
+        val weatherNotification = WeatherNotification(title, message, ticker = title)
+        sendNotification(localizedContext, weatherNotification)
+
+//    val title = ctx.getString(R.string.error_loading_weather)
+//    val message = ctx.getString(R.string.hint_refresh, result.errorModel?.message)
+//    return WeatherNotification(title, message, ticker = title)
+    }
+
+
+    fun sendNotification(localizedContext: Context, weatherNotification: WeatherNotification) {
         with(NotificationManagerCompat.from(localizedContext)) {
             // notificationId is a unique int for each notification that you must define
             notify(
@@ -139,9 +147,10 @@ object NotificationUtil {
             )
         }
     }
-
-    private const val CURRENT_WEATHER_NOTIFICATION_ID = 1233219
 }
+
+private const val CURRENT_WEATHER_NOTIFICATION_ID = 1233219
+
 
 data class WeatherNotification(
     val title: String,

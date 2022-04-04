@@ -5,10 +5,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.lab.esh1n.weather.di.base.ViewModelKey
 import com.lab.esh1n.weather.di.weather.WeatherUseCasesModule
-import com.lab.esh1n.weather.weather.LanguageChangeVM
-import com.lab.esh1n.weather.weather.favourite.FavouriteVM
-import com.lab.esh1n.weather.weather.settings.SettingsVM
-import com.lab.esh1n.weather.weather.viewmodel.*
+import com.lab.esh1n.weather.presentation.LanguageChangeVM
+import com.lab.esh1n.weather.presentation.favourite.FavouriteVM
+import com.lab.esh1n.weather.presentation.settings.SettingsVM
+import com.lab.esh1n.weather.presentation.viewmodel.*
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap

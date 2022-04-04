@@ -46,6 +46,6 @@
 
         <variable
             name="weather"
-            type="com.lab.esh1n.weather.weather.model.SimpleHourWeatherModel" />
+            type="com.lab.esh1n.weather.presentation.model.SimpleHourWeatherModel" />
     </data>
 </layout>

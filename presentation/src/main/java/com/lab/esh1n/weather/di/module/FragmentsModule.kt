@@ -2,9 +2,10 @@ package com.lab.esh1n.weather.di.module
 
 
 import com.lab.esh1n.weather.di.weather.WeatherUseCasesModule
-import com.lab.esh1n.weather.weather.favourite.FavouritePlacesFragment
-import com.lab.esh1n.weather.weather.fragment.*
-import com.lab.esh1n.weather.weather.settings.SettingsFragment
+import com.lab.esh1n.weather.presentation.currentplace.CurrentPlaceFragment
+import com.lab.esh1n.weather.presentation.favourite.FavouritePlacesFragment
+import com.lab.esh1n.weather.presentation.fragment.*
+import com.lab.esh1n.weather.presentation.settings.SettingsFragment
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
