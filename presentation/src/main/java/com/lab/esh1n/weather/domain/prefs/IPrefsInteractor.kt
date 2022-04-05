@@ -8,6 +8,8 @@ import java.util.*
 
 interface IPrefsInteractor {
     fun getMeasureUnits(): Units
+
+    //TODO move to Single instead of raw value
     fun getServerAPIUnits(): Units
     fun getLocale(): Single<Locale>
     fun getServerLanguage(): Single<String>

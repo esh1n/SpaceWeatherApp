@@ -9,10 +9,10 @@ import io.reactivex.Single
 
 class FetchPlaceForecastUseCase(private val weatherRepository: WeatherRepository, errorHandler: ErrorsHandler) : UseCase<Single<Resource<Unit>>, Int>(errorHandler) {
     override fun perform(args: Int): Single<Resource<Unit>> {
-        return weatherRepository.fetchAndSaveForecast(args)
-                .andThen(Single.just(Resource.success()))
-                .onErrorReturn { error ->
-                    Resource.error(errorsHandler.handle(error))
-                }
+        return weatherRepository.fetchAndSaveAllWeather(args)
+            .andThen(Single.just(Resource.success()))
+            .onErrorReturn { error ->
+                Resource.error(errorsHandler.handle(error))
+            }
     }
 }

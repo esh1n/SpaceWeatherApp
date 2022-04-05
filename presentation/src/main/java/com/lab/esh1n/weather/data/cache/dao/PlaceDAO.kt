@@ -58,8 +58,8 @@ abstract class PlaceDAO {
         }
     }
 
-    @Query("SELECT id from place WHERE isLiked = 1 OR isCurrent = 1")
-    abstract fun getPlaceIdsToSync(): Single<List<Int>>
+    @Query("SELECT id from place WHERE isLiked = 1")
+    abstract fun loadLikedPlaceIds(): Single<List<Int>>
 
     @Transaction
     open fun updateCurrentPlace(id: Int) {
